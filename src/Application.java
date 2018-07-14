@@ -7,7 +7,7 @@ public class Application
 	{
 		//initialize the application
 		Renderer renderer = new Renderer();
-		renderer.init(2000, 1250); //because my laptop is so high res
+		renderer.init(2000, 1250);
 	
 		RenderList renderList = new RenderList();
 		

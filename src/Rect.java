@@ -40,7 +40,6 @@ public class Rect
 	 */
 	public Vector2 getMiddle()
 	{
-		//check me on this -Cathy
 		return new Vector2(x + w/2, y + h/2);
 	}
 	

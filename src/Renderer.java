@@ -70,7 +70,6 @@ public class Renderer
 	 */
 	public void drawTexture(Texture p_texture, Rect p_frame, Rect p_dest)
 	{
-		//please correct me on this
 		g2.drawImage(p_texture.getImage(), p_dest.x, p_dest.y, p_dest.x + p_dest.w, p_dest.y + p_dest.h,
 				p_frame.x, p_frame.y, p_frame.x + p_frame.w, p_frame.y + p_frame.h, panel);
 	}

@@ -4,7 +4,7 @@ public class Sprite implements Drawable
 	private Texture m_texture;
 	private Animation m_animation;
 	private Rect m_position;
-	private float m_rotation; //???
+	private float m_rotation;
 	private Clock m_clock;
 	
 	public Sprite(Texture p_texture, Animation p_animation)
