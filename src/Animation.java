@@ -1,18 +1,16 @@
+import org.w3c.dom.Element;
 
 public class Animation 
 {
-	private Rect m_rootFrame;
+	private Rect m_frame;
 	private int m_frameCount;
 	private float m_interval;
 	private boolean m_loop;
-	private Rect m_frame;
 	private String m_name;
 	
-	public Animation(String p_name, float p_interval, boolean p_loop)
+	public Animation()
 	{
-		m_name = p_name;
-		m_interval = p_interval;
-		m_loop = p_loop;
+		m_frame = new Rect(0, 0, 0, 0);
 	}
 	
 	public Rect getFrame()
@@ -22,7 +20,9 @@ public class Animation
 	
 	public Rect getFrame(int p_frame)
 	{
-		return null; 
+		Rect frame = new Rect(m_frame);
+		frame.x += m_frame.w*Math.max(Math.min(p_frame, m_frameCount), 0 );
+		return frame; 
 	}
 	
 	public int getFrameCount()
@@ -45,9 +45,27 @@ public class Animation
 		return m_name;
 	}
 	
-	public void parse()
+	public void parse(Element p_ele)
 	{
-		//for Michael to do
+		m_name = p_ele.getAttribute("name");
+		
+		m_frame.x = Integer.parseInt(p_ele.getAttribute("x"));
+		m_frame.y = Integer.parseInt(p_ele.getAttribute("y"));
+		m_frame.w = Integer.parseInt(p_ele.getAttribute("w"));
+		m_frame.h = Integer.parseInt(p_ele.getAttribute("h"));
+		
+		if (p_ele.hasAttribute("frames"))
+			m_frameCount = Integer.parseInt(p_ele.getAttribute("frames"));
+		else
+			m_frameCount = 1;
+		
+		if (p_ele.hasAttribute("interval"))
+			m_interval = Float.parseFloat(p_ele.getAttribute("interval")) / 1000f;
+		
+		if (p_ele.hasAttribute("loop"))
+			m_loop = Integer.parseInt(p_ele.getAttribute("loop")) == 0 ? false : true;
+		else
+			m_loop = false;
 	}
 	
 }

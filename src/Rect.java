@@ -6,6 +6,29 @@ public class Rect
 	/** Coordinates of rectangle, width, and height*/
 	public int x, y, w, h;
 
+	/**
+	 * Default constructor.
+	 */
+	public Rect()
+	{
+		x = 0;
+		y = 0;
+		w = 0;
+		h = 0;
+	}
+	
+	/**
+	 * Copy Constructor.
+	 * @param p_copy Rect to be copied
+	 */
+	public Rect(Rect p_copy)
+	{
+		x = p_copy.x;
+		y = p_copy.y;
+		w = p_copy.w;
+		h = p_copy.h;
+	}
+	
 	/** 
 	 * Constructor.
 	 * @param p_x x-coordinate (top-left corner)
