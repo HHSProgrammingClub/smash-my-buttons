@@ -5,13 +5,6 @@ public class Rect
 {
 	/** Coordinates of rectangle, width, and height*/
 	public int x, y, w, h;
-	
-	public int c2x, c2y;
-	
-	/*  corner1-----
-	 *  |          |
-	 *  -------corner2
-	 */ 
 
 	/** 
 	 * Constructor.
@@ -26,9 +19,6 @@ public class Rect
 		y = p_y;
 		w = p_w;
 		h = p_h;
-		
-		c2x = x+w;
-		c2y = y+h;
 	}
 	
 	/**
