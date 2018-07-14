@@ -1,16 +1,21 @@
 import org.dyn4j.geometry.Vector2;
 import org.dyn4j.collision.Fixture;
 
-public class Hitbox {
+public class Hitbox 
+{
+
+	private Fixture m_fixture;
+	private Vector2 m_knockback;
+	private int m_damage;
 	
-	Hitbox() {}
+	public Hitbox() {}
 	
-	Hitbox(Vector2 p_knockback)
+	public Hitbox(Vector2 p_knockback)
 	{
 		setKnockback(p_knockback);
 	}
 	
-	Hitbox(Vector2 p_knockback, int p_damage)
+	public Hitbox(Vector2 p_knockback, int p_damage)
 	{
 		setKnockback(p_knockback);
 		setDamage(p_damage);
@@ -42,7 +47,4 @@ public class Hitbox {
 		return m_knockback;
 	}
 	
-	private Fixture m_fixture;
-	private Vector2 m_knockback;
-	private int m_damage;
 }

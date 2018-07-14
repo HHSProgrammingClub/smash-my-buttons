@@ -4,7 +4,14 @@ import org.dyn4j.geometry.Vector2;
 public class Rect 
 {
 	/** Coordinates of rectangle, width, and height*/
-	public float x, y, w, h;
+	public int x, y, w, h;
+	
+	public int c2x, c2y;
+	
+	/*  corner1-----
+	 *  |          |
+	 *  -------corner2
+	 */ 
 
 	/** 
 	 * Constructor.
@@ -13,14 +20,22 @@ public class Rect
 	 * @param p_w width
 	 * @param p_h height
 	 */
-	public Rect(float p_x, float p_y, float p_w, float p_h)
+	public Rect(int p_x, int p_y, int p_w, int p_h)
 	{
 		x = p_x;
 		y = p_y;
 		w = p_w;
 		h = p_h;
+		
+		c2x = x+w;
+		c2y = y+h;
 	}
 	
+	/**
+	 * Checks if two Rects overlap each other
+	 * @param p_rect the Rect to check overlap
+	 * @return whether two Rects overlap
+	 */
 	public boolean collidesWith(Rect p_rect)
 	{
 		return (x <= (p_rect.x + p_rect.w) && 
@@ -29,13 +44,17 @@ public class Rect
 				p_rect.y <= (p_rect.y + h));
 	}
 	
+	/**
+	 * Returns the coordinates of the center of the Rect
+	 * @return the coordinates of the center
+	 */
 	public Vector2 getMiddle()
 	{
 		//check me on this -Cathy
 		return new Vector2(x + w/2, y + h/2);
 	}
 	
-	public void scale(float scalar)
+	public void scale(int scalar)
 	{
 		w *= scalar;
 		h *= scalar;

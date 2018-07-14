@@ -16,6 +16,11 @@ public class Renderer
 	
 	private int width, height;
 	
+	/**
+	 * Creates the GUI of the application
+	 * @param p_width width of the window
+	 * @param p_height height of the window
+	 */
 	public void init(int p_width, int p_height)
 	{
 		//saving these for safe keeping
@@ -49,17 +54,24 @@ public class Renderer
 		app.add(panel);
 	}
 	
-	//called every frame before drawing anything
+	/**
+	 * Clears the screen before anything is drawn every frame
+	 */
 	public void clear()
 	{
 		g2.fillRect(0, 0, width, height);
 	}
 	
-	//draws things onto the canvas
-	public void drawTexture(Texture p_frame, Rect p_destination)
+	/**
+	 * Draws a texture onto m_canvas
+	 * @param p_texture the texture to be drawn
+	 * @param p_frame the current frame to draw
+	 * @param p_dest destination of the drawn image
+	 */
+	public void drawTexture(Texture p_texture, Rect p_frame, Rect p_dest)
 	{
-		//shouldn't this take in a BufferedImage of the current animation frame?
-		//drawTexture(animation.getFrame()...);
-		g2.drawImage(p_frame.getImage(), (int) p_destination.x, (int) p_destination.y, panel);
+		//please correct me on this
+		g2.drawImage(p_texture.getImage(), p_dest.x, p_dest.y, p_dest.c2x, p_dest.c2y,
+				p_frame.x, p_frame.y, p_frame.c2x, p_frame.c2y, panel);
 	}
 }
