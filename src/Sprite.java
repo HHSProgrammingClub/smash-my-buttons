@@ -1,75 +1,75 @@
 
 public class Sprite implements Drawable
 {
-	private Texture texture;
-	private Animation animation;
-	private Rect position;
-	private float rotation; //???
-	private Clock clock; //I'm not in charge of the clock
+	private Texture m_texture;
+	private Animation m_animation;
+	private Rect m_position;
+	private float m_rotation; //???
+	private Clock m_clock;
 	
 	public Sprite(Texture p_texture, Animation p_animation)
 	{
-		texture = p_texture;
-		animation = p_animation;
+		m_texture = p_texture;
+		m_animation = p_animation;
 	}
 	
 	public void draw(Renderer p_renderer)
 	{
-		p_renderer.drawTexture(texture, position);
+		p_renderer.drawTexture(m_texture, m_animation.getFrame(), m_position);
 	}
 	
 	public void setTexture(Texture p_texture)
 	{
-		texture = p_texture;
+		m_texture = p_texture;
 	}
 	
 	public Texture getTexture()
 	{
-		return texture;
+		return m_texture;
 	}
 	
-	public void setAnimation(String animationName)
+	public void setAnimation(String p_animationName)
 	{
-		
+		m_animation = m_texture.getAnimation(p_animationName);
 	}
 	
-	public void setAnimation(Animation newAnimation)
+	public void setAnimation(Animation p_animation)
 	{
-		animation = newAnimation;
+		m_animation = p_animation;
 	}
 	
 	public Animation getAnimation()
 	{
-		return animation;
+		return m_animation;
 	}
 	
 	public void playAnimation()
 	{
-		
+		m_clock.start();
 	}
 	
 	public void pauseAnimation()
 	{
-		
+		m_clock.pause();
 	}
 	
 	public void stopAnimation()
 	{
-		
+		m_clock.stop();
 	}
 	
 	public void restartAnimation()
 	{
-		
+		m_clock.restart();
 	}
 	
-	public void setPosition(Rect newPosition)
+	public void setPosition(Rect p_position)
 	{
-		position = newPosition;
+		m_position = p_position;
 	}
 	
 	public Rect getPosition()
 	{
-		return position;
+		return m_position;
 	}
 }
