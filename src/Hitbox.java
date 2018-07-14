@@ -16,25 +16,30 @@ public class Hitbox {
 		setDamage(p_damage);
 	}
 	
-	void setFixture(Fixture p_fixture)
+	public void setFixture(Fixture p_fixture)
 	{
 		m_fixture = p_fixture;
 		m_fixture.setSensor(true);
 	}
 	
-	void setKnockback(Vector2 p_knockback)
+	public void setKnockback(Vector2 p_knockback)
 	{
 		m_knockback = p_knockback;
 	}
 	
-	void setDamage(int p_damage)
+	public void setDamage(int p_damage)
 	{
 		m_damage = p_damage;
 	}
 	
-	int getDamage()
+	public int getDamage()
 	{
 		return m_damage;
+	}
+	
+	public Vector2 getKnockback()
+	{
+		return m_knockback;
 	}
 	
 	private Fixture m_fixture;
