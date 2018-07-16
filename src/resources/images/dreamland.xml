@@ -1,0 +1,51 @@
+<atlas>
+    <subtexture name="bars" x="64" y="160" w="32" h="32"/>
+    <subtexture name="bench1" x="64" y="96" w="64" h="32"/>
+    <subtexture name="bench2" x="128" y="128" w="32" h="64"/>
+    <subtexture name="blueflower" x="192" y="112" w="16" h="16" frames="4" interval="300" default="1" loop="1"/>
+    <subtexture name="breakingbridge" x="32" y="224" w="32" h="64" frames="4" interval="500"/>
+    <subtexture name="building1" x="320" y="0" w="128" h="112"/>
+    <subtexture name="cloud" x="64" y="32" w="64" h="64"/>
+    <subtexture name="cloud_tile" x="128" y="0" w="32" h="32"/>
+    <subtexture name="cloudbush1" x="160" y="0" w="32" h="32"/>
+    <subtexture name="cloudbush2" x="192" y="0" w="32" h="32"/>
+    <subtexture name="constru" x="192" y="288" w="96" h="80"/>
+    <subtexture name="eggswing" x="256" y="112" w="32" h="48"/>
+    <subtexture name="fade" x="160" y="96" w="32" h="192"/>
+    <subtexture name="fence" x="256" y="64" w="32" h="48"/>
+    <subtexture name="fence_connection" x="288" y="80" w="32" h="32"/>
+    <subtexture name="flowers" x="32" y="64" w="32" h="32"/>
+    <subtexture name="fork_sign" x="160" y="32" w="32" h="64" frames="2" interval="600" loop="1"/>
+    <subtexture name="fountain" x="102" y="288" w="64" h="64"/>
+    <subtexture name="ground" x="0" y="0" w="32" h="32"/>
+    <subtexture name="hearts" x="32" y="32" w="16" h="16"/>
+    <subtexture name="house" x="0" y="96" w="64" h="96"/>
+    <subtexture name="key" x="192" y="160" w="32" h="32" frames="2" interval="200" loop="1"/>
+    <subtexture name="lock" x="96" y="160" w="32" h="32"/>
+    <subtexture name="orangeflower" x="192" y="128" w="16" h="16" frames="4" interval="300" default="2" loop="1"/>
+    <subtexture name="path" x="64" y="0" w="32" h="32"/>
+    <subtexture name="path_corner" x="96" y="0" w="32" h="32"/>
+    <subtexture name="path_end" x="32" y="0" w="32" h="32"/>
+    <subtexture name="phlooph_hideout" x="192" y="192" w="64" h="64"/>
+    <subtexture name="purpleflower" x="192" y="144" w="16" h="16" frames="4" interval="300" default="3" loop="1"/>
+    <subtexture name="rainbowbridge" x="0" y="192" w="32" h="64"/>
+    <subtexture name="redflower" x="192" y="96" w="16" h="16" frames="4" interval="300" loop="1"/>
+    <subtexture name="side_cloud_corner" x="128" y="64" w="32" h="32"/>
+    <subtexture name="side_clouds" x="0" y="32" w="32" h="32"/>
+    <subtexture name="side_clouds_edge" x="128" y="32" w="32" h="32"/>
+    <subtexture name="sparkles" x="32" y="192" w="32" h="32" frames="4" interval="200" loop="1"/>
+    <subtexture name="stairs_d" x="256" y="0" w="32" h="32"/>
+    <subtexture name="stairs_l" x="224" y="32" w="32" h="32"/>
+    <subtexture name="stairs_r" x="224" y="0" w="32" h="32"/>
+    <subtexture name="wall" x="224" y="256" w="32" h="32"/>
+    <subtexture name="welcome" x="0" y="288" w="102" h="80"/>
+    <subtexture name="water" x="256" y="160" w="32" h="32" frames="2" interval="300" loop="1"/>
+    <subtexture name="waterfall" x="256" y="192" w="32" h="32" frames="2" interval="300" loop="1"/>
+    <subtexture name="waterfall_mist" x="256" y="224" w="32" h="32" frames="2" interval="300" loop="1"/>
+    <subtexture name="fence_lr" x="256" y="32" w="32" h="32"/>
+    <subtexture name="cloudwall" x="320" y="112" w="32" h="32"/>
+    <subtexture name="cloudwall_bottom" x="320" y="144" w="32" h="32"/>
+    <subtexture name="firesign1" x="0" y="368" w="57" h="57"/>
+    <subtexture name="firesign2" x="64" y="369" w="64" h="52"/>
+    <subtexture name="tunnel" x="304" y="288" w="128" h="96"/>
+</atlas>

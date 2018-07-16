@@ -11,6 +11,10 @@ public class Application
 	
 		RenderList renderList = new RenderList();
 		
+		Texture tex1 = new Texture();
+		tex1.openResource("resources/images/dreamland");
+		
+		System.out.print("asd");
 		/*
 		//current time
 		//game loop:
