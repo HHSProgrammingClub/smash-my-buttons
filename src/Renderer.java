@@ -68,7 +68,7 @@ public class Renderer
 	 * @param p_frame the current frame to draw
 	 * @param p_dest destination of the drawn image
 	 */
-	public void drawTexture(Texture p_texture, Rect p_frame, Rect p_dest)
+	public void drawTexture(Texture p_texture, IntRect p_frame, IntRect p_dest)
 	{
 		g2.drawImage(p_texture.getImage(), p_dest.x, p_dest.y, p_dest.x + p_dest.w, p_dest.y + p_dest.h,
 				p_frame.x, p_frame.y, p_frame.x + p_frame.w, p_frame.y + p_frame.h, panel);

@@ -27,8 +27,8 @@ public class Sprite implements Drawable
 	
 	public void draw(Renderer p_renderer)
 	{
-		Rect frame = m_animation.getFrame();
-		Rect destination = new Rect(m_position, new Vector2(frame.w*m_scale.x, frame.h*m_scale.y));
+		IntRect frame = m_animation.getFrame();
+		IntRect destination = new IntRect(m_position, new Vector2(frame.w*m_scale.x, frame.h*m_scale.y));
 		p_renderer.drawTexture(m_texture, frame, destination);
 	}
 	

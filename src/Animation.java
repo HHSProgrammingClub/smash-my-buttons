@@ -2,7 +2,7 @@ import org.w3c.dom.Element;
 
 public class Animation 
 {
-	private Rect m_frame;
+	private IntRect m_frame;
 	private int m_frameCount;
 	private float m_interval;
 	private boolean m_loop;
@@ -10,17 +10,17 @@ public class Animation
 	
 	public Animation()
 	{
-		m_frame = new Rect(0, 0, 0, 0);
+		m_frame = new IntRect(0, 0, 0, 0);
 	}
 	
-	public Rect getFrame()
+	public IntRect getFrame()
 	{
 		return m_frame;
 	}
 	
-	public Rect getFrame(int p_frame)
+	public IntRect getFrame(int p_frame)
 	{
-		Rect frame = new Rect(m_frame);
+		IntRect frame = new IntRect(m_frame);
 		frame.x += m_frame.w*Math.max(Math.min(p_frame, m_frameCount), 0 );
 		return frame; 
 	}

@@ -1,7 +1,7 @@
 import org.dyn4j.geometry.Vector2;
 
 
-public class Rect 
+public class IntRect 
 {
 	/** Coordinates of rectangle, width, and height*/
 	public int x, y, w, h;
@@ -9,7 +9,7 @@ public class Rect
 	/**
 	 * Default constructor.
 	 */
-	public Rect()
+	public IntRect()
 	{
 		x = 0;
 		y = 0;
@@ -21,7 +21,7 @@ public class Rect
 	 * Copy Constructor.
 	 * @param p_copy Rect to be copied
 	 */
-	public Rect(Rect p_copy)
+	public IntRect(IntRect p_copy)
 	{
 		x = p_copy.x;
 		y = p_copy.y;
@@ -36,7 +36,7 @@ public class Rect
 	 * @param p_w width
 	 * @param p_h height
 	 */
-	public Rect(int p_x, int p_y, int p_w, int p_h)
+	public IntRect(int p_x, int p_y, int p_w, int p_h)
 	{
 		x = p_x;
 		y = p_y;
@@ -49,7 +49,7 @@ public class Rect
 	 * @param p_offset
 	 * @param p_size
 	 */
-	public Rect(Vector2 p_offset, Vector2 p_size)
+	public IntRect(Vector2 p_offset, Vector2 p_size)
 	{
 		x = (int)p_offset.x;
 		y = (int)p_offset.y;
@@ -62,7 +62,7 @@ public class Rect
 	 * @param p_rect the Rect to check overlap
 	 * @return whether two Rects overlap
 	 */
-	public boolean collidesWith(Rect p_rect)
+	public boolean collidesWith(IntRect p_rect)
 	{
 		return (x <= (p_rect.x + p_rect.w) && 
 				x+w >= p_rect.x &&
