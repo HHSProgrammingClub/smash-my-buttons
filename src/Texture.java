@@ -43,11 +43,18 @@ public class Texture
 			if (imageStream == null)
 				throw new FileNotFoundException("Could not find image resource for \"" + p_path + ".png\"");
 			openImage(imageStream);
-			
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+		try
+		{	
 			InputStream atlasStream = getClass().getClassLoader().getResourceAsStream(p_path + ".xml");
 			if (atlasStream == null)
 				throw new FileNotFoundException("Could not find atlas resource for \"" + p_path + ".xml\"");
-			openAtlas(atlasStream);
+			openAtlas(atlasStream);	
 		}
 		catch(Exception e)
 		{
@@ -72,14 +79,14 @@ public class Texture
 	private void openImage(InputStream p_stream) throws IOException
 	{
 		try
-        {
+		{
 			m_image = ImageIO.read(p_stream);
 		}
-        catch(IOException e)
-        {
-        	e.printStackTrace();
-        	throw e;
-        }
+		catch(IOException e)
+		{
+			e.printStackTrace();
+			throw e;
+		}
 	}
 	
 	/**

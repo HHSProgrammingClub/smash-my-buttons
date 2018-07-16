@@ -15,18 +15,28 @@ public class Application
 		tex1.openResource("resources/images/dreamland");
 		
 		System.out.print("asd");
-		/*
+		
+		Sprite sprite = new Sprite(tex1, "flowers");
+		renderList.addDrawable(sprite);
+		
 		//current time
 		//game loop:
 		while(running)
 		{
 			//calculate delta
 			 
+			renderer.clear();
+			
 			//update
 			renderList.draw(renderer);
 			
-			//Thread.sleep(42069); or whatever dank delay
-		}*/
+			
+			try {
+				Thread.sleep(32);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 		
 	}
 }

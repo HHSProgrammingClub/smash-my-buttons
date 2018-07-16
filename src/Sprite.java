@@ -1,21 +1,35 @@
+import org.dyn4j.geometry.Vector2;
 
 public class Sprite implements Drawable
 {
 	private Texture m_texture;
 	private Animation m_animation;
-	private Rect m_position;
-	private float m_rotation;
-	private Clock m_clock;
+	private Vector2 m_position = new Vector2(0, 0);
+	private Vector2 m_scale = new Vector2(1, 1);
+	private double m_rotation;
+	private Clock m_clock = new Clock();
 	
-	public Sprite(Texture p_texture, Animation p_animation)
+	public Sprite()
 	{
-		m_texture = p_texture;
-		m_animation = p_animation;
+	}
+	
+	public Sprite(Texture p_texture)
+	{
+		setTexture(p_texture);
+		setAnimation("default:default");
+	}
+	
+	public Sprite(Texture p_texture, String p_animation)
+	{
+		setTexture(p_texture);
+		setAnimation(p_animation);
 	}
 	
 	public void draw(Renderer p_renderer)
 	{
-		p_renderer.drawTexture(m_texture, m_animation.getFrame(), m_position);
+		Rect frame = m_animation.getFrame();
+		Rect destination = new Rect(m_position, new Vector2(frame.w*m_scale.x, frame.h*m_scale.y));
+		p_renderer.drawTexture(m_texture, frame, destination);
 	}
 	
 	public void setTexture(Texture p_texture)
@@ -63,13 +77,33 @@ public class Sprite implements Drawable
 		m_clock.restart();
 	}
 	
-	public void setPosition(Rect p_position)
+	public void setPosition(double p_x, double p_y)
 	{
-		m_position = p_position;
+		m_position.set(p_x, p_y);
 	}
 	
-	public Rect getPosition()
+	public void setPosition(Vector2 p_position)
 	{
-		return m_position;
+		m_position.set(p_position);
+	}
+	
+	public Vector2 getPosition()
+	{
+		return new Vector2(m_position);
+	}
+	
+	public void setScale(double p_x, double p_y)
+	{
+		m_scale.set(p_x, p_y);
+	}
+	
+	public void setScale(Vector2 p_scale)
+	{
+		m_scale.set(p_scale);
+	}
+	
+	public Vector2 getScale()
+	{
+		return new Vector2(m_scale);
 	}
 }

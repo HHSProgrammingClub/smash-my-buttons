@@ -45,6 +45,19 @@ public class Rect
 	}
 	
 	/**
+	 * Create Rect from 2 vectors. Components will be directly casted to int.
+	 * @param p_offset
+	 * @param p_size
+	 */
+	public Rect(Vector2 p_offset, Vector2 p_size)
+	{
+		x = (int)p_offset.x;
+		y = (int)p_offset.y;
+		w = (int)p_size.x;
+		h = (int)p_size.y;
+	}
+	
+	/**
 	 * Checks if two Rects overlap each other
 	 * @param p_rect the Rect to check overlap
 	 * @return whether two Rects overlap
