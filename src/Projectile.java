@@ -28,7 +28,7 @@ public class Projectile {
 		m_hitbox = p_hitbox;
 	}
 	
-	public void addBody(Body p_body)
+	public void addToBody(Body p_body)
 	{
 		//add the hitbox to all BodyFixtures in the body -- can change
 		Iterator<BodyFixture> fixtures = p_body.getFixtureIterator();
