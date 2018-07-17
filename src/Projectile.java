@@ -1,3 +1,4 @@
+import org.dyn4j.dynamics.Body;
 
 public class Projectile {
 	
@@ -22,6 +23,14 @@ public class Projectile {
 	public void setHitbox(Hitbox p_hitbox)
 	{
 		m_hitbox = p_hitbox;
+	}
+	
+	public void addBody(Body p_body)
+	{
+		//attach hitbox or something
+		
+		//we doin this?
+		p_body.setUserData(this);
 	}
 	
 	private Hitbox m_hitbox;
