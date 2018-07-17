@@ -1,12 +1,11 @@
 import org.dyn4j.geometry.Vector2;
-import org.dyn4j.collision.Fixture;
+import org.dyn4j.dynamics.BodyFixture;
 
 public class Hitbox
-{	
-	public void setFixture(Fixture p_fixture)
+{
+	public void addToFixture(BodyFixture p_fixture)
 	{
-		m_fixture = p_fixture;
-		m_fixture.setSensor(true);
+		p_fixture.setUserData(this);
 	}
 	
 	public void setDamage(int p_damage)
@@ -48,8 +47,7 @@ public class Hitbox
 	{
 		return m_duration;
 	}
-
-	private Fixture m_fixture;
+	
 	private Vector2 m_scaledKnockback;
 	private Vector2 m_baseKnockback;
 	private int m_damage;
