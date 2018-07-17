@@ -1,4 +1,7 @@
+import java.util.Iterator;
+
 import org.dyn4j.dynamics.Body;
+import org.dyn4j.dynamics.BodyFixture;
 
 public class Projectile {
 	
@@ -27,12 +30,19 @@ public class Projectile {
 	
 	public void addBody(Body p_body)
 	{
-		//attach hitbox or something
+		//add the hitbox to all BodyFixtures in the body -- can change
+		Iterator<BodyFixture> fixtures = p_body.getFixtureIterator();
 		
-		//we doin this?
+		while(fixtures.hasNext())
+		{
+			BodyFixture f = (BodyFixture)fixtures.next();
+			m_hitbox.addToFixture(f);
+		}
+		
 		p_body.setUserData(this);
 	}
 	
 	private Hitbox m_hitbox;
+	//i don't know what exactly to do with this
 	private Sprite m_sprite;
 }
