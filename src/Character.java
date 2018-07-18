@@ -5,10 +5,10 @@ import org.dyn4j.geometry.Vector2;
 public abstract class Character
 {
 	private int m_damage;
-	
 	private Sprite m_sprite;
 	
-	private Move[] m_moveSet;
+	protected Body m_body;
+	protected Move[] m_moveSet;
 	
 	Character()
 	{
@@ -71,5 +71,6 @@ public abstract class Character
 	public void addToBody(Body p_body)
 	{
 		p_body.setUserData(this);
+		m_body = p_body;
 	}
 }
