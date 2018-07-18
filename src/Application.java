@@ -24,15 +24,16 @@ public class Application
 		while(running)
 		{
 			//calculate delta
-			 
+			
 			renderer.clear();
 			
 			//update
 			renderList.draw(renderer);
 			
+			// TODO: Add display method to renderer to update
 			
 			try {
-				Thread.sleep(32);
+				Thread.sleep(32); // 30 fps max
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
