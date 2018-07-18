@@ -10,6 +10,8 @@ public abstract class Character
 	protected Body m_body;
 	protected Move[] m_moveSet;
 	
+	public static Vector2 jumpImpulse = new Vector2(0, 5);
+	
 	Character()
 	{
 		m_moveSet = new Move[6];
@@ -55,9 +57,12 @@ public abstract class Character
 		//m_moveSet[p_type.num].doThing();
 	}
 	
-	//this will return the total impulse to apply to the character
-	//would need to be passed the body to apply the impulse itself
-	public Vector2 takeHit(Hitbox p_hitbox)
+	public void jump() //to be pronounced [jʌmp] (ipa)
+	{
+		m_body.applyImpulse(jumpImpulse);
+	}
+	
+	public void takeHit(Hitbox p_hitbox)
 	{
 		//may want this to happen after the scaling
 		addDamage(p_hitbox.getDamage());
@@ -65,7 +70,7 @@ public abstract class Character
 		Vector2 base = p_hitbox.getBaseKnockback();
 		Vector2 scaled = p_hitbox.getScaledKnockback().multiply(m_damage/50);
 		
-		return base.add(scaled);
+		m_body.applyImpulse(base.add(scaled));
 	}
 	
 	public void addToBody(Body p_body)
