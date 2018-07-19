@@ -11,9 +11,9 @@ public class Battle
 		new AIController()
 	};
 	
-	public void setEnvironment(Environment eee)
+	public void setEnvironment(Environment p_env)
 	{
-		m_env = eee;
+		m_env = p_env;
 	}
 	
 	public Hitbox[] getHitboxes()
@@ -21,17 +21,15 @@ public class Battle
 		return (Hitbox[]) m_hitboxes.toArray();
 	}
 	
-	public int addHitbox(Hitbox h)
+	public void addHitbox(Hitbox p_hitbox)
 	{
-		m_hitboxes.add(h);
-		// NOTE: not sure what this should return in terms of an int.
-		return m_hitboxes.size();
+		m_hitboxes.add(p_hitbox);
 	}
 	
 	//Port: Player *1*, Player *2*, etc.
-	public void addCharacter(CharacterController c, int port)
+	public void addCharacter(CharacterController p_controller, int p_port)
 	{
-		m_charControllers[port - 1] = c;
+		m_charControllers[p_port - 1] = p_controller;
 	}
 	
 	public int getCharacterCount()
@@ -42,7 +40,7 @@ public class Battle
 	public void update(float p_delta)
 	{
 		m_env.getPhysicsWorld().updatev((double)(p_delta));
-		for(int i = m_hitboxes.size() - 1; i >= 0; i--)
+		for(int i = 0; i < m_hitboxes.size(); i++)
 		{
 			m_hitboxes.get(i).updateTimer(p_delta);
 			if(!m_hitboxes.get(i).isAlive())
