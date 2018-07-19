@@ -41,32 +41,32 @@ public class Hitbox
 	public void setDuration(float p_seconds)
 	{
 		m_duration = p_seconds;
-		timer = p_seconds;
+		m_timeLeft = p_seconds;
 	}
 	
-	public float get_duration()
+	public float getDuration()
 	{
 		return m_duration;
 	}
 	
 	public void updateTimer(float p_delta)
 	{
-		timer -= p_delta;
-		if(timer <= 0)
+		m_timeLeft -= p_delta;
+		if(m_timeLeft <= 0)
 		{
-			alive = false; // Prepare for r e m o v a l
+			m_alive = false; // Prepare for r e m o v a l
 		}
 	}
 	
 	public boolean isAlive()
 	{
-		return alive;
+		return m_alive;
 	}
 	
 	private Vector2 m_scaledKnockback;
 	private Vector2 m_baseKnockback;
 	private int m_damage;
 	private float m_duration;
-	private boolean alive = true;
-	private float timer;
+	private boolean m_alive = true;
+	private float m_timeLeft;
 }
