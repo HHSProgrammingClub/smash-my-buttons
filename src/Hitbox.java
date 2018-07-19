@@ -3,6 +3,8 @@ import org.dyn4j.dynamics.BodyFixture;
 
 public class Hitbox
 {
+	private boolean dead = false;
+	private float timer;
 	public void addToFixture(BodyFixture p_fixture)
 	{
 		p_fixture.setUserData(this);
@@ -41,6 +43,7 @@ public class Hitbox
 	public void setDuration(float p_seconds)
 	{
 		m_duration = p_seconds;
+		timer = p_seconds;
 	}
 	
 	public float get_duration()
@@ -48,6 +51,16 @@ public class Hitbox
 		return m_duration;
 	}
 	
+	public void updateTimer(float p_delta) {
+		timer -= p_delta;
+		if(timer <= 0) {
+			dead = true; // Prepare for r e m o v a l
+		}
+	}
+	
+	public boolean alive() {
+		return !dead;
+	}
 	private Vector2 m_scaledKnockback;
 	private Vector2 m_baseKnockback;
 	private int m_damage;

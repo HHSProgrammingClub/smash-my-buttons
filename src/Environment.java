@@ -18,6 +18,8 @@ public abstract class Environment
 		m_world = p_world;
 	}
 	
+	public World WorldObj() { return m_world; }
+	
 	private void addTerrainPiece(Body p_piece)
 	{
 		m_terrain.add(p_piece);
