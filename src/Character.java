@@ -11,15 +11,25 @@ public abstract class Character
 	protected Move[] m_moveSet;
 	
 	public static Vector2 jumpImpulse = new Vector2(0, 5);
-	private int stock = 3;
+	private int m_stock;
 	
 	
 	Character()
 	{
 		m_moveSet = new Move[6];
+		//setStock(3);
 	}
 	
-	public int getStock() {return stock;}
+	public void setStock(int p_stock)
+	{
+		m_stock = p_stock;
+	}
+	
+	public int getStock()
+	{
+		return m_stock;
+	}
+	
 	public void setSprite(Sprite p_sprite)
 	{
 		m_sprite = p_sprite;
