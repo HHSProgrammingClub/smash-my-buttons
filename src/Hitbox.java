@@ -1,9 +1,9 @@
 import org.dyn4j.geometry.Vector2;
-import org.dyn4j.dynamics.BodyFixture;
+import org.dyn4j.collision.Fixture;
 
 public class Hitbox
 {
-	public void addToFixture(BodyFixture p_fixture)
+	public void addToFixture(Fixture p_fixture)
 	{
 		p_fixture.setUserData(this);
 	}

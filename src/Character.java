@@ -95,10 +95,9 @@ public abstract class Character
 		m_body.applyImpulse(base.add(scaled));
 	}
 	
-	public void addToBody(Body p_body)
+	public void setBody(Body p_body)
 	{
 		p_body.setUserData(this);
 		m_body = p_body;
 	}
-	
 }
