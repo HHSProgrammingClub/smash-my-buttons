@@ -1,8 +1,10 @@
 import java.util.ArrayList;
+import java.util.concurrent.Callable;
 
 public class Move
 {
-	private ArrayList<Hitbox> m_hitboxes;
+	// UPDATE: Changed to array, since hitboxes will be added on initialization
+	private Hitbox[] m_hitboxes;
 	private float m_duration; //player will be unreceptive during this duration.
 	//dunno if frames (easier to calculate damage) or
 	//seconds (smoother visuals) will be better
@@ -11,9 +13,10 @@ public class Move
 	private double timer = 0;
 	private String m_name;
 	
-	public Move(String name, ArrayList<Hitbox> hitboxes)
+	public Move(String name, float p_duration, Hitbox[] hitboxes)
 	{
 		m_name = name;
+		m_duration = p_duration;
 		m_hitboxes = hitboxes;
 	}
 	
@@ -42,19 +45,7 @@ public class Move
 	
 	public void update(Battle battle)
 	{
-		if(timer < 1)
-		{ // Some kind of threshold
-			// If we're using a seconds system, we're going to need a more
-			// complex threshold system so that instantEffect only activates
-			// once.
-			
-			// You could instead just call the instantEffect() once
-			// when the move is used then call update() every frame
-			// and not bother with this threshold thing
-			//   --Ben
-			instantEffect(battle);
-		}
-		
+		// TO: Ben -- accepted.
 		if(timer < m_duration && timer > startup)
 		{
 			timer++;

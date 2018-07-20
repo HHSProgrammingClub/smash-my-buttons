@@ -2,6 +2,7 @@
 public class Application 
 {
 	private static boolean running = true;
+	private static boolean visibleHitboxes = true;
 	
 	public static void main(String[] args)
 	{
@@ -33,7 +34,7 @@ public class Application
 			// TODO: Add display method to renderer to update
 			
 			try {
-				Thread.sleep(32); // 30 fps max
+				Thread.sleep(17); // 60 fps max 
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
