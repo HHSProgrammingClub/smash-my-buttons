@@ -1,2 +1,2 @@
 # smash-my-buttons
-AI fighting button
+An AI fighting game
