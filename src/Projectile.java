@@ -43,6 +43,5 @@ public class Projectile {
 	}
 	
 	private Hitbox m_hitbox;
-	//i don't know what exactly to do with this
 	private Sprite m_sprite;
 }
