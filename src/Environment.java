@@ -18,7 +18,11 @@ public abstract class Environment
 		m_world = p_world;
 	}
 	
-	public World getWorld() { return m_world; }
+	public World getPhysicsWorld()
+	{
+		return m_world;
+		
+	}
 	
 	private void addTerrainPiece(Body p_piece)
 	{

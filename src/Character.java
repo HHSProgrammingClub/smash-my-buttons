@@ -4,24 +4,27 @@ import org.dyn4j.geometry.Vector2;
 
 public abstract class Character
 {
-	private int m_damage; // Damage percentage
-	private Sprite m_sprite;
-	
 	protected Body m_body;
 	protected Move[] m_moveSet;
+	private Sprite m_sprite;
+
+	private int m_damage;
+	private int m_stock = 3;
+	private String m_name = "George the Glass-Cutter";
+	private boolean m_jumped = false;
+	private boolean m_recovered = false;
+
 	
-	public static Vector2 jumpImpulse = new Vector2(0, 5);
-	private int stock = 3;
-	private String name = "George the Glass-Cutter";
-	private boolean jumped = false;
-	private boolean recovered = false;
-	
+	public static Vector2 jumpImpulse = new Vector2(0, 5);	
 	Character()
 	{
 		m_moveSet = new Move[6];
 	}
 	
-	public int getStock() {return stock;}
+	public int getStock()
+	{
+		return m_stock;
+	}
 	public void setSprite(Sprite p_sprite)
 	{
 		m_sprite = p_sprite;
@@ -49,7 +52,7 @@ public abstract class Character
 	
 	public String getName()
 	{
-		return name;
+		return m_name;
 	}
 	
 	public void setMove(MoveType p_type, Move p_move)
@@ -66,14 +69,18 @@ public abstract class Character
 	
 	public void jump() //to be pronounced [jʌmp] (ipa)
 	{
-		if(!jumped) {
+		if(!m_jumped)
+		{
 			m_body.applyImpulse(jumpImpulse);
-			jumped = true;
+			m_jumped = true;
 		}
 	}
-	public void recover(Battle battle) {
-		if(!recovered) {
-			doMove(MoveType.recovery, battle);
+	
+	public void recover(Battle p_battle)
+	{
+		if(!m_recovered)
+		{
+			doMove(MoveType.recovery, p_battle);
 		}
 	}
 	
