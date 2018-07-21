@@ -14,7 +14,7 @@ public abstract class Character
 	private boolean m_jumped = false;
 	private boolean m_recovered = false;
 
-	public static Vector2 jumpImpulse = new Vector2(0, 5);
+	public static Vector2 jumpImpulse = new Vector2(0, -5);
 	
 	Character()
 	{

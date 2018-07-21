@@ -21,10 +21,9 @@ public abstract class Environment
 	public World getPhysicsWorld()
 	{
 		return m_world;
-		
 	}
 	
-	private void addTerrainPiece(Body p_piece)
+	protected void addTerrainPiece(Body p_piece)
 	{
 		m_terrain.add(p_piece);
 		m_terrain.get(m_terrain.size()).setMassType(MassType.INFINITE);
