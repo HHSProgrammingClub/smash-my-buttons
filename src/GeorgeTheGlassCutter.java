@@ -1,11 +1,13 @@
 //A sample character.
 import java.util.ArrayList;
 
-public class GeorgeTheGlassCutter extends Character {
+public class GeorgeTheGlassCutter extends Character
+{
 	//a showcasing of different ways to make a character
 	protected Hitbox[][] moveHitboxes = {
 		{new Hitbox()},
 	};
+	
 	protected Move[] m_moveset = {
 		// You can assign hitboxes in the constructor
 		new Move("Score", 1.0f, new Hitbox[] {}),
@@ -17,7 +19,9 @@ public class GeorgeTheGlassCutter extends Character {
 		new Move("Score", 1.0f, moveHitboxes[0]),
 		new Move("Score", 1.0f, moveHitboxes[0])
 	};
-	public GeorgeTheGlassCutter(Battle battle) {
+	
+	public GeorgeTheGlassCutter(Battle battle) 
+	{
 		
 	}
 }

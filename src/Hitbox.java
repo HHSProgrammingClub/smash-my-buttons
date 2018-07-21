@@ -3,6 +3,14 @@ import org.dyn4j.collision.Fixture;
 
 public class Hitbox
 {
+	
+	private Vector2 m_scaledKnockback;
+	private Vector2 m_baseKnockback;
+	private int m_damage;
+	private float m_duration;
+	private boolean m_alive = true;
+	private float m_timeLeft;
+	
 	public void addToFixture(Fixture p_fixture)
 	{
 		p_fixture.setUserData(this);
@@ -63,10 +71,4 @@ public class Hitbox
 		return m_alive;
 	}
 	
-	private Vector2 m_scaledKnockback;
-	private Vector2 m_baseKnockback;
-	private int m_damage;
-	private float m_duration;
-	private boolean m_alive = true;
-	private float m_timeLeft;
 }

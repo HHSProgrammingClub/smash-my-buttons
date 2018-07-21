@@ -4,6 +4,8 @@ import org.dyn4j.geometry.Vector2;
 
 public class TerrainPiece implements Drawable
 {
+	private Body m_body;
+	private Sprite m_sprite;
 	
 	public void setBody(Body p_body)
 	{
@@ -29,6 +31,4 @@ public class TerrainPiece implements Drawable
 		m_sprite.draw(p_renderer);
 	}
 	
-	private Body m_body;
-	private Sprite m_sprite;
 }

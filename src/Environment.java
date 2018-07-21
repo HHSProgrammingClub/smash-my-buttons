@@ -6,6 +6,10 @@ import org.dyn4j.geometry.MassType;
 
 public abstract class Environment
 {
+	
+	private World m_world;
+	private ArrayList<Body> m_terrain;
+	
 	public Environment() {}
 	
 	public Environment(World p_world)
@@ -29,7 +33,4 @@ public abstract class Environment
 		m_terrain.get(m_terrain.size()).setMassType(MassType.INFINITE);
 	}
 	
-	private World m_world;
-	
-	private ArrayList<Body> m_terrain;
 }
