@@ -2,7 +2,7 @@ import org.dyn4j.dynamics.Body;
 import org.dyn4j.geometry.Vector2;
 
 
-public abstract class Character
+public abstract class Character implements Drawable
 {
 	protected Body m_body;
 	protected Move[] m_moveSet;
@@ -16,7 +16,7 @@ public abstract class Character
 
 	public static Vector2 jumpImpulse = new Vector2(0, -5);
 	
-	Character()
+	public Character()
 	{
 		m_moveSet = new Move[6];
 	}
@@ -99,5 +99,11 @@ public abstract class Character
 	{
 		p_body.setUserData(this);
 		m_body = p_body;
+	}
+	
+	@Override
+	public void draw(Renderer p_renderer)
+	{
+		m_sprite.draw(p_renderer);
 	}
 }

@@ -15,8 +15,6 @@ public class Application
 		Texture tex1 = new Texture();
 		tex1.openResource("resources/images/dreamland");
 		
-		System.out.print("asd");
-		
 		Sprite sprite = new Sprite(tex1, "flowers");
 		renderList.addDrawable(sprite);
 		
