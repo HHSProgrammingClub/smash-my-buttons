@@ -26,19 +26,25 @@ public class Application
 		Sprite sprite = new Sprite(tex1, "flowers");
 		renderList.addDrawable(sprite);
 		
-		//test rectangle
+		//test rectangles
 		DebugBox box = new DebugBox(new IntRect(100, 100, 100, 100), Color.RED, 0.5f);
 		renderList.addDrawable(box);
 		
 		DebugBox box2 = new DebugBox(new IntRect(100, 110, 100, 100), Color.BLUE, 0.75f);
 		renderList.addDrawable(box2);
 		
+		//debug
+		DebugDrawer dd = new DebugDrawer();
+		
 		//game loop:
 		while(running)
-		{
+		{ 
 			//calculate delta
 			
 			renderer.clear();
+			
+			//debug
+			//dd.debugDraw(world, renderList);
 			
 			//update
 			renderList.draw(renderer);

@@ -4,29 +4,30 @@ import java.awt.Color;
 
 public class DebugBox implements Drawable
 {
-	public Graphics2D g2;
-	public IntRect m_dimensions;
-	public Color m_color; //Color.RED
-	public float m_opacity;
-	//TODO: opacity implementation
+	private Graphics2D g2;
+	private IntRect m_dimensions;
+	private Color m_color; //Color.RED
+	private float m_opacity;
+	
+	public DebugBox() {}
 	
 	/**
 	 * Constructor
-	 * @param p_dimensions 
-	 * @param p_color
+	 * @param p_dimensions x, y, width, height
+	 * @param p_color Color.RED, BLUE, WHITE, etc.
 	 */
 	public DebugBox(IntRect p_dimensions, Color p_color)
 	{
 		m_dimensions = p_dimensions;
 		m_color = p_color;
-		m_opacity = 1.0f;
+		m_opacity = 1.0f; //opaque
 	}
 	
 	/**
 	 * Constructor with option for opacity
-	 * @param p_dimensions
-	 * @param p_color
-	 * @param p_opacity
+	 * @param p_dimensions x, y, width, height
+	 * @param p_color Color.RED, BLUE, WHITE, etc.
+	 * @param p_opacity 0.0f (transparent) -- 1.0f (opaque) 
 	 */
 	public DebugBox(IntRect p_dimensions, Color p_color, float p_opacity)
 	{

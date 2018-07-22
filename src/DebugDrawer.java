@@ -6,7 +6,8 @@ import org.dyn4j.dynamics.World;
 
 public class DebugDrawer
 {
-	public void debugDraw(World p_world)
+	
+	public void debugDraw(World p_world, RenderList p_list)
 	{
 		//do the stuff
 		List<Body> bodies =  p_world.getBodies();
@@ -16,6 +17,8 @@ public class DebugDrawer
 			for(BodyFixture f : fixtures)
 			{
 				//draw the thing
+				DebugBox box = new DebugBox(); //Hitbox dimensions, Color, opacity
+				p_list.addDrawable(box);
 			}
 		}
 	}
