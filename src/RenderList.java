@@ -1,5 +1,9 @@
 import java.util.ArrayList;
 
+/**
+ * List of all the Drawable entities that Renderer draws
+ * @author Catherine Guevara
+ */
 public class RenderList
 {
 	private ArrayList<Drawable> drawables = new ArrayList<Drawable>();

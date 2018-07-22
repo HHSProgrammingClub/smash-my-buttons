@@ -4,10 +4,16 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Color;
 import java.awt.AlphaComposite;
+import java.awt.BasicStroke;
+import java.awt.Stroke;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+/**
+ * Renders all the sprites, GUI, and additional shapes to the screen
+ * @author Catherine Guevara
+ */
 public class Renderer 
 {
 	public BufferedImage canvas;
@@ -79,7 +85,7 @@ public class Renderer
 	}
 	
 	/**
-	 * Draws a rectangle onto m_canvas
+	 * Draws a solid rectangle onto m_canvas
 	 * @param p_rect the dimensions of the rectangle
 	 * @param p_color the color of the rectangle
 	 */
@@ -89,5 +95,15 @@ public class Renderer
 		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, p_opacity));
 		g2.fillRect(p_rect.x, p_rect.y, p_rect.w, p_rect.h);
 	}
+	
+	public void drawRect(IntRect p_rect, Color p_color, float p_opacity, int p_thickness)
+	{
+		g2.setColor(p_color);
+		g2.setStroke(new BasicStroke(p_thickness));
+		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, p_opacity));
+		g2.drawRect(p_rect.x, p_rect.y, p_rect.w, p_rect.h);
+	}
+	
 	//TODO: additional Drawable shapes like ellipse?
+	//TODO: custom boxes from sprite sheet?
 }

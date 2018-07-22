@@ -1,5 +1,9 @@
 import java.awt.Color;
 
+/**
+ * Smash-Bros style game that teaches people how to code in Python
+ * @authors Michael Thompson, Catherine Guevara, Benhardt Hansen, Kevin Yang 
+ */
 public class Application 
 {
 	private static boolean running = true;
@@ -27,10 +31,12 @@ public class Application
 		renderList.addDrawable(sprite);
 		
 		//test rectangles
+		//filled
 		DebugBox box = new DebugBox(new IntRect(100, 100, 100, 100), Color.RED, 0.5f);
 		renderList.addDrawable(box);
 		
-		DebugBox box2 = new DebugBox(new IntRect(100, 110, 100, 100), Color.BLUE, 0.75f);
+		//border
+		DebugBox box2 = new DebugBox(new IntRect(100, 110, 100, 100), Color.BLUE, 1.0f, 2);
 		renderList.addDrawable(box2);
 		
 		//debug
