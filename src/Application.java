@@ -6,11 +6,12 @@ public class Application
 	
 	public static void main(String[] args)
 	{
+		// Test Controller
 		AIController controller = new AIController();
 		controller.openScriptResource("resources/pyAI.py");
 		controller.start();
 		controller.update(null, 2);
-		/*
+		
 		//initialize the application
 		Renderer renderer = new Renderer();
 		renderer.init(2000, 1250);
@@ -42,6 +43,5 @@ public class Application
 				e.printStackTrace();
 			}
 		}
-		*/
 	}
 }
