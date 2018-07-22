@@ -3,15 +3,26 @@ public abstract class CharacterController
 {
 	protected Character m_character;
 	
-	final void setCharacter(Character p_character)
+	/**
+	 * Set the character this controller has control over.
+	 * @param p_character
+	 */
+	public final void setCharacter(Character p_character)
 	{
 		m_character = p_character;
 	}
 	
-	final Character getCharacter()
+	/**
+	 * Get the Character object this controller has control over.
+	 * @return
+	 */
+	public final Character getCharacter()
 	{
 		return m_character;
 	}
+	
+	public abstract String getName();
+	public abstract String getAuthor();
 	
 	/**
 	 * Setup anything that is needed to start the battle.
@@ -29,4 +40,5 @@ public abstract class CharacterController
 	 * Reset everything to its default so we can reuse this controller for the next battle.
 	 */
 	public abstract void reset();
+	
 }
