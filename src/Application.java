@@ -1,3 +1,4 @@
+import java.awt.Color;
 
 public class Application 
 {
@@ -18,13 +19,20 @@ public class Application
 	
 		RenderList renderList = new RenderList();
 		
+		//test sprite
 		Texture tex1 = new Texture();
 		tex1.openResource("resources/images/dreamland");
 		
 		Sprite sprite = new Sprite(tex1, "flowers");
 		renderList.addDrawable(sprite);
 		
-		//current time
+		//test rectangle
+		DebugBox box = new DebugBox(new IntRect(100, 100, 100, 100), Color.RED, 0.5f);
+		renderList.addDrawable(box);
+		
+		DebugBox box2 = new DebugBox(new IntRect(100, 110, 100, 100), Color.BLUE, 0.75f);
+		renderList.addDrawable(box2);
+		
 		//game loop:
 		while(running)
 		{

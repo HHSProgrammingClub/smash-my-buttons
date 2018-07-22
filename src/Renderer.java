@@ -2,6 +2,8 @@
 import java.awt.image.BufferedImage;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Color;
+import java.awt.AlphaComposite;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -59,6 +61,8 @@ public class Renderer
 	 */
 	public void clear()
 	{
+		g2.setColor(Color.WHITE);
+		//g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1)); not sure if this is necessary
 		g2.fillRect(0, 0, width, height);
 	}
 	
@@ -73,4 +77,17 @@ public class Renderer
 		g2.drawImage(p_texture.getImage(), p_dest.x, p_dest.y, p_dest.x + p_dest.w, p_dest.y + p_dest.h,
 				p_frame.x, p_frame.y, p_frame.x + p_frame.w, p_frame.y + p_frame.h, panel);
 	}
+	
+	/**
+	 * Draws a rectangle onto m_canvas
+	 * @param p_rect the dimensions of the rectangle
+	 * @param p_color the color of the rectangle
+	 */
+	public void drawRect(IntRect p_rect, Color p_color, float p_opacity)
+	{
+		g2.setColor(p_color);
+		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, p_opacity));
+		g2.fillRect(p_rect.x, p_rect.y, p_rect.w, p_rect.h);
+	}
+	//TODO: additional Drawable shapes like ellipse?
 }
