@@ -1,14 +1,12 @@
 import java.util.ArrayList;
 
-import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.World;
-import org.dyn4j.geometry.MassType;
 
 public abstract class Environment
 {
 	
 	private World m_world;
-	private ArrayList<Body> m_terrain;
+	private ArrayList<TerrainPiece> m_terrain;
 	
 	public Environment() {}
 	
@@ -27,10 +25,10 @@ public abstract class Environment
 		return m_world;
 	}
 	
-	protected void addTerrainPiece(Body p_piece)
+	protected void addTerrainPiece(TerrainPiece p_piece)
 	{
 		m_terrain.add(p_piece);
-		m_terrain.get(m_terrain.size()).setMassType(MassType.INFINITE);
+		m_world.addBody(p_piece.getBody());
 	}
 	
 }
