@@ -56,6 +56,7 @@ public class Application
 			//dd.draw(renderer)
 			
 			// TODO: Add display method to renderer to update
+			renderer.display();
 			
 			try {
 				Thread.sleep(17); // 60 fps max 

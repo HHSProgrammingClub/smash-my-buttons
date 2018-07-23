@@ -16,7 +16,7 @@ import javax.swing.JPanel;
  */
 public class Renderer 
 {
-	public BufferedImage canvas;
+	public BufferedImage frontBuffer, backBuffer;
 	public Graphics2D g2;
 	
 	public JFrame app;
@@ -44,8 +44,9 @@ public class Renderer
 		app.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		//create the canvas to draw stuff on
-		canvas = new BufferedImage(p_width, p_height, BufferedImage.TYPE_INT_ARGB);
-		g2 = canvas.createGraphics();
+		frontBuffer = new BufferedImage(p_width, p_height, BufferedImage.TYPE_INT_ARGB);
+		backBuffer = new BufferedImage(p_width, p_height, BufferedImage.TYPE_INT_ARGB);
+		g2 = backBuffer.createGraphics();
 		
 		//create the JPanel that holds the canvas
 		panel = new JPanel() {
@@ -53,13 +54,25 @@ public class Renderer
 			public void paintComponent(Graphics g)
 			{
 				super.paintComponent(g);
-				g.drawImage(canvas, 0, 0, this);
+				g.drawImage(frontBuffer, 0, 0, this);
 				repaint();
 			}
 		};
 		
 		//the most important step
 		app.add(panel);
+	}
+	
+	/**
+	 * Ensures the current frame is being displayed
+	 */
+	public void display()
+	{
+		BufferedImage temp = backBuffer;
+		backBuffer = frontBuffer;
+		frontBuffer = temp;
+		
+		g2 = backBuffer.createGraphics();
 	}
 	
 	/**
