@@ -1,3 +1,4 @@
+package program;
 //A sample character.
 import java.util.ArrayList;
 

@@ -1,3 +1,4 @@
+package program;
 
 public abstract class CharacterController
 {

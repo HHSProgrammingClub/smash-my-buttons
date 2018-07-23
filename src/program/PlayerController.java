@@ -1,3 +1,4 @@
+package program;
 
 public class PlayerController extends CharacterController
 {

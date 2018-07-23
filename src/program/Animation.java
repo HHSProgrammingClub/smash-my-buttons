@@ -1,3 +1,4 @@
+package program;
 import org.w3c.dom.Element;
 
 public class Animation 
