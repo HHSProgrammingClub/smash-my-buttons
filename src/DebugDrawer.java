@@ -4,21 +4,28 @@ import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.BodyFixture;
 import org.dyn4j.dynamics.World;
 
-public class DebugDrawer
+public class DebugDrawer implements Drawable
 {
+	private World m_world;
 	
-	public void debugDraw(World p_world, RenderList p_list)
+	public DebugDrawer(World p_world)
 	{
-		//do the stuff
-		List<Body> bodies =  p_world.getBodies();
+		m_world = p_world;
+	}
+	
+	@Override
+	public void draw(Renderer p_renderer)
+	{
+		List<Body> bodies = m_world.getBodies();
 		for(Body b : bodies)
 		{
 			List<BodyFixture> fixtures = b.getFixtures();
 			for(BodyFixture f : fixtures)
 			{
 				//draw the thing
-				DebugBox box = new DebugBox(); //Hitbox dimensions, Color, opacity
-				p_list.addDrawable(box);
+				//choose one
+				//p_renderer.drawRect(fixture dimensions, Color.RED, 0.75f);
+				//p_renderer.drawRect(dimension, Color.RED, 0.75f, 3);
 			}
 		}
 	}

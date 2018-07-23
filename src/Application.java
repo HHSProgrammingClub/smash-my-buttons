@@ -40,7 +40,7 @@ public class Application
 		renderList.addDrawable(box2);
 		
 		//debug
-		DebugDrawer dd = new DebugDrawer();
+		//DebugDrawer dd = new DebugDrawer(world);
 		
 		//game loop:
 		while(running)
@@ -49,11 +49,11 @@ public class Application
 			
 			renderer.clear();
 			
-			//debug
-			//dd.debugDraw(world, renderList);
-			
 			//update
 			renderList.draw(renderer);
+			
+			//debug
+			//dd.draw(renderer)
 			
 			// TODO: Add display method to renderer to update
 			
