@@ -5,7 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.Color;
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
-import java.awt.Stroke;
+import java.awt.geom.Ellipse2D;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -38,7 +38,7 @@ public class Renderer
 		//create the window of the application
 		app = new JFrame("AI Fighters"); //or whatever dank title we want
 		app.setSize(p_width, p_height);
-		app.setResizable(false); //dunno if y'all want this or not
+		app.setResizable(false);
 		app.setVisible(true);
 		app.setLocationRelativeTo(null);
 		app.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -81,12 +81,11 @@ public class Renderer
 	public void clear()
 	{
 		g2.setColor(Color.WHITE);
-		//g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1)); not sure if this is necessary
 		g2.fillRect(0, 0, width, height);
 	}
 	
 	/**
-	 * Draws a texture onto m_canvas
+	 * Draws a texture
 	 * @param p_texture the texture to be drawn
 	 * @param p_frame the current frame to draw
 	 * @param p_dest destination of the drawn image
@@ -94,13 +93,14 @@ public class Renderer
 	public void drawTexture(Texture p_texture, IntRect p_frame, IntRect p_dest)
 	{
 		g2.drawImage(p_texture.getImage(), p_dest.x, p_dest.y, p_dest.x + p_dest.w, p_dest.y + p_dest.h,
-				p_frame.x, p_frame.y, p_frame.x + p_frame.w, p_frame.y + p_frame.h, panel);
+					 p_frame.x, p_frame.y, p_frame.x + p_frame.w, p_frame.y + p_frame.h, panel);
 	}
 	
 	/**
-	 * Draws a solid rectangle onto m_canvas
+	 * Draws a solid rectangle
 	 * @param p_rect the dimensions of the rectangle
-	 * @param p_color the color of the rectangle
+	 * @param p_color the color of the rectangle (Color.RED, Color.BLUE, etc)
+	 * @param p_opacity 0.0f transparent to 1.0f (opaque)
 	 */
 	public void drawRect(IntRect p_rect, Color p_color, float p_opacity)
 	{
@@ -109,6 +109,13 @@ public class Renderer
 		g2.fillRect(p_rect.x, p_rect.y, p_rect.w, p_rect.h);
 	}
 	
+	/**
+	 * Draws a rectangle border
+	 * @param p_rect the dimensions of the rectangle
+	 * @param p_color the color of the rectangle (Color.RED, Color.BLUE, etc.)
+	 * @param p_opacity 0.0f transparent to 1.0f (opaque)
+	 * @param p_thickness THICCness in pixels
+	 */
 	public void drawRect(IntRect p_rect, Color p_color, float p_opacity, int p_thickness)
 	{
 		g2.setColor(p_color);
@@ -117,6 +124,18 @@ public class Renderer
 		g2.drawRect(p_rect.x, p_rect.y, p_rect.w, p_rect.h);
 	}
 	
-	//TODO: additional Drawable shapes like ellipse?
+	/**
+	 * Draws an ellipse
+	 * @param p_rect Major axis (width) and minor axis (height)
+	 * @param p_color the color of the ellipse (Color.RED, Color.BLUE, etc.)
+	 * @param p_opacity 0.0f transparent to 1.0f (opaque)
+	 */
+	public void drawEllipse(IntRect p_rect, Color p_color, float p_opacity)
+	{
+		g2.setColor(p_color);
+		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, p_opacity));
+		g2.draw(new Ellipse2D.Double(p_rect.x, p_rect.y, p_rect.w, p_rect.h)); 
+	}
+
 	//TODO: custom boxes from sprite sheet?
 }

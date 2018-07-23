@@ -40,24 +40,29 @@ public class Application
 		renderList.addDrawable(box2);
 		
 		//debug
-		//DebugDrawer dd = new DebugDrawer(world);
+		//DebugDrawer debugger = new DebugDrawer(world);
 		
 		//game loop:
 		while(running)
 		{ 
 			//calculate delta
 			
+			//clear the buffer
 			renderer.clear();
 			
-			//update
+			//update the world
+			
+			//draw sprites
 			renderList.draw(renderer);
 			
 			//debug
-			//dd.draw(renderer)
+			if(visibleHitboxes);
+				//debugger.draw(renderer)
 			
-			// TODO: Add display method to renderer to update
+			//display the current frame
 			renderer.display();
 			
+			//delay
 			try {
 				Thread.sleep(17); // 60 fps max 
 			} catch (InterruptedException e) {
