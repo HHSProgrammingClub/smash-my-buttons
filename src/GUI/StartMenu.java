@@ -2,6 +2,8 @@ package GUI;
 
 import javax.swing.JPanel;
 import javax.swing.JButton;
+import javax.swing.JComponent;
+
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.FormSpecs;
 import com.jgoodies.forms.layout.ColumnSpec;
@@ -9,7 +11,7 @@ import com.jgoodies.forms.layout.RowSpec;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class StartMenu extends JPanel
+public class StartMenu extends JPanel implements Page
 {
 	public StartMenu()
 	{
@@ -43,5 +45,11 @@ public class StartMenu extends JPanel
 		});
 		add(quitButton, "2, 4, center, center");
 		
+	}
+
+	@Override
+	public JComponent getComponent()
+	{
+		return this;
 	}
 }
