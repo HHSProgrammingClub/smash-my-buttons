@@ -12,6 +12,8 @@ import org.python.antlr.*;
 import org.python.core.*;
 import org.python.util.PythonInterpreter;
 
+import characters.Character;
+
 /**
  * This classloader restricts all imports in your script.
  */

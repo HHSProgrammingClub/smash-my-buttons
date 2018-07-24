@@ -13,12 +13,16 @@ import java.awt.event.ActionEvent;
 
 public class StartMenu implements Page
 {
-	private JPanel m_panel;
+	private JPanel m_panel = new JPanel();
+	
 	public StartMenu()
 	{
 		setUpPanel();
 	}
 	
+	/**
+	 * @wbp.parser.entryPoint
+	 */
 	private void setUpPanel()
 	{
 		m_panel.setLayout(new FormLayout(new ColumnSpec[]

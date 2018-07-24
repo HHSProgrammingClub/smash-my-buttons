@@ -1,9 +1,8 @@
-package Characters;
+package characters;
 //A sample character.
 import java.util.ArrayList;
 
 import program.Battle;
-import program.Character;
 import program.Hitbox;
 import program.Move;
 

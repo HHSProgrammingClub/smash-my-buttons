@@ -1,5 +1,7 @@
 package program;
 
+import characters.Character;
+
 public abstract class CharacterController
 {
 	protected Character m_character;

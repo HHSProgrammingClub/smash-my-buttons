@@ -1,10 +1,14 @@
-package program;
+package characters;
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.geometry.Vector2;
 
 import graphics.Drawable;
 import graphics.Renderer;
 import graphics.Sprite;
+import program.Battle;
+import program.Hitbox;
+import program.Move;
+import program.MoveType;
 
 
 public abstract class Character implements Drawable
@@ -20,6 +24,8 @@ public abstract class Character implements Drawable
 	private boolean m_recovered = false;
 
 	public static Vector2 jumpImpulse = new Vector2(0, -5);
+	
+	public static String[] characterNames = {"Jack", "Birboi", "Cam", "W'all", "Edgewardo", "Jimmy"};
 	
 	public Character()
 	{
