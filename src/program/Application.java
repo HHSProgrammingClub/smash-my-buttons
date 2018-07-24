@@ -1,12 +1,12 @@
 package program;
 import java.awt.Color;
 
-import GUI.DebugBox;
-import GUI.IntRect;
-import GUI.RenderList;
-import GUI.Renderer;
-import GUI.Sprite;
-import GUI.Texture;
+import graphics.DebugBox;
+import graphics.IntRect;
+import graphics.RenderList;
+import graphics.Renderer;
+import graphics.Sprite;
+import graphics.Texture;
 
 /**
  * Smash-Bros style game that teaches people how to code in Python

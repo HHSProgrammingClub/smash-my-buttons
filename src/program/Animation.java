@@ -1,7 +1,7 @@
 package program;
 import org.w3c.dom.Element;
 
-import GUI.IntRect;
+import graphics.IntRect;
 
 public class Animation 
 {

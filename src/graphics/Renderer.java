@@ -1,4 +1,4 @@
-package GUI;
+package graphics;
 
 
 import java.awt.image.BufferedImage;

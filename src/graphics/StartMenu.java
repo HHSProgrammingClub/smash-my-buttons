@@ -1,4 +1,4 @@
-package GUI;
+package graphics;
 
 import javax.swing.JPanel;
 import javax.swing.JButton;
@@ -22,6 +22,7 @@ public class StartMenu extends JPanel implements Page
 			public void actionPerformed(ActionEvent e)
 			{
 				//go to character select
+				
 			}
 		});
 		setLayout(new FormLayout(new ColumnSpec[]
