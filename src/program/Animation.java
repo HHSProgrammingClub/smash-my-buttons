@@ -1,6 +1,8 @@
 package program;
 import org.w3c.dom.Element;
 
+import GUI.IntRect;
+
 public class Animation 
 {
 	private IntRect m_frame;

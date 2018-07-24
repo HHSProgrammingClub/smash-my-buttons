@@ -1,6 +1,13 @@
 package program;
 import java.awt.Color;
 
+import GUI.DebugBox;
+import GUI.IntRect;
+import GUI.RenderList;
+import GUI.Renderer;
+import GUI.Sprite;
+import GUI.Texture;
+
 /**
  * Smash-Bros style game that teaches people how to code in Python
  * @authors Michael Thompson, Catherine Guevara, Benhardt Hansen, Kevin Yang 

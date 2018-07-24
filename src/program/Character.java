@@ -2,6 +2,10 @@ package program;
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.geometry.Vector2;
 
+import GUI.Drawable;
+import GUI.Renderer;
+import GUI.Sprite;
+
 
 public abstract class Character implements Drawable
 {

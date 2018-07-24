@@ -9,7 +9,7 @@ public class Clock
 	/**
 	 * Construct a clock. The clock begins at construction.
 	 */
-	Clock()
+	public Clock()
 	{
 		m_startTime = System.nanoTime();
 		m_isPaused = false;

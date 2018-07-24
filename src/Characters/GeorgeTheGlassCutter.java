@@ -1,6 +1,11 @@
-package program;
+package Characters;
 //A sample character.
 import java.util.ArrayList;
+
+import program.Battle;
+import program.Character;
+import program.Hitbox;
+import program.Move;
 
 public class GeorgeTheGlassCutter extends Character
 {

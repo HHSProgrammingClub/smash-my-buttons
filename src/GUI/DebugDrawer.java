@@ -1,4 +1,4 @@
-package program;
+package GUI;
 import java.util.List;
 
 import org.dyn4j.dynamics.Body;

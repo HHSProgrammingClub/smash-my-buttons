@@ -4,6 +4,8 @@ import java.util.Iterator;
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.BodyFixture;
 
+import GUI.Sprite;
+
 public class Projectile {
 	
 	public Projectile() {}

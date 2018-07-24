@@ -5,6 +5,10 @@ import org.dyn4j.geometry.Convex;
 import org.dyn4j.geometry.MassType;
 import org.dyn4j.geometry.Vector2;
 
+import GUI.Drawable;
+import GUI.Renderer;
+import GUI.Sprite;
+
 public class TerrainPiece implements Drawable
 {
 	private Body m_body;

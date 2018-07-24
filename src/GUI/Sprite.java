@@ -1,5 +1,8 @@
-package program;
+package GUI;
 import org.dyn4j.geometry.Vector2;
+
+import program.Animation;
+import program.Clock;
 
 public class Sprite implements Drawable
 {

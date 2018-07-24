@@ -1,4 +1,4 @@
-package program;
+package GUI;
 import org.dyn4j.geometry.Vector2;
 
 

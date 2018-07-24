@@ -1,4 +1,5 @@
-package program;
+package GUI;
+
 
 import java.awt.image.BufferedImage;
 import java.awt.Graphics;
