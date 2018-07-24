@@ -8,6 +8,8 @@ import java.awt.Color;
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.geom.Ellipse2D;
+import java.awt.RenderingHints;
+import java.awt.Font;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -139,5 +141,15 @@ public class Renderer
 		g2.draw(new Ellipse2D.Double(p_rect.x, p_rect.y, p_rect.w, p_rect.h)); 
 	}
 
+	public void drawText(String p_text, String p_font, Color p_color, int p_x, int p_y, int p_size)
+	{
+		System.out.println("esdfsdf");
+		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		Font font = new Font(p_font, Font.PLAIN, p_size);
+		g2.setColor(p_color);
+		g2.setFont(font);
+		g2.drawString(p_text, p_x, p_y);
+	}
+	
 	//TODO: custom boxes from sprite sheet?
 }

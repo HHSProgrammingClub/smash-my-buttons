@@ -59,7 +59,6 @@ public class Application
 			renderer.clear();
 			
 			//update the world
-			
 			//draw sprites
 			renderList.draw(renderer);
 			
