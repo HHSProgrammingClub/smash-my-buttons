@@ -1,5 +1,9 @@
 package program;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.stream.Collectors;
@@ -42,7 +46,6 @@ class PyCharacterWrapper implements pyInterfaces.PlayerInterface
 	@Override
 	public float getY()
 	{
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
@@ -120,14 +123,31 @@ public class AIController extends CharacterController
 	private PythonInterpreter m_interpretor;
 	private String m_script;
 	private PyObject m_pyLoopFunction;
-	private String m_name;
-	private String m_author;
+	private String m_name, m_author, m_targetCharacter;
 	private PyCharacterWrapper m_playerInterface;
 	
 	public AIController()
 	{
 		m_interpretor = new PythonInterpreter();
 		m_playerInterface = new PyCharacterWrapper();
+	}
+	
+	/**
+	 * Open file from system filesystem.
+	 * @param p_path
+	 * @throws IOException
+	 * @throws FileNotFoundException
+	 */
+	public void openFile(String p_path) throws IOException, FileNotFoundException
+	{
+		File file = new File(p_path);
+		if (!file.exists())
+			throw new FileNotFoundException("Could not find file \"" + p_path + "\"");
+		InputStream stream = new FileInputStream(file);
+		BufferedReader buf = new BufferedReader(new InputStreamReader(stream));
+		m_script = buf.lines().collect(Collectors.joining("\n"));
+		buf.close();
+		stream.close();
 	}
 	
 	/**
@@ -158,6 +178,12 @@ public class AIController extends CharacterController
 		return m_author;
 	}
 	
+	//@Override
+	public String getTargetCharacter()
+	{
+		return m_targetCharacter;
+	}
+	
 	@Override
 	public void start()
 	{
@@ -181,16 +207,22 @@ public class AIController extends CharacterController
 				throw new NullPointerException("loop function is missing.");
 			
 			// Load AIname
-			PyObject pyAIname = m_interpretor.get("AIname");
-			if (pyAIname == null)
-				throw new NullPointerException("Please specify AIname string in script.");
-			m_name = pyAIname.asString();
-
+			PyObject pyAIName = m_interpretor.get("AIName");
+			if (pyAIName == null)
+				throw new NullPointerException("Please specify AIName string in script.");
+			m_name = pyAIName.asString();
+			
 			// Load AIauthor
-			PyObject pyAIauthor = m_interpretor.get("AIauthor");
-			if (pyAIauthor == null)
-				throw new NullPointerException("Please specify AIauthor string in script.");
-			m_author = pyAIauthor.asString();
+			PyObject pyAIAuthor = m_interpretor.get("AIAuthor");
+			if (pyAIAuthor == null)
+				throw new NullPointerException("Please specify AIAuthor string in your script.");
+			m_author = pyAIAuthor.asString();
+			
+			// Load AIauthor
+			PyObject pyAITargetCharacter = m_interpretor.get("AITargetCharacter");
+			if (pyAITargetCharacter == null)
+				throw new NullPointerException("Please specify AITargetCharacter string in your script.");
+			m_targetCharacter = pyAITargetCharacter.asString();
 
 			System.out.println("Script Compiled");
 		}catch(ParseException e)

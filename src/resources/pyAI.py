@@ -1,6 +1,7 @@
-AIname = "CrazyAI"
-AIauthor = "MGT"
+AIName = "CrazyAI"
+AIAuthor = "MGT"
+AITargetCharacter = "Billy"
 
 def loop(player):
-	player.smash();
+	player.smash()
 	return
