@@ -3,11 +3,11 @@ package GUI;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.FormSpecs;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import com.jgoodies.forms.layout.FormSpecs;
 
 public class StartMenu extends JPanel
 {
