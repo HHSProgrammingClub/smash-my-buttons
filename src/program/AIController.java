@@ -150,9 +150,9 @@ public class AIController extends CharacterController
 	 * Load script file from your sources.
 	 * @param m_path
 	 */
-	public void openScriptResource(String m_path)
+	public void openResource(String m_path)
 	{
-		InputStream script = getClass().getResourceAsStream(m_path);
+		InputStream script = ClassLoader.getSystemResourceAsStream(m_path);
 		if (script == null)
 		{
 			System.out.println("Could not load " + m_path);

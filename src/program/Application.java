@@ -21,7 +21,7 @@ public class Application
 	{
 		// Test Controller
 		AIController controller = new AIController();
-		controller.openScriptResource("resources/pyAI.py");
+		controller.openResource("resources/pyAI.py");
 		controller.start();
 		controller.update(null, 2);
 		
