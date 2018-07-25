@@ -54,16 +54,12 @@ class PyCharacterWrapper implements pyInterfaces.PlayerInterface
 	@Override
 	public void jab()
 	{
-		// TODO Auto-generated method stub
-		System.out.println("Jab!");
 	}
 
 	@Override
 	public void tilt()
 	{
-		// TODO Auto-generated method stub
-
-		System.out.println("Tilt!");
+		System.out.print("Recover");
 	}
 
 	@Override
@@ -85,9 +81,8 @@ class PyCharacterWrapper implements pyInterfaces.PlayerInterface
 	@Override
 	public void recover()
 	{
-		// TODO Auto-generated method stub
-
-		System.out.println("Do a recovery!");
+		m_character.recover(m_battle);
+		System.out.print("Recover");
 	}
 
 	@Override
@@ -101,9 +96,8 @@ class PyCharacterWrapper implements pyInterfaces.PlayerInterface
 	@Override
 	public void jump()
 	{
-		// TODO Auto-generated method stub
-
-		System.out.println("Majestic jump!");
+		m_character.jump();
+		System.out.print("Jump");
 	}
 
 	@Override
