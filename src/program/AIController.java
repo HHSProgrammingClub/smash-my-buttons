@@ -202,19 +202,19 @@ public class AIController extends CharacterController
 			if (m_pyLoopFunction == null)
 				throw new NullPointerException("loop function is missing.");
 			
-			// Load AIname
+			// Load AIName
 			PyObject pyAIName = m_interpretor.get("AIName");
 			if (pyAIName == null)
 				throw new NullPointerException("Please specify AIName string in script.");
 			m_name = pyAIName.asString();
 			
-			// Load AIauthor
+			// Load AIAuthor
 			PyObject pyAIAuthor = m_interpretor.get("AIAuthor");
 			if (pyAIAuthor == null)
 				throw new NullPointerException("Please specify AIAuthor string in your script.");
 			m_author = pyAIAuthor.asString();
 			
-			// Load AIauthor
+			// Load AITargetCharacter
 			PyObject pyAITargetCharacter = m_interpretor.get("AITargetCharacter");
 			if (pyAITargetCharacter == null)
 				throw new NullPointerException("Please specify AITargetCharacter string in your script.");

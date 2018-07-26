@@ -14,6 +14,9 @@ public class Animation
 	public Animation()
 	{
 		m_frame = new IntRect(0, 0, 0, 0);
+		m_loop = false;
+		m_frameCount = 0;
+		m_interval = 0;
 	}
 	
 	public IntRect getFrame()
@@ -24,7 +27,10 @@ public class Animation
 	public IntRect getFrame(int p_frame)
 	{
 		IntRect frame = new IntRect(m_frame);
-		frame.x += m_frame.w*Math.max(Math.min(p_frame, m_frameCount), 0 );
+		if (m_loop)
+			frame.x += m_frame.w*((p_frame % m_frameCount + m_frameCount) % m_frameCount);
+		else
+			frame.x += m_frame.w*Math.max(Math.min(p_frame, m_frameCount), 0 );
 		return frame; 
 	}
 	
