@@ -56,22 +56,22 @@ public class CharacterSelect implements Page
 		gbc_lblAi_1.gridy = 1;
 		m_panel.add(lblAi_1, gbc_lblAi_1);
 		
-		JButton btnLoadScript = new JButton("Load Script");
-		GridBagConstraints gbc_btnLoadScript = new GridBagConstraints();
-		gbc_btnLoadScript.anchor = GridBagConstraints.NORTH;
-		gbc_btnLoadScript.fill = GridBagConstraints.HORIZONTAL;
-		gbc_btnLoadScript.insets = new Insets(0, 0, 5, 5);
-		gbc_btnLoadScript.gridx = 1;
-		gbc_btnLoadScript.gridy = 2;
-		m_panel.add(btnLoadScript, gbc_btnLoadScript);
+		JButton ai1ScriptLoad = new JButton("Load Script");
+		GridBagConstraints gbc_ai1ScriptLoad = new GridBagConstraints();
+		gbc_ai1ScriptLoad.anchor = GridBagConstraints.NORTH;
+		gbc_ai1ScriptLoad.fill = GridBagConstraints.HORIZONTAL;
+		gbc_ai1ScriptLoad.insets = new Insets(0, 0, 5, 5);
+		gbc_ai1ScriptLoad.gridx = 1;
+		gbc_ai1ScriptLoad.gridy = 2;
+		m_panel.add(ai1ScriptLoad, gbc_ai1ScriptLoad);
 		
-		JButton btnLoadScript_1 = new JButton("Load Script");
-		GridBagConstraints gbc_btnLoadScript_1 = new GridBagConstraints();
-		gbc_btnLoadScript_1.anchor = GridBagConstraints.NORTH;
-		gbc_btnLoadScript_1.insets = new Insets(0, 0, 5, 5);
-		gbc_btnLoadScript_1.gridx = 3;
-		gbc_btnLoadScript_1.gridy = 2;
-		m_panel.add(btnLoadScript_1, gbc_btnLoadScript_1);
+		JButton ai2ScriptLoad = new JButton("Load Script");
+		GridBagConstraints gbc_ai2ScriptLoad = new GridBagConstraints();
+		gbc_ai2ScriptLoad.anchor = GridBagConstraints.NORTH;
+		gbc_ai2ScriptLoad.insets = new Insets(0, 0, 5, 5);
+		gbc_ai2ScriptLoad.gridx = 3;
+		gbc_ai2ScriptLoad.gridy = 2;
+		m_panel.add(ai2ScriptLoad, gbc_ai2ScriptLoad);
 		
 		JLabel lblPlayer = new JLabel("Player 1");
 		lblPlayer.setHorizontalAlignment(SwingConstants.CENTER);
@@ -92,7 +92,7 @@ public class CharacterSelect implements Page
 		gbc_lblPlayer_1.gridy = 4;
 		m_panel.add(lblPlayer_1, gbc_lblPlayer_1);
 		//gui editor yells at me if i don't do this for now
-		JComboBox<String> characterSelector1 = new JComboBox<String>(Character.characterNames);
+		JComboBox<String> characterSelector1 = new JComboBox<String>(/*Character.characterNames*/);
 		characterSelector1.setSelectedIndex(0);
 		GridBagConstraints gbc_characterSelector1 = new GridBagConstraints();
 		gbc_characterSelector1.fill = GridBagConstraints.HORIZONTAL;
@@ -101,7 +101,7 @@ public class CharacterSelect implements Page
 		gbc_characterSelector1.gridy = 5;
 		m_panel.add(characterSelector1, gbc_characterSelector1);
 		
-		JComboBox<String> characterSelector2 = new JComboBox<String>(Character.characterNames);
+		JComboBox<String> characterSelector2 = new JComboBox<String>(/*Character.characterNames*/);
 		characterSelector2.setSelectedIndex(0);
 		GridBagConstraints gbc_characterSelector2 = new GridBagConstraints();
 		gbc_characterSelector2.insets = new Insets(0, 0, 5, 5);
@@ -109,6 +109,13 @@ public class CharacterSelect implements Page
 		gbc_characterSelector2.gridx = 3;
 		gbc_characterSelector2.gridy = 5;
 		m_panel.add(characterSelector2, gbc_characterSelector2);
+		
+		JButton btnStartFight = new JButton("Start Fight");
+		GridBagConstraints gbc_btnStartFight = new GridBagConstraints();
+		gbc_btnStartFight.insets = new Insets(0, 0, 0, 5);
+		gbc_btnStartFight.gridx = 2;
+		gbc_btnStartFight.gridy = 6;
+		m_panel.add(btnStartFight, gbc_btnStartFight);
 	}
 
 	@Override
