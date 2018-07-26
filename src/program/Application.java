@@ -54,10 +54,15 @@ public class Application
 		//debug
 		//DebugDrawer debugger = new DebugDrawer(world);
 		
+		Clock gameClock = new Clock();
+		float delta = 0;
+		
 		//game loop:
 		while(running)
 		{ 
 			//calculate delta
+			delta = gameClock.getElapse();
+			gameClock.restart();
 			
 			//clear the buffer
 			//renderer.clear();
@@ -75,7 +80,11 @@ public class Application
 			
 			//delay
 			try {
-				Thread.sleep(17); // 60 fps max 
+				int nanos = 16666666 - (int)(gameClock.getElapse()*1e9f);
+				long milis = nanos % 1000000;
+				Thread.sleep(milis, nanos);
+				//this one's simpler
+				//Thread.sleep(16, 666666);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
