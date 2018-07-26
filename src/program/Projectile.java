@@ -49,20 +49,6 @@ public class Projectile {
 		m_body = p_body;
 	}
 	
-	public Body setPhysicsWorld() {
-		// Set up body and return it
-		Body tushie = new Body();
-		// Make it not be able to rotate
-		tushie.setMass(MassType.FIXED_ANGULAR_VELOCITY);
-		// Add the collision fixture
-		BodyFixture hurtbox = new BodyFixture(new Rectangle(64, 64));
-		hurtbox.setDensity(20);
-		hurtbox.setFriction(0.5);
-		hurtbox.setRestitution(0.9);
-		tushie.addFixture(hurtbox);
-		return tushie;
-	}
-	
 	public Body getBody()
 	{
 		return m_body;

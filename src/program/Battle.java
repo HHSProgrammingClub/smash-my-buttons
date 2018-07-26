@@ -1,4 +1,6 @@
 package program;
+import characters.*;
+
 import java.util.ArrayList;
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.World;
@@ -9,15 +11,14 @@ public class Battle
 	private ArrayList<Move> m_activeMoves;
 	private Environment m_env;
 	
-	private CharacterController[] m_charControllers = null;
+	private CharacterController[] m_charControllers = {
+		new AIController(),
+		new AIController()
+	};
 	
 	public Battle() {
-		m_charControllers = new CharacterController[] {
-			new AIController(),
-			new AIController()
-		};
 		for(int i = 0; i < m_charControllers.length; i++) {
-			// Oof this line length
+			m_charControllers[i].setCharacter(new GeorgeTheGlassCutter());
 			m_env.getPhysicsWorld().addBody(
 					m_charControllers[i].getCharacter().getBody());
 		}
