@@ -19,7 +19,7 @@ public class Battle
 		for(int i = 0; i < m_charControllers.length; i++) {
 			// Oof this line length
 			m_env.getPhysicsWorld().addBody(
-					m_charControllers[i].getCharacter().setPhysicsWorld());
+					m_charControllers[i].getCharacter().getBody());
 		}
 	}
 	
