@@ -57,7 +57,8 @@ public class Application
 		Clock gameClock = new Clock();
 		float delta = 0;
 		
-		//game loop:
+		//game loop: should move somewhere else and only start
+		//once the battle itself starts
 		while(running)
 		{ 
 			//calculate delta
@@ -80,9 +81,10 @@ public class Application
 			
 			//delay
 			try {
-				long nanos = 16666666 - (int)(gameClock.getElapse()*1e9f);
-				long milis = nanos % 1000000;
-				nanos -= milis;
+				long totalNanos = 16666666 - (int)(gameClock.getElapse()*1e9f);
+				int nanos = (int) (totalNanos % 1000000);
+				long milis = (totalNanos - nanos) / 1000000;
+				
 				Thread.sleep(milis, (int)nanos);
 				//this one's simpler
 				//Thread.sleep(16, 666666);
