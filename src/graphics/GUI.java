@@ -22,7 +22,7 @@ public class GUI
 		m_currentPage = p_page;
 		//display page
 		m_window.add(m_currentPage.getComponent());
-		m_window.setVisible(true);
+		m_window.validate();
 	}
 	
 	public Page getCurrentPage()
