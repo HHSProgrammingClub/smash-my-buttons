@@ -92,7 +92,7 @@ public class CharacterSelect implements Page
 		gbc_lblPlayer_1.gridy = 4;
 		m_panel.add(lblPlayer_1, gbc_lblPlayer_1);
 		//gui editor yells at me if i don't do this for now
-		JComboBox<String> characterSelector1 = new JComboBox<String>(/*Character.characterNames*/);
+		JComboBox<String> characterSelector1 = new JComboBox<String>(Character.characterNames);
 		characterSelector1.setSelectedIndex(0);
 		GridBagConstraints gbc_characterSelector1 = new GridBagConstraints();
 		gbc_characterSelector1.fill = GridBagConstraints.HORIZONTAL;
@@ -101,7 +101,7 @@ public class CharacterSelect implements Page
 		gbc_characterSelector1.gridy = 5;
 		m_panel.add(characterSelector1, gbc_characterSelector1);
 		
-		JComboBox<String> characterSelector2 = new JComboBox<String>(/*Character.characterNames*/);
+		JComboBox<String> characterSelector2 = new JComboBox<String>(Character.characterNames);
 		characterSelector2.setSelectedIndex(0);
 		GridBagConstraints gbc_characterSelector2 = new GridBagConstraints();
 		gbc_characterSelector2.insets = new Insets(0, 0, 5, 5);
