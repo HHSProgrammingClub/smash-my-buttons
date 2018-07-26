@@ -25,7 +25,7 @@ public class GeorgeTheGlassCutter extends Character
 		new Move("Score", 1.0f, moveHitboxes[0])
 	};
 	
-	public GeorgeTheGlassCutter(Battle battle) 
+	public GeorgeTheGlassCutter() 
 	{
 		
 	}
