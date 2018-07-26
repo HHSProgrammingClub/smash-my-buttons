@@ -80,9 +80,10 @@ public class Application
 			
 			//delay
 			try {
-				int nanos = 16666666 - (int)(gameClock.getElapse()*1e9f);
+				long nanos = 16666666 - (int)(gameClock.getElapse()*1e9f);
 				long milis = nanos % 1000000;
-				Thread.sleep(milis, nanos);
+				nanos -= milis;
+				Thread.sleep(milis, (int)nanos);
 				//this one's simpler
 				//Thread.sleep(16, 666666);
 			} catch (InterruptedException e) {
