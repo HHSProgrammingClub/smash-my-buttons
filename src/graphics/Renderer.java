@@ -11,6 +11,7 @@ import java.awt.geom.Ellipse2D;
 import java.awt.RenderingHints;
 import java.awt.Font;
 
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -18,53 +19,40 @@ import javax.swing.JPanel;
  * Renders all the sprites, GUI, and additional shapes to the screen
  * @author Catherine Guevara
  */
-public class Renderer 
+public class Renderer implements Page
 {
-	public BufferedImage frontBuffer, backBuffer;
-	public Graphics2D g2;
+	public BufferedImage m_frontBuffer, m_backBuffer;
+	public Graphics2D m_graphics;
+	public JPanel m_panel;
 	
-	public JFrame app;
-	public JPanel panel;
-	
-	private int width, height;
+	private int m_width, m_height;
 	
 	/**
 	 * Creates the GUI of the application
 	 * @param p_width width of the window
 	 * @param p_height height of the window
-	 */
-	public void init(int p_width, int p_height)
+	 */         // should probably not require these in the future
+	public Renderer(int p_width, int p_height)
 	{
 		//saving these for safe keeping
-		width = p_width;
-		height = p_height;
-		
-		//create the window of the application
-		app = new JFrame("AI Fighters"); //or whatever dank title we want
-		app.setSize(p_width, p_height);
-		app.setResizable(false);
-		app.setVisible(true);
-		app.setLocationRelativeTo(null);
-		app.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		m_width = p_width;
+		m_height = p_height;
 		
 		//create the canvas to draw stuff on
-		frontBuffer = new BufferedImage(p_width, p_height, BufferedImage.TYPE_INT_ARGB);
-		backBuffer = new BufferedImage(p_width, p_height, BufferedImage.TYPE_INT_ARGB);
-		g2 = backBuffer.createGraphics();
+		m_frontBuffer = new BufferedImage(p_width, p_height, BufferedImage.TYPE_INT_ARGB);
+		m_backBuffer = new BufferedImage(p_width, p_height, BufferedImage.TYPE_INT_ARGB);
+		m_graphics = m_backBuffer.createGraphics();
 		
 		//create the JPanel that holds the canvas
-		panel = new JPanel() {
+		m_panel = new JPanel() {
 			@Override
 			public void paintComponent(Graphics g)
 			{
 				super.paintComponent(g);
-				g.drawImage(frontBuffer, 0, 0, this);
+				g.drawImage(m_frontBuffer, 0, 0, this);
 				repaint();
 			}
 		};
-		
-		//the most important step
-		app.add(panel);
 	}
 	
 	/**
@@ -72,11 +60,11 @@ public class Renderer
 	 */
 	public void display()
 	{
-		BufferedImage temp = backBuffer;
-		backBuffer = frontBuffer;
-		frontBuffer = temp;
+		BufferedImage temp = m_backBuffer;
+		m_backBuffer = m_frontBuffer;
+		m_frontBuffer = temp;
 		
-		g2 = backBuffer.createGraphics();
+		m_graphics = m_backBuffer.createGraphics();
 	}
 	
 	/**
@@ -84,8 +72,8 @@ public class Renderer
 	 */
 	public void clear()
 	{
-		g2.setColor(Color.WHITE);
-		g2.fillRect(0, 0, width, height);
+		m_graphics.setColor(Color.WHITE);
+		m_graphics.fillRect(0, 0, m_width, m_height);
 	}
 	
 	/**
@@ -96,8 +84,8 @@ public class Renderer
 	 */
 	public void drawTexture(Texture p_texture, IntRect p_frame, IntRect p_dest)
 	{
-		g2.drawImage(p_texture.getImage(), p_dest.x, p_dest.y, p_dest.x + p_dest.w, p_dest.y + p_dest.h,
-					 p_frame.x, p_frame.y, p_frame.x + p_frame.w, p_frame.y + p_frame.h, panel);
+		m_graphics.drawImage(p_texture.getImage(), p_dest.x, p_dest.y, p_dest.x + p_dest.w, p_dest.y + p_dest.h,
+					 p_frame.x, p_frame.y, p_frame.x + p_frame.w, p_frame.y + p_frame.h, m_panel);
 	}
 	
 	/**
@@ -108,9 +96,9 @@ public class Renderer
 	 */
 	public void drawRect(IntRect p_rect, Color p_color, float p_opacity)
 	{
-		g2.setColor(p_color);
-		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, p_opacity));
-		g2.fillRect(p_rect.x, p_rect.y, p_rect.w, p_rect.h);
+		m_graphics.setColor(p_color);
+		m_graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, p_opacity));
+		m_graphics.fillRect(p_rect.x, p_rect.y, p_rect.w, p_rect.h);
 	}
 	
 	/**
@@ -122,10 +110,10 @@ public class Renderer
 	 */
 	public void drawRect(IntRect p_rect, Color p_color, float p_opacity, int p_thickness)
 	{
-		g2.setColor(p_color);
-		g2.setStroke(new BasicStroke(p_thickness));
-		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, p_opacity));
-		g2.drawRect(p_rect.x, p_rect.y, p_rect.w, p_rect.h);
+		m_graphics.setColor(p_color);
+		m_graphics.setStroke(new BasicStroke(p_thickness));
+		m_graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, p_opacity));
+		m_graphics.drawRect(p_rect.x, p_rect.y, p_rect.w, p_rect.h);
 	}
 	
 	/**
@@ -136,19 +124,25 @@ public class Renderer
 	 */
 	public void drawEllipse(IntRect p_rect, Color p_color, float p_opacity)
 	{
-		g2.setColor(p_color);
-		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, p_opacity));
-		g2.draw(new Ellipse2D.Double(p_rect.x, p_rect.y, p_rect.w, p_rect.h)); 
+		m_graphics.setColor(p_color);
+		m_graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, p_opacity));
+		m_graphics.draw(new Ellipse2D.Double(p_rect.x, p_rect.y, p_rect.w, p_rect.h)); 
 	}
 
 	public void drawText(String p_text, String p_font, Color p_color, int p_x, int p_y, int p_size)
 	{
 		System.out.println("esdfsdf");
-		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		m_graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		Font font = new Font(p_font, Font.PLAIN, p_size);
-		g2.setColor(p_color);
-		g2.setFont(font);
-		g2.drawString(p_text, p_x, p_y);
+		m_graphics.setColor(p_color);
+		m_graphics.setFont(font);
+		m_graphics.drawString(p_text, p_x, p_y);
+	}
+
+	@Override
+	public JComponent getComponent()
+	{
+		return m_panel;
 	}
 	
 	//TODO: custom boxes from sprite sheet?

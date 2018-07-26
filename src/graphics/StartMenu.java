@@ -10,6 +10,11 @@ import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import javax.swing.JLabel;
+import java.awt.Font;
 
 public class StartMenu implements Page
 {
@@ -25,15 +30,21 @@ public class StartMenu implements Page
 	 */
 	private void setUpPanel()
 	{
-		m_panel.setLayout(new FormLayout(new ColumnSpec[]
-				{
-				ColumnSpec.decode("197px"),
-				ColumnSpec.decode("57px"),},
-			new RowSpec[] {
-				RowSpec.decode("210px"),
-				RowSpec.decode("23px"),
-				FormSpecs.LABEL_COMPONENT_GAP_ROWSPEC,
-				RowSpec.decode("23px"),}));
+		GridBagLayout gbl_m_panel = new GridBagLayout();
+		gbl_m_panel.columnWidths = new int[]{0, 57, 0, 0};
+		gbl_m_panel.rowHeights = new int[]{0, 0, 100, 23, 23, 0, 0};
+		gbl_m_panel.columnWeights = new double[]{1.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_m_panel.rowWeights = new double[]{1.0, 0.0, 1.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		m_panel.setLayout(gbl_m_panel);
+		
+		JButton quitButton = new JButton("Quit");
+		quitButton.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				//quit
+			}
+		});
 		
 		JButton startButton = new JButton("Start");
 		startButton.addActionListener(new ActionListener()
@@ -45,17 +56,24 @@ public class StartMenu implements Page
 			}
 		});
 		
-		JButton quitButton = new JButton("Quit");
-		quitButton.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent e)
-			{
-				//quit
-			}
-		});
+		JLabel lblAwesomeTitleText = new JLabel("Awesome Title Text");
+		lblAwesomeTitleText.setFont(new Font("Verdana", Font.BOLD, 28));
+		GridBagConstraints gbc_lblAwesomeTitleText = new GridBagConstraints();
+		gbc_lblAwesomeTitleText.insets = new Insets(0, 0, 5, 5);
+		gbc_lblAwesomeTitleText.gridx = 1;
+		gbc_lblAwesomeTitleText.gridy = 1;
+		m_panel.add(lblAwesomeTitleText, gbc_lblAwesomeTitleText);
 		
-		m_panel.add(startButton, "2, 2, center, center");
-		m_panel.add(quitButton, "2, 4, center, center");
+		GridBagConstraints gbc_startButton = new GridBagConstraints();
+		gbc_startButton.insets = new Insets(0, 0, 5, 5);
+		gbc_startButton.gridx = 1;
+		gbc_startButton.gridy = 3;
+		m_panel.add(startButton, gbc_startButton);
+		GridBagConstraints gbc_quitButton = new GridBagConstraints();
+		gbc_quitButton.insets = new Insets(0, 0, 5, 5);
+		gbc_quitButton.gridx = 1;
+		gbc_quitButton.gridy = 4;
+		m_panel.add(quitButton, gbc_quitButton);
 	}
 
 	@Override

@@ -12,16 +12,17 @@ public class GUI
 		m_window.setVisible(true);
 		m_window.setLocationRelativeTo(null);
 		m_window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//does this need anything else?
 	}
 	
 	public void setPage(Page p_page)
 	{
 		//clear window
-		m_window.remove(m_currentPage.getComponent());
+		if(m_currentPage != null)
+			m_window.remove(m_currentPage.getComponent());
 		m_currentPage = p_page;
 		//display page
 		m_window.add(m_currentPage.getComponent());
+		m_window.setVisible(true);
 	}
 	
 	public Page getCurrentPage()

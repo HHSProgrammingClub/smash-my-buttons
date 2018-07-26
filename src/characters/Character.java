@@ -25,7 +25,7 @@ public abstract class Character implements Drawable
 
 	public static Vector2 jumpImpulse = new Vector2(0, -5);
 	
-	public static String[] characterNames = {"Jack", "Birboi", "Cam", "W'all", "Edgewardo", "Jimmy"};
+	public static String[] characterNames = {"Jack", "Birboy", "Cam", "W'all", "Edgewardo", "Jimmy"};
 	
 	public Character()
 	{
