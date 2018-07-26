@@ -1,4 +1,5 @@
 package program;
+
 import org.dyn4j.dynamics.CollisionListener;
 import org.dyn4j.dynamics.contact.ContactConstraint;
 import org.dyn4j.collision.manifold.Manifold;
@@ -10,7 +11,13 @@ public class HitboxListener implements CollisionListener {
 	@Override
 	public boolean collision(Body body1, BodyFixture fixture1, Body body2,
 			BodyFixture fixture2) {
-		
+		if(body1.getUserData() instanceof characters.Character &&
+				body2.getUserData() instanceof Hitbox) {
+			characters.Character c = (
+					(characters.Character)(body1.getUserData()));
+			Hitbox h = ((Hitbox)body2.getUserData());
+			c.takeHit(h);
+		}
 		return false;
 	}
 	@Override
