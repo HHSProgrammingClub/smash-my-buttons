@@ -30,7 +30,7 @@ public class Application
 		//initialize the application window
 		GUI gui = new GUI();
 		
-		StartMenu start = new StartMenu();
+		StartMenu start = new StartMenu(gui);
 		gui.setPage(start);
 	
 		RenderList renderList = new RenderList();

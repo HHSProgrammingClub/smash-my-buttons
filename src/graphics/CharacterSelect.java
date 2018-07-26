@@ -13,6 +13,9 @@ import javax.swing.JLabel;
 import characters.Character;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 
 public class CharacterSelect implements Page
 {
@@ -28,56 +31,84 @@ public class CharacterSelect implements Page
 	 */
 	private void setUpPanel()
 	{
-		m_panel.setLayout(new FormLayout(new ColumnSpec[] {
-				ColumnSpec.decode("left:16dlu"),
-				ColumnSpec.decode("60dlu"),
-				FormSpecs.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(10dlu;default):grow"),
-				FormSpecs.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("center:60dlu"),
-				ColumnSpec.decode("right:16dlu"),},
-			new RowSpec[] {
-				FormSpecs.DEFAULT_ROWSPEC,
-				RowSpec.decode("23px"),
-				FormSpecs.DEFAULT_ROWSPEC,
-				RowSpec.decode("23px"),
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,
-				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,}));
+		GridBagLayout gbl_m_panel = new GridBagLayout();
+		gbl_m_panel.columnWidths = new int[]{0, 89, 200, 89, 0, 0};
+		gbl_m_panel.rowHeights = new int[]{40, 14, 23, 31, 14, 20, 65, 0};
+		gbl_m_panel.columnWeights = new double[]{1.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_m_panel.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		m_panel.setLayout(gbl_m_panel);
 		
 		JLabel lblAi = new JLabel("AI 1");
 		lblAi.setHorizontalAlignment(SwingConstants.CENTER);
-		m_panel.add(lblAi, "2, 4");
+		GridBagConstraints gbc_lblAi = new GridBagConstraints();
+		gbc_lblAi.anchor = GridBagConstraints.NORTH;
+		gbc_lblAi.fill = GridBagConstraints.HORIZONTAL;
+		gbc_lblAi.insets = new Insets(0, 0, 5, 5);
+		gbc_lblAi.gridx = 1;
+		gbc_lblAi.gridy = 1;
+		m_panel.add(lblAi, gbc_lblAi);
 		
 		JLabel lblAi_1 = new JLabel("AI 2");
-		m_panel.add(lblAi_1, "6, 4");
+		GridBagConstraints gbc_lblAi_1 = new GridBagConstraints();
+		gbc_lblAi_1.anchor = GridBagConstraints.NORTH;
+		gbc_lblAi_1.insets = new Insets(0, 0, 5, 5);
+		gbc_lblAi_1.gridx = 3;
+		gbc_lblAi_1.gridy = 1;
+		m_panel.add(lblAi_1, gbc_lblAi_1);
 		
 		JButton btnLoadScript = new JButton("Load Script");
-		m_panel.add(btnLoadScript, "2, 6");
+		GridBagConstraints gbc_btnLoadScript = new GridBagConstraints();
+		gbc_btnLoadScript.anchor = GridBagConstraints.NORTH;
+		gbc_btnLoadScript.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnLoadScript.insets = new Insets(0, 0, 5, 5);
+		gbc_btnLoadScript.gridx = 1;
+		gbc_btnLoadScript.gridy = 2;
+		m_panel.add(btnLoadScript, gbc_btnLoadScript);
 		
 		JButton btnLoadScript_1 = new JButton("Load Script");
-		m_panel.add(btnLoadScript_1, "6, 6");
+		GridBagConstraints gbc_btnLoadScript_1 = new GridBagConstraints();
+		gbc_btnLoadScript_1.anchor = GridBagConstraints.NORTH;
+		gbc_btnLoadScript_1.insets = new Insets(0, 0, 5, 5);
+		gbc_btnLoadScript_1.gridx = 3;
+		gbc_btnLoadScript_1.gridy = 2;
+		m_panel.add(btnLoadScript_1, gbc_btnLoadScript_1);
 		
 		JLabel lblPlayer = new JLabel("Player 1");
 		lblPlayer.setHorizontalAlignment(SwingConstants.CENTER);
-		m_panel.add(lblPlayer, "2, 10");
+		GridBagConstraints gbc_lblPlayer = new GridBagConstraints();
+		gbc_lblPlayer.anchor = GridBagConstraints.NORTH;
+		gbc_lblPlayer.fill = GridBagConstraints.HORIZONTAL;
+		gbc_lblPlayer.insets = new Insets(0, 0, 5, 5);
+		gbc_lblPlayer.gridx = 1;
+		gbc_lblPlayer.gridy = 4;
+		m_panel.add(lblPlayer, gbc_lblPlayer);
 		
 		JLabel lblPlayer_1 = new JLabel("Player 2");
 		lblPlayer_1.setHorizontalAlignment(SwingConstants.CENTER);
-		m_panel.add(lblPlayer_1, "6, 10");
-																   //gui editor yells at me if i don't do this for now
-		JComboBox<String> characterSelector1 = new JComboBox<String>(/*Character.characterNames*/);
+		GridBagConstraints gbc_lblPlayer_1 = new GridBagConstraints();
+		gbc_lblPlayer_1.anchor = GridBagConstraints.NORTH;
+		gbc_lblPlayer_1.insets = new Insets(0, 0, 5, 5);
+		gbc_lblPlayer_1.gridx = 3;
+		gbc_lblPlayer_1.gridy = 4;
+		m_panel.add(lblPlayer_1, gbc_lblPlayer_1);
+		//gui editor yells at me if i don't do this for now
+		JComboBox<String> characterSelector1 = new JComboBox<String>(Character.characterNames);
 		characterSelector1.setSelectedIndex(0);
-		m_panel.add(characterSelector1, "2, 12, fill, center");
+		GridBagConstraints gbc_characterSelector1 = new GridBagConstraints();
+		gbc_characterSelector1.fill = GridBagConstraints.HORIZONTAL;
+		gbc_characterSelector1.insets = new Insets(0, 0, 5, 5);
+		gbc_characterSelector1.gridx = 1;
+		gbc_characterSelector1.gridy = 5;
+		m_panel.add(characterSelector1, gbc_characterSelector1);
 		
-		JComboBox<String> characterSelector2 = new JComboBox<String>(/*Character.characterNames*/);
+		JComboBox<String> characterSelector2 = new JComboBox<String>(Character.characterNames);
 		characterSelector2.setSelectedIndex(0);
-		m_panel.add(characterSelector2, "6, 12, fill, center");
+		GridBagConstraints gbc_characterSelector2 = new GridBagConstraints();
+		gbc_characterSelector2.insets = new Insets(0, 0, 5, 5);
+		gbc_characterSelector2.fill = GridBagConstraints.HORIZONTAL;
+		gbc_characterSelector2.gridx = 3;
+		gbc_characterSelector2.gridy = 5;
+		m_panel.add(characterSelector2, gbc_characterSelector2);
 	}
 
 	@Override

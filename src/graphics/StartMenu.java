@@ -20,15 +20,15 @@ public class StartMenu implements Page
 {
 	private JPanel m_panel = new JPanel();
 	
-	public StartMenu()
+	public StartMenu(GUI p_gui)
 	{
-		setUpPanel();
+		setUpPanel(p_gui);
 	}
 	
 	/**
 	 * @wbp.parser.entryPoint
 	 */
-	private void setUpPanel()
+	private void setUpPanel(GUI p_gui)
 	{
 		GridBagLayout gbl_m_panel = new GridBagLayout();
 		gbl_m_panel.columnWidths = new int[]{0, 57, 0, 0};
@@ -51,8 +51,7 @@ public class StartMenu implements Page
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				//go to character select
-				
+				p_gui.setPage(new CharacterSelect());
 			}
 		});
 		

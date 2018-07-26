@@ -1,4 +1,5 @@
 package characters;
+
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.BodyFixture;
 import org.dyn4j.geometry.MassType;
@@ -52,6 +53,7 @@ public abstract class Character implements Drawable
 	{
 		return m_stock;
 	}
+	
 	public void setSprite(Sprite p_sprite)
 	{
 		m_sprite = p_sprite;
