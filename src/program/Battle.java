@@ -9,10 +9,19 @@ public class Battle
 	private ArrayList<Move> m_activeMoves;
 	private Environment m_env;
 	
-	private CharacterController[] m_charControllers = {
-		new AIController(),
-		new AIController()
-	};
+	private CharacterController[] m_charControllers = null;
+	
+	public Battle() {
+		m_charControllers = new CharacterController[] {
+			new AIController(),
+			new AIController()
+		};
+		for(int i = 0; i < m_charControllers.length; i++) {
+			// Oof this line length
+			m_env.getPhysicsWorld().addBody(
+					m_charControllers[i].getCharacter().setPhysicsWorld());
+		}
+	}
 	
 	public void setEnvironment(Environment p_env)
 	{

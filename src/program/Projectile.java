@@ -3,6 +3,8 @@ import java.util.Iterator;
 
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.BodyFixture;
+import org.dyn4j.geometry.MassType;
+import org.dyn4j.geometry.Rectangle;
 
 import graphics.Sprite;
 
@@ -45,6 +47,20 @@ public class Projectile {
 		
 		p_body.setUserData(this);
 		m_body = p_body;
+	}
+	
+	public Body setPhysicsWorld() {
+		// Set up body and return it
+		Body tushie = new Body();
+		// Make it not be able to rotate
+		tushie.setMass(MassType.FIXED_ANGULAR_VELOCITY);
+		// Add the collision fixture
+		BodyFixture hurtbox = new BodyFixture(new Rectangle(64, 64));
+		hurtbox.setDensity(20);
+		hurtbox.setFriction(0.5);
+		hurtbox.setRestitution(0.9);
+		tushie.addFixture(hurtbox);
+		return tushie;
 	}
 	
 	public Body getBody()
