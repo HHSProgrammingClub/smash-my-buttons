@@ -1,7 +1,9 @@
 package characters;
 import org.dyn4j.dynamics.Body;
+import org.dyn4j.dynamics.BodyFixture;
+import org.dyn4j.geometry.MassType;
+import org.dyn4j.geometry.Rectangle;
 import org.dyn4j.geometry.Vector2;
-
 import graphics.Drawable;
 import graphics.Renderer;
 import graphics.Sprite;
@@ -25,11 +27,25 @@ public abstract class Character implements Drawable
 
 	public static Vector2 jumpImpulse = new Vector2(0, -5);
 	
-	public static String[] characterNames = {"Jack", "Birboy", "Cam", "W'all", "Edgewardo", "Jimmy"};
+	public static String[] characterNames = {"Jack", "Birboi", "Cam", "W'all", "Edgewardo", "Jimmy"};
 	
 	public Character()
 	{
 		m_moveSet = new Move[6];
+	}
+	
+	public Body setPhysicsWorld() {
+		// Set up body and return it
+		Body tushie = new Body();
+		// Make it not be able to rotate
+		tushie.setMass(MassType.FIXED_ANGULAR_VELOCITY);
+		// Add the collision fixture
+		BodyFixture hurtbox = new BodyFixture(new Rectangle(64, 64));
+		hurtbox.setDensity(20);
+		hurtbox.setFriction(0.5);
+		hurtbox.setRestitution(0.9);
+		tushie.addFixture(hurtbox);
+		return tushie;
 	}
 	
 	public int getStock()
