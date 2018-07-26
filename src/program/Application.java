@@ -2,12 +2,10 @@ package program;
 import java.awt.Color;
 
 import graphics.DebugBox;
-import graphics.GUI;
 import graphics.IntRect;
 import graphics.RenderList;
 import graphics.Renderer;
 import graphics.Sprite;
-import graphics.StartMenu;
 import graphics.Texture;
 
 /**
@@ -27,11 +25,9 @@ public class Application
 		controller.start();
 		controller.update(null, 2);
 		
-		//initialize the application window
-		GUI gui = new GUI();
-		
-		StartMenu start = new StartMenu();
-		gui.setPage(start);
+		//initialize the application
+		Renderer renderer = new Renderer();
+		renderer.init(800, 600);
 	
 		RenderList renderList = new RenderList();
 		
@@ -60,18 +56,18 @@ public class Application
 			//calculate delta
 			
 			//clear the buffer
-			//renderer.clear();
+			renderer.clear();
 			
 			//update the world
 			//draw sprites
-			//renderList.draw(renderer);
+			renderList.draw(renderer);
 			
 			//debug
 			if(visibleHitboxes);
 				//debugger.draw(renderer)
 			
 			//display the current frame
-			//renderer.display();
+			renderer.display();
 			
 			//delay
 			try {
