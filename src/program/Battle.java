@@ -6,6 +6,7 @@ import graphics.RenderList;
 import graphics.Renderer;
 import graphics.Sprite;
 import graphics.Texture;
+import stages.Environment;
 
 import java.util.ArrayList;
 import org.dyn4j.dynamics.Body;

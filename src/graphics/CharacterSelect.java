@@ -5,9 +5,13 @@ import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
+import javax.swing.plaf.basic.BasicComboBoxRenderer;
+
 import java.awt.GridBagLayout;
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -23,10 +27,22 @@ import characters.*;
 import program.AIController;
 import program.CharacterController;
 import program.PlayerController;
+import stages.*;
 
 import javax.swing.JCheckBox;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
+
+/*class EnvironmentComboBoxRenderer extends BasicComboBoxRenderer
+{
+	public Component getListCellRendererComponent(JList list, Object value,
+			int index, boolean isSelected, boolean cellHasFocus)
+	{
+		super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+		
+		Environment stage = (Environment) value;
+		setText(stage.getName());
+		return this;
+	}
+}*/
 
 public class CharacterSelect implements Page
 {
@@ -36,7 +52,9 @@ public class CharacterSelect implements Page
 	private CharacterController m_p1;
 	private CharacterController m_p2;
 	
-	public static Character newCharacter(String p_name)
+	private String m_chosenStageName;
+	
+	private static Character newCharacter(String p_name)
 	{
 		/*switch(p_name)
 		{
@@ -46,6 +64,11 @@ public class CharacterSelect implements Page
 				//etc.
 		}*/
 		return new GeorgeTheGlassCutter();
+	}
+	
+	private static Environment newStage(String p_name)
+	{
+		return new TestingStage();
 	}
 	
 	public CharacterSelect(GUI p_gui)
@@ -164,21 +187,21 @@ public class CharacterSelect implements Page
 			}
 		});
 		
-		
-		
-		JButton btnStartFight = new JButton("Start Fight");
-		GridBagConstraints gbc_btnStartFight = new GridBagConstraints();
-		gbc_btnStartFight.insets = new Insets(0, 0, 5, 5);
-		gbc_btnStartFight.gridx = 2;
-		gbc_btnStartFight.gridy = 3;
-		btnStartFight.addActionListener(new ActionListener()
-				{
-					public void actionPerformed(ActionEvent e)
-					{
-						p_gui.setPage(p_gui.getRenderer());
-					}
-				});
-		m_panel.add(btnStartFight, gbc_btnStartFight);
+		JComboBox<String> stageSelect = new JComboBox<String>(Environment.stageNames);
+		stageSelect.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				JComboBox<String> bawks = (JComboBox<String>)e.getSource();
+		        m_chosenStageName = (String)bawks.getSelectedItem();
+		        System.out.println("Stage set to " + m_chosenStageName);
+			}
+		});
+		GridBagConstraints gbc_stageSelect = new GridBagConstraints();
+		gbc_stageSelect.insets = new Insets(0, 0, 5, 5);
+		gbc_stageSelect.gridx = 2;
+		gbc_stageSelect.gridy = 2;
+		m_panel.add(stageSelect, gbc_stageSelect);
 		ai2ScriptLoad.setEnabled(false);
 		m_panel.add(ai2ScriptLoad, gbc_ai2ScriptLoad);
 		
@@ -193,6 +216,22 @@ public class CharacterSelect implements Page
 		        System.out.println("Player 1 character set to " + characterName);
 			}
 		});
+		
+		
+		
+		JButton btnStartFight = new JButton("Start Fight");
+		GridBagConstraints gbc_btnStartFight = new GridBagConstraints();
+		gbc_btnStartFight.insets = new Insets(0, 0, 5, 5);
+		gbc_btnStartFight.gridx = 2;
+		gbc_btnStartFight.gridy = 5;
+		btnStartFight.addActionListener(new ActionListener()
+				{
+					public void actionPerformed(ActionEvent e)
+					{
+						p_gui.setPage(p_gui.getRenderer());
+					}
+				});
+		m_panel.add(btnStartFight, gbc_btnStartFight);
 		//characterSelector1.setSelectedIndex(0);
 		GridBagConstraints gbc_characterSelector1 = new GridBagConstraints();
 		gbc_characterSelector1.fill = GridBagConstraints.HORIZONTAL;
@@ -281,6 +320,10 @@ public class CharacterSelect implements Page
 		{
 			public void actionPerformed(ActionEvent e)
 			{
+				//Battle royale = new Battle;
+				//Battle.setEnvironment(newEnvironment(m_chosenStageName));
+				//add character controllers
+				//start battle
 				p_gui.setPage(new StartMenu(p_gui));
 			}
 		});
