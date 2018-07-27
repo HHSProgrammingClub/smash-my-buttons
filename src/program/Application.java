@@ -3,6 +3,8 @@ package program;
 import graphics.GUI;
 import graphics.Renderer;
 import graphics.StartMenu;
+import stages.Environment;
+import stages.TestingStage;
 
 /**
  * Smash-Bros style game that teaches people how to code in Python
@@ -22,7 +24,12 @@ public class Application
 		Renderer renderer = new Renderer();
 		GUI gui = new GUI(renderer);
 		
+		Environment e = new TestingStage();
+		Battle battle = new Battle(e);
+		
 		StartMenu start = new StartMenu(gui);
 		gui.setPage(start);
+		
+		battle.gameLoop(renderer);
 	}
 }

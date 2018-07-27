@@ -14,9 +14,9 @@ import org.dyn4j.dynamics.World;
 
 public class Battle
 {
-	private ArrayList<Hitbox> m_hitboxes;
+	private ArrayList<Hitbox> m_hitboxes = new ArrayList<Hitbox>();
 	// List of active moves, in order to keep track of lasting effects.
-	private ArrayList<Move> m_activeMoves;
+	private ArrayList<Move> m_activeMoves  = new ArrayList<Move>();;
 	private Environment m_env;
 
 	private boolean m_visibleHitboxes = true;
@@ -26,8 +26,9 @@ public class Battle
 		new AIController()
 	};
 	
-	public Battle()
+	public Battle(Environment p_env)
 	{
+		setEnvironment(p_env);
 		for(int i = 0; i < m_charControllers.length; i++)
 		{
 			m_charControllers[i].setCharacter(new GeorgeTheGlassCutter());
@@ -75,7 +76,6 @@ public class Battle
 	public void update(float p_delta)
 	{
 		m_env.getPhysicsWorld().updatev((double)(p_delta));
-		
 		for(int i = m_hitboxes.size() - 1; i >= 0; i--)
 		{
 			m_hitboxes.get(i).updateTimer(p_delta);
@@ -121,6 +121,7 @@ public class Battle
 			//clear the buffer
 			p_renderer.clear();
 			
+			update(delta);
 			//update the world
 			//draw sprites
 			renderList.draw(p_renderer);
