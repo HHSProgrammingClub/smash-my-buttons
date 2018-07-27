@@ -21,9 +21,11 @@ public class Battle
 	
 	private CharacterController[] m_charControllers = new CharacterController [2];
 	
+	private Thread battleThread;
+	
 	public Battle(Environment p_env)
 	{
-		
+		setEnvironment(p_env);
 	}
 	
 	public Battle() {}
@@ -83,7 +85,20 @@ public class Battle
 	{
 		p_gui.setPage(p_gui.getRenderer());
 		
-		gameLoop(p_gui.getRenderer());
+		battleThread = new Thread(new Runnable()
+				{
+					public void run()
+					{
+						gameLoop(p_gui.getRenderer());
+					}
+				});
+		
+		battleThread.start();
+	}
+	
+	public void endBattle()
+	{
+		battleThread.interrupt();
 	}
 	
 	private void gameLoop(Renderer p_renderer)
@@ -144,7 +159,7 @@ public class Battle
 				//this one's simpler
 				//Thread.sleep(16, 666666);
 			} catch (InterruptedException e) {
-				e.printStackTrace();
+				break;
 			}
 		}
 	}
