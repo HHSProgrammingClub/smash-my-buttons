@@ -1,5 +1,6 @@
 package program;
 
+import graphics.DebugDrawer;
 import graphics.GUI;
 import graphics.Renderer;
 import graphics.StartMenu;

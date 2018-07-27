@@ -10,6 +10,8 @@ import stages.Stage;
 
 import java.util.ArrayList;
 
+import org.dyn4j.dynamics.World;
+
 public class Battle
 {
 	private ArrayList<Hitbox> m_hitboxes = new ArrayList<Hitbox>();
@@ -34,6 +36,8 @@ public class Battle
 	{
 		m_env = p_env;
 	}
+	
+	public World getWorld() { return m_env.getPhysicsWorld(); }
 	
 	public Hitbox[] getHitboxes()
 	{
@@ -113,9 +117,9 @@ public class Battle
 		renderList.addDrawable(sprite);
 		
 		Texture tex2 = new Texture();
-		tex2.openResource("resources/images/coffee");
+		tex2.openResource("resources/images/jack");
 		
-		Sprite sprite2 = new Sprite(tex2, "default");
+		Sprite sprite2 = new Sprite(tex2, "idle");
 		renderList.addDrawable(sprite2);
 		
 		//debug
