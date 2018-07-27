@@ -4,12 +4,15 @@ package graphics;
 import java.awt.image.BufferedImage;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.Color;
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.geom.Ellipse2D;
 import java.awt.RenderingHints;
 import java.awt.Font;
+import java.awt.Toolkit;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -27,20 +30,22 @@ public class Renderer implements Page
 	
 	private int m_width, m_height;
 	
+	private final float DEFAULT_SCALE = 1.5f; 
+	
 	/**
-	 * Creates the GUI of the application
+	 * Creates renderer for displaying images and shapes
 	 * @param p_width width of the window
 	 * @param p_height height of the window
 	 */
-	public Renderer(int p_width, int p_height)
+	public Renderer()
 	{
-		//saving these for safe keeping
-		m_width = p_width;
-		m_height = p_height;
+		//get the dimensions of the screen
+		m_width = Toolkit.getDefaultToolkit().getScreenSize().width;
+		m_height = Toolkit.getDefaultToolkit().getScreenSize().height;
 		
-		//create the canvas to draw stuff on
-		m_frontBuffer = new BufferedImage(p_width, p_height, BufferedImage.TYPE_INT_ARGB);
-		m_backBuffer = new BufferedImage(p_width, p_height, BufferedImage.TYPE_INT_ARGB);
+		//create the buffers to draw stuff on
+		m_frontBuffer = new BufferedImage(m_width, m_height, BufferedImage.TYPE_INT_ARGB);
+		m_backBuffer = new BufferedImage(m_width, m_height, BufferedImage.TYPE_INT_ARGB);
 		m_graphics = m_backBuffer.createGraphics();
 		
 		//create the JPanel that holds the canvas
@@ -75,7 +80,6 @@ public class Renderer implements Page
 		m_graphics.setColor(Color.WHITE);
 		m_graphics.fillRect(0, 0, m_width, m_height);
 	}
-	
 	/**
 	 * Draws a texture
 	 * @param p_texture the texture to be drawn
@@ -83,8 +87,12 @@ public class Renderer implements Page
 	 * @param p_dest destination of the drawn image
 	 */
 	public void drawTexture(Texture p_texture, IntRect p_frame, IntRect p_dest)
-	{
-		m_graphics.drawImage(p_texture.getImage(), p_dest.x, p_dest.y, p_dest.x + p_dest.w, p_dest.y + p_dest.h,
+	{	
+		//calculate the scale according to the screen size
+		float scale = (m_width * DEFAULT_SCALE) / 800;
+		
+		//draw the scaled image
+		m_graphics.drawImage(p_texture.getImage(), p_dest.x, p_dest.y, (int) ((p_dest.x + p_dest.w) * scale), (int) ((p_dest.y + p_dest.h) * scale),
 					 p_frame.x, p_frame.y, p_frame.x + p_frame.w, p_frame.y + p_frame.h, m_panel);
 	}
 	

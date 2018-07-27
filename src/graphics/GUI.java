@@ -1,6 +1,8 @@
 package graphics;
 
 import javax.swing.JFrame;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 
 public class GUI
 {
@@ -8,11 +10,18 @@ public class GUI
 	private Page m_currentPage;
 	private Renderer m_renderer;
 	
+	private final float SCALE_W = 0.6f;
+	private final float SCALE_H = 0.8f;
+	
 	public GUI(Renderer p_renderer)
 	{
+		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+		int width = (int) (gd.getDisplayMode().getWidth() * SCALE_W);
+		int height = (int) (gd.getDisplayMode().getHeight() * SCALE_H);
+		
 		m_window = new JFrame("AI Fighters");
-		m_window.setSize(800, 600);
-		m_window.setResizable(true);
+		m_window.setSize(width, height);
+		m_window.setResizable(false);
 		m_window.setVisible(true);
 		m_window.setLocationRelativeTo(null);
 		m_window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

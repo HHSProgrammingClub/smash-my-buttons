@@ -28,32 +28,27 @@ public class Application
 		controller.update(null, 2);
 		
 		//initialize the application window
-		Renderer renderer = new Renderer(800, 600);
+		Renderer renderer = new Renderer();
 		GUI gui = new GUI(renderer);
 		
 		StartMenu start = new StartMenu(gui);
 		gui.setPage(start);
-		
-		//initialize the renderer
-		
 	
+		
 		RenderList renderList = new RenderList();
 		
-		//test sprite
+		//test sprites
 		Texture tex1 = new Texture();
-		tex1.openResource("resources/images/dreamland");
+		tex1.openResource("resources/images/birboi");
 		
-		Sprite sprite = new Sprite(tex1, "flowers");
+		Sprite sprite = new Sprite(tex1, "idle");
 		renderList.addDrawable(sprite);
 		
-		//test rectangles
-		//filled
-		DebugBox box = new DebugBox(new IntRect(100, 100, 100, 100), Color.RED, 0.5f);
-		renderList.addDrawable(box);
+		Texture tex2 = new Texture();
+		tex2.openResource("resources/images/coffee");
 		
-		//border
-		DebugBox box2 = new DebugBox(new IntRect(100, 110, 100, 100), Color.BLUE, 1.0f, 2);
-		renderList.addDrawable(box2);
+		Sprite sprite2 = new Sprite(tex2, "default");
+		renderList.addDrawable(sprite2);
 		
 		//debug
 		//DebugDrawer debugger = new DebugDrawer(world);
