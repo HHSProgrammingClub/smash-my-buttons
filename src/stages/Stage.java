@@ -5,7 +5,7 @@ import org.dyn4j.dynamics.World;
 
 import program.TerrainPiece;
 
-public abstract class Environment
+public abstract class Stage
 {
 	public static String[] stageNames = {"TestingStage"};
 	
@@ -14,12 +14,12 @@ public abstract class Environment
 	
 	protected String m_name;
 	
-	public Environment()
+	public Stage()
 	{
 		m_world = new World();
 	}
 	
-	public Environment(World p_world)
+	public Stage(World p_world)
 	{
 		setPhysicsWorld(p_world);
 	}

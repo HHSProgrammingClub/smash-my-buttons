@@ -67,7 +67,7 @@ public class CharacterSelect implements Page
 		return new GeorgeTheGlassCutter();
 	}
 	
-	private static Environment newStage(String p_name)
+	private static Stage newStage(String p_name)
 	{
 		return new TestingStage();
 	}
@@ -190,7 +190,7 @@ public class CharacterSelect implements Page
 			}
 		});
 		
-		JComboBox<String> stageSelect = new JComboBox<String>(Environment.stageNames);
+		JComboBox<String> stageSelect = new JComboBox<String>(Stage.stageNames);
 		stageSelect.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)

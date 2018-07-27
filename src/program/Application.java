@@ -3,7 +3,7 @@ package program;
 import graphics.GUI;
 import graphics.Renderer;
 import graphics.StartMenu;
-import stages.Environment;
+import stages.Stage;
 import stages.TestingStage;
 
 /**
@@ -24,7 +24,7 @@ public class Application
 		Renderer renderer = new Renderer();
 		GUI gui = new GUI(renderer);
 		
-		Environment e = new TestingStage();
+		Stage e = new TestingStage();
 		Battle battle = new Battle(e);
 		
 		StartMenu start = new StartMenu(gui);

@@ -6,7 +6,7 @@ import graphics.RenderList;
 import graphics.Renderer;
 import graphics.Sprite;
 import graphics.Texture;
-import stages.Environment;
+import stages.Stage;
 
 import java.util.ArrayList;
 
@@ -15,7 +15,7 @@ public class Battle
 	private ArrayList<Hitbox> m_hitboxes = new ArrayList<Hitbox>();
 	// List of active moves, in order to keep track of lasting effects.
 	private ArrayList<Move> m_activeMoves  = new ArrayList<Move>();;
-	private Environment m_env;
+	private Stage m_env;
 
 	private boolean m_visibleHitboxes = true;
 	
@@ -23,14 +23,14 @@ public class Battle
 	
 	private Thread battleThread;
 	
-	public Battle(Environment p_env)
+	public Battle(Stage p_env)
 	{
 		setEnvironment(p_env);
 	}
 	
 	public Battle() {}
 
-	public void setEnvironment(Environment p_env)
+	public void setEnvironment(Stage p_env)
 	{
 		m_env = p_env;
 	}
