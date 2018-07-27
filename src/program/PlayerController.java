@@ -140,7 +140,7 @@ public class PlayerController extends CharacterController
 	
 	private KeyBinder m_keyBinder = new KeyBinder();
 	
-	public void setupPlayer1()
+	public PlayerController()
 	{
 		// Define the actions
 		m_keyBinder.addAction("jump", new KeyBindAction() {
