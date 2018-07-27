@@ -42,7 +42,7 @@ public class StartMenu implements Page
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				//quit
+				System.exit(0);
 			}
 		});
 		

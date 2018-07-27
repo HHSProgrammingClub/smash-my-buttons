@@ -177,7 +177,7 @@ public class CharacterSelect implements Page
 		        System.out.println("Player 1 character set to " + characterName);
 			}
 		});
-		characterSelector1.setSelectedIndex(0);
+		//characterSelector1.setSelectedIndex(0);
 		GridBagConstraints gbc_characterSelector1 = new GridBagConstraints();
 		gbc_characterSelector1.fill = GridBagConstraints.HORIZONTAL;
 		gbc_characterSelector1.insets = new Insets(0, 0, 5, 5);
@@ -196,7 +196,7 @@ public class CharacterSelect implements Page
 		        System.out.println("Player 2 character set to " + characterName);
 			}
 		});
-		characterSelector2.setSelectedIndex(0);
+		//characterSelector2.setSelectedIndex(0);
 		GridBagConstraints gbc_characterSelector2 = new GridBagConstraints();
 		gbc_characterSelector2.insets = new Insets(0, 0, 5, 5);
 		gbc_characterSelector2.fill = GridBagConstraints.HORIZONTAL;
