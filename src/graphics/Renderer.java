@@ -30,18 +30,20 @@ public class Renderer implements Page
 	
 	private int m_width, m_height;
 	
-	private final float DEFAULT_SCALE = 1.5f; 
+	private float m_scale;
+	private final float DEFAULT_SCALE = 1.25f; 
 	
 	/**
 	 * Creates renderer for displaying images and shapes
-	 * @param p_width width of the window
-	 * @param p_height height of the window
 	 */
 	public Renderer()
 	{
 		//get the dimensions of the screen
 		m_width = Toolkit.getDefaultToolkit().getScreenSize().width;
 		m_height = Toolkit.getDefaultToolkit().getScreenSize().height;
+		
+		//calculate the scale according to the screen size
+		m_scale = (m_width * DEFAULT_SCALE) / 800;
 		
 		//create the buffers to draw stuff on
 		m_frontBuffer = new BufferedImage(m_width, m_height, BufferedImage.TYPE_INT_ARGB);
@@ -80,6 +82,7 @@ public class Renderer implements Page
 		m_graphics.setColor(Color.WHITE);
 		m_graphics.fillRect(0, 0, m_width, m_height);
 	}
+	
 	/**
 	 * Draws a texture
 	 * @param p_texture the texture to be drawn
@@ -88,11 +91,8 @@ public class Renderer implements Page
 	 */
 	public void drawTexture(Texture p_texture, IntRect p_frame, IntRect p_dest)
 	{	
-		//calculate the scale according to the screen size
-		float scale = (m_width * DEFAULT_SCALE) / 800;
-		
 		//draw the scaled image
-		m_graphics.drawImage(p_texture.getImage(), p_dest.x, p_dest.y, (int) ((p_dest.x + p_dest.w) * scale), (int) ((p_dest.y + p_dest.h) * scale),
+		m_graphics.drawImage(p_texture.getImage(), p_dest.x, p_dest.y, (int) ((p_dest.x + p_dest.w) * m_scale), (int) ((p_dest.y + p_dest.h) * m_scale),
 					 p_frame.x, p_frame.y, p_frame.x + p_frame.w, p_frame.y + p_frame.h, m_panel);
 	}
 	
