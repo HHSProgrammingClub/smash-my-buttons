@@ -125,7 +125,7 @@ class KeyBinder
 			throw new IllegalStateException("Group unspecified.");
 		for (Map.Entry<String, KeyBinding> i : m_currentGroup.entrySet())
 			if (i.getValue().down == true)
-				m_keyActions[i.getKey()].onAction();
+				m_keyActions.get(i.getKey()).onAction();
 	}
 	
 	public KeyListener getKeyListener()
