@@ -28,10 +28,14 @@ public class Application
 		controller.update(null, 2);
 		
 		//initialize the application window
-		GUI gui = new GUI();
+		Renderer renderer = new Renderer(800, 600);
+		GUI gui = new GUI(renderer);
 		
 		StartMenu start = new StartMenu(gui);
 		gui.setPage(start);
+		
+		//initialize the renderer
+		
 	
 		RenderList renderList = new RenderList();
 		
@@ -66,18 +70,18 @@ public class Application
 			gameClock.restart();
 			
 			//clear the buffer
-			//renderer.clear();
+			renderer.clear();
 			
 			//update the world
 			//draw sprites
-			//renderList.draw(renderer);
+			renderList.draw(renderer);
 			
 			//debug
 			if(visibleHitboxes);
 				//debugger.draw(renderer)
 			
 			//display the current frame
-			//renderer.display();
+			renderer.display();
 			
 			//delay
 			try {

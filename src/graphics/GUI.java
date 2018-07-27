@@ -4,7 +4,11 @@ import javax.swing.JFrame;
 
 public class GUI
 {
-	public GUI()
+	private JFrame m_window;
+	private Page m_currentPage;
+	private Renderer m_renderer;
+	
+	public GUI(Renderer p_renderer)
 	{
 		m_window = new JFrame("AI Fighters");
 		m_window.setSize(800, 600);
@@ -12,6 +16,8 @@ public class GUI
 		m_window.setVisible(true);
 		m_window.setLocationRelativeTo(null);
 		m_window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		m_renderer = p_renderer;
 	}
 	
 	public void setPage(Page p_page)
@@ -30,6 +36,9 @@ public class GUI
 		return m_currentPage;
 	}
 	
-	private JFrame m_window;
-	private Page m_currentPage;
+	public Renderer getRenderer()
+	{
+		return m_renderer;
+	}
+	
 }

@@ -31,7 +31,7 @@ public class Renderer implements Page
 	 * Creates the GUI of the application
 	 * @param p_width width of the window
 	 * @param p_height height of the window
-	 */         // should probably not require these in the future
+	 */
 	public Renderer(int p_width, int p_height)
 	{
 		//saving these for safe keeping
@@ -129,6 +129,15 @@ public class Renderer implements Page
 		m_graphics.draw(new Ellipse2D.Double(p_rect.x, p_rect.y, p_rect.w, p_rect.h)); 
 	}
 
+	/**
+	 * Draws text
+	 * @param p_text The text to be displayed
+	 * @param p_font Exact name of the font (e.g. "Serif", "Comic Sans" etc)
+	 * @param p_color Color of the text (Color.RED, Color.BLUE, etc.)
+	 * @param p_x x-position of text
+	 * @param p_y y-position of text 
+	 * @param p_size Font size
+	 */
 	public void drawText(String p_text, String p_font, Color p_color, int p_x, int p_y, int p_size)
 	{
 		System.out.println("esdfsdf");

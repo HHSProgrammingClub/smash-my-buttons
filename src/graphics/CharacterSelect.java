@@ -121,7 +121,7 @@ public class CharacterSelect implements Page
 				{
 					public void actionPerformed(ActionEvent e)
 					{
-						p_gui.setPage(new Renderer(800, 600));
+						p_gui.setPage(p_gui.getRenderer());
 					}
 				});
 		m_panel.add(btnStartFight, gbc_btnStartFight);
