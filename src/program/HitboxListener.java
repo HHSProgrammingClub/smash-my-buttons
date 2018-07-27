@@ -12,10 +12,10 @@ public class HitboxListener implements CollisionListener {
 	public boolean collision(Body body1, BodyFixture fixture1, Body body2,
 			BodyFixture fixture2) {
 		if(body1.getUserData() instanceof characters.Character &&
-				body2.getUserData() instanceof Hitbox) {
+				fixture2.getUserData() instanceof Hitbox) {
 			characters.Character c = (
 					(characters.Character)(body1.getUserData()));
-			Hitbox h = ((Hitbox)body2.getUserData());
+			Hitbox h = ((Hitbox)fixture2.getUserData());
 			c.takeHit(h);
 		}
 		return false;
