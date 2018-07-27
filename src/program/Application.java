@@ -86,10 +86,12 @@ public class Application
 			//delay
 			try {
 				long totalNanos = 16666666 - (int)(gameClock.getElapse()*1e9f);
-				int nanos = (int) (totalNanos % 1000000);
-				long milis = (totalNanos - nanos) / 1000000;
-				
-				Thread.sleep(milis, (int)nanos);
+				if(totalNanos > 0)
+				{
+					int nanos = (int) (totalNanos % 1000000);
+					long milis = (totalNanos - nanos) / 1000000;
+					Thread.sleep(milis, (int)nanos);
+				}
 				//this one's simpler
 				//Thread.sleep(16, 666666);
 			} catch (InterruptedException e) {

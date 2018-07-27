@@ -1,16 +1,10 @@
 package graphics;
 
 import javax.swing.JComponent;
+import javax.swing.JFileChooser;
 import javax.swing.JPanel;
-
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.FormSpecs;
-import com.jgoodies.forms.layout.RowSpec;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
-
-import characters.Character;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import java.awt.GridBagLayout;
@@ -18,10 +12,21 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+import characters.Character;
+import program.AIController;
+import program.CharacterController;
 
 public class CharacterSelect implements Page
 {
 	private JPanel m_panel = new JPanel();
+	private final JFileChooser m_fileChooser = new JFileChooser();
+	
+	private CharacterController m_p1;
+	private CharacterController m_p2;
 	
 	public CharacterSelect(GUI p_gui)
 	{
@@ -65,6 +70,36 @@ public class CharacterSelect implements Page
 		gbc_ai1ScriptLoad.insets = new Insets(0, 0, 5, 5);
 		gbc_ai1ScriptLoad.gridx = 1;
 		gbc_ai1ScriptLoad.gridy = 2;
+		ai1ScriptLoad.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				AIController tempController = new AIController();
+				
+				int returnVal = m_fileChooser.showOpenDialog(p_gui.getWindow());
+
+		        if (returnVal == JFileChooser.APPROVE_OPTION)
+		        {
+		            File file = m_fileChooser.getSelectedFile();
+		            System.out.println("Attempting to load " + file.getPath() + " as player 1");
+		            
+		            //i feel like there may be a better way...
+		            try
+					{
+						tempController.openFile(file.getPath());
+					} catch (FileNotFoundException e1)
+					{
+						e1.printStackTrace();
+						return;
+					} catch (IOException e1)
+					{
+						e1.printStackTrace();
+						return;
+					}
+		            m_p1 = tempController;
+		        }
+			}
+		});
 		m_panel.add(ai1ScriptLoad, gbc_ai1ScriptLoad);
 		
 		JButton ai2ScriptLoad = new JButton("Load Script");
@@ -73,6 +108,36 @@ public class CharacterSelect implements Page
 		gbc_ai2ScriptLoad.insets = new Insets(0, 0, 5, 5);
 		gbc_ai2ScriptLoad.gridx = 3;
 		gbc_ai2ScriptLoad.gridy = 2;
+		ai2ScriptLoad.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				AIController tempController = new AIController();
+				
+				int returnVal = m_fileChooser.showOpenDialog(p_gui.getWindow());
+
+		        if (returnVal == JFileChooser.APPROVE_OPTION)
+		        {
+		            File file = m_fileChooser.getSelectedFile();
+		            System.out.println("Attempting to load " + file.getPath() + " as player 2");
+		            
+		            //i feel like there may be a better way...
+		            try
+					{
+						tempController.openFile(file.getPath());
+					} catch (FileNotFoundException e1)
+					{
+						e1.printStackTrace();
+						return;
+					} catch (IOException e1)
+					{
+						e1.printStackTrace();
+						return;
+					}
+		            m_p2 = tempController;
+		        }
+			}
+		});
 		m_panel.add(ai2ScriptLoad, gbc_ai2ScriptLoad);
 		
 		JLabel lblPlayer = new JLabel("Player 1");
@@ -95,6 +160,13 @@ public class CharacterSelect implements Page
 		m_panel.add(lblPlayer_1, gbc_lblPlayer_1);
 		//gui editor yells at me if i don't do this for now
 		JComboBox<String> characterSelector1 = new JComboBox<String>(Character.characterNames);
+		characterSelector1.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				
+			}
+		});
 		characterSelector1.setSelectedIndex(0);
 		GridBagConstraints gbc_characterSelector1 = new GridBagConstraints();
 		gbc_characterSelector1.fill = GridBagConstraints.HORIZONTAL;
@@ -104,6 +176,13 @@ public class CharacterSelect implements Page
 		m_panel.add(characterSelector1, gbc_characterSelector1);
 		
 		JComboBox<String> characterSelector2 = new JComboBox<String>(Character.characterNames);
+		characterSelector2.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				
+			}
+		});
 		characterSelector2.setSelectedIndex(0);
 		GridBagConstraints gbc_characterSelector2 = new GridBagConstraints();
 		gbc_characterSelector2.insets = new Insets(0, 0, 5, 5);

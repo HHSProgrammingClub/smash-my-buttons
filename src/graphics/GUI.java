@@ -41,4 +41,8 @@ public class GUI
 		return m_renderer;
 	}
 	
+	public JFrame getWindow()
+	{
+		return m_window;
+	}
 }
