@@ -16,20 +16,22 @@ import javax.swing.SwingConstants;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class CharacterSelect implements Page
 {
 	private JPanel m_panel = new JPanel();
 	
-	public CharacterSelect()
+	public CharacterSelect(GUI p_gui)
 	{
-		setUpPanel();
+		setUpPanel(p_gui);
 	}
 	
 	/**
 	 * @wbp.parser.entryPoint
 	 */
-	private void setUpPanel()
+	private void setUpPanel(GUI p_gui)
 	{
 		GridBagLayout gbl_m_panel = new GridBagLayout();
 		gbl_m_panel.columnWidths = new int[]{0, 89, 200, 89, 0, 0};
@@ -115,7 +117,16 @@ public class CharacterSelect implements Page
 		gbc_btnStartFight.insets = new Insets(0, 0, 0, 5);
 		gbc_btnStartFight.gridx = 2;
 		gbc_btnStartFight.gridy = 6;
+		btnStartFight.addActionListener(new ActionListener()
+				{
+					public void actionPerformed(ActionEvent e)
+					{
+						p_gui.setPage(new Renderer(800, 600));
+					}
+				});
 		m_panel.add(btnStartFight, gbc_btnStartFight);
+		
+		
 	}
 
 	@Override

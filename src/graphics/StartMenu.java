@@ -51,7 +51,7 @@ public class StartMenu implements Page
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				p_gui.setPage(new CharacterSelect());
+				p_gui.setPage(new CharacterSelect(p_gui));
 			}
 		});
 		
