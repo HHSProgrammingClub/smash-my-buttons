@@ -34,8 +34,7 @@ public class DebugDrawer implements Drawable
 						(int)(obj.getMinX()), (int)(obj.getMinY()),
 						(int)(obj.getMaxX() - obj.getMinX()),
 						(int)(obj.getMaxY() - obj.getMinY()));
-				p_renderer.drawRect(boundingBox, Color.RED, 0.75f);
-				//p_renderer.drawRect(dimension, Color.RED, 0.75f, 3);
+				p_renderer.drawRect(boundingBox, Color.RED, 0.5f, 3);
 			}
 		}
 	}

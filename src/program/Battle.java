@@ -10,7 +10,9 @@ import stages.Stage;
 
 import java.util.ArrayList;
 
+import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.World;
+import org.dyn4j.geometry.Vector2;
 
 public class Battle
 {
@@ -74,6 +76,14 @@ public class Battle
 	private void update(float p_delta)
 	{
 		m_env.getPhysicsWorld().updatev((double)(p_delta));
+		//Some joke code for testing
+		for(Body b : m_env.getPhysicsWorld().getBodies()) {
+			b.setAsleep(false);
+			b.applyImpulse(
+					new Vector2(5, 0)
+			);
+			System.out.println(b.isAsleep());
+		}
 		for(int i = m_hitboxes.size() - 1; i >= 0; i--)
 		{
 			m_hitboxes.get(i).updateTimer(p_delta);

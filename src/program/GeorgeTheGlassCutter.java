@@ -35,6 +35,8 @@ public class GeorgeTheGlassCutter extends Character
 		super();
 		//setSprite(new Sprite(texture, animation));
 		Body tushie = new Body();
+		tushie.setActive(true);
+		tushie.setAsleep(false);
 		// Make it not be able to rotate
 		tushie.setMass(MassType.FIXED_ANGULAR_VELOCITY);
 		// Add the collision fixture
