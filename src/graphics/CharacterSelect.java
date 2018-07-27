@@ -163,6 +163,22 @@ public class CharacterSelect implements Page
 		        }
 			}
 		});
+		
+		
+		
+		JButton btnStartFight = new JButton("Start Fight");
+		GridBagConstraints gbc_btnStartFight = new GridBagConstraints();
+		gbc_btnStartFight.insets = new Insets(0, 0, 5, 5);
+		gbc_btnStartFight.gridx = 2;
+		gbc_btnStartFight.gridy = 3;
+		btnStartFight.addActionListener(new ActionListener()
+				{
+					public void actionPerformed(ActionEvent e)
+					{
+						p_gui.setPage(p_gui.getRenderer());
+					}
+				});
+		m_panel.add(btnStartFight, gbc_btnStartFight);
 		ai2ScriptLoad.setEnabled(false);
 		m_panel.add(ai2ScriptLoad, gbc_ai2ScriptLoad);
 		
@@ -260,21 +276,19 @@ public class CharacterSelect implements Page
 		m_panel.add(p2AiCheckBox, gbc_p2AiCheckBox);
 		m_panel.add(ai1ScriptLoad, gbc_ai1ScriptLoad);
 		
-		
-		
-		JButton btnStartFight = new JButton("Start Fight");
-		GridBagConstraints gbc_btnStartFight = new GridBagConstraints();
-		gbc_btnStartFight.insets = new Insets(0, 0, 0, 5);
-		gbc_btnStartFight.gridx = 2;
-		gbc_btnStartFight.gridy = 7;
-		btnStartFight.addActionListener(new ActionListener()
-				{
-					public void actionPerformed(ActionEvent e)
-					{
-						p_gui.setPage(p_gui.getRenderer());
-					}
-				});
-		m_panel.add(btnStartFight, gbc_btnStartFight);
+		JButton btnBack = new JButton("Back");
+		btnBack.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				p_gui.setPage(new StartMenu(p_gui));
+			}
+		});
+		GridBagConstraints gbc_btnBack = new GridBagConstraints();
+		gbc_btnBack.insets = new Insets(0, 0, 0, 5);
+		gbc_btnBack.gridx = 2;
+		gbc_btnBack.gridy = 7;
+		m_panel.add(btnBack, gbc_btnBack);
 		
 		
 	}
