@@ -25,6 +25,7 @@ import java.io.IOException;
 import characters.Character;
 import characters.*;
 import program.AIController;
+import program.Battle;
 import program.CharacterController;
 import program.PlayerController;
 import stages.*;
@@ -73,6 +74,8 @@ public class CharacterSelect implements Page
 	
 	public CharacterSelect(GUI p_gui)
 	{
+		m_p1 = new PlayerController();
+		m_p2 = new PlayerController();
 		setUpPanel(p_gui);
 	}
 	
@@ -212,7 +215,7 @@ public class CharacterSelect implements Page
 			{
 				JComboBox<String> bawks = (JComboBox<String>)e.getSource();
 		        String characterName = (String)bawks.getSelectedItem();
-		        //m_p1.setCharacter(newCharacter(characterName));
+		        m_p1.setCharacter(newCharacter(characterName));
 		        System.out.println("Player 1 character set to " + characterName);
 			}
 		});
@@ -228,11 +231,15 @@ public class CharacterSelect implements Page
 				{
 					public void actionPerformed(ActionEvent e)
 					{
-						p_gui.setPage(p_gui.getRenderer());
+						Battle royale = new Battle();
+						royale.setEnvironment(newStage(m_chosenStageName));
+						royale.addCharacter(m_p1, 1);
+						royale.addCharacter(m_p2, 2);
+						royale.startBattle(p_gui);
 					}
 				});
 		m_panel.add(btnStartFight, gbc_btnStartFight);
-		//characterSelector1.setSelectedIndex(0);
+		characterSelector1.setSelectedIndex(0);
 		GridBagConstraints gbc_characterSelector1 = new GridBagConstraints();
 		gbc_characterSelector1.fill = GridBagConstraints.HORIZONTAL;
 		gbc_characterSelector1.insets = new Insets(0, 0, 5, 5);
@@ -247,11 +254,11 @@ public class CharacterSelect implements Page
 			{
 				JComboBox<String> bawks = (JComboBox<String>)e.getSource();
 		        String characterName = (String)bawks.getSelectedItem();
-		        //m_p2.setCharacter(newCharacter(characterName));
+		        m_p2.setCharacter(newCharacter(characterName));
 		        System.out.println("Player 2 character set to " + characterName);
 			}
 		});
-		//characterSelector2.setSelectedIndex(0);
+		characterSelector2.setSelectedIndex(0);
 		GridBagConstraints gbc_characterSelector2 = new GridBagConstraints();
 		gbc_characterSelector2.insets = new Insets(0, 0, 5, 5);
 		gbc_characterSelector2.fill = GridBagConstraints.HORIZONTAL;
@@ -320,10 +327,6 @@ public class CharacterSelect implements Page
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				//Battle royale = new Battle;
-				//Battle.setEnvironment(newEnvironment(m_chosenStageName));
-				//add character controllers
-				//start battle
 				p_gui.setPage(new StartMenu(p_gui));
 			}
 		});

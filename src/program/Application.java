@@ -29,7 +29,5 @@ public class Application
 		
 		StartMenu start = new StartMenu(gui);
 		gui.setPage(start);
-		
-		battle.gameLoop(renderer);
 	}
 }

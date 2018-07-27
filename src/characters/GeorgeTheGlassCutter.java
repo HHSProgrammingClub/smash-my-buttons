@@ -37,7 +37,7 @@ public class GeorgeTheGlassCutter extends Character
 		// Make it not be able to rotate
 		tushie.setMass(MassType.FIXED_ANGULAR_VELOCITY);
 		// Add the collision fixture
-		BodyFixture hurtbox = new BodyFixture(new Rectangle(64, 64));
+		BodyFixture hurtbox = new BodyFixture(new Rectangle(64, 64)); //this will be very, very big
 		hurtbox.setDensity(20);
 		hurtbox.setFriction(0.5);
 		hurtbox.setRestitution(0.9);

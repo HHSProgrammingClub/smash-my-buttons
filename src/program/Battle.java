@@ -1,7 +1,7 @@
 package program;
 
-import characters.*;
 import graphics.DebugDrawer;
+import graphics.GUI;
 import graphics.RenderList;
 import graphics.Renderer;
 import graphics.Sprite;
@@ -9,8 +9,6 @@ import graphics.Texture;
 import stages.Environment;
 
 import java.util.ArrayList;
-import org.dyn4j.dynamics.Body;
-import org.dyn4j.dynamics.World;
 
 public class Battle
 {
@@ -21,22 +19,15 @@ public class Battle
 
 	private boolean m_visibleHitboxes = true;
 	
-	private CharacterController[] m_charControllers = {
-		new AIController(),
-		new AIController()
-	};
+	private CharacterController[] m_charControllers = new CharacterController [2];
 	
 	public Battle(Environment p_env)
 	{
-		setEnvironment(p_env);
-		for(int i = 0; i < m_charControllers.length; i++)
-		{
-			m_charControllers[i].setCharacter(new GeorgeTheGlassCutter());
-			m_env.getPhysicsWorld().addBody(
-					m_charControllers[i].getCharacter().getBody());
-		}
+		
 	}
 	
+	public Battle() {}
+
 	public void setEnvironment(Environment p_env)
 	{
 		m_env = p_env;
@@ -61,6 +52,7 @@ public class Battle
 	public void addCharacter(CharacterController p_controller, int p_port)
 	{
 		m_charControllers[p_port - 1] = p_controller;
+		m_env.getPhysicsWorld().addBody(p_controller.getCharacter().getBody());
 	}
 	
 	public int getCharacterCount()
@@ -73,7 +65,7 @@ public class Battle
 		m_visibleHitboxes = p_visible;
 	}
 	
-	public void update(float p_delta)
+	private void update(float p_delta)
 	{
 		m_env.getPhysicsWorld().updatev((double)(p_delta));
 		for(int i = m_hitboxes.size() - 1; i >= 0; i--)
@@ -87,7 +79,14 @@ public class Battle
 		}
 	}
 	
-	public void gameLoop(Renderer p_renderer)
+	public void startBattle(GUI p_gui)
+	{
+		p_gui.setPage(p_gui.getRenderer());
+		
+		gameLoop(p_gui.getRenderer());
+	}
+	
+	private void gameLoop(Renderer p_renderer)
 	{
 		RenderList renderList = new RenderList();
 		
