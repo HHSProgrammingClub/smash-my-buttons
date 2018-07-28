@@ -1,6 +1,4 @@
 package characters;
-//A sample character.
-import java.util.ArrayList;
 
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.BodyFixture;
@@ -8,33 +6,15 @@ import org.dyn4j.geometry.MassType;
 import org.dyn4j.geometry.Rectangle;
 
 import program.Battle;
-import program.Hitbox;
-import program.Move;
+
+//A sample character.
 
 public class GeorgeTheGlassCutter extends Character
-{
-	//a showcasing of different ways to make a character
-	protected Hitbox[][] moveHitboxes = {
-		{new Hitbox()},
-	};
-	
-	protected Move[] m_moveset = {
-		// You can assign hitboxes in the constructor
-		new Move("Score", 1.0f, new Hitbox[] {}),
-		// Or in an external array
-		new Move("Score", 1.0f, moveHitboxes[0]),
-		//Or you could just use an inherited class (necessary for move effects)
-		new Move("Score", 1.0f, moveHitboxes[0]),
-		new Move("Score", 1.0f, moveHitboxes[0]),
-		new Move("Score", 1.0f, moveHitboxes[0]),
-		new Move("Score", 1.0f, moveHitboxes[0])
-	};
-	
+{	
 	public GeorgeTheGlassCutter() 
 	{
-		super();
 		Body tushie = new Body();
-		// Make it not be able to rotate
+		// Make it non-rotating
 		tushie.setMass(MassType.FIXED_ANGULAR_VELOCITY);
 		// Add the collision fixture
 		BodyFixture hurtbox = new BodyFixture(new Rectangle(64, 64)); //this will be very, very big
@@ -42,6 +22,36 @@ public class GeorgeTheGlassCutter extends Character
 		hurtbox.setFriction(0.5);
 		hurtbox.setRestitution(0.9);
 		tushie.addFixture(hurtbox);
-		super.setBody(tushie);
+		setBody(tushie);
+	}
+	
+	public void jab(Battle p_battle)
+	{
+		
+	}
+	
+	public void tilt(Battle p_battle)
+	{
+		
+	}
+	
+	public void smash(Battle p_battle)
+	{
+		
+	}
+	
+	public void projectile(Battle p_battle)
+	{
+		
+	}
+	
+	public void signature(Battle p_battle)
+	{
+		
+	}
+	
+	public void recover(Battle p_battle)
+	{
+		
 	}
 }

@@ -17,8 +17,6 @@ import org.dyn4j.geometry.Vector2;
 public class Battle
 {
 	private ArrayList<Hitbox> m_hitboxes = new ArrayList<Hitbox>();
-	// List of active moves, in order to keep track of lasting effects.
-	private ArrayList<Move> m_activeMoves  = new ArrayList<Move>();;
 	private Stage m_env;
 
 	private boolean m_visibleHitboxes = true;
@@ -39,8 +37,12 @@ public class Battle
 		m_env = p_env;
 	}
 	
-	public World getWorld() { return m_env.getPhysicsWorld(); }
+	public World getWorld()
+	{ 
+		return m_env.getPhysicsWorld();
+	}
 	
+	//is this hitbox stuff necessary?
 	public Hitbox[] getHitboxes()
 	{
 		return (Hitbox[]) m_hitboxes.toArray();
@@ -49,11 +51,6 @@ public class Battle
 	public void addHitbox(Hitbox p_hitbox)
 	{
 		m_hitboxes.add(p_hitbox);
-	}
-	
-	public void addMove(Move p_move)
-	{
-		m_activeMoves.add(p_move);
 	}
 	
 	//Port: Player *1*, Player *2*, etc.

@@ -10,14 +10,11 @@ import graphics.Renderer;
 import graphics.Sprite;
 import program.Battle;
 import program.Hitbox;
-import program.Move;
-import program.MoveType;
 
 
 public abstract class Character implements Drawable
 {
 	protected Body m_body;
-	protected Move[] m_moveSet;
 	private Sprite m_sprite;
 
 	private int m_damage;
@@ -32,7 +29,6 @@ public abstract class Character implements Drawable
 	
 	public Character()
 	{
-		m_moveSet = new Move[6];
 		//set up the body here
 	}
 	
@@ -71,18 +67,6 @@ public abstract class Character implements Drawable
 		return m_name;
 	}
 	
-	public void setMove(MoveType p_type, Move p_move)
-	{
-		m_moveSet[p_type.num] = p_move;
-	}
-	
-	public void doMove(MoveType p_type, Battle battle)
-	{
-		Move focus = m_moveSet[p_type.num];
-		battle.addMove(focus);
-		focus.instantEffect(battle);
-	}
-	
 	public void jump() //to be pronounced [jʌmp] (ipa)
 	{
 		if(!m_jumped)
@@ -92,13 +76,12 @@ public abstract class Character implements Drawable
 		}
 	}
 	
-	public void recover(Battle p_battle)
-	{
-		if(!m_recovered)
-		{
-			doMove(MoveType.recovery, p_battle);
-		}
-	}
+	public abstract void jab(Battle p_battle);
+	public abstract void tilt(Battle p_battle);
+	public abstract void smash(Battle p_battle);
+	public abstract void projectile(Battle p_battle);
+	public abstract void signature(Battle p_battle);
+	public abstract void recover(Battle p_battle);
 	
 	public void takeHit(Hitbox p_hitbox)
 	{
