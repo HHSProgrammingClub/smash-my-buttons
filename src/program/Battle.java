@@ -121,12 +121,14 @@ public class Battle
 		tex1.openResource("resources/images/birboi");
 		
 		Sprite sprite = new Sprite(tex1, "idle");
+		sprite.setPosition(new Vector2(300, 200));
 		renderList.addDrawable(sprite);
 		
 		Texture tex2 = new Texture();
 		tex2.openResource("resources/images/jack");
 		
 		Sprite sprite2 = new Sprite(tex2, "idle");
+		sprite2.setPosition(new Vector2(500, 100));
 		renderList.addDrawable(sprite2);
 		
 		//debug

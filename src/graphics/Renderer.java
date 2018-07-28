@@ -91,8 +91,12 @@ public class Renderer implements Page
 	 */
 	public void drawTexture(Texture p_texture, IntRect p_frame, IntRect p_dest)
 	{	
-		//draw the scaled image
-		m_graphics.drawImage(p_texture.getImage(), p_dest.x, p_dest.y, (int) ((p_dest.x + p_dest.w) * m_scale), (int) ((p_dest.y + p_dest.h) * m_scale),
+		//scale image at (0, 0)
+		int scaledX = (int)(p_frame.w * m_scale);
+		int scaledY = (int)(p_frame.h * m_scale);
+		
+		//draw the scaled image to desired destination
+		m_graphics.drawImage(p_texture.getImage(), p_dest.x, p_dest.y, p_dest.x + scaledX, p_dest.y + scaledY,
 					 p_frame.x, p_frame.y, p_frame.x + p_frame.w, p_frame.y + p_frame.h, m_panel);
 	}
 	
