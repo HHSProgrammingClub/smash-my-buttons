@@ -78,9 +78,13 @@ public class Battle
 		m_stage.getPhysicsWorld().updatev((double)(p_delta));
 		//Some joke code for testing
 		for(Body b : m_stage.getPhysicsWorld().getBodies()) {
-			b.applyImpulse(
-					new Vector2(5, 0)
-			);
+			b.setAsleep(false);
+			b.setActive(true);
+			b.applyImpulse(new Vector2(0, 5));
+			//if(b.getUserData() instanceof Character) {
+				System.out.println("MYNAME" + b.getChangeInPosition());
+				System.out.println("JEFF" + b.getLinearVelocity());
+			//}
 		}
 		for(int i = m_hitboxes.size() - 1; i >= 0; i--)
 		{
