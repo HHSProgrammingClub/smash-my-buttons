@@ -28,6 +28,9 @@ public class Battle
 	public Battle(Stage p_env)
 	{
 		setEnvironment(p_env);
+		//Gotta get dem listeners
+		p_env.getPhysicsWorld().addListener(new HitboxListener());
+		p_env.getPhysicsWorld().addListener(new GroundListener());
 	}
 	
 	public Battle() {}
@@ -42,7 +45,7 @@ public class Battle
 		return m_env.getPhysicsWorld();
 	}
 	
-	//is this hitbox stuff necessary?
+	//is this hitbox stuff necessary? - see comment on GitHub
 	public Hitbox[] getHitboxes()
 	{
 		return (Hitbox[]) m_hitboxes.toArray();
