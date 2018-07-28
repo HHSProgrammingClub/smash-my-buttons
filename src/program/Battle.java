@@ -27,7 +27,7 @@ public class Battle
 	
 	public Battle(Stage p_env)
 	{
-		setEnvironment(p_env);
+		setStage(p_env);
 		//Gotta get dem listeners
 		p_env.getPhysicsWorld().addListener(new HitboxListener());
 		p_env.getPhysicsWorld().addListener(new GroundListener());
@@ -35,7 +35,7 @@ public class Battle
 	
 	public Battle() {}
 
-	public void setEnvironment(Stage p_env)
+	public void setStage(Stage p_env)
 	{
 		m_stage = p_env;
 	}
