@@ -75,11 +75,9 @@ public class Battle
 		m_env.getPhysicsWorld().updatev((double)(p_delta));
 		//Some joke code for testing
 		for(Body b : m_env.getPhysicsWorld().getBodies()) {
-			b.setAsleep(false);
 			b.applyImpulse(
 					new Vector2(5, 0)
 			);
-			System.out.println(b.isAsleep());
 		}
 		for(int i = m_hitboxes.size() - 1; i >= 0; i--)
 		{
@@ -154,7 +152,7 @@ public class Battle
 			renderList.draw(p_renderer);
 			
 			//debug
-			if(m_visibleHitboxes);
+			if(m_visibleHitboxes)
 				debugger.draw(p_renderer);
 			
 			//display the current frame
