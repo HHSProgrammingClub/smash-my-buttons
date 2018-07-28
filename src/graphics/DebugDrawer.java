@@ -6,6 +6,8 @@ import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.BodyFixture;
 import org.dyn4j.dynamics.World;
 import org.dyn4j.geometry.AABB;
+import org.dyn4j.geometry.Transform;
+import org.dyn4j.geometry.Vector2;
 
 import graphics.IntRect;
 import java.awt.Color;
@@ -35,7 +37,11 @@ public class DebugDrawer implements Drawable
 						(int)(obj.getMinX()), (int)(obj.getMinY()),
 						(int)(obj.getMaxX() - obj.getMinX()),
 						(int)(obj.getMaxY() - obj.getMinY()));
+				
+				p_renderer.setTransform(b.getTransform()); // Use getTransform from the body for drawing things
+				
 				p_renderer.drawRect(boundingBox, Color.RED, 0.5f, 3);
+				p_renderer.resetTransform();
 			}
 		}
 	}

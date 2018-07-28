@@ -9,6 +9,7 @@ import java.awt.GraphicsEnvironment;
 import java.awt.Color;
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.RenderingHints;
 import java.awt.Font;
@@ -17,6 +18,8 @@ import java.awt.Toolkit;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import org.dyn4j.geometry.Vector2;
 
 /**
  * Renders all the sprites, GUI, and additional shapes to the screen
@@ -81,6 +84,30 @@ public class Renderer implements Page
 	{
 		m_graphics.setColor(Color.WHITE);
 		m_graphics.fillRect(0, 0, m_width, m_height);
+	}
+	
+	public void setTransform(AffineTransform p_transform)
+	{
+		m_graphics.setTransform(p_transform);
+	}
+
+	public void setTransform(org.dyn4j.geometry.Transform p_transform, float p_scale)
+	{
+		AffineTransform t = new AffineTransform();
+		Vector2 translate = new Vector2(p_transform.getTranslationX() * p_scale, p_transform.getTranslationY() * p_scale);
+		t.translate(translate.x, translate.y);
+		t.rotate(p_transform.getRotation());
+		setTransform(t);
+	}
+	
+	public void setTransform(org.dyn4j.geometry.Transform p_transform)
+	{
+		setTransform(p_transform, 1);
+	}
+	
+	public void resetTransform()
+	{
+		m_graphics.setTransform(new AffineTransform());
 	}
 	
 	/**
