@@ -1,3 +1,5 @@
 <atlas>
-    <subtexture name="default" x="0" y="0" w="128" h="48"/>
+    <subtexture name="edge_L" x="0" y="0" w="43" h="48"/>
+    <subtexture name="ground" x="43" y="0" w="43" h="48"/>
+    <subtexture name="edge_R" x="86" y="0" w="43" h="48"/>
 </atlas>
