@@ -76,6 +76,8 @@ public abstract class Character implements Drawable
 		}
 	}
 	
+	public void resetJump() {m_jumped = false; m_recovered = false;}
+	
 	public abstract void jab(Battle p_battle);
 	public abstract void tilt(Battle p_battle);
 	public abstract void smash(Battle p_battle);
