@@ -28,9 +28,6 @@ public class Battle
 	public Battle(Stage p_env)
 	{
 		setStage(p_env);
-		//Gotta get dem listeners
-		p_env.getPhysicsWorld().addListener(new HitboxListener());
-		p_env.getPhysicsWorld().addListener(new GroundListener());
 	}
 	
 	public Battle() {}
@@ -38,6 +35,9 @@ public class Battle
 	public void setStage(Stage p_env)
 	{
 		m_stage = p_env;
+		//Gotta get dem listeners
+		m_stage.getPhysicsWorld().addListener(new HitboxListener());
+		m_stage.getPhysicsWorld().addListener(new GroundListener());
 	}
 	
 	public World getWorld()
