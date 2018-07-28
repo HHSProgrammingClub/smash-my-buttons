@@ -1,4 +1,5 @@
-package program;
+package stages;
+
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.geometry.AABB;
 import org.dyn4j.geometry.Convex;
@@ -16,22 +17,10 @@ public class TerrainPiece implements Drawable
 	
 	public TerrainPiece() {}
 	
-	public TerrainPiece(Body p_body)
-	{
-		setBody(p_body);
-		m_body.setMassType(MassType.INFINITE);
-	}
-	
-	public TerrainPiece(Convex p_shape)
-	{
-		m_body = new Body ();
-		m_body.setMassType(MassType.INFINITE);
-		m_body.addFixture(p_shape);
-	}
-	
 	public void setBody(Body p_body)
 	{
 		m_body = p_body;
+		m_body.setUserData(this);
 	}
 	
 	public Body getBody()
@@ -48,7 +37,7 @@ public class TerrainPiece implements Drawable
 	private Vector2 getPosition()
 	{
 		AABB bodyBounds = m_body.createAABB();
-		return new Vector2(bodyBounds.getMinX(), bodyBounds.getMinY());
+		return new Vector2(bodyBounds.getMinX(), bodyBounds.getMinY()).multiply(32);
 	}
 	
 	@Override

@@ -4,6 +4,8 @@ import org.dyn4j.dynamics.contact.ContactPoint;
 import org.dyn4j.dynamics.contact.PersistedContactPoint;
 import org.dyn4j.dynamics.contact.SolvedContactPoint;
 
+import stages.TerrainPiece;
+
 public class GroundListener implements ContactListener {
 	@Override
 	//The important one

@@ -17,7 +17,7 @@ import org.dyn4j.geometry.Vector2;
 public class Battle
 {
 	private ArrayList<Hitbox> m_hitboxes = new ArrayList<Hitbox>();
-	private Stage m_env;
+	private Stage m_stage;
 
 	private boolean m_visibleHitboxes = true;
 	
@@ -37,12 +37,12 @@ public class Battle
 
 	public void setEnvironment(Stage p_env)
 	{
-		m_env = p_env;
+		m_stage = p_env;
 	}
 	
 	public World getWorld()
 	{ 
-		return m_env.getPhysicsWorld();
+		return m_stage.getPhysicsWorld();
 	}
 	
 	//is this hitbox stuff necessary? - see comment on GitHub
@@ -60,7 +60,7 @@ public class Battle
 	public void addCharacter(CharacterController p_controller, int p_port)
 	{
 		m_charControllers[p_port - 1] = p_controller;
-		m_env.getPhysicsWorld().addBody(p_controller.getCharacter().getBody());
+		m_stage.getPhysicsWorld().addBody(p_controller.getCharacter().getBody());
 	}
 	
 	public int getCharacterCount()
@@ -75,9 +75,9 @@ public class Battle
 	
 	private void update(float p_delta)
 	{
-		m_env.getPhysicsWorld().updatev((double)(p_delta));
+		m_stage.getPhysicsWorld().updatev((double)(p_delta));
 		//Some joke code for testing
-		for(Body b : m_env.getPhysicsWorld().getBodies()) {
+		for(Body b : m_stage.getPhysicsWorld().getBodies()) {
 			b.applyImpulse(
 					new Vector2(5, 0)
 			);
@@ -117,6 +117,8 @@ public class Battle
 	{
 		RenderList renderList = new RenderList();
 		
+		m_stage.registerTerrainSprites(renderList);
+		
 		//test sprites
 		Texture tex1 = new Texture();
 		tex1.openResource("resources/images/birboi");
@@ -133,7 +135,7 @@ public class Battle
 		renderList.addDrawable(sprite2);
 		
 		//debug
-		DebugDrawer debugger = new DebugDrawer(m_env.getPhysicsWorld());
+		DebugDrawer debugger = new DebugDrawer(m_stage.getPhysicsWorld());
 		
 		Clock gameClock = new Clock();
 		float delta = 0;

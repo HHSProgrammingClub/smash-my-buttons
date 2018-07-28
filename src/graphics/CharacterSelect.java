@@ -232,7 +232,7 @@ public class CharacterSelect implements Page
 					public void actionPerformed(ActionEvent e)
 					{
 						Battle royale = new Battle();
-						royale.setEnvironment(newStage(m_chosenStageName));
+						royale.setStage(newStage(m_chosenStageName));
 						royale.addCharacter(m_p1, 1);
 						royale.addCharacter(m_p2, 2);
 						royale.startBattle(p_gui);

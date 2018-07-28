@@ -3,26 +3,16 @@ import java.util.ArrayList;
 
 import org.dyn4j.dynamics.World;
 
-import program.TerrainPiece;
+import graphics.RenderList;
 
 public abstract class Stage
 {
 	public static String[] stageNames = {"TestingStage"};
 	
-	private World m_world;
-	private ArrayList<TerrainPiece> m_terrain;
+	private World m_world = new World();
+	protected ArrayList<TerrainPiece> m_terrain = new ArrayList<TerrainPiece>();
 	
 	protected String m_name;
-	
-	public Stage()
-	{
-		m_world = new World();
-	}
-	
-	public Stage(World p_world)
-	{
-		setPhysicsWorld(p_world);
-	}
 	
 	public String getName()
 	{
@@ -39,10 +29,10 @@ public abstract class Stage
 		return m_world;
 	}
 	
-	protected void addTerrainPiece(TerrainPiece p_piece)
+	public void registerTerrainSprites(RenderList p_list)
 	{
-		m_terrain.add(p_piece);
-		m_world.addBody(p_piece.getBody());
+		for(TerrainPiece t : m_terrain)
+			p_list.addDrawable(t);
 	}
 	
 }
