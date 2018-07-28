@@ -13,4 +13,7 @@ public class Sound
 	    * Sound.NAME.loop();
 	    * Sound.NAME.stop();
 	    */
+	public static final AudioClip SFX = Applet.newAudioClip(Sound.class.getResource("resources/sfx/openthing.wav"));
+	
+	public static final AudioClip MUSIC = Applet.newAudioClip(Sound.class.getResource("resources/sfx/atheme_2.wav"));
 }
