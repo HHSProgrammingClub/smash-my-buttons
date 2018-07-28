@@ -1,7 +1,5 @@
-package program;
+package graphics;
 import org.w3c.dom.Element;
-
-import graphics.IntRect;
 
 public class Animation 
 {
@@ -9,12 +7,14 @@ public class Animation
 	private int m_frameCount;
 	private float m_interval;
 	private boolean m_loop;
+	private boolean m_pingpong;
 	private String m_name;
 	
 	public Animation()
 	{
 		m_frame = new IntRect(0, 0, 0, 0);
 		m_loop = false;
+		m_pingpong = false;
 		m_frameCount = 0;
 		m_interval = 0;
 	}
@@ -29,6 +29,10 @@ public class Animation
 		IntRect frame = new IntRect(m_frame);
 		if (m_loop)
 			frame.x += m_frame.w*((p_frame % m_frameCount + m_frameCount) % m_frameCount);
+		else if(m_pingpong)
+			frame.x += ((int)(p_frame / (m_frameCount - 1)) % 2 == 0 ?
+					m_frameCount - 1 - (p_frame % (m_frameCount - 1)) :
+						p_frame % (m_frameCount - 1));
 		else
 			frame.x += m_frame.w*Math.max(Math.min(p_frame, m_frameCount), 0 );
 		return frame; 
@@ -75,6 +79,11 @@ public class Animation
 			m_loop = Integer.parseInt(p_ele.getAttribute("loop")) == 0 ? false : true;
 		else
 			m_loop = false;
+		
+		if(p_ele.hasAttribute("pingpong"))
+			m_pingpong = true;
+		else
+			m_pingpong = false;
 	}
 	
 }
