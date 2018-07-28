@@ -34,13 +34,14 @@ public class Sprite implements Drawable
 		if (m_animation.getFrameCount() > 1
 				&& m_animation.getInterval() > 0)
 		{
-			// Looped
+			// Animation
 			int frameIdx = (int)(m_clock.getElapse() / m_animation.getInterval());
 			frame = m_animation.getFrame(frameIdx);
 		}
 		else
-			// Not looped
+			// Not animation
 			frame = m_animation.getFrame();
+		
 		IntRect destination = new IntRect(m_position, new Vector2(frame.w*m_scale.x, frame.h*m_scale.y));
 		p_renderer.drawTexture(m_texture, frame, destination);
 	}

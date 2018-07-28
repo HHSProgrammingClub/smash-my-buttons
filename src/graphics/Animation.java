@@ -6,15 +6,18 @@ public class Animation
 	private IntRect m_frame;
 	private int m_frameCount;
 	private float m_interval;
-	private boolean m_loop;
-	private boolean m_pingpong;
+	private int m_loop;
 	private String m_name;
+
+	public static int LOOPTYPE_NONE = 0;
+	public static int LOOPTYPE_STARTEND = 1;
+	public static int LOOPTYPE_PINGPONG = 2;
+	
 	
 	public Animation()
 	{
 		m_frame = new IntRect(0, 0, 0, 0);
-		m_loop = false;
-		m_pingpong = false;
+		m_loop = LOOPTYPE_NONE;
 		m_frameCount = 0;
 		m_interval = 0;
 	}
@@ -26,15 +29,16 @@ public class Animation
 	
 	public IntRect getFrame(int p_frame)
 	{
-		IntRect frame = new IntRect(m_frame);
-		if (m_loop)
-			frame.x += m_frame.w*((p_frame % m_frameCount + m_frameCount) % m_frameCount);
-		else if(m_pingpong)
-			frame.x += ((int)(p_frame / (m_frameCount - 1)) % 2 == 0 ?
-					m_frameCount - 1 - (p_frame % (m_frameCount - 1)) :
-						p_frame % (m_frameCount - 1));
+		int frameIdx = 0;
+		if (m_loop == LOOPTYPE_STARTEND)
+			frameIdx = (p_frame % m_frameCount + m_frameCount) % m_frameCount;
+		else if (m_loop == LOOPTYPE_PINGPONG)
+			frameIdx = pingpongIntValue(p_frame, m_frameCount - 1);
 		else
-			frame.x += m_frame.w*Math.max(Math.min(p_frame, m_frameCount), 0 );
+			frameIdx = Math.max(Math.min(p_frame, m_frameCount), 0);
+
+		IntRect frame = new IntRect(m_frame);
+		frame.x += m_frame.w*frameIdx;
 		return frame; 
 	}
 	
@@ -48,7 +52,7 @@ public class Animation
 		return m_interval;
 	}
 	
-	public boolean isLooped()
+	public int getLoopType()
 	{
 		return m_loop;
 	}
@@ -73,17 +77,18 @@ public class Animation
 			m_frameCount = 1;
 		
 		if (p_ele.hasAttribute("interval"))
-			m_interval = Float.parseFloat(p_ele.getAttribute("interval")) / 1000f;
+			m_interval = Float.parseFloat(p_ele.getAttribute("interval")) / 1000f; // Convert from milliseconds to seconds
 		
-		if (p_ele.hasAttribute("loop"))
-			m_loop = Integer.parseInt(p_ele.getAttribute("loop")) == 0 ? false : true;
+		if (p_ele.hasAttribute("loop") && Integer.parseInt(p_ele.getAttribute("loop")) == 1)
+			m_loop =  LOOPTYPE_STARTEND;
+		else if (p_ele.hasAttribute("pingpong") && Integer.parseInt(p_ele.getAttribute("pingpong")) == 1)
+			m_loop = LOOPTYPE_PINGPONG;
 		else
-			m_loop = false;
-		
-		if(p_ele.hasAttribute("pingpong"))
-			m_pingpong = true;
-		else
-			m_pingpong = false;
+			m_loop = LOOPTYPE_NONE;
 	}
 	
+	private int pingpongIntValue(int p_value, int p_end)
+	{
+		return (p_value / p_end) % 2 > 0 ? p_end - (p_value%p_end) : (p_value%p_end);
+	}
 }
