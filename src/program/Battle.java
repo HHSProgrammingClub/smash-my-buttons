@@ -23,6 +23,9 @@ public class Battle
 	
 	private CharacterController[] m_charControllers = new CharacterController [2];
 	
+	private Renderer m_renderer = new Renderer();
+	RenderList m_renderList = new RenderList();
+	
 	private Thread battleThread;
 	
 	public Battle(Stage p_env)
@@ -61,6 +64,8 @@ public class Battle
 	{
 		m_charControllers[p_port - 1] = p_controller;
 		m_stage.getPhysicsWorld().addBody(p_controller.getCharacter().getBody());
+		m_renderList.addDrawable(p_controller.getCharacter());
+		p_controller.getCharacter().getBody().translate(3 + 4 * p_port, 0);
 	}
 	
 	public int getCharacterCount()
@@ -90,13 +95,13 @@ public class Battle
 	
 	public void startBattle(GUI p_gui)
 	{
-		p_gui.setPage(p_gui.getRenderer());
+		p_gui.setPage(m_renderer);
 		
 		battleThread = new Thread(new Runnable()
 				{
 					public void run()
 					{
-						gameLoop(p_gui.getRenderer());
+						gameLoop();
 					}
 				});
 		
@@ -108,11 +113,9 @@ public class Battle
 		battleThread.interrupt();
 	}
 	
-	private void gameLoop(Renderer p_renderer)
+	private void gameLoop()
 	{
-		RenderList renderList = new RenderList();
-		
-		m_stage.registerTerrainSprites(renderList);
+		m_stage.registerTerrainSprites(m_renderList);
 		
 		//test sprites
 		Texture tex1 = new Texture();
@@ -120,14 +123,14 @@ public class Battle
 		
 		Sprite sprite = new Sprite(tex1, "idle");
 		sprite.setPosition(new Vector2(300, 200));
-		renderList.addDrawable(sprite);
+		m_renderList.addDrawable(sprite);
 		
 		Texture tex2 = new Texture();
 		tex2.openResource("resources/images/jack");
 		
 		Sprite sprite2 = new Sprite(tex2, "idle");
 		sprite2.setPosition(new Vector2(500, 100));
-		renderList.addDrawable(sprite2);
+		m_renderList.addDrawable(sprite2);
 		
 		//debug
 		DebugDrawer debugger = new DebugDrawer(m_stage.getPhysicsWorld());
@@ -144,19 +147,19 @@ public class Battle
 			gameClock.restart();
 			
 			//clear the buffer
-			p_renderer.clear();
+			m_renderer.clear();
 			
 			update(delta);
 			//update the world
 			//draw sprites
-			renderList.draw(p_renderer);
+			m_renderList.draw(m_renderer);
 			
 			//debug
 			if(m_visibleHitboxes)
-				debugger.draw(p_renderer);
+				debugger.draw(m_renderer);
 			
 			//display the current frame
-			p_renderer.display();
+			m_renderer.display();
 			
 			//delay
 			try {

@@ -10,6 +10,8 @@ import org.dyn4j.geometry.Transform;
 import org.dyn4j.geometry.Vector2;
 
 import graphics.IntRect;
+import stages.TerrainPiece;
+
 import java.awt.Color;
 
 public class DebugDrawer implements Drawable
@@ -38,12 +40,17 @@ public class DebugDrawer implements Drawable
 						(int)(obj.getMaxX() - obj.getMinX()),
 						(int)(obj.getMaxY() - obj.getMinY()));
 				
+				boundingBox.scale(32);
+				boundingBox.x = boundingBox.x * 32;
+				boundingBox.y = boundingBox.y * 32;
+				
 				p_renderer.setTransform(b.getTransform()); // Use getTransform from the body for drawing things
-				if(b.isAsleep()) {
+				if(b.getUserData() instanceof Character)
 					p_renderer.drawRect(boundingBox, Color.RED, 0.5f, 3);
-				}else {
+				else if (b.getUserData() instanceof TerrainPiece)
 					p_renderer.drawRect(boundingBox, Color.BLUE, 0.5f, 3);
-				}
+				else
+					p_renderer.drawRect(boundingBox, Color.GREEN, 0.5f, 3);
 				
 				p_renderer.resetTransform();
 			}

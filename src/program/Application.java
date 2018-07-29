@@ -13,8 +13,7 @@ public class Application
 	public static void main(String[] args)
 	{
 		//initialize the application window
-		Renderer renderer = new Renderer();
-		GUI gui = new GUI(renderer);
+		GUI gui = new GUI();
 		
 		StartMenu start = new StartMenu(gui);
 		gui.setPage(start);

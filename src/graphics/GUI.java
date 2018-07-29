@@ -8,13 +8,12 @@ public class GUI
 {
 	private JFrame m_window;
 	private Page m_currentPage;
-	private Renderer m_renderer;
 	
 	//ratio of the default window size (800x600) to cathy's desktop computer
 	private final float SCALE_W = 0.6f;
 	private final float SCALE_H = 0.8f;
 	
-	public GUI(Renderer p_renderer)
+	public GUI()
 	{
 		//get the resolution of the user's computer
 		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
@@ -30,8 +29,6 @@ public class GUI
 		m_window.setVisible(true);
 		m_window.setLocationRelativeTo(null);
 		m_window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		m_renderer = p_renderer;
 	}
 	
 	public void setPage(Page p_page)
@@ -49,11 +46,6 @@ public class GUI
 	public Page getCurrentPage()
 	{
 		return m_currentPage;
-	}
-	
-	public Renderer getRenderer()
-	{
-		return m_renderer;
 	}
 	
 	public JFrame getWindow()

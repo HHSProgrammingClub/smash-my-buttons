@@ -37,7 +37,7 @@ public class TerrainPiece implements Drawable
 	private Vector2 getPosition()
 	{
 		AABB bodyBounds = m_body.createAABB();
-		return new Vector2(bodyBounds.getMinX(), bodyBounds.getMinY()).multiply(32);
+		return new Vector2(bodyBounds.getMinX(), bodyBounds.getMinY())/*.multiply(32)*/;
 	}
 	
 	@Override

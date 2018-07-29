@@ -239,6 +239,8 @@ public class CharacterSelect implements Page
 					}
 				});
 		m_panel.add(btnStartFight, gbc_btnStartFight);
+		
+		
 		characterSelector1.setSelectedIndex(0);
 		GridBagConstraints gbc_characterSelector1 = new GridBagConstraints();
 		gbc_characterSelector1.fill = GridBagConstraints.HORIZONTAL;

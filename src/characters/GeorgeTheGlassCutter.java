@@ -6,6 +6,8 @@ import org.dyn4j.geometry.MassType;
 import org.dyn4j.geometry.Rectangle;
 import org.dyn4j.geometry.Transform;
 
+import graphics.Sprite;
+import graphics.Texture;
 import program.Battle;
 
 //A sample character.
@@ -26,10 +28,18 @@ public class GeorgeTheGlassCutter extends Character
 		hurtbox.setDensity(1);
 		hurtbox.setFriction(0.5);
 		hurtbox.setRestitution(0.9);*/
-		tushie.addFixture(new Rectangle(64, 64));
+		tushie.addFixture(new Rectangle(4, 4));
 		tushie.setMass(MassType.NORMAL);
 		//tushie.setLinearVelocity(2, 5);
 		setBody(tushie);
+		
+		Texture tex = new Texture();
+		tex.openResource("resources/images/birboi");
+		
+		Sprite sp = new Sprite(tex);
+		sp.setAnimation("idle");
+		
+		setSprite(sp);
 	}
 	
 	public void jab(Battle p_battle)
