@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.World;
 import org.dyn4j.geometry.Rectangle;
+import org.dyn4j.geometry.Vector2;
 
 import graphics.Sprite;
 import graphics.Texture;
@@ -14,6 +15,7 @@ public class TestingStage extends Stage
 	public TestingStage()
 	{
 		World aWorld = new World();
+		aWorld.setGravity(new Vector2(0, 5));
 		//set up world
 		setPhysicsWorld(aWorld);
 		m_name = "TestingStage";

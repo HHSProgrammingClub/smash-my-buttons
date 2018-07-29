@@ -39,8 +39,12 @@ public class DebugDrawer implements Drawable
 						(int)(obj.getMaxY() - obj.getMinY()));
 				
 				p_renderer.setTransform(b.getTransform()); // Use getTransform from the body for drawing things
+				if(b.isAsleep()) {
+					p_renderer.drawRect(boundingBox, Color.RED, 0.5f, 3);
+				}else {
+					p_renderer.drawRect(boundingBox, Color.BLUE, 0.5f, 3);
+				}
 				
-				p_renderer.drawRect(boundingBox, Color.RED, 0.5f, 3);
 				p_renderer.resetTransform();
 			}
 		}

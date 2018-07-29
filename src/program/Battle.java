@@ -80,7 +80,7 @@ public class Battle
 		for(Body b : m_stage.getPhysicsWorld().getBodies()) {
 			b.setAsleep(false);
 			b.setActive(true);
-			b.applyImpulse(new Vector2(0, 5));
+			//b.applyImpulse(new Vector2(0, 5));
 			//if(b.getUserData() instanceof Character) {
 				System.out.println("MYNAME" + b.getChangeInPosition());
 				System.out.println("JEFF" + b.getLinearVelocity());
