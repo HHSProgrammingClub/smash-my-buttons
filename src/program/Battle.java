@@ -76,16 +76,7 @@ public class Battle
 	private void update(float p_delta)
 	{
 		m_stage.getPhysicsWorld().updatev((double)(p_delta));
-		//Some joke code for testing
-		for(Body b : m_stage.getPhysicsWorld().getBodies()) {
-			b.setAsleep(false);
-			b.setActive(true);
-			//b.applyImpulse(new Vector2(0, 5));
-			//if(b.getUserData() instanceof Character) {
-				System.out.println("MYNAME" + b.getChangeInPosition());
-				System.out.println("JEFF" + b.getLinearVelocity());
-			//}
-		}
+		
 		for(int i = m_hitboxes.size() - 1; i >= 0; i--)
 		{
 			m_hitboxes.get(i).updateTimer(p_delta);
