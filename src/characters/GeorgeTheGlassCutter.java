@@ -18,9 +18,9 @@ public class GeorgeTheGlassCutter extends Character
 	public GeorgeTheGlassCutter() 
 	{
 		Body tushie = new Body();
-		// Make it non-rotating
+		// TODO: Make it non-rotating
 		Transform t = new Transform();
-		t.setTranslation(position, 9);
+		t.setTranslation(position, 0);
 		tushie.setTransform(t);
 		position += 1;
 		// Add the collision fixture
@@ -34,7 +34,7 @@ public class GeorgeTheGlassCutter extends Character
 		setBody(tushie);
 		
 		Texture tex = new Texture();
-		tex.openResource("resources/images/birboi");
+		tex.openResource("resources/images/jack");
 		
 		Sprite sp = new Sprite(tex);
 		sp.setAnimation("idle");
