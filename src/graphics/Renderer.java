@@ -31,6 +31,8 @@ public class Renderer implements Page
 	public Graphics2D m_graphics;
 	public JPanel m_panel;
 	
+	private AffineTransform m_matrix;
+	
 	private int m_width, m_height;
 	
 	private float m_scale;
@@ -46,12 +48,17 @@ public class Renderer implements Page
 		m_height = Toolkit.getDefaultToolkit().getScreenSize().height;
 		
 		//calculate the scale according to the screen size
-		m_scale = (m_width * DEFAULT_SCALE) / 800;
+		m_scale = (m_width * DEFAULT_SCALE) / 800;		
 		
 		//create the buffers to draw stuff on
 		m_frontBuffer = new BufferedImage(m_width, m_height, BufferedImage.TYPE_INT_ARGB);
 		m_backBuffer = new BufferedImage(m_width, m_height, BufferedImage.TYPE_INT_ARGB);
 		m_graphics = m_backBuffer.createGraphics();
+		
+		//transform the coordinate system according to the scale
+		m_matrix = new AffineTransform();
+		m_matrix.scale(m_scale, m_scale);
+		m_graphics.transform(m_matrix);
 		
 		//create the JPanel that holds the canvas
 		m_panel = new JPanel() {
@@ -59,10 +66,12 @@ public class Renderer implements Page
 			public void paintComponent(Graphics g)
 			{
 				super.paintComponent(g);
-				g.drawImage(m_frontBuffer, 0, 0, this);
+				((Graphics2D) g).drawImage(m_frontBuffer, m_matrix, this);
 				repaint();
 			}
 		};
+		
+		
 	}
 	
 	/**
@@ -118,13 +127,9 @@ public class Renderer implements Page
 	 */
 	public void drawTexture(Texture p_texture, IntRect p_frame, IntRect p_dest)
 	{	
-		//scale image at (0, 0)
-		int scaledX = (int)(p_frame.w * m_scale);
-		int scaledY = (int)(p_frame.h * m_scale);
-		
 		//draw the scaled image to desired destination
-		m_graphics.drawImage(p_texture.getImage(), p_dest.x, p_dest.y, p_dest.x + scaledX, p_dest.y + scaledY,
-					 p_frame.x, p_frame.y, p_frame.x + p_frame.w, p_frame.y + p_frame.h, m_panel);
+		m_graphics.drawImage(p_texture.getImage(), p_dest.x, p_dest.y, p_dest.x + p_dest.w, p_dest.y + p_dest.h,
+				 p_frame.x, p_frame.y, p_frame.x + p_frame.w, p_frame.y + p_frame.h, m_panel);
 	}
 	
 	/**
@@ -194,4 +199,5 @@ public class Renderer implements Page
 	}
 	
 	//TODO: custom boxes from sprite sheet?
+	//TODO: scale coordinate system golly gee
 }
