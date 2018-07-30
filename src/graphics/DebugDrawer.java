@@ -36,7 +36,7 @@ public class DebugDrawer implements Drawable
 				//choose one
 				AABB obj = f.getShape().createAABB();
 				IntRect boundingBox = new IntRect(obj);
-				System.out.println(b.getWorldCenter());
+				//System.out.println(b.getWorldCenter());
 				Transform trueT = b.getTransform();
 				//make a copy
 				Transform tMinus = new Transform();

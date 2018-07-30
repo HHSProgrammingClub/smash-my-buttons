@@ -29,7 +29,7 @@ public class GeorgeTheGlassCutter extends Character
 		hurtbox.setFriction(0.5);
 		hurtbox.setRestitution(0.9);*/
 		tushie.addFixture(new Rectangle(2, 2));
-		tushie.setMass(MassType.NORMAL);
+		tushie.setMass(MassType.FIXED_ANGULAR_VELOCITY);
 		//tushie.setLinearVelocity(2, 5);
 		setBody(tushie);
 		

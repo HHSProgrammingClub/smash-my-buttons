@@ -113,7 +113,7 @@ public abstract class Character implements Drawable
 	public void draw(Renderer p_renderer)
 	{
 		IntRect charRect = new IntRect(m_body.createAABB());
-		m_sprite.setPosition(charRect.x, charRect.y);
+		m_sprite.setPosition(charRect.x * 32, charRect.y * 32);
 		m_sprite.draw(p_renderer);
 	}
 }

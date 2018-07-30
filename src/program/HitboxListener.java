@@ -19,7 +19,7 @@ public class HitboxListener implements CollisionListener {
 			c.takeHit(h);
 			return false;
 		}
-		System.out.println("3 blind mice");
+		//System.out.println("3 blind mice");
 		return true;
 	}
 	@Override
