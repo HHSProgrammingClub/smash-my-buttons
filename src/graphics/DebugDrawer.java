@@ -36,12 +36,19 @@ public class DebugDrawer implements Drawable
 				//choose one
 				AABB obj = f.getShape().createAABB();
 				IntRect boundingBox = new IntRect(obj);
-				
+				System.out.println(b.getWorldCenter());
+				Transform trueT = b.getTransform();
+				//make a copy
+				Transform tMinus = new Transform();
+				tMinus.setTranslation(trueT.getTranslationX() * 32,
+									trueT.getTranslationY() * 32);
+				tMinus.setRotation(trueT.getRotation());
+				p_renderer.setTransform(tMinus); // Use getTransform from the body for drawing things
 				boundingBox.scale(32);
-				boundingBox.x = boundingBox.x * 32;
-				boundingBox.y = boundingBox.y * 32;
+				boundingBox.x = (int) (boundingBox.x * 32);
+				boundingBox.y = (int) (boundingBox.y * 32);
 				
-				p_renderer.setTransform(b.getTransform()); // Use getTransform from the body for drawing things
+				
 				if(b.getUserData() instanceof Character)
 					p_renderer.drawRect(boundingBox, Color.RED, 0.5f, 3);
 				else if (b.getUserData() instanceof TerrainPiece)

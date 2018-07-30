@@ -94,4 +94,9 @@ public class IntRect
 		w *= scalar;
 		h *= scalar;
 	}
+	
+	public String toString() {
+		//quickndirty
+		return "" + x + " " + y + " " + w + " " + h + " ";
+	}
 }
