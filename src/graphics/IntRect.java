@@ -1,4 +1,5 @@
 package graphics;
+import org.dyn4j.geometry.AABB;
 import org.dyn4j.geometry.Vector2;
 
 
@@ -56,6 +57,14 @@ public class IntRect
 		y = (int)p_offset.y;
 		w = (int)p_size.x;
 		h = (int)p_size.y;
+	}
+	
+	public IntRect(AABB p_boundingBox)
+	{
+		this(
+				(int)(p_boundingBox.getMinX()), (int)(p_boundingBox.getMinY()),
+				(int)(p_boundingBox.getMaxX() - p_boundingBox.getMinX()),
+				(int)(p_boundingBox.getMaxY() - p_boundingBox.getMinY()));
 	}
 	
 	/**

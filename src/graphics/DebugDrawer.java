@@ -35,10 +35,7 @@ public class DebugDrawer implements Drawable
 				//draw the thing
 				//choose one
 				AABB obj = f.getShape().createAABB();
-				IntRect boundingBox = new IntRect(
-						(int)(obj.getMinX()), (int)(obj.getMinY()),
-						(int)(obj.getMaxX() - obj.getMinX()),
-						(int)(obj.getMaxY() - obj.getMinY()));
+				IntRect boundingBox = new IntRect(obj);
 				
 				boundingBox.scale(32);
 				boundingBox.x = boundingBox.x * 32;

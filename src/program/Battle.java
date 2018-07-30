@@ -2,6 +2,7 @@ package program;
 
 import graphics.DebugDrawer;
 import graphics.GUI;
+import graphics.IntRect;
 import graphics.RenderList;
 import graphics.Renderer;
 import graphics.Sprite;
@@ -81,6 +82,12 @@ public class Battle
 	private void update(float p_delta)
 	{
 		m_stage.getPhysicsWorld().updatev((double)(p_delta));
+		
+		for(CharacterController c : m_charControllers)
+		{
+			IntRect charRect = new IntRect(c.getCharacter().getBody().createAABB());
+			c.getCharacter().getSprite().setPosition(charRect.x, charRect.y);
+		}
 		
 		for(int i = m_hitboxes.size() - 1; i >= 0; i--)
 		{
