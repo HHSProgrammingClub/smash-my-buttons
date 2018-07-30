@@ -1,4 +1,6 @@
 package graphics;
+import java.awt.Color;
+
 import org.dyn4j.geometry.Vector2;
 
 import program.Clock;
@@ -44,6 +46,8 @@ public class Sprite implements Drawable
 		
 		IntRect destination = new IntRect(m_position, new Vector2(frame.w*m_scale.x, frame.h*m_scale.y));
 		p_renderer.drawTexture(m_texture, frame, destination);
+		//for sprite visualization
+		p_renderer.drawRect(destination, Color.MAGENTA, 1.f, 2);
 	}
 	
 	public void setTexture(Texture p_texture)
