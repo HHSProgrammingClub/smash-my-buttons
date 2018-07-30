@@ -6,6 +6,7 @@ import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.World;
 import org.dyn4j.geometry.MassType;
 import org.dyn4j.geometry.Rectangle;
+import org.dyn4j.geometry.Transform;
 import org.dyn4j.geometry.Vector2;
 
 import graphics.Sprite;
@@ -16,7 +17,7 @@ public class TestingStage extends Stage
 	public TestingStage()
 	{
 		World aWorld = new World();
-		aWorld.setGravity(new Vector2(0, 20));
+		aWorld.setGravity(new Vector2(0, 5));
 		//set up world
 		setPhysicsWorld(aWorld);
 		m_name = "TestingStage";
@@ -30,8 +31,10 @@ public class TestingStage extends Stage
 			Rectangle groundShape = new Rectangle(3, 1);
 			
 			Body groundBody = new Body();
+			Transform t = new Transform();
+			t.setTranslation(i, 3);
+			groundBody.setTransform(t);
 			groundBody.addFixture(groundShape);
-			groundBody.translate(i, 13);
 			groundBody.setMassType(MassType.INFINITE);
 			
 			Texture groundTexture = new Texture();
