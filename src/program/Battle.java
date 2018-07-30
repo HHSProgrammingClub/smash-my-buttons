@@ -118,21 +118,6 @@ public class Battle
 	{
 		m_stage.registerTerrainSprites(m_renderList);
 		
-		//test sprites
-		Texture tex1 = new Texture();
-		tex1.openResource("resources/images/birboi");
-		
-		Sprite sprite = new Sprite(tex1, "idle");
-		sprite.setPosition(new Vector2(50, 20));
-		m_renderList.addDrawable(sprite);
-		
-		Texture tex2 = new Texture();
-		tex2.openResource("resources/images/jack");
-		
-		Sprite sprite2 = new Sprite(tex2, "idle");
-		sprite2.setPosition(new Vector2(100, 50));
-		m_renderList.addDrawable(sprite2);
-		
 		//debug
 		DebugDrawer debugger = new DebugDrawer(m_stage.getPhysicsWorld());
 		
