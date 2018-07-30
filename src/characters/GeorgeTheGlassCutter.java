@@ -20,9 +20,9 @@ public class GeorgeTheGlassCutter extends Character
 		Body tushie = new Body();
 		// Make it non-rotating
 		Transform t = new Transform();
-		t.setTranslation(position, 100);
+		t.setTranslation(position, 9);
 		tushie.setTransform(t);
-		position += 100;
+		position += 1;
 		// Add the collision fixture
 		/*BodyFixture hurtbox = new BodyFixture(new Rectangle(64, 64)); //this will be very, very big
 		hurtbox.setDensity(1);
