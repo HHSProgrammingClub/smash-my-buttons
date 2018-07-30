@@ -17,15 +17,17 @@ public class HitboxListener implements CollisionListener {
 					(characters.Character)(body1.getUserData()));
 			Hitbox h = ((Hitbox)fixture2.getUserData());
 			c.takeHit(h);
+			return false;
 		}
-		return false;
+		System.out.println("3 blind mice");
+		return true;
 	}
 	@Override
 	public boolean collision(Body body1, BodyFixture fixture1, Body body2,
-			BodyFixture fixture2, Manifold manifold) { return false; }
+			BodyFixture fixture2, Manifold manifold) { return true; }
 	@Override
 	public boolean collision(Body body1, BodyFixture fixture1, Body body2,
-			BodyFixture fixture2, Penetration penetration) { return false; }
+			BodyFixture fixture2, Penetration penetration) { return true; }
 	@Override
-	public boolean collision(ContactConstraint contactConstraint) { return false; }
+	public boolean collision(ContactConstraint contactConstraint) { return true; }
 }

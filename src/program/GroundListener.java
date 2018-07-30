@@ -10,6 +10,7 @@ public class GroundListener implements ContactListener {
 	@Override
 	//The important one
 	public void sensed(ContactPoint point) {
+		System.out.println("RIGGED");
 		if(point.getBody1().getUserData() instanceof characters.Character &&
 				point.getBody2().getUserData() instanceof TerrainPiece) {
 			characters.Character c = (
