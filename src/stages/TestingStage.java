@@ -28,11 +28,11 @@ public class TestingStage extends Stage
 	{
 		for(int i = 0; i < 6; i++)
 		{
-			Rectangle groundShape = new Rectangle(3, 1);
+			Rectangle groundShape = new Rectangle(3, 1.5);
 			
 			Body groundBody = new Body();
 			Transform t = new Transform();
-			t.setTranslation(i, 3);
+			t.setTranslation(i * 3, 8);
 			groundBody.setTransform(t);
 			groundBody.addFixture(groundShape);
 			groundBody.setMassType(MassType.INFINITE);
