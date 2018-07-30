@@ -6,9 +6,11 @@ import org.dyn4j.geometry.MassType;
 import org.dyn4j.geometry.Rectangle;
 import org.dyn4j.geometry.Vector2;
 import graphics.Drawable;
+import graphics.IntRect;
 import graphics.Renderer;
 import graphics.Sprite;
 import program.Battle;
+import program.CharacterController;
 import program.Hitbox;
 
 
@@ -110,6 +112,8 @@ public abstract class Character implements Drawable
 	@Override
 	public void draw(Renderer p_renderer)
 	{
+		IntRect charRect = new IntRect(m_body.createAABB());
+		m_sprite.setPosition(charRect.x, charRect.y);
 		m_sprite.draw(p_renderer);
 	}
 }
