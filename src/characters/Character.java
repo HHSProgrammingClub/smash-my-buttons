@@ -4,6 +4,7 @@ import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.BodyFixture;
 import org.dyn4j.geometry.MassType;
 import org.dyn4j.geometry.Rectangle;
+import org.dyn4j.geometry.Transform;
 import org.dyn4j.geometry.Vector2;
 import graphics.Drawable;
 import graphics.IntRect;
@@ -112,8 +113,10 @@ public abstract class Character implements Drawable
 	@Override
 	public void draw(Renderer p_renderer)
 	{
-		IntRect charRect = new IntRect(m_body.createAABB());
-		m_sprite.setPosition(charRect.x * 32, charRect.y * 32);
+		Transform t = m_body.getTransform();
+		Transform transform = new Transform();
+		transform.setTranslation(t.getTranslationX() * 32, t.getTranslationY() * 32);
+		p_renderer.setTransform(transform);
 		m_sprite.draw(p_renderer);
 	}
 }
