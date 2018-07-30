@@ -4,6 +4,7 @@ import org.dyn4j.dynamics.Body;
 import org.dyn4j.geometry.AABB;
 import org.dyn4j.geometry.Convex;
 import org.dyn4j.geometry.MassType;
+import org.dyn4j.geometry.Transform;
 import org.dyn4j.geometry.Vector2;
 
 import graphics.Drawable;
@@ -31,18 +32,15 @@ public class TerrainPiece implements Drawable
 	public void setSprite(Sprite p_sprite)
 	{
 		m_sprite = p_sprite;
-		m_sprite.setPosition(getPosition());
-	}
-	
-	private Vector2 getPosition()
-	{
-		AABB bodyBounds = m_body.createAABB();
-		return new Vector2(bodyBounds.getMinX(), bodyBounds.getMinY())/*.multiply(32)*/;
 	}
 	
 	@Override
 	public void draw(Renderer p_renderer)
 	{
+		Transform t = m_body.getTransform();
+		Transform transform = new Transform();
+		transform.setTranslation(t.getTranslationX() * 32, t.getTranslationY() * 32);
+		p_renderer.setTransform(transform);
 		m_sprite.draw(p_renderer);
 	}
 	
