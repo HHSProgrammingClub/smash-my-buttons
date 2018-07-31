@@ -88,6 +88,9 @@ public class Battle
 				m_hitboxes.remove(i);
 			}
 		}
+		
+		for(int i = 0; i < m_charControllers.length; i++)
+			m_charControllers[i].update(this, p_delta);
 	}
 	
 	public void startBattle(GUI p_gui)
@@ -102,6 +105,9 @@ public class Battle
 					}
 				});
 		
+		for(int i = 0; i < m_charControllers.length; i++)
+			m_charControllers[i].start();
+		
 		battleThread.start();
 	}
 	
@@ -113,6 +119,14 @@ public class Battle
 	private void gameLoop()
 	{
 		m_stage.registerTerrainSprites(m_renderList);
+		
+		for(int i = 0; i < m_charControllers.length; i++)
+		{
+			if(m_charControllers[i] instanceof PlayerController)
+			{
+				((PlayerController) m_charControllers[i]).attachPage(m_renderer);
+			}
+		}
 		
 		//debug
 		DebugDrawer debugger = new DebugDrawer(m_stage.getPhysicsWorld());
