@@ -1,7 +1,6 @@
 package program;
 
 import graphics.GUI;
-import graphics.Renderer;
 import graphics.StartMenu;
 
 /**

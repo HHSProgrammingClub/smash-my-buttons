@@ -8,8 +8,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.stream.Collectors;
 
-import org.python.antlr.*;
-import org.python.core.*;
+import org.python.antlr.ParseException;
+import org.python.core.PyObject;
 import org.python.util.PythonInterpreter;
 
 import characters.Character;

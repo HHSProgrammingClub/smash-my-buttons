@@ -1,18 +1,14 @@
 package graphics;
 
+import java.awt.Color;
 import java.util.List;
 
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.BodyFixture;
 import org.dyn4j.dynamics.World;
 import org.dyn4j.geometry.AABB;
-import org.dyn4j.geometry.Transform;
-import org.dyn4j.geometry.Vector2;
 
-import graphics.IntRect;
 import stages.TerrainPiece;
-
-import java.awt.Color;
 
 public class DebugDrawer implements Drawable
 {

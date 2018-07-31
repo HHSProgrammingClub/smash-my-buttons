@@ -2,8 +2,6 @@ package program;
 
 import java.applet.Applet;
 import java.applet.AudioClip;
-import sun.audio.*;
-import java.io.*;
 
 public class Sound 
 {

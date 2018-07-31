@@ -1,17 +1,13 @@
 package characters;
 
 import org.dyn4j.dynamics.Body;
-import org.dyn4j.dynamics.BodyFixture;
-import org.dyn4j.geometry.MassType;
-import org.dyn4j.geometry.Rectangle;
 import org.dyn4j.geometry.Transform;
 import org.dyn4j.geometry.Vector2;
+
 import graphics.Drawable;
-import graphics.IntRect;
 import graphics.Renderer;
 import graphics.Sprite;
 import program.Battle;
-import program.CharacterController;
 import program.Hitbox;
 
 
@@ -26,9 +22,18 @@ public abstract class Character implements Drawable
 	private boolean m_jumped = false;
 	private boolean m_recovered = false;
 
-	public static Vector2 jumpImpulse = new Vector2(0, -5);
+	protected static Vector2 jumpImpulse = new Vector2(0, -5);
 	
 	public static String[] characterNames = {"Jack", "Birboi", "Cam", "W'all", "Edgewardo", "Jimmy"};
+	
+	protected int current_move;
+	
+	public static final int MOVE_NONE = 0;
+	public static final int MOVE_JAB = 1;
+	public static final int MOVE_TILT = 2;
+	public static final int MOVE_SMASH = 3;
+	public static final int MOVE_SGNATURE = 4;
+	public static final int MOVE_RECOVERY = 5;
 	
 	public Character()
 	{
@@ -79,7 +84,11 @@ public abstract class Character implements Drawable
 		}
 	}
 	
-	public void resetJump() {m_jumped = false; m_recovered = false;}
+	public void resetJump()
+	{
+		m_jumped = false;
+		m_recovered = false;
+	}
 	
 	public abstract void jab(Battle p_battle);
 	public abstract void tilt(Battle p_battle);

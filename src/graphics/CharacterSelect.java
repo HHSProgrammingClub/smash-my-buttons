@@ -1,18 +1,7 @@
 package graphics;
 
-import javax.swing.JComponent;
-import javax.swing.JFileChooser;
-import javax.swing.JPanel;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JButton;
-import javax.swing.SwingConstants;
-import javax.swing.plaf.basic.BasicComboBoxRenderer;
-
-import java.awt.GridBagLayout;
-import java.awt.Component;
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,15 +11,23 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+
 import characters.Character;
-import characters.*;
+import characters.GeorgeTheGlassCutter;
 import program.AIController;
 import program.Battle;
 import program.CharacterController;
 import program.PlayerController;
-import stages.*;
-
-import javax.swing.JCheckBox;
+import stages.Stage;
+import stages.TestingStage;
 
 /*class EnvironmentComboBoxRenderer extends BasicComboBoxRenderer
 {

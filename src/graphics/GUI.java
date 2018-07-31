@@ -1,8 +1,9 @@
 package graphics;
 
-import javax.swing.JFrame;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+
+import javax.swing.JFrame;
 
 public class GUI
 {

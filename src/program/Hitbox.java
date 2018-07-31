@@ -1,6 +1,6 @@
 package program;
-import org.dyn4j.geometry.Vector2;
 import org.dyn4j.collision.Fixture;
+import org.dyn4j.geometry.Vector2;
 
 public class Hitbox
 {

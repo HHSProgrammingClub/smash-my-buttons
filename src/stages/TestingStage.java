@@ -1,7 +1,5 @@
 package stages;
 
-import java.util.ArrayList;
-
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.World;
 import org.dyn4j.geometry.MassType;

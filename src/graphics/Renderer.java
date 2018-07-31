@@ -1,28 +1,23 @@
 package graphics;
 
 
-import java.awt.image.BufferedImage;
-import java.util.Stack;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
-import java.awt.Color;
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.Toolkit;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.RenderingHints;
-import java.awt.Font;
-import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
+import java.util.Stack;
 
 import javax.swing.JComponent;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
-
-import org.dyn4j.geometry.Vector2;
 
 /**
  * Renders all the sprites, GUI, and additional shapes to the screen

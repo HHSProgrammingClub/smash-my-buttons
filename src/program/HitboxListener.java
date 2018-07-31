@@ -1,11 +1,11 @@
 package program;
 
-import org.dyn4j.dynamics.CollisionListener;
-import org.dyn4j.dynamics.contact.ContactConstraint;
 import org.dyn4j.collision.manifold.Manifold;
 import org.dyn4j.collision.narrowphase.Penetration;
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.BodyFixture;
+import org.dyn4j.dynamics.CollisionListener;
+import org.dyn4j.dynamics.contact.ContactConstraint;
 
 public class HitboxListener implements CollisionListener {
 	@Override

@@ -1,20 +1,15 @@
 package program;
 
-import graphics.DebugDrawer;
-import graphics.GUI;
-import graphics.IntRect;
-import graphics.RenderList;
-import graphics.Renderer;
-import graphics.Sprite;
-import graphics.Texture;
-import stages.Stage;
-
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 
-import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.World;
-import org.dyn4j.geometry.Vector2;
+
+import graphics.DebugDrawer;
+import graphics.GUI;
+import graphics.RenderList;
+import graphics.Renderer;
+import stages.Stage;
 
 public class Battle
 {

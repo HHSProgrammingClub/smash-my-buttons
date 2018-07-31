@@ -1,8 +1,7 @@
 package program;
 
-import java.awt.event.*;
-
-import java.util.ArrayList;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.HashMap;
 import java.util.Map;
 
