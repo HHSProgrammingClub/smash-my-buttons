@@ -62,6 +62,8 @@ public class Renderer implements Page
 				repaint();
 			}
 		};
+		
+		m_panel.setFocusable(true);
 	}
 	
 	/**

@@ -11,10 +11,10 @@ import program.Battle;
 
 //A sample character.
 
-public class GeorgeTheGlassCutter extends Character
+public class Jack extends Character
 {	
 	private static double position = 0;
-	public GeorgeTheGlassCutter() 
+	public Jack() 
 	{
 		Body tushie = new Body();
 		// TODO: Make it non-rotating

@@ -21,7 +21,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import characters.Character;
-import characters.GeorgeTheGlassCutter;
+import characters.Jack;
 import program.AIController;
 import program.Battle;
 import program.CharacterController;
@@ -61,7 +61,7 @@ public class CharacterSelect implements Page
 				break;
 				//etc.
 		}*/
-		return new GeorgeTheGlassCutter();
+		return new Jack();
 	}
 	
 	private static Stage newStage(String p_name)
