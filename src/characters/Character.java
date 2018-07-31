@@ -1,5 +1,7 @@
 package characters;
 
+import java.awt.geom.AffineTransform;
+
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.geometry.Transform;
 import org.dyn4j.geometry.Vector2;
@@ -21,6 +23,7 @@ public abstract class Character implements Drawable
 	private String m_name = "George the Glass-Cutter";
 	private boolean m_jumped = false;
 	private boolean m_recovered = false;
+	private boolean m_moving = false;
 
 	protected static Vector2 jumpImpulse = new Vector2(0, -5);
 	protected static Vector2 force_L = new Vector2(-5, 0);
@@ -83,6 +86,7 @@ public abstract class Character implements Drawable
 		{
 			m_body.applyImpulse(jumpImpulse);
 			m_jumped = true;
+			m_sprite.setAnimation("jump_asc");
 		}
 	}
 	
@@ -90,18 +94,21 @@ public abstract class Character implements Drawable
 	{
 		m_jumped = false;
 		m_recovered = false;
+		m_sprite.setAnimation("idle");
 	}
 	
 	public void moveLeft()
 	{
+		m_moving = true;
 		m_body.applyForce(force_L);
-		System.out.println("Cookies at the left!");
+		m_sprite.setAnimation("run");
 	}
 	
 	public void moveRight()
 	{
+		m_moving = true;
 		m_body.applyForce(force_R);
-		System.out.println("Cookies at the right!");
+		m_sprite.setAnimation("run");
 	}
 	
 	public abstract void jab(Battle p_battle);

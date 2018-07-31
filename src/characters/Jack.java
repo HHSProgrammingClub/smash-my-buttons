@@ -17,16 +17,18 @@ public class Jack extends Character
 	public Jack() 
 	{
 		Body tushie = new Body();
-		// TODO: Make it non-rotating
+
 		Transform t = new Transform();
 		t.setTranslation(position, 0);
 		tushie.setTransform(t);
 		position += 1;
+		
 		// Add the collision fixture
 		Rectangle rect = new Rectangle(1, 2);
 		rect.translate(1, 1); // Set to topleft
 		tushie.addFixture(rect);
 		tushie.setMass(MassType.FIXED_ANGULAR_VELOCITY);
+		
 		//tushie.setLinearVelocity(2, 5);
 		setBody(tushie);
 		
