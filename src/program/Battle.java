@@ -13,7 +13,6 @@ import stages.Stage;
 
 public class Battle
 {
-	private ArrayList<Hitbox> m_hitboxes = new ArrayList<Hitbox>();
 	private Stage m_stage;
 
 	private boolean m_visibleHitboxes = true;
@@ -45,24 +44,13 @@ public class Battle
 		return m_stage.getPhysicsWorld();
 	}
 	
-	//is this hitbox stuff necessary? - see comment on GitHub
-	public Hitbox[] getHitboxes()
-	{
-		return (Hitbox[]) m_hitboxes.toArray();
-	}
-	
-	public void addHitbox(Hitbox p_hitbox)
-	{
-		m_hitboxes.add(p_hitbox);
-	}
-	
 	//Port: Player *1*, Player *2*, etc.
 	public void addCharacter(CharacterController p_controller, int p_port)
 	{
 		m_charControllers[p_port - 1] = p_controller;
 		m_stage.getPhysicsWorld().addBody(p_controller.getCharacter().getBody());
 		m_renderList.addDrawable(p_controller.getCharacter());
-		p_controller.getCharacter().getBody().translate(3 + 4 * p_port, 0);
+		//p_controller.getCharacter().getBody().translate(3 + 4 * p_port, 0);
 	}
 	
 	public int getCharacterCount()
@@ -78,16 +66,6 @@ public class Battle
 	private void update(float p_delta)
 	{
 		m_stage.getPhysicsWorld().updatev((double)(p_delta));
-		
-		for(int i = m_hitboxes.size() - 1; i >= 0; i--)
-		{
-			m_hitboxes.get(i).updateTimer(p_delta);
-			
-			if(!m_hitboxes.get(i).alive())
-			{
-				m_hitboxes.remove(i);
-			}
-		}
 		
 		for(int i = 0; i < m_charControllers.length; i++)
 			m_charControllers[i].update(this, p_delta);

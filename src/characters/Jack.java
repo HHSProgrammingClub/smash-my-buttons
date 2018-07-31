@@ -7,7 +7,6 @@ import org.dyn4j.geometry.Transform;
 
 import graphics.Sprite;
 import graphics.Texture;
-import program.Battle;
 
 //A sample character.
 
@@ -17,7 +16,7 @@ public class Jack extends Character
 	public Jack() 
 	{
 		Body tushie = new Body();
-
+		
 		Transform t = new Transform();
 		t.setTranslation(position, 0);
 		tushie.setTransform(t);
@@ -28,8 +27,7 @@ public class Jack extends Character
 		rect.translate(1, 1); // Set to topleft
 		tushie.addFixture(rect);
 		tushie.setMass(MassType.FIXED_ANGULAR_VELOCITY);
-		
-		//tushie.setLinearVelocity(2, 5);
+
 		setBody(tushie);
 		
 		Texture tex = new Texture();
@@ -43,32 +41,32 @@ public class Jack extends Character
 	
 	//TODO: ascending and descending jump sprites for Jack
 	
-	public void jab(Battle p_battle)
+	public void jab()
 	{
 		
 	}
 	
-	public void tilt(Battle p_battle)
+	public void tilt()
 	{
 		
 	}
 	
-	public void smash(Battle p_battle)
+	public void smash()
 	{
 		
 	}
 	
-	public void projectile(Battle p_battle)
+	public void projectile()
 	{
 		
 	}
 	
-	public void signature(Battle p_battle)
+	public void signature()
 	{
 		
 	}
 	
-	public void recover(Battle p_battle)
+	public void recover()
 	{
 		
 	}

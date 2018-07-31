@@ -7,16 +7,13 @@ import org.dyn4j.geometry.Transform;
 
 import graphics.Sprite;
 import graphics.Texture;
-import program.Battle;
 
 public class Birboi extends Character
 {
-	private static double position = 0;
-	
 	public Birboi()
 	{
 		Body birb = new Body();
-
+		
 		Transform t = new Transform();
 		t.setTranslation(position, 0);
 		birb.setTransform(t);
@@ -27,8 +24,7 @@ public class Birboi extends Character
 		rect.translate(1, 1); // Set to topleft
 		birb.addFixture(rect);
 		birb.setMass(MassType.FIXED_ANGULAR_VELOCITY);
-		
-		//birb.setLinearVelocity(2, 5);
+
 		setBody(birb);
 		
 		Texture tex = new Texture();
@@ -41,42 +37,91 @@ public class Birboi extends Character
 	}
 
 	@Override
-	public void jab(Battle p_battle)
+	public void jab()
 	{
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void tilt(Battle p_battle) 
+	public void tilt() 
 	{
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void smash(Battle p_battle)
+	public void smash()
+	{
+		// TODO Create hitboxes
+		AnimationState startup = new AnimationState("smash_startup");
+		AnimationState flight  = new AnimationState("smash_fly", 1.5f);
+		
+		Effect smashFlight = new Effect(1.5f)
+				{
+
+					@Override
+					public void effectStart()
+					{
+						addAnimation(flight);
+						getBody().setLinearVelocity(7, 0); //TODO: account for direction the player is facing
+					}
+					
+					@Override
+					public void effectInterrupted()
+					{
+						getBody().setGravityScale(1);
+					}
+
+					@Override
+					public void effectEnd()
+					{
+						getBody().setGravityScale(1);
+					}
+				};
+		
+		Effect smashStartup = new Effect(.4f)
+				{
+
+					@Override
+					public void effectStart()
+					{
+						getBody().setLinearVelocity(0, 0);
+						getBody().setGravityScale(0);
+						addAnimation(startup);
+					}
+					
+					@Override
+					public void effectInterrupted()
+					{
+						getBody().setGravityScale(1);
+					}
+					
+					@Override
+					public void effectEnd()
+					{
+						addEffect(smashFlight);
+					}
+				};
+		addEffect(smashStartup);
+	}
+
+	@Override
+	public void projectile()
 	{
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void projectile(Battle p_battle)
+	public void signature() 
 	{
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void signature(Battle p_battle) 
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void recover(Battle p_battle) 
+	public void recover() 
 	{
 		// TODO Auto-generated method stub
 		

@@ -67,7 +67,7 @@ public class Hitbox
 		}
 	}
 	
-	public boolean alive()
+	public boolean isAlive()
 	{
 		return m_alive;
 	}

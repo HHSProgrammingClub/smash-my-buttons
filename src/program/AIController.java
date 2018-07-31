@@ -81,7 +81,7 @@ class PyCharacterWrapper implements pyInterfaces.PlayerInterface
 	@Override
 	public void recover()
 	{
-		m_character.recover(m_battle);
+		m_character.recover();
 		System.out.print("Recover");
 	}
 

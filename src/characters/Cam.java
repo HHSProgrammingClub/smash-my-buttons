@@ -1,47 +1,45 @@
 package characters;
 
-import program.Battle;
-
 public class Cam extends Character
 {
 
 	@Override
-	public void jab(Battle p_battle)
+	public void jab()
 	{
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void tilt(Battle p_battle) 
+	public void tilt() 
 	{
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void smash(Battle p_battle)
+	public void smash()
 	{
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void projectile(Battle p_battle) 
+	public void projectile() 
 	{
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void signature(Battle p_battle)
+	public void signature()
 	{
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void recover(Battle p_battle)
+	public void recover()
 	{
 		// TODO Auto-generated method stub
 		

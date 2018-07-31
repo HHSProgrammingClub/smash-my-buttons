@@ -142,25 +142,76 @@ public class PlayerController extends CharacterController
 	public PlayerController()
 	{
 		// Define the actions
-		m_keyBinder.addAction("jump", new KeyBindAction() {
+		m_keyBinder.addAction("jump", new KeyBindAction()
+		{
 			@Override
 			public void onAction()
 			{
 				getCharacter().jump();
 			}});
 		
-		m_keyBinder.addAction("moveLeft", new KeyBindAction() {
+		m_keyBinder.addAction("moveLeft", new KeyBindAction()
+		{
 			@Override
 			public void onAction()
 			{
 				getCharacter().moveLeft();
 			}});
 		
-		m_keyBinder.addAction("moveRight", new KeyBindAction() {
+		m_keyBinder.addAction("moveRight", new KeyBindAction()
+		{
 			@Override
 			public void onAction()
 			{
 				getCharacter().moveRight();
+			}});
+		
+		m_keyBinder.addAction("jab", new KeyBindAction()
+		{
+			@Override
+			public void onAction()
+			{
+				getCharacter().jab();
+			}});
+		
+		m_keyBinder.addAction("tilt", new KeyBindAction()
+		{
+			@Override
+			public void onAction()
+			{
+				getCharacter().tilt();
+			}});
+		
+		m_keyBinder.addAction("smash", new KeyBindAction()
+		{
+			@Override
+			public void onAction()
+			{
+				getCharacter().smash();
+			}});
+		
+		m_keyBinder.addAction("signature", new KeyBindAction()
+		{
+			@Override
+			public void onAction()
+			{
+				getCharacter().signature();
+			}});
+		
+		m_keyBinder.addAction("recover", new KeyBindAction()
+		{
+			@Override
+			public void onAction()
+			{
+				getCharacter().recover();
+			}});
+		
+		m_keyBinder.addAction("projectile", new KeyBindAction()
+		{
+			@Override
+			public void onAction()
+			{
+				getCharacter().projectile();
 			}});
 		
 		// Add key bindings for player 1
@@ -169,6 +220,12 @@ public class PlayerController extends CharacterController
 		m_keyBinder.addKeyBinding("moveLeft", KeyEvent.VK_A);
 		m_keyBinder.addKeyBinding("moveRight", KeyEvent.VK_D);
 		
+		m_keyBinder.addKeyBinding("projectile", KeyEvent.VK_S); //I would say this is for some well thought out reason but it's because I can't find the KeyEvent corresponding to the originally planned ` key
+		m_keyBinder.addKeyBinding("jab", KeyEvent.VK_1);
+		m_keyBinder.addKeyBinding("tilt", KeyEvent.VK_2);
+		m_keyBinder.addKeyBinding("smash", KeyEvent.VK_3);
+		m_keyBinder.addKeyBinding("signature", KeyEvent.VK_4);
+		m_keyBinder.addKeyBinding("recover", KeyEvent.VK_5);
 		
 
 		// Add key bindings for player 2

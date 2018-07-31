@@ -21,7 +21,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import characters.Character;
-import characters.Jack;
+import characters.*;
 import program.AIController;
 import program.Battle;
 import program.CharacterController;
@@ -54,13 +54,13 @@ public class CharacterSelect implements Page
 	
 	private static Character newCharacter(String p_name)
 	{
-		/*switch(p_name)
+		switch(p_name)
 		{
 			case "Jack":
 				return new Jack();
-				break;
-				//etc.
-		}*/
+			case "Birboi":
+				return new Birboi();
+		}
 		return new Jack();
 	}
 	
