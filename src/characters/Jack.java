@@ -39,6 +39,8 @@ public class Jack extends Character
 		setSprite(sp);
 	}
 	
+	//TODO: ascending and descending jump sprites for Jack
+	
 	public void jab(Battle p_battle)
 	{
 		

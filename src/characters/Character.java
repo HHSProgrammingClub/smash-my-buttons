@@ -23,6 +23,8 @@ public abstract class Character implements Drawable
 	private boolean m_recovered = false;
 
 	protected static Vector2 jumpImpulse = new Vector2(0, -5);
+	protected static Vector2 force_L = new Vector2(-5, 0);
+	protected static Vector2 force_R = new Vector2(5, 0);
 	
 	public static String[] characterNames = {"Jack", "Birboi", "Cam", "W'all", "Edgewardo", "Jimmy"};
 	
@@ -88,6 +90,18 @@ public abstract class Character implements Drawable
 	{
 		m_jumped = false;
 		m_recovered = false;
+	}
+	
+	public void moveLeft()
+	{
+		m_body.applyForce(force_L);
+		System.out.println("Cookies at the left!");
+	}
+	
+	public void moveRight()
+	{
+		m_body.applyForce(force_R);
+		System.out.println("Cookies at the right!");
 	}
 	
 	public abstract void jab(Battle p_battle);

@@ -149,9 +149,27 @@ public class PlayerController extends CharacterController
 				getCharacter().jump();
 			}});
 		
+		m_keyBinder.addAction("moveLeft", new KeyBindAction() {
+			@Override
+			public void onAction()
+			{
+				getCharacter().moveLeft();
+			}});
+		
+		m_keyBinder.addAction("moveRight", new KeyBindAction() {
+			@Override
+			public void onAction()
+			{
+				getCharacter().moveRight();
+			}});
+		
 		// Add key bindings for player 1
 		m_keyBinder.setGroup("player1");
 		m_keyBinder.addKeyBinding("jump", KeyEvent.VK_W);
+		m_keyBinder.addKeyBinding("moveLeft", KeyEvent.VK_A);
+		m_keyBinder.addKeyBinding("moveRight", KeyEvent.VK_D);
+		
+		
 
 		// Add key bindings for player 2
 		m_keyBinder.setGroup("player2");
