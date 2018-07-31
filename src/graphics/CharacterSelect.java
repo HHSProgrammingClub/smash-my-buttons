@@ -60,6 +60,8 @@ public class CharacterSelect implements Page
 				return new Jack();
 			case "Birboi":
 				return new Birboi();
+			case "Edgewardo":
+				return new Edgewardo();
 		}
 		return new Jack();
 	}

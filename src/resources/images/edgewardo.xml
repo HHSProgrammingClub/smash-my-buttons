@@ -1,0 +1,14 @@
+<atlas>
+    <subtexture name="idle" x="0" y="0" w="64" h="64" frames="4" interval="185" loop="1"/>
+    <subtexture name="run" x="0" y="64" w="64" h="64" frames="6" interval="100" loop="1"/>
+    <subtexture name="hitstun" x="0" y="128" w="64" h="64" frames="3" interval="100"/>
+    <subtexture name="jump_asc" x="0" y="192" w="64" h="64"/>
+    <subtexture name="jump_dsc" x="64" y="192" w="64" h="64"/>
+    <subtexture name="jab" x="0" y="256" w="64" h="64" frames="7" interval="100"/>
+    <subtexture name="tilt_dash" x="0" y="320" w="64" h="64"/>
+    <subtexture name="tilt_end" x="0" y="320" w="64" h="64" frames="4" interval="100"/>
+    <subtexture name="smash" x="0" y="384" w="64" h="64" frames="7" interval="100"/>
+    <subtexture name="projectile" x="0" y="448" w="64" h="64" frames="6" interval="100"/>
+    <subtexture name="recovery" x="0" y="512" w="64" h="64" frames="8" interval="75"/>
+    <subtexture name="signature" x="0" y="576" w="64" h="64" frames="2" interval="450" loop="1"/>
+</atlas>
