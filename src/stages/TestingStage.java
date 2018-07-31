@@ -28,8 +28,8 @@ public class TestingStage extends Stage
 	{
 		for(int i = 0; i < 6; i++)
 		{
-			Rectangle groundShape = new Rectangle(3, 1.5);
-			groundShape.translate(1.5, 0.75); // Set to topleft
+			Rectangle groundShape = new Rectangle(3, 1);
+			groundShape.translate(1.5, 0.5);
 			
 			Body groundBody = new Body();
 			Transform t = new Transform();
