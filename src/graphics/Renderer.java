@@ -2,6 +2,7 @@ package graphics;
 
 
 import java.awt.image.BufferedImage;
+import java.util.Stack;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GraphicsDevice;
@@ -11,6 +12,8 @@ import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Path2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.RenderingHints;
 import java.awt.Font;
 import java.awt.Toolkit;
@@ -31,12 +34,11 @@ public class Renderer implements Page
 	public Graphics2D m_graphics;
 	public JPanel m_panel;
 	
-	private AffineTransform m_matrix;
-	
 	private int m_width, m_height;
+
+	private float m_scale = 1;
 	
-	private float m_scale;
-	private final float DEFAULT_SCALE = 1.25f; 
+	private Stack<AffineTransform> m_transformStack = new Stack<AffineTransform>();
 	
 	/**
 	 * Creates renderer for displaying images and shapes
@@ -48,17 +50,12 @@ public class Renderer implements Page
 		m_height = Toolkit.getDefaultToolkit().getScreenSize().height;
 		
 		//calculate the scale according to the screen size
-		m_scale = (m_width * DEFAULT_SCALE) / 800;		
+		m_scale = (m_width * m_scale) / 800;
 		
 		//create the buffers to draw stuff on
 		m_frontBuffer = new BufferedImage(m_width, m_height, BufferedImage.TYPE_INT_ARGB);
 		m_backBuffer = new BufferedImage(m_width, m_height, BufferedImage.TYPE_INT_ARGB);
 		m_graphics = m_backBuffer.createGraphics();
-		
-		//transform the coordinate system according to the scale
-		m_matrix = new AffineTransform();
-		m_matrix.scale(m_scale, m_scale);
-		m_graphics.transform(m_matrix);
 		
 		//create the JPanel that holds the canvas
 		m_panel = new JPanel() {
@@ -66,12 +63,10 @@ public class Renderer implements Page
 			public void paintComponent(Graphics g)
 			{
 				super.paintComponent(g);
-				((Graphics2D) g).drawImage(m_frontBuffer, m_matrix, this);
+				g.drawImage(m_frontBuffer, 0, 0, this);
 				repaint();
 			}
 		};
-		
-		
 	}
 	
 	/**
@@ -95,28 +90,59 @@ public class Renderer implements Page
 		m_graphics.fillRect(0, 0, m_width, m_height);
 	}
 	
-	public void setTransform(AffineTransform p_transform)
+	/**
+	 * Add a transform to the stack.
+	 * @param p_transform This matrix will be multiplied by the previous transform.
+	 */
+	public void pushTransform(AffineTransform p_transform)
 	{
-		m_graphics.setTransform(p_transform);
+		if (m_transformStack.isEmpty())
+		{
+			m_transformStack.push(new AffineTransform(p_transform));
+		}
+		else
+		{
+			AffineTransform copyT = new AffineTransform(p_transform);
+			AffineTransform lastT = new AffineTransform(m_transformStack.peek());
+			lastT.concatenate(copyT);
+			m_transformStack.push(lastT);
+		}
+		m_graphics.setTransform(m_transformStack.peek());
 	}
-
-	public void setTransform(org.dyn4j.geometry.Transform p_transform, float p_scale)
+	
+	/**
+	 * Converts a dyn4j transform to a graphics transform and adds it to the stack.
+	 * @param p_transform
+	 */
+	public void pushTransform(org.dyn4j.geometry.Transform p_transform)
 	{
 		AffineTransform t = new AffineTransform();
-		Vector2 translate = new Vector2(p_transform.getTranslationX() * p_scale, p_transform.getTranslationY() * p_scale);
-		t.translate(translate.x, translate.y);
-		t.rotate(p_transform.getRotation());
-		setTransform(t);
+		double[] values = p_transform.getValues();
+		t.setTransform(values[0], values[3], values[1], values[4], values[2], values[5]);
+		pushTransform(t);
 	}
 	
-	public void setTransform(org.dyn4j.geometry.Transform p_transform)
+	/**
+	 * Pops a transform from the stack.
+	 * The current transform will the be the previous transform.
+	 */
+	public void popTransform()
 	{
-		setTransform(p_transform, 1);
+		m_transformStack.pop();
+		if (m_transformStack.isEmpty())
+			m_graphics.setTransform(new AffineTransform());
+		else
+			m_graphics.setTransform(m_transformStack.peek());
 	}
 	
-	public void resetTransform()
+	/**
+	 * Set the scale in which only the size of images are affected.
+	 * This allows you to compensate for transform scaling.
+	 * @param p_factor
+	 */
+	public void setSizeScale(float p_factor)
 	{
-		m_graphics.setTransform(new AffineTransform());
+		m_scale = p_factor;
 	}
 	
 	/**
@@ -127,9 +153,13 @@ public class Renderer implements Page
 	 */
 	public void drawTexture(Texture p_texture, IntRect p_frame, IntRect p_dest)
 	{	
+		//scale image at (0, 0)
+		int scaledX = (int)(p_frame.w * m_scale);
+		int scaledY = (int)(p_frame.h * m_scale);
+		
 		//draw the scaled image to desired destination
-		m_graphics.drawImage(p_texture.getImage(), p_dest.x, p_dest.y, p_dest.x + p_dest.w, p_dest.y + p_dest.h,
-				 p_frame.x, p_frame.y, p_frame.x + p_frame.w, p_frame.y + p_frame.h, m_panel);
+		m_graphics.drawImage(p_texture.getImage(), p_dest.x, p_dest.y, p_dest.x + scaledX, p_dest.y + scaledY,
+					 p_frame.x, p_frame.y, p_frame.x + p_frame.w, p_frame.y + p_frame.h, m_panel);
 	}
 	
 	/**
@@ -138,11 +168,11 @@ public class Renderer implements Page
 	 * @param p_color the color of the rectangle (Color.RED, Color.BLUE, etc)
 	 * @param p_opacity 0.0f transparent to 1.0f (opaque)
 	 */
-	public void drawRect(IntRect p_rect, Color p_color, float p_opacity)
+	public void drawRect(DoubleRect p_rect, Color p_color, float p_opacity)
 	{
 		m_graphics.setColor(p_color);
 		m_graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, p_opacity));
-		m_graphics.fillRect(p_rect.x, p_rect.y, p_rect.w, p_rect.h);
+		m_graphics.draw(new Rectangle2D.Double(p_rect.x, p_rect.y, p_rect.w, p_rect.h));
 	}
 	
 	/**
@@ -152,12 +182,12 @@ public class Renderer implements Page
 	 * @param p_opacity 0.0f transparent to 1.0f (opaque)
 	 * @param p_thickness THICCness in pixels
 	 */
-	public void drawRect(IntRect p_rect, Color p_color, float p_opacity, int p_thickness)
+	public void drawRect(DoubleRect p_rect, Color p_color, float p_opacity, float p_thickness)
 	{
 		m_graphics.setColor(p_color);
 		m_graphics.setStroke(new BasicStroke(p_thickness));
 		m_graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, p_opacity));
-		m_graphics.drawRect(p_rect.x, p_rect.y, p_rect.w, p_rect.h);
+		m_graphics.draw(new Rectangle2D.Double(p_rect.x, p_rect.y, p_rect.w, p_rect.h));
 	}
 	
 	/**
@@ -191,6 +221,11 @@ public class Renderer implements Page
 		m_graphics.setFont(font);
 		m_graphics.drawString(p_text, p_x, p_y);
 	}
+	
+	public void drawPath(Path2D.Double p_polygon, Color p_color)
+	{
+		
+	}
 
 	@Override
 	public JComponent getComponent()
@@ -199,5 +234,4 @@ public class Renderer implements Page
 	}
 	
 	//TODO: custom boxes from sprite sheet?
-	//TODO: scale coordinate system golly gee
 }

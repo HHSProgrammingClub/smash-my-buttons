@@ -1,5 +1,6 @@
 package graphics;
-import java.awt.Color;
+
+import java.awt.geom.AffineTransform;
 
 import org.dyn4j.geometry.Vector2;
 
@@ -44,10 +45,16 @@ public class Sprite implements Drawable
 			// Not animation
 			frame = m_animation.getFrame();
 		
-		IntRect destination = new IntRect(m_position, new Vector2(frame.w*m_scale.x, frame.h*m_scale.y));
+		AffineTransform t = new AffineTransform();
+		t.translate(m_position.x, m_position.y);
+		t.rotate(m_rotation);
+		t.scale(m_scale.x, m_scale.y);
+		p_renderer.pushTransform(t);
+		IntRect destination = new IntRect(new Vector2(0, 0), new Vector2(frame.w, frame.h));
 		p_renderer.drawTexture(m_texture, frame, destination);
 		//for sprite visualization
-		p_renderer.drawRect(destination, Color.MAGENTA, 1.f, 2);
+		//p_renderer.drawRect(destination, Color.MAGENTA, 1.f, 2);
+		p_renderer.popTransform();
 	}
 	
 	public void setTexture(Texture p_texture)
@@ -123,5 +130,15 @@ public class Sprite implements Drawable
 	public Vector2 getScale()
 	{
 		return new Vector2(m_scale);
+	}
+	
+	public void setRotation(double p_rads)
+	{
+		m_rotation = p_rads; // i think its in rads
+	}
+	
+	public double getRotation()
+	{
+		return m_rotation;
 	}
 }

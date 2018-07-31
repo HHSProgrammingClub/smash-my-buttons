@@ -9,6 +9,7 @@ import graphics.Sprite;
 import graphics.Texture;
 import stages.Stage;
 
+import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 
 import org.dyn4j.dynamics.Body;
@@ -124,6 +125,8 @@ public class Battle
 		Clock gameClock = new Clock();
 		float delta = 0;
 		
+		m_renderer.setSizeScale(1f/32); 
+		
 		//game loop: should move somewhere else and only start
 		//once the battle itself starts
 		while(true)
@@ -136,6 +139,12 @@ public class Battle
 			m_renderer.clear();
 			
 			update(delta);
+			
+			// This transform will affect everything that is draw to our world.
+			AffineTransform worldTransform = new AffineTransform();
+			worldTransform.scale(64, 64); // One unit is 64 pixels
+			m_renderer.pushTransform(worldTransform);
+			
 			//update the world
 			//draw sprites
 			m_renderList.draw(m_renderer);
@@ -146,6 +155,8 @@ public class Battle
 			
 			//display the current frame
 			m_renderer.display();
+			
+			m_renderer.popTransform();
 			
 			//delay
 			try {

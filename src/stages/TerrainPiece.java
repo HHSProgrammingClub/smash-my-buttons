@@ -38,9 +38,8 @@ public class TerrainPiece implements Drawable
 	public void draw(Renderer p_renderer)
 	{
 		Transform t = m_body.getTransform();
-		Transform transform = new Transform();
-		transform.setTranslation(t.getTranslationX() * 32, t.getTranslationY() * 32);
-		p_renderer.setTransform(transform);
+		m_sprite.setPosition(t.getTranslationX(), t.getTranslationY());
+		m_sprite.setRotation(t.getRotation());
 		m_sprite.draw(p_renderer);
 	}
 	

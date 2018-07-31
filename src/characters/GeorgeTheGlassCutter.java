@@ -24,11 +24,9 @@ public class GeorgeTheGlassCutter extends Character
 		tushie.setTransform(t);
 		position += 1;
 		// Add the collision fixture
-		/*BodyFixture hurtbox = new BodyFixture(new Rectangle(64, 64)); //this will be very, very big
-		hurtbox.setDensity(1);
-		hurtbox.setFriction(0.5);
-		hurtbox.setRestitution(0.9);*/
-		tushie.addFixture(new Rectangle(1, 2));
+		Rectangle rect = new Rectangle(1, 2);
+		rect.translate(1, 1); // Set to topleft
+		tushie.addFixture(rect);
 		tushie.setMass(MassType.FIXED_ANGULAR_VELOCITY);
 		//tushie.setLinearVelocity(2, 5);
 		setBody(tushie);
