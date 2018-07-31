@@ -226,14 +226,16 @@ public abstract class Character implements Drawable
 	{
 		m_moving = true;
 		m_body.applyForce(force_L);
-		m_sprite.setAnimation("run");
+		if(!m_jumped)
+			m_sprite.setAnimation("run");
 	}
 	
 	public void moveRight()
 	{
 		m_moving = true;
 		m_body.applyForce(force_R);
-		m_sprite.setAnimation("run");
+		if(!m_jumped)
+			m_sprite.setAnimation("run");
 	}
 	
 	public abstract void jab();
