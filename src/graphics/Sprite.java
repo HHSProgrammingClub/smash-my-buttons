@@ -50,8 +50,7 @@ public class Sprite implements Drawable
 		t.rotate(m_rotation);
 		t.scale(m_scale.x, m_scale.y);
 		p_renderer.pushTransform(t);
-		IntRect destination = new IntRect(new Vector2(0, 0), new Vector2(frame.w, frame.h));
-		p_renderer.drawTexture(m_texture, frame, destination);
+		p_renderer.drawTexture(m_texture, frame);
 		//for sprite visualization
 		//p_renderer.drawRect(destination, Color.MAGENTA, 1.f, 2);
 		p_renderer.popTransform();

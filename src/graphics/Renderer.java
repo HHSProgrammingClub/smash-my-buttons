@@ -147,7 +147,7 @@ public class Renderer implements Page
 	 * @param p_frame the current frame to draw
 	 * @param p_dest destination of the drawn image
 	 */
-	public void drawTexture(Texture p_texture, IntRect p_frame, IntRect p_dest)
+	public void drawTexture(Texture p_texture, IntRect p_frame)
 	{	
 		//reset opacity
 		m_graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1));
@@ -157,7 +157,7 @@ public class Renderer implements Page
 		int scaledY = (int)(p_frame.h * m_scale);
 		
 		//draw the scaled image to desired destination
-		m_graphics.drawImage(p_texture.getImage(), p_dest.x, p_dest.y, p_dest.x + scaledX, p_dest.y + scaledY,
+		m_graphics.drawImage(p_texture.getImage(), 0, 0, scaledX, scaledY,
 					 p_frame.x, p_frame.y, p_frame.x + p_frame.w, p_frame.y + p_frame.h, m_panel);
 	}
 	
