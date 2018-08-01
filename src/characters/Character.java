@@ -20,7 +20,7 @@ public abstract class Character implements Drawable
 
 	private int m_damage;
 	private int m_stock = 3;
-	private String m_name = "George the Glass-Cutter";
+	private String m_name;
 	private boolean m_jumped = false;
 	private boolean m_recovered = false;
 	private boolean m_moving = false;
@@ -200,10 +200,7 @@ public abstract class Character implements Drawable
 		m_damage += p_damage;
 	}
 	
-	public String getName()
-	{
-		return m_name;
-	}
+	public abstract String getName();
 	
 	public void jump() //to be pronounced [jʌmp] (ipa)
 	{

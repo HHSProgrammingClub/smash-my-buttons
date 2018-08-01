@@ -45,4 +45,10 @@ public class Cam extends Character
 		
 	}
 
+	@Override
+	public String getName()
+	{
+		return Character.characterNames[0];
+	}
+
 }

@@ -31,7 +31,7 @@ public class TestingStage extends Stage
 			
 			Body groundBody = new Body();
 			Transform t = new Transform();
-			t.setTranslation(i * 3, 8);
+			t.setTranslation(i * 3, 6);
 			groundBody.setTransform(t);
 			groundBody.addFixture(groundShape);
 			groundBody.setMassType(MassType.INFINITE);

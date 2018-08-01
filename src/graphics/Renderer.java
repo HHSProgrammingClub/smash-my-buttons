@@ -150,6 +150,9 @@ public class Renderer implements Page
 	 */
 	public void drawTexture(Texture p_texture, IntRect p_frame, IntRect p_dest)
 	{	
+		//reset opacity
+		m_graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1));
+		
 		//scale image at (0, 0)
 		int scaledX = (int)(p_frame.w * m_scale);
 		int scaledY = (int)(p_frame.h * m_scale);
@@ -209,14 +212,16 @@ public class Renderer implements Page
 	 * @param p_y y-position of text 
 	 * @param p_size Font size
 	 */
-	public void drawText(String p_text, String p_font, Color p_color, int p_x, int p_y, int p_size)
+	public void drawText(String p_text, String p_font, Color p_color, int p_size, float p_opacity)
 	{
-		System.out.println("esdfsdf");
 		m_graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		m_graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, p_opacity));
+		
 		Font font = new Font(p_font, Font.PLAIN, p_size);
+		
 		m_graphics.setColor(p_color);
 		m_graphics.setFont(font);
-		m_graphics.drawString(p_text, p_x, p_y);
+		m_graphics.drawString(p_text, 0, 0);
 	}
 	
 	public void drawPath(Path2D.Double p_polygon, Color p_color)

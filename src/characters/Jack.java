@@ -70,4 +70,10 @@ public class Jack extends Character
 	{
 		
 	}
+
+	@Override
+	public String getName() 
+	{
+		return Character.characterNames[0];
+	}
 }

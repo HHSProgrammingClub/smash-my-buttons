@@ -45,4 +45,10 @@ public class TheDestroyer extends Character
 		
 	}
 
+	@Override
+	public String getName()
+	{
+		return Character.characterNames[5];
+	}
+
 }

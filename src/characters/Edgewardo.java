@@ -79,4 +79,10 @@ public class Edgewardo extends Character
 		m_sprite.setAnimation("recovery");
 	}
 
+	@Override
+	public String getName()
+	{
+		return Character.characterNames[4];
+	}
+
 }

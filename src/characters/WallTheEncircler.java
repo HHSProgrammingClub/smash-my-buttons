@@ -45,4 +45,10 @@ public class WallTheEncircler extends Character
 		
 	}
 
+	@Override
+	public String getName()
+	{
+		return Character.characterNames[3];
+	}
+
 }

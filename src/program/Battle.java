@@ -9,6 +9,7 @@ import graphics.DebugDrawer;
 import graphics.GUI;
 import graphics.RenderList;
 import graphics.Renderer;
+import graphics.DamageDisplayer;
 import stages.Stage;
 
 public class Battle
@@ -50,6 +51,7 @@ public class Battle
 		m_charControllers[p_port - 1] = p_controller;
 		m_stage.getPhysicsWorld().addBody(p_controller.getCharacter().getBody());
 		m_renderList.addDrawable(p_controller.getCharacter());
+		m_renderList.addDrawable(new DamageDisplayer(p_controller.getCharacter(), p_port));
 		//p_controller.getCharacter().getBody().translate(3 + 4 * p_port, 0);
 	}
 	
@@ -104,7 +106,7 @@ public class Battle
 			{
 				((PlayerController) m_charControllers[i]).attachPage(m_renderer);
 			}
-		}
+		}		
 		
 		//debug
 		DebugDrawer debugger = new DebugDrawer(m_stage.getPhysicsWorld());
