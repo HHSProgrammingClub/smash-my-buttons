@@ -59,7 +59,14 @@ public class DamageDisplayer implements Drawable
 		p_renderer.drawText(m_character.getName(), "SansSerif", Color.BLACK,  1, 1);
 		p_renderer.popTransform();
 		
-		//TODO: render stock sprites
+		for(int i = 0; i < m_character.getStock(); i++)
+		{
+			AffineTransform stockOffset = new AffineTransform();
+			stockOffset.translate(m_player*((width/64)/6) + 0.5, (height/64) - 3);
+			
+			//TODO: render stock sprites
+			p_renderer.popTransform();
+		}
 	}
 
 }
