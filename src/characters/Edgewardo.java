@@ -41,7 +41,7 @@ public class Edgewardo extends Character
 	public void jab() 
 	{
 		// TODO Auto-generated method stub
-		
+		m_sprite.setAnimation("jab");
 	}
 
 	@Override
@@ -55,28 +55,28 @@ public class Edgewardo extends Character
 	public void smash()
 	{
 		// TODO Auto-generated method stub
-		
+		m_sprite.setAnimation("smash");
 	}
 
 	@Override
 	public void projectile()
 	{
 		// TODO Auto-generated method stub
-		
+		m_sprite.setAnimation("projectile");
 	}
 
 	@Override
 	public void signature()
 	{
 		// TODO Auto-generated method stub
-		
+		m_sprite.setAnimation("signature");
 	}
 
 	@Override
 	public void recover() 
 	{
 		// TODO Auto-generated method stub
-		
+		m_sprite.setAnimation("recovery");
 	}
 
 }

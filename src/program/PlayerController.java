@@ -230,7 +230,7 @@ public class PlayerController extends CharacterController
 
 		// Add key bindings for player 2
 		m_keyBinder.setGroup("player2");
-		m_keyBinder.addKeyBinding("jump", KeyEvent.VK_W);
+		m_keyBinder.addKeyBinding("jump", KeyEvent.VK_UP);
 	}
 	
 	/**
