@@ -350,7 +350,8 @@ public abstract class Character implements Drawable
 				{
 					currentState.end();
 					m_stateStack.remove(0);
-					m_stateStack.get(0).start();
+					if(m_stateStack.size() > 0)
+						m_stateStack.get(0).start();
 				} 
 			}
 		}
