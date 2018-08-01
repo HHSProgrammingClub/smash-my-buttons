@@ -24,31 +24,26 @@ public class TestingStage extends Stage
 	
 	private void createLand()
 	{
-		for(int i = 0; i < 6; i++)
-		{
-			Rectangle groundShape = new Rectangle(3, 1);
-			groundShape.translate(1.5, 0.5);
-			
-			Body groundBody = new Body();
-			Transform t = new Transform();
-			t.setTranslation(i * 3, 6);
-			groundBody.setTransform(t);
-			groundBody.addFixture(groundShape);
-			groundBody.setMassType(MassType.INFINITE);
-			
-			Texture groundTexture = new Texture();
-			groundTexture.openResource("resources/images/testing_ground");
-				
-			Sprite groundSprite = new Sprite(groundTexture, "ground");
-				
-			TerrainPiece ground = new TerrainPiece();
-			ground.setBody(groundBody);
-			ground.setSprite(groundSprite);
-				
-			getPhysicsWorld().addBody(groundBody);
-				
-			m_terrain.add(ground);
-		}
+		Rectangle groundShape = new Rectangle(20, 1);
 		
+		Body groundBody = new Body();
+		Transform t = new Transform();
+		t.setTranslation(0, 6);
+		groundBody.setTransform(t);
+		groundBody.addFixture(groundShape);
+		groundBody.setMassType(MassType.INFINITE);
+		
+		Texture groundTexture = new Texture();
+		groundTexture.openResource("resources/images/testing_ground");
+			
+		Sprite groundSprite = new Sprite(groundTexture, "ground");
+			
+		TerrainPiece ground = new TerrainPiece();
+		ground.setBody(groundBody);
+		ground.setSprite(groundSprite);
+			
+		getPhysicsWorld().addBody(groundBody);
+			
+		m_terrain.add(ground);
 	}
 }

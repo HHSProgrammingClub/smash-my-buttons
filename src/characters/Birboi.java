@@ -60,7 +60,7 @@ public class Birboi extends Character
 		CharacterState smashStartup = new CharacterState("smash_startup")
 				{
 					@Override
-					public void start()
+					public void moreStart()
 					{
 						System.out.println("Lemme");
 						getBody().setLinearVelocity(0, 0);
@@ -76,7 +76,7 @@ public class Birboi extends Character
 					@Override
 					public void end()
 					{
-						
+						System.out.println("yo");
 					}
 				};
 		
@@ -84,7 +84,7 @@ public class Birboi extends Character
 				{
 
 					@Override
-					public void start()
+					public void moreStart()
 					{
 						System.out.println("Smash");
 						getBody().applyImpulse(new Vector2(7, 0)); //TODO: account for direction the player is facing
@@ -100,6 +100,7 @@ public class Birboi extends Character
 					public void end()
 					{
 						getBody().setGravityScale(1);
+						System.out.println("things");
 					}
 				};
 		addState(smashStartup);

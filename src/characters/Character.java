@@ -169,6 +169,12 @@ public abstract class Character implements Drawable
 		{
 			m_sprite.setAnimation(m_animation);
 			m_started = true;
+			moreStart();
+		}
+		
+		protected void moreStart()
+		{
+			
 		}
 		
 		public void interrupt()
