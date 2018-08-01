@@ -60,16 +60,18 @@ public abstract class Character implements Drawable
 	
 	protected void addAnimationState(Animation p_animation, float p_duration)
 	{
-		m_stateStack.add(new CharacterState(p_animation, p_duration));
+		addState(new CharacterState(p_animation, p_duration));
 	}
 	
 	protected void addAnimationState(String p_name, float p_duration)
 	{
-		m_stateStack.add(new CharacterState(p_name, p_duration));
+		addState(new CharacterState(p_name, p_duration));
 	}
 	
 	protected void interruptStates(CharacterState p_state)
 	{
+		if(m_stateStack.size() > 0)
+			m_stateStack.get(0).interrupt();
 		m_stateStack.clear();
 		addState(p_state);
 	}
@@ -166,7 +168,7 @@ public abstract class Character implements Drawable
 			return m_started;
 		}
 		
-		public void start()
+		public final void start()
 		{
 			m_sprite.setAnimation(m_animation);
 			m_started = true;
@@ -254,7 +256,7 @@ public abstract class Character implements Drawable
 		m_moving = true;
 		m_body.applyForce(force_L);
 		if(!m_jumped)
-			m_sprite.setAnimation("run");
+			interruptStates(new CharacterState("run", -1));
 	}
 	
 	public void moveRight()
@@ -262,7 +264,14 @@ public abstract class Character implements Drawable
 		m_moving = true;
 		m_body.applyForce(force_R);
 		if(!m_jumped)
-			m_sprite.setAnimation("run");
+			interruptStates(new CharacterState("run", -1));
+	}
+	
+	public void stopRunning()
+	{
+		m_moving = false;
+		m_body.setLinearDamping(10);
+		interruptStates(new CharacterState("idle", -1));
 	}
 	
 	public abstract void jab();
@@ -328,7 +337,7 @@ public abstract class Character implements Drawable
 	}
 	
 	public void update(float p_delta)
-	{	
+	{
 		for(Hitbox h : m_hitboxes)
 		{
 			h.updateTimer(p_delta);
@@ -343,6 +352,9 @@ public abstract class Character implements Drawable
 		{
 			CharacterState currentState = m_stateStack.get(0);
 			
+			if(!currentState.isStarted())
+				currentState.start();
+			
 			if(!currentState.isIndefinite())
 			{
 				currentState.updateTimer(p_delta);
@@ -350,8 +362,10 @@ public abstract class Character implements Drawable
 				{
 					currentState.end();
 					m_stateStack.remove(0);
-					if(m_stateStack.size() > 0)
-						m_stateStack.get(0).start();
+					if(!(m_stateStack.size() > 0))
+						addState(new CharacterState("idle", -1));
+
+					m_stateStack.get(0).start();
 				} 
 			}
 		}
@@ -366,7 +380,7 @@ public abstract class Character implements Drawable
 		}
 
 		@Override
-		public void start()
+		public void moreStart()
 		{
 			m_stunned = true;
 		}
