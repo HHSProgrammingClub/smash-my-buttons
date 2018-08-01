@@ -5,6 +5,7 @@ import org.dyn4j.dynamics.Body;
 import org.dyn4j.geometry.MassType;
 import org.dyn4j.geometry.Rectangle;
 import org.dyn4j.geometry.Transform;
+import org.dyn4j.geometry.Vector2;
 
 import graphics.Sprite;
 import graphics.Texture;
@@ -55,16 +56,13 @@ public class Birboi extends Character
 	public void smash()
 	{
 		// TODO Create hitboxes
-		/*CharacterState startup = new CharacterState("smash_startup");
-		CharacterState flight  = new CharacterState("smash_fly", 1.5f);*/
-
 		
 		CharacterState smashStartup = new CharacterState("smash_startup")
 				{
-
 					@Override
 					public void start()
 					{
+						System.out.println("Lemme");
 						getBody().setLinearVelocity(0, 0);
 						getBody().setGravityScale(0);
 					}
@@ -88,7 +86,8 @@ public class Birboi extends Character
 					@Override
 					public void start()
 					{
-						getBody().setLinearVelocity(7, 0); //TODO: account for direction the player is facing
+						System.out.println("Smash");
+						getBody().applyImpulse(new Vector2(7, 0)); //TODO: account for direction the player is facing
 					}
 					
 					@Override
@@ -103,6 +102,8 @@ public class Birboi extends Character
 						getBody().setGravityScale(1);
 					}
 				};
+		addState(smashStartup);
+		addState(smashFlight);
 	}
 
 	@Override

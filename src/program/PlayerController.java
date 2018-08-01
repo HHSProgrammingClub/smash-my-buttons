@@ -267,6 +267,7 @@ public class PlayerController extends CharacterController
 	{
 		// This will automatically call the actions we set earlier.
 		m_keyBinder.update();
+		m_character.update(p_delta);
 	}
 
 	@Override
