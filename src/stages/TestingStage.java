@@ -25,7 +25,7 @@ public class TestingStage extends Stage
 	private void createLand()
 	{
 		Rectangle groundShape = new Rectangle(20, 1);
-		
+		groundShape.translate(10, 0.5);
 		Body groundBody = new Body();
 		Transform t = new Transform();
 		t.setTranslation(0, 6);
