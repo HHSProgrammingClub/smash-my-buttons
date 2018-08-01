@@ -35,7 +35,7 @@ public class Animation
 		else if (m_loop == LOOPTYPE_PINGPONG)
 			frameIdx = pingpongIntValue(p_frame, m_frameCount - 1);
 		else
-			frameIdx = Math.max(Math.min(p_frame, m_frameCount), 0);
+			frameIdx = Math.max(Math.min(p_frame, m_frameCount - 1), 0);
 
 		IntRect frame = new IntRect(m_frame);
 		frame.x += m_frame.w*frameIdx;

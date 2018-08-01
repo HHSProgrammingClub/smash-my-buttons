@@ -69,12 +69,20 @@ public class Sprite implements Drawable
 	
 	public void setAnimation(String p_animationName)
 	{
-		m_animation = m_texture.getAnimation(p_animationName);
+		if (m_animation == null || !p_animationName.equals(m_animation.getName()))
+		{
+			m_animation = m_texture.getAnimation(p_animationName);
+			m_clock.restart();
+		}
 	}
 	
 	public void setAnimation(Animation p_animation)
 	{
-		m_animation = p_animation;
+		if (m_animation == null || m_animation != p_animation)
+		{
+			m_animation = p_animation;
+			m_clock.restart();
+		}
 	}
 	
 	public Animation getAnimation()

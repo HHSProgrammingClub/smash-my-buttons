@@ -25,5 +25,4 @@ public class GroundListener extends ContactAdapter
 		}
 		return true;
 	}
-
 }
