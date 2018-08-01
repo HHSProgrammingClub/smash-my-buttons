@@ -245,8 +245,8 @@ public abstract class Character implements Drawable
 	{
 		m_jumped = false;
 		m_recovered = false;
-		if(!m_jumped)
-			m_sprite.setAnimation("idle");
+		/*if(!m_jumped)
+			m_sprite.setAnimation("idle");*/
 	}
 	
 	public void moveLeft()
