@@ -3,6 +3,7 @@ package characters;
 
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
+import java.util.Stack;
 
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.geometry.Transform;
@@ -48,7 +49,7 @@ public abstract class Character implements Drawable
 	
 	private ArrayList<Hitbox> m_hitboxes = new ArrayList<Hitbox> ();
 	
-	private ArrayList<CharacterState> m_stateStack = new ArrayList<CharacterState> ();
+	private Stack<CharacterState> m_stateStack = new Stack<CharacterState> ();
 	
 	protected static double position = 0;
 	
