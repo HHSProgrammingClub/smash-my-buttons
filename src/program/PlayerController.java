@@ -1,9 +1,14 @@
 package program;
 
+import java.awt.Container;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.swing.InputMap;
+import javax.swing.JComponent;
+import javax.swing.KeyStroke;
 
 interface KeyBindAction
 {
@@ -12,23 +17,80 @@ interface KeyBindAction
 
 class KeyBinder
 {
+	public static final int ACTIVATION_PRESSED = 0;
+	public static final int ACTIVATION_DOWN = 1;
+	public static final int ACTIVATION_RELEASE = 2;
+	
 	private class KeyBinding
 	{
+		private static final int STATE_UP = 0;
+		private static final int STATE_PRESSED = 1;
+		private static final int STATE_DOWN = 2;
+		private static final int STATE_RELEASE = 3;
+		
 		/**
 		 * Key code of this binding.
 		 */
-		public int key;
+		private int m_key = 0;
 		
 		/**
 		 * True when key is currently being pressed down. False, otherwise.
 		 */
-		public boolean down = false;
+		private int m_state = STATE_UP;
 		
-		public String action;
+		private int m_activate = ACTIVATION_DOWN;
 
-		KeyBinding(int p_key)
+		public KeyBinding(int p_key, int p_activation)
 		{
-			key = p_key;
+			m_key = p_key;
+			m_activate = p_activation;
+		}
+		
+		public int getKey()
+		{
+			return m_key;
+		}
+		
+		public void press()
+		{
+			if (m_state != STATE_DOWN)
+			{
+				m_state = STATE_PRESSED;
+				System.out.println("pressed");
+			}
+		}
+		
+		public void release()
+		{
+			m_state = STATE_RELEASE;
+		}
+		
+		public void update()
+		{
+			switch(m_state)
+			{
+			case STATE_PRESSED:
+				m_state = STATE_DOWN;
+				break;
+			case STATE_RELEASE:
+				m_state = STATE_UP;
+				break;
+			}
+		}
+		
+		public boolean isActive()
+		{
+			switch(m_activate)
+			{
+			case ACTIVATION_RELEASE:
+				return m_state == STATE_RELEASE;
+			case ACTIVATION_PRESSED:
+				return m_state == STATE_PRESSED;
+			case ACTIVATION_DOWN:
+				return m_state == STATE_PRESSED ||
+						m_state == STATE_DOWN;
+			}
+			return false;
 		}
 	}
 	
@@ -47,8 +109,8 @@ class KeyBinder
 			{
 				if (m_currentGroup != null)
 					for (Map.Entry<String, KeyBinding> i : m_currentGroup.entrySet())
-						if (e.getKeyCode() == i.getValue().key)
-							i.getValue().down = true;
+						if (e.getKeyCode() == i.getValue().getKey())
+							i.getValue().press();
 			}
 
 			@Override
@@ -56,8 +118,8 @@ class KeyBinder
 			{
 				if (m_currentGroup != null)
 					for (Map.Entry<String, KeyBinding> i : m_currentGroup.entrySet())
-						if (e.getKeyCode() == i.getValue().key)
-							i.getValue().down = false;
+						if (e.getKeyCode() == i.getValue().getKey())
+							i.getValue().release();
 			}
 
 			@Override
@@ -100,11 +162,11 @@ class KeyBinder
 	 * @param p_action Name of the action to call when pressed.
 	 * @param p_keyCode Key code from KeyEvent class.
 	 */
-	public void addKeyBinding(String p_action, int p_keyCode)
+	public void addKeyBinding(String p_action, int p_keyCode, int p_activation)
 	{
 		if (m_currentGroup == null)
 			throw new IllegalStateException("Group unspecified.");
-		m_currentGroup.put(p_action, new KeyBinding(p_keyCode));
+		m_currentGroup.put(p_action, new KeyBinding(p_keyCode, p_activation));
 	}
 	
 	public void removeKeyBinding(String p_name)
@@ -122,9 +184,14 @@ class KeyBinder
 	{
 		if (m_currentGroup == null)
 			throw new IllegalStateException("Group unspecified.");
+		
+		
 		for (Map.Entry<String, KeyBinding> i : m_currentGroup.entrySet())
-			if (i.getValue().down == true)
+		{
+			if (i.getValue().isActive())
 				m_keyActions.get(i.getKey()).onAction();
+			i.getValue().update();
+		}
 	}
 	
 	public KeyListener getKeyListener()
@@ -216,21 +283,21 @@ public class PlayerController extends CharacterController
 		
 		// Add key bindings for player 1
 		m_keyBinder.setGroup("player1");
-		m_keyBinder.addKeyBinding("jump", KeyEvent.VK_W);
-		m_keyBinder.addKeyBinding("moveLeft", KeyEvent.VK_A);
-		m_keyBinder.addKeyBinding("moveRight", KeyEvent.VK_D);
+		m_keyBinder.addKeyBinding("jump", KeyEvent.VK_W, KeyBinder.ACTIVATION_PRESSED);
+		m_keyBinder.addKeyBinding("moveLeft", KeyEvent.VK_A, KeyBinder.ACTIVATION_DOWN);
+		m_keyBinder.addKeyBinding("moveRight", KeyEvent.VK_D, KeyBinder.ACTIVATION_DOWN);
 		
-		m_keyBinder.addKeyBinding("projectile", KeyEvent.VK_S); //I would say this is for some well thought out reason but it's because I can't find the KeyEvent corresponding to the originally planned ` key
-		m_keyBinder.addKeyBinding("jab", KeyEvent.VK_1);
-		m_keyBinder.addKeyBinding("tilt", KeyEvent.VK_2);
-		m_keyBinder.addKeyBinding("smash", KeyEvent.VK_3);
-		m_keyBinder.addKeyBinding("signature", KeyEvent.VK_4);
-		m_keyBinder.addKeyBinding("recover", KeyEvent.VK_5);
+		m_keyBinder.addKeyBinding("projectile", KeyEvent.VK_S, KeyBinder.ACTIVATION_PRESSED); //I would say this is for some well thought out reason but it's because I can't find the KeyEvent corresponding to the originally planned ` key
+		m_keyBinder.addKeyBinding("jab", KeyEvent.VK_1, KeyBinder.ACTIVATION_PRESSED);
+		m_keyBinder.addKeyBinding("tilt", KeyEvent.VK_2, KeyBinder.ACTIVATION_PRESSED);
+		m_keyBinder.addKeyBinding("smash", KeyEvent.VK_3, KeyBinder.ACTIVATION_PRESSED);
+		m_keyBinder.addKeyBinding("signature", KeyEvent.VK_4, KeyBinder.ACTIVATION_PRESSED);
+		m_keyBinder.addKeyBinding("recover", KeyEvent.VK_5, KeyBinder.ACTIVATION_PRESSED);
 		
 
 		// Add key bindings for player 2
 		m_keyBinder.setGroup("player2");
-		m_keyBinder.addKeyBinding("jump", KeyEvent.VK_UP);
+		//m_keyBinder.addKeyBinding("jump", KeyEvent.VK_UP);
 	}
 	
 	/**
