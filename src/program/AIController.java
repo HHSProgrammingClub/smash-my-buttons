@@ -236,6 +236,7 @@ public class AIController extends CharacterController
 	public void update(Battle p_battle, float p_delta)
 	{
 		callLoop();
+		m_character.update(p_delta);
 	}
 
 	@Override

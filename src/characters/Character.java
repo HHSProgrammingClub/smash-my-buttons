@@ -1,3 +1,4 @@
+
 package characters;
 
 import java.awt.geom.AffineTransform;
@@ -13,6 +14,9 @@ import graphics.Renderer;
 import graphics.Sprite;
 import program.Hitbox;
 
+
+//TODO: Add a way to lock out actions
+
 public abstract class Character implements Drawable
 {
 	protected Body m_body;
@@ -20,7 +24,7 @@ public abstract class Character implements Drawable
 
 	private int m_damage;
 	private int m_stock = 3;
-	private String m_name;
+	private String m_name = "George the Glass-Cutter";
 	private boolean m_jumped = false;
 	private boolean m_recovered = false;
 	private boolean m_moving = false;
@@ -44,55 +48,85 @@ public abstract class Character implements Drawable
 	
 	private ArrayList<Hitbox> m_hitboxes = new ArrayList<Hitbox> ();
 	
-	private ArrayList<AnimationState> m_animationStack = new ArrayList<AnimationState> ();
-	private ArrayList<Effect> m_effectStack = new ArrayList<Effect> ();
+	private ArrayList<CharacterState> m_stateStack = new ArrayList<CharacterState> ();
 	
 	protected static double position = 0;
 	
-	
-	protected void addAnimation(AnimationState p_animation)
+	protected void addState(CharacterState p_state)
 	{
-		m_animationStack.add(p_animation);
+		m_stateStack.add(p_state);
 	}
 	
-	protected void clearAnimations()
+	protected void addAnimationState(Animation p_animation, float p_duration)
 	{
-		m_animationStack.clear();
-		m_sprite.setAnimation("idle");
+		m_stateStack.add(new CharacterState(p_animation, p_duration));
 	}
 	
-	public void interruptAnimations(AnimationState p_newAnimation)
+	protected void addAnimationState(String p_name, float p_duration)
 	{
-		clearAnimations();
-		addAnimation(p_newAnimation);
+		m_stateStack.add(new CharacterState(p_name, p_duration));
 	}
 	
-	protected class AnimationState
+	protected void interruptStates(CharacterState p_state)
+	{
+		m_stateStack.clear();
+		addState(p_state);
+	}
+	
+	protected void interruptStates()
+	{
+		interruptStates(new CharacterState("idle", -1));
+	}
+	
+	protected void interruptCurrentState()
+	{
+		m_stateStack.get(0).interrupt();
+		m_stateStack.remove(0);
+	}
+	
+	/**
+	 * Class to hold effects on characters, such as temporary
+	 * animations or selective ignoring of gravity.
+	 * 
+	 * Extend this class for effects that do more than
+	 * play an animation
+	 */
+	protected class CharacterState
 	{
 		private Animation m_animation;
 		private float m_duration;
 		private float m_timer;
 		
-		AnimationState(Animation p_animation, float p_duration)
+		private boolean m_started = false;
+		
+		private boolean m_indefinite;
+		
+		CharacterState(Animation p_animation, float p_duration)
 		{
-			m_animation = p_animation;
-			m_duration = p_duration;
-			m_timer = m_duration;
+			setAnimation(p_animation);
+			setDuration(p_duration);
 		}
 		
-		AnimationState(Animation p_animation)
+		CharacterState(Animation p_animation)
 		{
 			this(p_animation, p_animation.getInterval() * p_animation.getFrameCount());
 		}
 		
-		AnimationState(String p_animationName, float p_duration)
+		CharacterState(String p_animationName, float p_duration)
 		{
 			this(m_sprite.getTexture().getAnimation(p_animationName), p_duration);
 		}
 		
-		AnimationState(String p_animationName)
+		CharacterState(String p_animationName)
 		{
 			this(m_sprite.getTexture().getAnimation(p_animationName));
+		}
+		
+		CharacterState() {}
+		
+		public void setAnimation(Animation p_animation)
+		{
+			m_animation = p_animation;
 		}
 		
 		public Animation getAnimation()
@@ -100,50 +134,20 @@ public abstract class Character implements Drawable
 			return m_animation;
 		}
 		
-		public float getDuration()
+		public boolean isIndefinite()
 		{
-			return m_duration;
+			return m_indefinite;
 		}
 		
-		public float getTimer()
-		{
-			return m_timer;
-		}
-		
-		public void updateTimer(float p_delta)
-		{
-			m_timer -= p_delta;
-		}
-	}
-	
-	protected void addEffect(Effect p_effect)
-	{
-		m_effectStack.add(p_effect);
-		if(m_effectStack.get(0) == p_effect)
-			m_effectStack.get(0).effectStart();
-	}
-	
-	protected void interruptCurrentEffect(Effect p_effect)
-	{
-		interruptCurrentEffect();
-		addEffect(p_effect);
-	}
-	
-	protected void interruptCurrentEffect()
-	{
-		m_effectStack.get(0).effectInterrupted();
-		m_effectStack.clear();
-	}
-	
-	public abstract class Effect
-	{
-		private float m_duration;
-		private float m_timer;
-		
-		Effect(float p_duration)
+		/**
+		 * Set the duration of the state
+		 * @param p_duration pass a negative value to make indefinite
+		 */
+		public void setDuration(float p_duration)
 		{
 			m_duration = p_duration;
 			m_timer = m_duration;
+			m_indefinite = m_timer < 0;
 		}
 		
 		public float getDuration()
@@ -156,18 +160,36 @@ public abstract class Character implements Drawable
 			return m_timer;
 		}
 		
-		public void updateTimer(float p_delta)
+		public boolean isStarted()
 		{
-			m_duration -= p_delta;
+			return m_started;
 		}
 		
-		public void effectInterrupted()
+		public void start()
 		{
-			//undo effect, if necessary
+			m_sprite.setAnimation(m_animation);
+			m_started = true;
 		}
 		
-		public abstract void effectStart();
-		public abstract void effectEnd();
+		public void interrupt()
+		{
+			
+		}
+		
+		public void end()
+		{
+			
+		}
+		
+		/**
+		 * @param p_delta
+		 * @return false if p_timer <= 0
+		 */
+		public boolean updateTimer(float p_delta)
+		{
+			m_timer -= p_delta;
+			return m_timer > 0;
+		}
 	}
 	
 	public int getStock()
@@ -208,7 +230,8 @@ public abstract class Character implements Drawable
 		{
 			m_body.applyImpulse(jumpImpulse);
 			m_jumped = true;
-			m_sprite.setAnimation("jump_asc");
+			if(!m_jumped)
+				m_sprite.setAnimation("jump_asc");
 		}
 	}
 	
@@ -216,23 +239,22 @@ public abstract class Character implements Drawable
 	{
 		m_jumped = false;
 		m_recovered = false;
-		m_sprite.setAnimation("idle");
+		if(!m_jumped)
+			m_sprite.setAnimation("idle");
 	}
 	
 	public void moveLeft()
 	{
 		m_moving = true;
 		m_body.applyForce(force_L);
-		if(!m_jumped)
-			m_sprite.setAnimation("run");
+		m_sprite.setAnimation("run");
 	}
 	
 	public void moveRight()
 	{
 		m_moving = true;
 		m_body.applyForce(force_R);
-		if(!m_jumped)
-			m_sprite.setAnimation("run");
+		m_sprite.setAnimation("run");
 	}
 	
 	public abstract void jab();
@@ -257,8 +279,7 @@ public abstract class Character implements Drawable
 	{
 		if(m_superArmour)
 			return;
-		interruptCurrentEffect(new Hitstun(p_duration));
-		interruptAnimations(new AnimationState("hitstun", p_duration));
+		interruptStates(new Hitstun(p_duration));
 	}
 	
 	public boolean isStunned()
@@ -270,8 +291,7 @@ public abstract class Character implements Drawable
 	{
 		if(m_superArmour)
 			return;
-		interruptCurrentEffect();
-		interruptAnimations(new AnimationState("hitstun", .016667f));
+		interruptStates(new Hitstun(0));
 	}
 
 	public void setBody(Body p_body)
@@ -311,43 +331,45 @@ public abstract class Character implements Drawable
 			}
 		}
 		
-		if(m_animationStack.size() > 0)
+		if(m_stateStack.size() > 0)
 		{
-			AnimationState currentState = m_animationStack.get(0);
-			if(currentState.getTimer() == currentState.getDuration())
-				m_sprite.setAnimation(currentState.getAnimation());
-			currentState.updateTimer(p_delta);
-			if(currentState.getTimer() <= 0)
-			{	
-				m_animationStack.remove(0);
-				if(m_animationStack.size() == 0)
-					m_sprite.setAnimation("idle");
+			CharacterState currentState = m_stateStack.get(0);
+			
+			if(!currentState.isIndefinite())
+			{
+				currentState.updateTimer(p_delta);
+				if (currentState.getTimer() <= 0)
+				{
+					currentState.end();
+					m_stateStack.remove(0);
+					m_stateStack.get(0).start();
+				} 
 			}
 		}
 	}
 	
-	public class Hitstun extends Effect
+	public class Hitstun extends CharacterState
 	{
 
 		Hitstun(float p_duration)
 		{
-			super(p_duration);
+			super("hitstun", p_duration);
 		}
 
 		@Override
-		public void effectStart()
+		public void start()
 		{
 			m_stunned = true;
 		}
 		
 		@Override
-		public void effectInterrupted()
+		public void interrupt()
 		{
-			effectEnd();
+			end();
 		}
 
 		@Override
-		public void effectEnd()
+		public void end()
 		{
 			m_stunned = false;
 		}

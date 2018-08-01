@@ -1,3 +1,4 @@
+
 package characters;
 
 import org.dyn4j.dynamics.Body;
@@ -54,56 +55,54 @@ public class Birboi extends Character
 	public void smash()
 	{
 		// TODO Create hitboxes
-		AnimationState startup = new AnimationState("smash_startup");
-		AnimationState flight  = new AnimationState("smash_fly", 1.5f);
+		/*CharacterState startup = new CharacterState("smash_startup");
+		CharacterState flight  = new CharacterState("smash_fly", 1.5f);*/
+
 		
-		Effect smashFlight = new Effect(1.5f)
+		CharacterState smashStartup = new CharacterState("smash_startup")
 				{
 
 					@Override
-					public void effectStart()
+					public void start()
 					{
-						addAnimation(flight);
+						getBody().setLinearVelocity(0, 0);
+						getBody().setGravityScale(0);
+					}
+					
+					@Override
+					public void interrupt()
+					{
+						getBody().setGravityScale(1);
+					}
+					
+					@Override
+					public void end()
+					{
+						
+					}
+				};
+		
+		CharacterState smashFlight = new CharacterState("smash_fly", 1.5f)
+				{
+
+					@Override
+					public void start()
+					{
 						getBody().setLinearVelocity(7, 0); //TODO: account for direction the player is facing
 					}
 					
 					@Override
-					public void effectInterrupted()
+					public void interrupt()
 					{
 						getBody().setGravityScale(1);
 					}
 
 					@Override
-					public void effectEnd()
+					public void end()
 					{
 						getBody().setGravityScale(1);
 					}
 				};
-		
-		Effect smashStartup = new Effect(.4f)
-				{
-
-					@Override
-					public void effectStart()
-					{
-						getBody().setLinearVelocity(0, 0);
-						getBody().setGravityScale(0);
-						addAnimation(startup);
-					}
-					
-					@Override
-					public void effectInterrupted()
-					{
-						getBody().setGravityScale(1);
-					}
-					
-					@Override
-					public void effectEnd()
-					{
-						addEffect(smashFlight);
-					}
-				};
-		addEffect(smashStartup);
 	}
 
 	@Override
