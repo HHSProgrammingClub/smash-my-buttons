@@ -33,40 +33,40 @@ public class DamageDisplayer implements Drawable
 	{
 		int width = Toolkit.getDefaultToolkit().getScreenSize().width;
 		int height = Toolkit.getDefaultToolkit().getScreenSize().height;
-
+		
 		//TODO: make sure things are centered ish or at least spaced evenly
 		AffineTransform transform = new AffineTransform();
-		transform.translate(m_player*((width/64)/6) + 0.5, (height/64) - 3.5); //someone clean this up
-		
-		AffineTransform shadowOffset = new AffineTransform();
-		shadowOffset.translate(m_player*((width/64)/6) + 0.6, (height/64) - 3.4);
+		transform.translate(m_player*((width/64)/6) + 0.5, (height/64) - 3.5); // FIXME: someone clean this up
+		p_renderer.pushTransform(transform);
 		
 		//offset shadow for  a e s t h e t i c s
+		AffineTransform shadowOffset = new AffineTransform();
+		shadowOffset.translate(0.1, 0);
 		p_renderer.pushTransform(shadowOffset);
 		p_renderer.drawText(Integer.toString(m_character.getDamage()) + "%", "SansSerif", Color.BLACK,  1, 0.25f);
 		p_renderer.popTransform();
 		
 		//draw the damage
-		p_renderer.pushTransform(transform);
 		p_renderer.drawText(Integer.toString(m_character.getDamage()) + "%", "SansSerif", Color.BLACK,  1, 1);
-		p_renderer.popTransform();
+		
 		
 		AffineTransform nameOffset = new AffineTransform();
-		nameOffset.translate(m_player*((width/64)/6), (height/64) - 3);
+		nameOffset.translate(0, 0.4);
 		nameOffset.scale(.5, .5);
-		
 		p_renderer.pushTransform(nameOffset);
 		p_renderer.drawText(m_character.getName(), "SansSerif", Color.BLACK,  1, 1);
 		p_renderer.popTransform();
 		
-		for(int i = 0; i < m_character.getStock(); i++)
+		/*for(int i = 0; i < m_character.getStock(); i++)
 		{
 			AffineTransform stockOffset = new AffineTransform();
-			stockOffset.translate(m_player*((width/64)/6) + 0.5, (height/64) - 3);
-			
+			stockOffset.translate(0, 0); // TODO: Adjust this offset
+			p_renderer.push(stockOffset)
 			//TODO: render stock sprites
 			p_renderer.popTransform();
-		}
+		}*/
+		
+		p_renderer.popTransform();
 	}
 
 }
