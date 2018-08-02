@@ -331,6 +331,58 @@ public abstract class Character implements Drawable
 	public abstract void projectile();
 	public abstract void signature();
 	public abstract void recover();
+
+	public static final int ACTION_MOVERIGHT	= -2;
+	public static final int ACTION_MOVELEFT 	= -1;
+	public static final int ACTION_JUMP  		= 0;
+	public static final int ACTION_JAB   		= 1;
+	public static final int ACTION_TILT  		= 2;
+	public static final int ACTION_SMASH 		= 3;
+	public static final int ACTION_PROJECTILE = 4;
+	public static final int ACTION_SIGNATURE  = 5;
+	public static final int ACTION_RECOVERY 	= 6;
+	
+	public void performAction(int p_action)
+	{
+		switch(p_action)
+		{
+			case ACTION_MOVERIGHT:
+				moveRight();
+				return;
+				
+			case ACTION_MOVELEFT:
+				moveLeft();
+				return;
+				
+			case ACTION_JUMP:
+				jump();
+				return;
+				
+			case ACTION_JAB:
+				jab();
+				return;
+				
+			case ACTION_TILT:
+				tilt();
+				return;
+				
+			case ACTION_SMASH:
+				smash();
+				return;
+				
+			case ACTION_SIGNATURE:
+				signature();
+				return;
+				
+			case ACTION_PROJECTILE:
+				projectile();
+				return;
+				
+			case ACTION_RECOVERY:
+				recover();
+				return;
+		}
+	}
 	
 	public void takeHit(Hitbox p_hitbox)
 	{
