@@ -10,6 +10,7 @@ import org.dyn4j.geometry.Vector2;
 
 import graphics.Animation;
 import graphics.Drawable;
+import graphics.IntRect;
 import graphics.Renderer;
 import graphics.Sprite;
 import program.Hitbox;
@@ -36,6 +37,9 @@ public abstract class Character implements Drawable
 	// 1 = left -1 = right
 	private static final int FACING_LEFT = 1;
 	private static final int FACING_RIGHT = -1;
+	
+	private static final Vector2 LEFT_SCALE = new Vector2(1, 1);
+	private static final Vector2 RIGHT_SCALE = new Vector2(-1, 1);
 
 	protected static Vector2 jumpImpulse = new Vector2(0, -25);
 	protected static Vector2 runLeft = new Vector2(-5, 0);
@@ -53,8 +57,8 @@ public abstract class Character implements Drawable
 	public static final int ACTION_JAB   		= 1;
 	public static final int ACTION_TILT  		= 2;
 	public static final int ACTION_SMASH 		= 3;
-	public static final int ACTION_PROJECTILE = 4;
-	public static final int ACTION_SIGNATURE  = 5;
+	public static final int ACTION_PROJECTILE   = 4;
+	public static final int ACTION_SIGNATURE    = 5;
 	public static final int ACTION_RECOVERY 	= 6;
 	
 	protected static double position = 0;
@@ -284,8 +288,12 @@ public abstract class Character implements Drawable
 	public void draw(Renderer p_renderer)
 	{
 		Transform t = m_body.getTransform();
-		m_sprite.setPosition(t.getTranslationX(), t.getTranslationY());
+		
+		IntRect frame = m_sprite.getAnimation().getFrame();
+		int offset = m_facingRight ? frame.w / 32 : 0;
+		m_sprite.setPosition(t.getTranslationX() + offset, t.getTranslationY());
 		m_sprite.setRotation(t.getRotation());
+		m_sprite.setScale(m_facingRight ? RIGHT_SCALE : LEFT_SCALE);
 		m_sprite.draw(p_renderer);
 	}
 	
