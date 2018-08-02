@@ -96,7 +96,7 @@ public class Jack extends Character
 	
 	public void jab()
 	{
-		
+		interruptStates(new JabState());
 	}
 	
 	public void tilt()
