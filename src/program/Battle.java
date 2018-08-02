@@ -85,9 +85,6 @@ public class Battle
 					}
 				});
 		
-		for(int i = 0; i < m_charControllers.length; i++)
-			m_charControllers[i].start();
-		
 		battleThread.start();
 	}
 	
@@ -103,9 +100,8 @@ public class Battle
 		for(int i = 0; i < m_charControllers.length; i++)
 		{
 			if(m_charControllers[i] instanceof PlayerController)
-			{
 				((PlayerController) m_charControllers[i]).attachPage(m_renderer);
-			}
+			m_charControllers[i].start();
 		}		
 		
 		//debug

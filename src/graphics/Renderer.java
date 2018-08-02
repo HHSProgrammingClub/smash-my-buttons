@@ -93,15 +93,12 @@ public class Renderer implements Page
 	public void pushTransform(AffineTransform p_transform)
 	{
 		if (m_transformStack.isEmpty())
-		{
 			m_transformStack.push(new AffineTransform(p_transform));
-		}
 		else
 		{
-			AffineTransform copyT = new AffineTransform(p_transform);
-			AffineTransform lastT = new AffineTransform(m_transformStack.peek());
-			lastT.concatenate(copyT);
-			m_transformStack.push(lastT);
+			AffineTransform t = new AffineTransform(m_transformStack.peek());
+			t.concatenate(p_transform);
+			m_transformStack.push(t);
 		}
 		m_graphics.setTransform(m_transformStack.peek());
 	}
