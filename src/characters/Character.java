@@ -78,7 +78,7 @@ public abstract class Character implements Drawable
 	
 	protected void interruptStates()
 	{
-		interruptStates(new CharacterState("idle", -1));
+		interruptStates(new IdleState());
 	}
 	
 	protected void interruptCurrentState()
@@ -201,6 +201,14 @@ public abstract class Character implements Drawable
 		}
 	}
 	
+	protected class IdleState extends CharacterState
+	{
+		IdleState()
+		{
+			super("idle", -1);
+		}
+	}
+	
 	public int getStock()
 	{
 		return m_stock;
@@ -256,7 +264,7 @@ public abstract class Character implements Drawable
 		m_moving = true;
 		m_body.applyForce(force_L);
 		if(!m_jumped)
-			interruptStates(new CharacterState("run", -1));
+			interruptStates(new RunningState());
 	}
 	
 	public void moveRight()
@@ -264,14 +272,28 @@ public abstract class Character implements Drawable
 		m_moving = true;
 		m_body.applyForce(force_R);
 		if(!m_jumped)
-			interruptStates(new CharacterState("run", -1));
+			interruptStates(new RunningState());
 	}
 	
 	public void stopRunning()
 	{
 		m_moving = false;
 		m_body.setLinearDamping(10);
-		interruptStates(new CharacterState("idle", -1));
+		interruptStates(new IdleState());
+	}
+	
+	private class RunningState extends CharacterState
+	{
+		RunningState()
+		{
+			super("run", -1);
+		}
+		
+		@Override
+		protected void moreStart()
+		{
+			m_body.setLinearDamping(0);
+		}
 	}
 	
 	public abstract void jab();
@@ -363,7 +385,7 @@ public abstract class Character implements Drawable
 					currentState.end();
 					m_stateStack.remove(0);
 					if(!(m_stateStack.size() > 0))
-						addState(new CharacterState("idle", -1));
+						addState(new IdleState());
 
 					m_stateStack.get(0).start();
 				} 
