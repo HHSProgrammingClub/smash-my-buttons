@@ -360,13 +360,13 @@ public abstract class Character implements Drawable
 	
 	public void update(float p_delta)
 	{
-		for(Hitbox h : m_hitboxes)
+		for(int i = 0; i < m_hitboxes.size(); i++)
 		{
-			h.updateTimer(p_delta);
+			m_hitboxes.get(i).updateTimer(p_delta);
 			
-			if(!h.isAlive())
+			if(!m_hitboxes.get(i).isAlive())
 			{
-				m_hitboxes.remove(h);
+				m_hitboxes.remove(i--);
 			}
 		}
 		
