@@ -161,12 +161,33 @@ public class CharacterState
 	}
 	
 	/**
+	 * When a state should do something when a certain condition is met,
+	 * set up the condition in activationTest(), then put what should be
+	 * done here
+	 */
+	public void activate()
+	{
+		
+	}
+	
+	/**
+	 * Called at every update(), activate() is called upon returning true
+	 * @return
+	 */
+	protected boolean activationTest()
+	{
+		return false;
+	}
+	
+	/**
 	 * @param p_delta
 	 * @return false if p_timer <= 0
 	 */
-	public boolean updateTimer(float p_delta)
+	public final boolean update(float p_delta)
 	{
 		m_timer -= p_delta;
+		if(activationTest())
+			activate();
 		return m_timer > 0;
 	}
 }

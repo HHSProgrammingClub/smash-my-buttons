@@ -317,7 +317,7 @@ public abstract class Character implements Drawable
 			
 			if(!currentState.isIndefinite())
 			{
-				currentState.updateTimer(p_delta);
+				currentState.update(p_delta);
 				if (currentState.getTimer() <= 0)
 				{
 					currentState.end();
