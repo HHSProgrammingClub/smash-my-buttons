@@ -11,6 +11,8 @@ import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
 
+import characters.Character;
+
 interface KeyBindAction
 {
 	public void onAction();
@@ -230,7 +232,7 @@ public class PlayerController extends CharacterController
 			@Override
 			public void onAction()
 			{
-				getCharacter().jump();
+				getCharacter().performAction(Character.ACTION_JUMP);
 			}});
 		
 		m_keyBinder.addAction("moveLeft", new KeyBindAction()
@@ -238,7 +240,7 @@ public class PlayerController extends CharacterController
 			@Override
 			public void onAction()
 			{
-				getCharacter().moveLeft();
+				getCharacter().performAction(Character.ACTION_MOVELEFT);
 			}});
 		
 		m_keyBinder.addAction("moveRight", new KeyBindAction()
@@ -246,7 +248,7 @@ public class PlayerController extends CharacterController
 			@Override
 			public void onAction()
 			{
-				getCharacter().moveRight();
+				getCharacter().performAction(Character.ACTION_MOVERIGHT);
 			}});
 		
 		m_keyBinder.addAction("stopRunning", new KeyBindAction()
@@ -263,7 +265,7 @@ public class PlayerController extends CharacterController
 			@Override
 			public void onAction()
 			{
-				getCharacter().jab();
+				getCharacter().performAction(Character.ACTION_JAB);
 			}});
 		
 		m_keyBinder.addAction("tilt", new KeyBindAction()
@@ -271,7 +273,7 @@ public class PlayerController extends CharacterController
 			@Override
 			public void onAction()
 			{
-				getCharacter().tilt();
+				getCharacter().performAction(Character.ACTION_TILT);
 			}});
 		
 		m_keyBinder.addAction("smash", new KeyBindAction()
@@ -279,7 +281,7 @@ public class PlayerController extends CharacterController
 			@Override
 			public void onAction()
 			{
-				getCharacter().smash();
+				getCharacter().performAction(Character.ACTION_SMASH);
 			}});
 		
 		m_keyBinder.addAction("signature", new KeyBindAction()
@@ -287,7 +289,7 @@ public class PlayerController extends CharacterController
 			@Override
 			public void onAction()
 			{
-				getCharacter().signature();
+				getCharacter().performAction(Character.ACTION_SIGNATURE);
 			}});
 		
 		m_keyBinder.addAction("recover", new KeyBindAction()
@@ -295,7 +297,7 @@ public class PlayerController extends CharacterController
 			@Override
 			public void onAction()
 			{
-				getCharacter().recover();
+				getCharacter().performAction(Character.ACTION_RECOVERY);
 			}});
 		
 		m_keyBinder.addAction("projectile", new KeyBindAction()
@@ -303,7 +305,7 @@ public class PlayerController extends CharacterController
 			@Override
 			public void onAction()
 			{
-				getCharacter().projectile();
+				getCharacter().performAction(Character.ACTION_PROJECTILE);
 			}});
 		
 		// Add key bindings for player 1

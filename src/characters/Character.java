@@ -37,7 +37,8 @@ public abstract class Character implements Drawable
 	private static final int FACING_RIGHT = -1;
 
 	protected static Vector2 jumpImpulse = new Vector2(0, -25);
-	protected static Vector2 runForce = new Vector2(-5, 0);
+	protected static Vector2 runLeft = new Vector2(-5, 0);
+	protected static Vector2 runRight = new Vector2(5, 0);
 	
 	public static String[] characterNames = {"Jack", "Birboi", "Cam", "W'all", "Edgewardo", "Jimmy"};
 	
@@ -245,15 +246,12 @@ public abstract class Character implements Drawable
 	
 	public abstract String getName();
 	
-	public void jump() //to be pronounced [jʌmp] (ipa)
+	protected void jump() //to be pronounced [jʌmp] (ipa)
 	{
-		if(!m_jumped)
-		{
-			m_body.setLinearVelocity(m_body.getLinearVelocity().x, 0);
-			m_body.applyImpulse(jumpImpulse);
-			m_jumped = true;
-			m_sprite.setAnimation("jump_asc");
-		}
+		m_body.setLinearVelocity(m_body.getLinearVelocity().x, 0);
+		m_body.applyImpulse(jumpImpulse);
+		m_jumped = true;
+		m_sprite.setAnimation("jump_asc");
 	}
 	
 	public void resetJump()
@@ -268,7 +266,7 @@ public abstract class Character implements Drawable
 	{
 		m_moving = true;
 		m_facingRight = false;
-		m_body.applyForce(runForce.multiply(FACING_LEFT));
+		m_body.applyForce(runLeft);
 		if(!m_jumped)
 			interruptStates(new RunningState());
 	}
@@ -277,7 +275,7 @@ public abstract class Character implements Drawable
 	{
 		m_moving = true;
 		m_facingRight = true;
-		m_body.applyForce(runForce.multiply(FACING_RIGHT));
+		m_body.applyForce(runRight);
 		if(!m_jumped)
 			interruptStates(new RunningState());
 	}
@@ -329,12 +327,12 @@ public abstract class Character implements Drawable
 		}
 	}
 	
-	public abstract void jab();
-	public abstract void tilt();
-	public abstract void smash();
-	public abstract void projectile();
-	public abstract void signature();
-	public abstract void recover();
+	protected abstract void jab();
+	protected abstract void tilt();
+	protected abstract void smash();
+	protected abstract void projectile();
+	protected abstract void signature();
+	protected abstract void recover();
 	
 	public void performAction(int p_action)
 	{
@@ -352,7 +350,8 @@ public abstract class Character implements Drawable
 				return;
 				
 			case ACTION_JUMP:
-				jump();
+				if(!m_jumped)
+					jump();
 				return;
 				
 			case ACTION_JAB:

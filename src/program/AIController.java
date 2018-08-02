@@ -81,7 +81,7 @@ class PyCharacterWrapper implements pyInterfaces.PlayerInterface
 	@Override
 	public void recover()
 	{
-		m_character.recover();
+		m_character.performAction(Character.ACTION_RECOVERY);
 		System.out.print("Recover");
 	}
 
@@ -96,7 +96,7 @@ class PyCharacterWrapper implements pyInterfaces.PlayerInterface
 	@Override
 	public void jump()
 	{
-		m_character.jump();
+		m_character.performAction(Character.ACTION_JUMP);
 		System.out.print("Jump");
 	}
 

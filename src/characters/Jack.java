@@ -20,7 +20,8 @@ public class Jack extends Character
 	{
 		//attribute editing
 		jumpImpulse = new Vector2(0, -15);
-		runForce = new Vector2(-8, 0);
+		runLeft = new Vector2(-8, 0);
+		runRight = new Vector2(8, 0);
 		
 		Body tushie = new Body();
 		
