@@ -1,12 +1,15 @@
 package characters;
 
 import org.dyn4j.dynamics.Body;
+import org.dyn4j.dynamics.BodyFixture;
 import org.dyn4j.geometry.MassType;
 import org.dyn4j.geometry.Rectangle;
 import org.dyn4j.geometry.Transform;
+import org.dyn4j.geometry.Vector2;
 
 import graphics.Sprite;
 import graphics.Texture;
+import program.Hitbox;
 
 //A sample character.
 
@@ -43,7 +46,17 @@ public class Jack extends Character
 	
 	public void jab()
 	{
-		
+		Hitbox h = new Hitbox();
+		h.setDuration(0.1f);
+		h.setDamage(2);
+		h.setBaseKnockback(new Vector2(-0.05, 0));
+		h.setScaledKnockback(new Vector2(-4, -2));
+		Rectangle r = new Rectangle(0.8, 0.3);
+		r.translate(-0.4, 1);
+		BodyFixture b = new BodyFixture(r);
+		addHitbox(h);
+		h.addToFixture(b);
+		m_body.addFixture(b);
 	}
 	
 	public void tilt()

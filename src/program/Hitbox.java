@@ -15,6 +15,7 @@ public class Hitbox
 	public void addToFixture(Fixture p_fixture)
 	{
 		p_fixture.setUserData(this);
+		p_fixture.setSensor(true);
 	}
 	
 	public void setDamage(int p_damage)
@@ -60,10 +61,12 @@ public class Hitbox
 	
 	public void updateTimer(float p_delta)
 	{
+		System.out.println("DEATH COMES");
 		m_timeLeft -= p_delta;
 		if(m_timeLeft <= 0)
 		{
 			m_alive = false; // Prepare for r e m o v a l
+			System.out.println("DEADBEEF");
 		}
 	}
 	
