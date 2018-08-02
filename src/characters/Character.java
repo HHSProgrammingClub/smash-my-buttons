@@ -109,22 +109,40 @@ public abstract class Character implements Drawable
 		
 		private boolean m_indefinite;
 		
+		/**
+		 * Plays p_animation for p_duration seconds
+		 * @param p_animation
+		 * @param p_duration pass a negative value to play indefinitely
+		 */
 		CharacterState(Animation p_animation, float p_duration)
 		{
 			setAnimation(p_animation);
 			setDuration(p_duration);
 		}
 		
+		/**
+		 * Plays p_animation once, even if it's set to loop
+		 * @param p_animation
+		 */
 		CharacterState(Animation p_animation)
 		{
 			this(p_animation, p_animation.getInterval() * p_animation.getFrameCount());
 		}
 		
+		/**
+		 * Plays an animation for p_duration seconds
+		 * @param p_animationName
+		 * @param p_duration pass a negative value to play indefinitely
+		 */
 		CharacterState(String p_animationName, float p_duration)
 		{
 			this(m_sprite.getTexture().getAnimation(p_animationName), p_duration);
 		}
 		
+		/**
+		 * Plays an animation once, even if it's set to loop
+		 * @param p_animationName
+		 */
 		CharacterState(String p_animationName)
 		{
 			this(m_sprite.getTexture().getAnimation(p_animationName));
@@ -173,23 +191,35 @@ public abstract class Character implements Drawable
 			return m_started;
 		}
 		
-		public final void start()
+		/**
+		 * Starts the animation and calls init(), you probably don't want to override this one
+		 */
+		public void start()
 		{
 			m_sprite.setAnimation(m_animation);
 			m_started = true;
-			moreStart();
+			init();
 		}
 		
-		protected void moreStart()
+		/**
+		 * Override this method to do everything you want at the start of the state (besides starting the animation)
+		 */
+		protected void init()
 		{
 			
 		}
 		
+		/**
+		 * Deal with the state being interrupted (e.g. by interruptStates() here
+		 */
 		public void interrupt()
 		{
 			
 		}
 		
+		/**
+		 * Do stuff at the end of the thing
+		 */
 		public void end()
 		{
 			
@@ -295,7 +325,7 @@ public abstract class Character implements Drawable
 		}
 		
 		@Override
-		protected void moreStart()
+		protected void init()
 		{
 			m_body.setLinearDamping(0);
 		}
@@ -309,7 +339,7 @@ public abstract class Character implements Drawable
 		}
 		
 		@Override
-		protected void moreStart()
+		protected void init()
 		{
 			m_body.setLinearDamping(20);
 		}
@@ -483,7 +513,7 @@ public abstract class Character implements Drawable
 		}
 
 		@Override
-		public void moreStart()
+		public void init()
 		{
 			m_stunned = true;
 		}

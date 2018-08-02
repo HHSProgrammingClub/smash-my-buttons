@@ -72,7 +72,7 @@ public class Jack extends Character
 			m_fixture = new BodyFixture(m_rect);
 		}
 		
-		protected void moreStart()
+		protected void init()
 		{
 			addHitbox(m_hitbox);
 			m_hitbox.addToFixture(m_fixture);
