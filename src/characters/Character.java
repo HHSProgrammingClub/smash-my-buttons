@@ -338,7 +338,7 @@ public abstract class Character implements Drawable
 		addDamage(p_hitbox.getDamage());
 		
 		Vector2 base = p_hitbox.getBaseKnockback();
-		Vector2 scaled = p_hitbox.getScaledKnockback().multiply(m_damage/50);
+		Vector2 scaled = p_hitbox.getScaledKnockback().multiply((double)(m_damage)/50);
 		
 		m_body.applyImpulse(base.add(scaled));
 	}
