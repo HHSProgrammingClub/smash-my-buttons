@@ -66,8 +66,96 @@ public class Jack extends Character
 			m_hitbox.setBaseKnockback(new Vector2(-4, 0));
 			m_hitbox.setScaledKnockback(new Vector2(-2, -1));
 			
+			m_rect = new Rectangle(0.5, 0.2);
+			m_rect.translate(0.35, 1.25);
+			
+			m_fixture = new BodyFixture(m_rect);
+		}
+		
+		protected void init()
+		{
+			addHitbox(m_hitbox);
+			m_hitbox.addToFixture(m_fixture);
+			m_body.addFixture(m_fixture);
+		}
+		
+		public void interrupt()
+		{
+			m_body.removeFixture(m_fixture);
+			removeHitbox(m_hitbox);
+		}
+		
+		public void end()
+		{
+			m_body.removeFixture(m_fixture);
+			removeHitbox(m_hitbox);
+		}
+		
+		
+	};
+	private class TiltState extends CharacterState
+	{
+		private Hitbox m_hitbox = new Hitbox();
+
+		private Rectangle m_rect;
+		
+		private BodyFixture m_fixture;
+		
+		TiltState()
+		{
+			super("tilt");
+			
+			m_hitbox.setDuration(0.1f);
+			m_hitbox.setDamage(5);
+			m_hitbox.setBaseKnockback(new Vector2(-4, 0));
+			m_hitbox.setScaledKnockback(new Vector2(-3, 0));
+			
 			m_rect = new Rectangle(0.8, 0.3);
-			m_rect.translate(-0.4, 1);
+			m_rect.translate(0.4, 1.4);
+			
+			m_fixture = new BodyFixture(m_rect);
+		}
+		
+		protected void init()
+		{
+			addHitbox(m_hitbox);
+			m_hitbox.addToFixture(m_fixture);
+			m_body.addFixture(m_fixture);
+		}
+		
+		public void interrupt()
+		{
+			m_body.removeFixture(m_fixture);
+			removeHitbox(m_hitbox);
+		}
+		
+		public void end()
+		{
+			m_body.removeFixture(m_fixture);
+			removeHitbox(m_hitbox);
+		}
+		
+		
+	};
+	private class SmashState extends CharacterState
+	{
+		private Hitbox m_hitbox = new Hitbox();
+
+		private Rectangle m_rect;
+		
+		private BodyFixture m_fixture;
+		
+		SmashState()
+		{
+			super("smash");
+			
+			m_hitbox.setDuration(0.2f);
+			m_hitbox.setDamage(10);
+			m_hitbox.setBaseKnockback(new Vector2(-3, 0));
+			m_hitbox.setScaledKnockback(new Vector2(-5, -5));
+			
+			m_rect = new Rectangle(1.2, 1);
+			m_rect.translate(0.6, 1.25);
 			
 			m_fixture = new BodyFixture(m_rect);
 		}
@@ -96,18 +184,24 @@ public class Jack extends Character
 	
 	public void jab()
 	{
-		interruptStates(new JabState());
-		System.out.println(getDamage());
+		interruptStates(new CharacterState("jab", 0.1f));
+		addState(new JabState());
+		//System.out.println(getDamage());
 	}
 	
 	public void tilt()
 	{
-		
+		interruptStates(new CharacterState("tilt", 0.15f));
+		addState(new TiltState());
+		addState(new CharacterState("idle", 0.3f));
 	}
 	
 	public void smash()
 	{
-		
+		interruptStates(new CharacterState("idle", 0.2f));
+		addState(new CharacterState("smash", 0.1f));
+		addState(new SmashState());
+		addState(new CharacterState("idle", 0.3f));
 	}
 	
 	public void projectile()
