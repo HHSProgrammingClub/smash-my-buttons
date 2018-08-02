@@ -3,6 +3,7 @@ package program;
 import java.awt.Container;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,10 +40,13 @@ class KeyBinder
 		private int m_state = STATE_UP;
 		
 		private int m_activate = ACTIVATION_DOWN;
+		
+		private String m_action;
 
-		public KeyBinding(int p_key, int p_activation)
+		public KeyBinding(int p_key, String p_action, int p_activation)
 		{
 			m_key = p_key;
+			m_action = p_action;
 			m_activate = p_activation;
 		}
 		
@@ -92,11 +96,16 @@ class KeyBinder
 			}
 			return false;
 		}
+		
+		public String getAction()
+		{
+			return m_action;
+		}
 	}
 	
 	private Map<String, KeyBindAction> m_keyActions = new HashMap<String, KeyBindAction>();
-	private Map<String, Map<String, KeyBinding>> m_groups = new HashMap<String, Map<String, KeyBinding>>();
-	private Map<String, KeyBinding> m_currentGroup;
+	private Map<String, ArrayList<KeyBinding>> m_groups = new HashMap<String, ArrayList<KeyBinding>>();
+	private ArrayList<KeyBinding> m_currentGroup;
 	
 	private KeyListener m_keyListener;
 	
@@ -108,18 +117,18 @@ class KeyBinder
 			public void keyPressed(KeyEvent e)
 			{
 				if (m_currentGroup != null)
-					for (Map.Entry<String, KeyBinding> i : m_currentGroup.entrySet())
-						if (e.getKeyCode() == i.getValue().getKey())
-							i.getValue().press();
+					for (KeyBinding i : m_currentGroup)
+						if (e.getKeyCode() == i.getKey())
+							i.press();
 			}
 
 			@Override
 			public void keyReleased(KeyEvent e)
 			{
 				if (m_currentGroup != null)
-					for (Map.Entry<String, KeyBinding> i : m_currentGroup.entrySet())
-						if (e.getKeyCode() == i.getValue().getKey())
-							i.getValue().release();
+					for (KeyBinding i : m_currentGroup)
+						if (e.getKeyCode() == i.getKey())
+							i.release();
 			}
 
 			@Override
@@ -153,7 +162,7 @@ class KeyBinder
 	public void setGroup(String p_name)
 	{
 		if (!m_groups.containsKey(p_name))
-			m_groups.put(p_name, new HashMap<String, KeyBinding>());
+			m_groups.put(p_name, new ArrayList<KeyBinding>());
 		m_currentGroup = m_groups.get(p_name);
 	}
 	
@@ -166,15 +175,16 @@ class KeyBinder
 	{
 		if (m_currentGroup == null)
 			throw new IllegalStateException("Group unspecified.");
-		m_currentGroup.put(p_action, new KeyBinding(p_keyCode, p_activation));
+		m_currentGroup.add(new KeyBinding(p_keyCode, p_action, p_activation));
 	}
 	
-	public void removeKeyBinding(String p_name)
+	// Not supported or useful yet
+	/*public void removeKeyBinding(String p_name)
 	{
 		if (m_currentGroup == null)
 			throw new IllegalStateException("Group unspecified.");
 		m_currentGroup.remove(p_name);
-	}
+	}*/
 	
 	/**
 	 * Check if a key is down in the current group and call its action
@@ -186,11 +196,17 @@ class KeyBinder
 			throw new IllegalStateException("Group unspecified.");
 		
 		
-		for (Map.Entry<String, KeyBinding> i : m_currentGroup.entrySet())
+		for (KeyBinding i : m_currentGroup)
 		{
-			if (i.getValue().isActive())
-				m_keyActions.get(i.getKey()).onAction();
-			i.getValue().update();
+			if (i.isActive())
+			{
+				KeyBindAction action = m_keyActions.get(i.getAction());
+				if (action  == null)
+					throw new RuntimeException("Action \"" + i.getAction() + "\" does not exist.");
+				else
+					action.onAction();
+			}
+			i.update();
 		}
 	}
 	
