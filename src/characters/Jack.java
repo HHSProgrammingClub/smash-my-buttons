@@ -18,6 +18,11 @@ public class Jack extends Character
 	private static double position = 0;
 	public Jack() 
 	{
+		//attribute editing
+		jumpImpulse = new Vector2(0, -15);
+		force_L = new Vector2(-8, 0);
+		force_R = force_L.getNegative();
+		
 		Body tushie = new Body();
 		
 		Transform t = new Transform();

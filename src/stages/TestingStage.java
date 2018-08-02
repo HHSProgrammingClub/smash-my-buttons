@@ -15,7 +15,7 @@ public class TestingStage extends Stage
 	public TestingStage()
 	{
 		World aWorld = new World();
-		aWorld.setGravity(new Vector2(0, 5));
+		aWorld.setGravity(new Vector2(0, 10));
 		//set up world
 		setPhysicsWorld(aWorld);
 		m_name = "TestingStage";
