@@ -61,12 +61,12 @@ public class Hitbox
 	
 	public void updateTimer(float p_delta)
 	{
-		System.out.println("DEATH COMES");
+		//System.out.println("DEATH COMES");
 		m_timeLeft -= p_delta;
 		if(m_timeLeft <= 0)
 		{
 			m_alive = false; // Prepare for r e m o v a l
-			System.out.println("DEADBEEF");
+			//System.out.println("DEADBEEF");
 		}
 	}
 	
@@ -74,5 +74,6 @@ public class Hitbox
 	{
 		return m_alive;
 	}
+	public void kill() {m_alive = false;}
 	
 }

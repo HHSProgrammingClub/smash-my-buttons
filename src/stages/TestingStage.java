@@ -31,7 +31,15 @@ public class TestingStage extends Stage
 		t.setTranslation(0, 6);
 		groundBody.setTransform(t);
 		groundBody.addFixture(groundShape);
-		groundBody.setMassType(MassType.INFINITE);
+		
+		Rectangle groundShape2 = new Rectangle(2, 1);
+		groundShape2.translate(6, 0.5);
+		Body groundBody2 = new Body();
+		Transform t2 = new Transform();
+		t2.setTranslation(0, 5);
+		groundBody2.setTransform(t2);
+		groundBody2.addFixture(groundShape2);
+		groundBody2.setMassType(MassType.INFINITE);
 		
 		Texture groundTexture = new Texture();
 		groundTexture.openResource("resources/images/testing_ground");
@@ -41,8 +49,12 @@ public class TestingStage extends Stage
 		TerrainPiece ground = new TerrainPiece();
 		ground.setBody(groundBody);
 		ground.setSprite(groundSprite);
+		TerrainPiece ground2 = new TerrainPiece();
+		ground2.setBody(groundBody2);
+		ground2.setSprite(groundSprite);
 			
 		getPhysicsWorld().addBody(groundBody);
+		getPhysicsWorld().addBody(groundBody2);
 			
 		m_terrain.add(ground);
 	}

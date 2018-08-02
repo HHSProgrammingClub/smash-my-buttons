@@ -63,8 +63,8 @@ public class Jack extends Character
 			
 			m_hitbox.setDuration(0.1f);
 			m_hitbox.setDamage(2);
-			m_hitbox.setBaseKnockback(new Vector2(-0.05, 0));
-			m_hitbox.setScaledKnockback(new Vector2(-4, -2));
+			m_hitbox.setBaseKnockback(new Vector2(-4, 0));
+			m_hitbox.setScaledKnockback(new Vector2(-2, -1));
 			
 			m_rect = new Rectangle(0.8, 0.3);
 			m_rect.translate(-0.4, 1);
@@ -97,6 +97,7 @@ public class Jack extends Character
 	public void jab()
 	{
 		interruptStates(new JabState());
+		System.out.println(getDamage());
 	}
 	
 	public void tilt()

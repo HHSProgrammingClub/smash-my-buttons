@@ -413,12 +413,16 @@ public abstract class Character implements Drawable
 	public void takeHit(Hitbox p_hitbox)
 	{
 		//may want this to happen after the scaling
-		addDamage(p_hitbox.getDamage());
-		
-		Vector2 base = p_hitbox.getBaseKnockback();
-		Vector2 scaled = p_hitbox.getScaledKnockback().multiply((double)(m_damage)/50);
-		
-		m_body.applyImpulse(base.add(scaled));
+		if(p_hitbox.isAlive()) {
+			addDamage(p_hitbox.getDamage());
+			
+			Vector2 base = p_hitbox.getBaseKnockback();
+			Vector2 scaled = p_hitbox.getScaledKnockback().multiply((double)(m_damage)/50);
+			
+			System.out.println(base.add(scaled));
+			m_body.applyImpulse(base.add(scaled));
+			p_hitbox.kill();
+		}
 	}
 	
 	public void applyHitstun(float p_duration)
