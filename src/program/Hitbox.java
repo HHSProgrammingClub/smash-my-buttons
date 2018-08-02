@@ -74,6 +74,10 @@ public class Hitbox
 	{
 		return m_alive;
 	}
-	public void kill() {m_alive = false;}
+	
+	public void kill()
+	{
+		m_alive = false;
+	}
 	
 }

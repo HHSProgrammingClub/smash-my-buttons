@@ -13,6 +13,7 @@ import graphics.Drawable;
 import graphics.Renderer;
 import graphics.Sprite;
 import program.Hitbox;
+import characters.characterStates.*;
 
 
 //TODO: Add a way to lock out actions
@@ -92,158 +93,6 @@ public abstract class Character implements Drawable
 		m_stateStack.remove(0);
 	}
 	
-	/**
-	 * Class to hold effects on characters, such as temporary
-	 * animations or selective ignoring of gravity.
-	 * 
-	 * Extend this class for effects that do more than
-	 * play an animation
-	 */
-	protected class CharacterState
-	{
-		private Animation m_animation;
-		private float m_duration;
-		private float m_timer;
-		
-		private boolean m_started = false;
-		
-		private boolean m_indefinite;
-		
-		/**
-		 * Plays p_animation for p_duration seconds
-		 * @param p_animation
-		 * @param p_duration pass a negative value to play indefinitely
-		 */
-		CharacterState(Animation p_animation, float p_duration)
-		{
-			setAnimation(p_animation);
-			setDuration(p_duration);
-		}
-		
-		/**
-		 * Plays p_animation once, even if it's set to loop
-		 * @param p_animation
-		 */
-		CharacterState(Animation p_animation)
-		{
-			this(p_animation, p_animation.getInterval() * p_animation.getFrameCount());
-		}
-		
-		/**
-		 * Plays an animation for p_duration seconds
-		 * @param p_animationName
-		 * @param p_duration pass a negative value to play indefinitely
-		 */
-		CharacterState(String p_animationName, float p_duration)
-		{
-			this(m_sprite.getTexture().getAnimation(p_animationName), p_duration);
-		}
-		
-		/**
-		 * Plays an animation once, even if it's set to loop
-		 * @param p_animationName
-		 */
-		CharacterState(String p_animationName)
-		{
-			this(m_sprite.getTexture().getAnimation(p_animationName));
-		}
-		
-		CharacterState() {}
-		
-		public void setAnimation(Animation p_animation)
-		{
-			m_animation = p_animation;
-		}
-		
-		public Animation getAnimation()
-		{
-			return m_animation;
-		}
-		
-		public boolean isIndefinite()
-		{
-			return m_indefinite;
-		}
-		
-		/**
-		 * Set the duration of the state
-		 * @param p_duration pass a negative value to make indefinite
-		 */
-		public void setDuration(float p_duration)
-		{
-			m_duration = p_duration;
-			m_timer = m_duration;
-			m_indefinite = m_timer < 0;
-		}
-		
-		public float getDuration()
-		{
-			return m_duration;
-		}
-		
-		public float getTimer()
-		{
-			return m_timer;
-		}
-		
-		public boolean isStarted()
-		{
-			return m_started;
-		}
-		
-		/**
-		 * Starts the animation and calls init(), you probably don't want to override this one
-		 */
-		public void start()
-		{
-			m_sprite.setAnimation(m_animation);
-			m_started = true;
-			init();
-		}
-		
-		/**
-		 * Override this method to do everything you want at the start of the state (besides starting the animation)
-		 */
-		protected void init()
-		{
-			
-		}
-		
-		/**
-		 * Deal with the state being interrupted (e.g. by interruptStates() here
-		 */
-		public void interrupt()
-		{
-			
-		}
-		
-		/**
-		 * Do stuff at the end of the thing
-		 */
-		public void end()
-		{
-			
-		}
-		
-		/**
-		 * @param p_delta
-		 * @return false if p_timer <= 0
-		 */
-		public boolean updateTimer(float p_delta)
-		{
-			m_timer -= p_delta;
-			return m_timer > 0;
-		}
-	}
-	
-	protected class IdleState extends CharacterState
-	{
-		IdleState()
-		{
-			super("idle", -1);
-		}
-	}
-	
 	public int getStock()
 	{
 		return m_stock;
@@ -315,46 +164,6 @@ public abstract class Character implements Drawable
 		m_moving = false;
 		if(!m_jumped)
 			interruptStates(new StoppingState());
-	}
-	
-	private class RunningState extends CharacterState
-	{
-		RunningState()
-		{
-			super("run", -1);
-		}
-		
-		@Override
-		protected void init()
-		{
-			m_body.setLinearDamping(0);
-		}
-	}
-	
-	private class StoppingState extends CharacterState
-	{
-		StoppingState()
-		{
-			super("idle", .1f);
-		}
-		
-		@Override
-		protected void init()
-		{
-			m_body.setLinearDamping(20);
-		}
-		
-		@Override
-		public void interrupt()
-		{
-			end();
-		}
-		
-		@Override
-		public void end()
-		{
-			m_body.setLinearDamping(0);
-		}
 	}
 	
 	protected abstract void jab();
@@ -432,6 +241,11 @@ public abstract class Character implements Drawable
 		interruptStates(new Hitstun(p_duration));
 	}
 	
+	public void setStunned(boolean p_stunned)
+	{
+		m_stunned = p_stunned;
+	}
+	
 	public boolean isStunned()
 	{
 		return m_stunned;
@@ -506,33 +320,5 @@ public abstract class Character implements Drawable
 				}
 			}
 		}
-	}
-	
-	public class Hitstun extends CharacterState
-	{
-
-		Hitstun(float p_duration)
-		{
-			super("hitstun", p_duration);
-		}
-
-		@Override
-		public void init()
-		{
-			m_stunned = true;
-		}
-		
-		@Override
-		public void interrupt()
-		{
-			end();
-		}
-
-		@Override
-		public void end()
-		{
-			m_stunned = false;
-		}
-		
 	}
 }

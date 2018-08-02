@@ -7,6 +7,7 @@ import org.dyn4j.geometry.Rectangle;
 import org.dyn4j.geometry.Transform;
 import org.dyn4j.geometry.Vector2;
 
+import characters.characterStates.*;
 import graphics.Sprite;
 import graphics.Texture;
 import program.Hitbox;
