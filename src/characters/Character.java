@@ -282,7 +282,7 @@ public abstract class Character implements Drawable
 	{
 		m_moving = false;
 		//m_body.setLinearDamping(10);
-		interruptStates(new IdleState());
+		interruptStates(new StoppingState());
 	}
 	
 	private class RunningState extends CharacterState
@@ -294,6 +294,32 @@ public abstract class Character implements Drawable
 		
 		@Override
 		protected void moreStart()
+		{
+			m_body.setLinearDamping(0);
+		}
+	}
+	
+	private class StoppingState extends CharacterState
+	{
+		StoppingState()
+		{
+			super("idle", .1f);
+		}
+		
+		@Override
+		protected void moreStart()
+		{
+			m_body.setLinearDamping(20);
+		}
+		
+		@Override
+		public void interrupt()
+		{
+			end();
+		}
+		
+		@Override
+		public void end()
 		{
 			m_body.setLinearDamping(0);
 		}
