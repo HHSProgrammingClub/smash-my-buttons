@@ -1,4 +1,3 @@
-
 package characters;
 
 import java.awt.geom.AffineTransform;
@@ -31,6 +30,7 @@ public abstract class Character implements Drawable
 	private boolean m_moving = false;
 	protected boolean m_superArmour = false;
 	private boolean m_stunned = false;
+	private boolean m_facingRight = false;
 
 	protected static Vector2 jumpImpulse = new Vector2(0, -5);
 	protected static Vector2 force_L = new Vector2(-5, 0);
@@ -44,7 +44,7 @@ public abstract class Character implements Drawable
 	public static final int MOVE_JAB = 1;
 	public static final int MOVE_TILT = 2;
 	public static final int MOVE_SMASH = 3;
-	public static final int MOVE_SGNATURE = 4;
+	public static final int MOVE_SIGNATURE = 4;
 	public static final int MOVE_RECOVERY = 5;
 	
 	private ArrayList<Hitbox> m_hitboxes = new ArrayList<Hitbox> ();
@@ -245,6 +245,7 @@ public abstract class Character implements Drawable
 	{
 		if(!m_jumped)
 		{
+			m_body.setLinearVelocity(m_body.getLinearVelocity().x, 0);
 			m_body.applyImpulse(jumpImpulse);
 			m_jumped = true;
 			m_sprite.setAnimation("jump_asc");
@@ -262,6 +263,7 @@ public abstract class Character implements Drawable
 	public void moveLeft()
 	{
 		m_moving = true;
+		m_facingRight = false;
 		m_body.applyForce(force_L);
 		if(!m_jumped)
 			interruptStates(new RunningState());
@@ -270,6 +272,7 @@ public abstract class Character implements Drawable
 	public void moveRight()
 	{
 		m_moving = true;
+		m_facingRight = true;
 		m_body.applyForce(force_R);
 		if(!m_jumped)
 			interruptStates(new RunningState());
@@ -360,15 +363,14 @@ public abstract class Character implements Drawable
 	
 	public void update(float p_delta)
 	{
-		for(Hitbox h : m_hitboxes)
-		{
-			h.updateTimer(p_delta);
-			
-			if(!h.isAlive())
-			{
-				m_hitboxes.remove(h);
-			}
-		}
+		for(int i = 0; i < m_hitboxes.size(); i++)
+	    {
+			m_hitboxes.get(i).updateTimer(p_delta);
+		    if(!m_hitboxes.get(i).isAlive())
+		    {
+		      m_hitboxes.remove(i--);
+		    }
+	    }
 		
 		if(m_stateStack.size() > 0)
 		{
