@@ -31,25 +31,29 @@ public abstract class Character implements Drawable
 	protected boolean m_superArmour = false;
 	private boolean m_stunned = false;
 	private boolean m_facingRight = false;
+	
+	// 1 = left -1 = right
+	private static final int FACING_LEFT = 1;
+	private static final int FACING_RIGHT = -1;
 
 	protected static Vector2 jumpImpulse = new Vector2(0, -25);
-	protected static Vector2 force_L = new Vector2(-5, 0);
-	protected static Vector2 force_R = new Vector2(5, 0);
+	protected static Vector2 runForce = new Vector2(-5, 0);
 	
 	public static String[] characterNames = {"Jack", "Birboi", "Cam", "W'all", "Edgewardo", "Jimmy"};
-	
-	protected int current_move;
-	
-	public static final int MOVE_NONE = 0;
-	public static final int MOVE_JAB = 1;
-	public static final int MOVE_TILT = 2;
-	public static final int MOVE_SMASH = 3;
-	public static final int MOVE_SIGNATURE = 4;
-	public static final int MOVE_RECOVERY = 5;
 	
 	private ArrayList<Hitbox> m_hitboxes = new ArrayList<Hitbox> ();
 	
 	private Stack<CharacterState> m_stateStack = new Stack<CharacterState> ();
+	
+	public static final int ACTION_MOVERIGHT	= -2;
+	public static final int ACTION_MOVELEFT 	= -1;
+	public static final int ACTION_JUMP  		= 0;
+	public static final int ACTION_JAB   		= 1;
+	public static final int ACTION_TILT  		= 2;
+	public static final int ACTION_SMASH 		= 3;
+	public static final int ACTION_PROJECTILE = 4;
+	public static final int ACTION_SIGNATURE  = 5;
+	public static final int ACTION_RECOVERY 	= 6;
 	
 	protected static double position = 0;
 	
@@ -264,7 +268,7 @@ public abstract class Character implements Drawable
 	{
 		m_moving = true;
 		m_facingRight = false;
-		m_body.applyForce(force_L);
+		m_body.applyForce(runForce.multiply(FACING_LEFT));
 		if(!m_jumped)
 			interruptStates(new RunningState());
 	}
@@ -273,7 +277,7 @@ public abstract class Character implements Drawable
 	{
 		m_moving = true;
 		m_facingRight = true;
-		m_body.applyForce(force_R);
+		m_body.applyForce(runForce.multiply(FACING_RIGHT));
 		if(!m_jumped)
 			interruptStates(new RunningState());
 	}
@@ -281,8 +285,8 @@ public abstract class Character implements Drawable
 	public void stopRunning()
 	{
 		m_moving = false;
-		//m_body.setLinearDamping(10);
-		interruptStates(new StoppingState());
+		if(!m_jumped)
+			interruptStates(new StoppingState());
 	}
 	
 	private class RunningState extends CharacterState
@@ -331,19 +335,12 @@ public abstract class Character implements Drawable
 	public abstract void projectile();
 	public abstract void signature();
 	public abstract void recover();
-
-	public static final int ACTION_MOVERIGHT	= -2;
-	public static final int ACTION_MOVELEFT 	= -1;
-	public static final int ACTION_JUMP  		= 0;
-	public static final int ACTION_JAB   		= 1;
-	public static final int ACTION_TILT  		= 2;
-	public static final int ACTION_SMASH 		= 3;
-	public static final int ACTION_PROJECTILE = 4;
-	public static final int ACTION_SIGNATURE  = 5;
-	public static final int ACTION_RECOVERY 	= 6;
 	
 	public void performAction(int p_action)
 	{
+		if(m_stunned)
+			return;
+		
 		switch(p_action)
 		{
 			case ACTION_MOVERIGHT:
