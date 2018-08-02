@@ -103,7 +103,7 @@ public class Birboi extends Character
 						System.out.println("things");
 					}
 				};
-		addState(smashStartup);
+		interruptStates(smashStartup);
 		addState(smashFlight);
 	}
 

@@ -32,7 +32,7 @@ public abstract class Character implements Drawable
 	private boolean m_stunned = false;
 	private boolean m_facingRight = false;
 
-	protected static Vector2 jumpImpulse = new Vector2(0, -5);
+	protected static Vector2 jumpImpulse = new Vector2(0, -25);
 	protected static Vector2 force_L = new Vector2(-5, 0);
 	protected static Vector2 force_R = new Vector2(5, 0);
 	
@@ -281,7 +281,7 @@ public abstract class Character implements Drawable
 	public void stopRunning()
 	{
 		m_moving = false;
-		m_body.setLinearDamping(10);
+		//m_body.setLinearDamping(10);
 		interruptStates(new IdleState());
 	}
 	
@@ -390,7 +390,7 @@ public abstract class Character implements Drawable
 						addState(new IdleState());
 
 					m_stateStack.get(0).start();
-				} 
+				}
 			}
 		}
 	}
