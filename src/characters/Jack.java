@@ -49,19 +49,54 @@ public class Jack extends Character
 	
 	//TODO: ascending and descending jump sprites for Jack
 	
+	private class JabState extends CharacterState
+	{
+		private Hitbox m_hitbox = new Hitbox();
+
+		private Rectangle m_rect;
+		
+		private BodyFixture m_fixture;
+		
+		JabState()
+		{
+			super("jab");
+			
+			m_hitbox.setDuration(0.1f);
+			m_hitbox.setDamage(2);
+			m_hitbox.setBaseKnockback(new Vector2(-0.05, 0));
+			m_hitbox.setScaledKnockback(new Vector2(-4, -2));
+			
+			m_rect = new Rectangle(0.8, 0.3);
+			m_rect.translate(-0.4, 1);
+			
+			m_fixture = new BodyFixture(m_rect);
+		}
+		
+		protected void moreStart()
+		{
+			addHitbox(m_hitbox);
+			m_hitbox.addToFixture(m_fixture);
+			m_body.addFixture(m_fixture);
+		}
+		
+		public void interrupt()
+		{
+			m_body.removeFixture(m_fixture);
+			removeHitbox(m_hitbox);
+		}
+		
+		public void end()
+		{
+			m_body.removeFixture(m_fixture);
+			removeHitbox(m_hitbox);
+		}
+		
+		
+	};
+	
 	public void jab()
 	{
-		Hitbox h = new Hitbox();
-		h.setDuration(0.1f);
-		h.setDamage(2);
-		h.setBaseKnockback(new Vector2(-0.05, 0));
-		h.setScaledKnockback(new Vector2(-4, -2));
-		Rectangle r = new Rectangle(0.8, 0.3);
-		r.translate(-0.4, 1);
-		BodyFixture b = new BodyFixture(r);
-		addHitbox(h);
-		h.addToFixture(b);
-		m_body.addFixture(b);
+		
 	}
 	
 	public void tilt()

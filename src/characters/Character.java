@@ -378,6 +378,11 @@ public abstract class Character implements Drawable
 		m_hitboxes.add(p_hitbox);
 	}
 	
+	protected void removeHitbox(Hitbox p_hitbox)
+	{
+		m_hitboxes.remove(p_hitbox);
+	}
+	
 	@Override
 	public void draw(Renderer p_renderer)
 	{
