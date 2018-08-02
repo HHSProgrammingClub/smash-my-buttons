@@ -152,13 +152,16 @@ public class Renderer implements Page
 		//reset opacity
 		m_graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1));
 		
-		//scale image at (0, 0)
-		int scaledX = (int)(p_frame.w * m_scale);
-		int scaledY = (int)(p_frame.h * m_scale);
+		//scale image according to the current scale
+		AffineTransform scaleTransform = new AffineTransform();
+		scaleTransform.scale(m_scale, m_scale);
+		pushTransform(scaleTransform);
 		
 		//draw the scaled image to desired destination
-		m_graphics.drawImage(p_texture.getImage(), 0, 0, scaledX, scaledY,
+		m_graphics.drawImage(p_texture.getImage(), 0, 0, p_frame.w, p_frame.h,
 					 p_frame.x, p_frame.y, p_frame.x + p_frame.w, p_frame.y + p_frame.h, m_panel);
+	
+		popTransform();
 	}
 	
 	/**

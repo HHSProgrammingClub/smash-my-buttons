@@ -47,23 +47,30 @@ public class DamageDisplayer implements Drawable
 		//draw the damage
 		p_renderer.drawText(Integer.toString(m_character.getDamage()) + "%", "SansSerif", Color.BLACK,  1, 1);	
 		
+		//render the name labels
 		AffineTransform nameOffset = new AffineTransform();
-		nameOffset.translate(0, 0.4);
+		nameOffset.translate(0, 0.4); // FIXME: account for name lengths
 		nameOffset.scale(.5, .5);
 		p_renderer.pushTransform(nameOffset);
 		p_renderer.drawText(m_character.getName(), "SansSerif", Color.BLACK,  1, 1);
 		p_renderer.popTransform();
 		
+		//render the stocks
 		for(int i = 0; i < m_character.getStock(); i++)
 		{
 			AffineTransform stockOffset = new AffineTransform();
-			stockOffset.translate(0, 0.4); // TODO: Adjust this offset
+			stockOffset.translate(0 + i, 0.4); // FIXME: make these even and next to name
+			stockOffset.scale(2, 2);
 			p_renderer.pushTransform(stockOffset);
 			
 			m_stockSprite.draw(p_renderer);
 			p_renderer.popTransform();
 		}
+		
+		//pop goes the weasel
 		p_renderer.popTransform();
+		
+		//TODO: render stocks then render name label next to stocks depending on name length
 	}
 
 }

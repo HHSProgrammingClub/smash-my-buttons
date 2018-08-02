@@ -131,6 +131,7 @@ public class Battle
 			
 			// This transform will affect everything that is draw to our world.
 			AffineTransform worldTransform = new AffineTransform();
+			//worldTransform.scale(128, 128); //temporary --- for Cathy's laptop
 			worldTransform.scale(64, 64); // One unit is 64 pixels
 			m_renderer.pushTransform(worldTransform);
 			
