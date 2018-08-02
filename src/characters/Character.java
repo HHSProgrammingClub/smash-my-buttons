@@ -61,6 +61,7 @@ public abstract class Character implements Drawable
 	
 	protected void addState(CharacterState p_state)
 	{
+		p_state.setCharacter(this);
 		m_stateStack.add(p_state);
 	}
 	
