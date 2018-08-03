@@ -43,7 +43,7 @@ public abstract class Character implements Drawable
 	private static final Vector2 LEFT_SCALE = new Vector2(1, 1);
 	private static final Vector2 RIGHT_SCALE = new Vector2(-1, 1);
 
-	protected static Vector2 jumpImpulse = new Vector2(0, -25);
+	protected static Vector2 jumpImpulse = new Vector2(0, -20);
 	protected static Vector2 runLeft = new Vector2(-5, 0);
 	protected static Vector2 runRight = new Vector2(5, 0);
 	

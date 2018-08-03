@@ -36,8 +36,8 @@ public class GUI
 		}
 		else
 		{
-			width = (int) (gd.getDisplayMode().getWidth() * scale);
-			height  = (int) (width * yRatio/xRatio);
+			width  = (int) (gd.getDisplayMode().getWidth() * scale);
+			height = (int) (width * yRatio/xRatio);
 		}
 		
 		//set dimensions of window according to the user's computer
