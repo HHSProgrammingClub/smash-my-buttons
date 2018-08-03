@@ -34,9 +34,10 @@ public abstract class Character implements Drawable
 	private boolean m_stunned = false;
 	private boolean m_facingRight = false;
 	
-	// 1 = left -1 = right
-	private static final int FACING_LEFT = 1;
-	private static final int FACING_RIGHT = -1;
+	// -1 = left 1 = right: for use with placing hitboxes, applying forces, etc.
+	//not for use with flipping sprites
+	private static final int FACING_LEFT = -1;
+	private static final int FACING_RIGHT = 1;
 	
 	private static final Vector2 LEFT_SCALE = new Vector2(1, 1);
 	private static final Vector2 RIGHT_SCALE = new Vector2(-1, 1);
@@ -169,6 +170,11 @@ public abstract class Character implements Drawable
 		m_moving = false;
 		if(!m_jumped)
 			interruptStates(new StoppingState());
+	}
+	
+	public int getFacing()
+	{
+		return m_facingRight ? FACING_RIGHT : FACING_LEFT;
 	}
 	
 	protected abstract void jab();
