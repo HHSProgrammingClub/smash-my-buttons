@@ -17,6 +17,8 @@ import program.Hitbox;
 public class Jack extends Character
 {	
 	private static double position = 0;
+	private float length = 1;
+	private float height = 2;
 	public Jack() 
 	{
 		//attribute editing
@@ -32,7 +34,7 @@ public class Jack extends Character
 		position += 1;
 		
 		// Add the collision fixture
-		Rectangle rect = new Rectangle(1, 2);
+		Rectangle rect = new Rectangle(length, height);
 		rect.translate(1, 1); // Set to topleft
 		tushie.addFixture(rect);
 		tushie.setMass(MassType.FIXED_ANGULAR_VELOCITY);
@@ -68,7 +70,7 @@ public class Jack extends Character
 			m_hitbox.setScaledKnockback(new Vector2(2 * getFacing(), -1));
 			
 			m_rect = new Rectangle(0.5, 0.2);
-			m_rect.translate(0.35, 1.25);
+			m_rect.translate(length + 0.45 * getFacing(), 1.25);
 			
 			m_fixture = new BodyFixture(m_rect);
 		}
@@ -108,11 +110,11 @@ public class Jack extends Character
 			
 			m_hitbox.setDuration(0.1f);
 			m_hitbox.setDamage(5);
-			m_hitbox.setBaseKnockback(new Vector2(-4, 0));
-			m_hitbox.setScaledKnockback(new Vector2(-3, 0));
+			m_hitbox.setBaseKnockback(new Vector2(4 * getFacing(), 0));
+			m_hitbox.setScaledKnockback(new Vector2(3 * getFacing(), 0));
 			
 			m_rect = new Rectangle(0.8, 0.3);
-			m_rect.translate(0.4, 1.4);
+			m_rect.translate(length + 0.6 * getFacing(), 1.4);
 			
 			m_fixture = new BodyFixture(m_rect);
 		}
@@ -152,11 +154,11 @@ public class Jack extends Character
 			
 			m_hitbox.setDuration(0.2f);
 			m_hitbox.setDamage(10);
-			m_hitbox.setBaseKnockback(new Vector2(-3, 0));
-			m_hitbox.setScaledKnockback(new Vector2(-5, -5));
+			m_hitbox.setBaseKnockback(new Vector2(3 * getFacing(), 0));
+			m_hitbox.setScaledKnockback(new Vector2(5 * getFacing(), -5));
 			
 			m_rect = new Rectangle(1.2, 1);
-			m_rect.translate(0.6, 1.25);
+			m_rect.translate(length + 0.45 * getFacing(), 1.25);
 			
 			m_fixture = new BodyFixture(m_rect);
 		}
