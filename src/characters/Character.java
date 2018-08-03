@@ -239,8 +239,11 @@ public abstract class Character implements Drawable
 			Vector2 base = p_hitbox.getBaseKnockback();
 			Vector2 scaled = p_hitbox.getScaledKnockback().multiply((double)(m_damage)/50);
 			
+			//Controversial change: Reset velocity when hit.
+			m_body.setLinearVelocity(0, 0);
 			System.out.println(base.add(scaled));
 			m_body.applyImpulse(base.add(scaled));
+			applyHitstun(p_hitbox.getHitstun());
 			p_hitbox.kill();
 		}
 	}

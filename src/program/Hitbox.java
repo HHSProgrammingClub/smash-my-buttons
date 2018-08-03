@@ -11,6 +11,7 @@ public class Hitbox
 	private float m_duration;
 	private boolean m_alive = true;
 	private float m_timeLeft;
+	private float m_hitstun;
 	
 	public void addToFixture(Fixture p_fixture)
 	{
@@ -58,6 +59,10 @@ public class Hitbox
 	{
 		return m_duration;
 	}
+	
+	//typical get-set stuff
+	public void setHitstun(float p_seconds) { m_hitstun = p_seconds; }
+	public float getHitstun() { return m_hitstun; }
 	
 	public void updateTimer(float p_delta)
 	{

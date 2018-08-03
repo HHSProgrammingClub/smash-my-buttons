@@ -66,6 +66,7 @@ public class Jack extends Character
 			
 			m_hitbox.setDuration(0.1f);
 			m_hitbox.setDamage(2);
+			m_hitbox.setHitstun(0.05f);
 			m_hitbox.setBaseKnockback(new Vector2(4 * getFacing(), 0));
 			m_hitbox.setScaledKnockback(new Vector2(2 * getFacing(), -1));
 			
@@ -110,6 +111,7 @@ public class Jack extends Character
 			
 			m_hitbox.setDuration(0.1f);
 			m_hitbox.setDamage(5);
+			m_hitbox.setHitstun(0.3f);
 			m_hitbox.setBaseKnockback(new Vector2(4 * getFacing(), 0));
 			m_hitbox.setScaledKnockback(new Vector2(3 * getFacing(), 0));
 			
@@ -154,6 +156,7 @@ public class Jack extends Character
 			
 			m_hitbox.setDuration(0.2f);
 			m_hitbox.setDamage(10);
+			m_hitbox.setHitstun(0.75f);
 			m_hitbox.setBaseKnockback(new Vector2(3 * getFacing(), 0));
 			m_hitbox.setScaledKnockback(new Vector2(5 * getFacing(), -5));
 			
