@@ -261,8 +261,9 @@ public abstract class Character implements Drawable
 			
 			Vector2 base = p_hitbox.getBaseKnockback();
 			Vector2 scaled = p_hitbox.getScaledKnockback().multiply((double)(m_damage)/50);
-			
-			m_body.setLinearVelocity(0, 0);
+			if(p_hitbox.getHitstun() > 0) {
+				m_body.setLinearVelocity(0, 0);
+			}
 			System.out.println(base.add(scaled));
 			m_body.applyImpulse(base.add(scaled));
 			applyHitstun(p_hitbox.getHitstun());
@@ -272,7 +273,7 @@ public abstract class Character implements Drawable
 	
 	public void applyHitstun(float p_duration)
 	{
-		if(m_superArmour)
+		if(m_superArmour || p_duration <= 0)
 			return;
 		interruptStates(new Hitstun(p_duration));
 	}

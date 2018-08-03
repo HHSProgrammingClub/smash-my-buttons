@@ -66,7 +66,7 @@ public class Jack extends Character
 			
 			m_hitbox.setDuration(0.1f);
 			m_hitbox.setDamage(2);
-			m_hitbox.setHitstun(0.05f);
+			m_hitbox.setHitstun(0.07f);
 			m_hitbox.setBaseKnockback(new Vector2(4 * getFacing(), 0));
 			m_hitbox.setScaledKnockback(new Vector2(2 * getFacing(), -1));
 			
@@ -111,7 +111,7 @@ public class Jack extends Character
 			
 			m_hitbox.setDuration(0.1f);
 			m_hitbox.setDamage(5);
-			m_hitbox.setHitstun(0.3f);
+			m_hitbox.setHitstun(0.5f);
 			m_hitbox.setBaseKnockback(new Vector2(4 * getFacing(), 0));
 			m_hitbox.setScaledKnockback(new Vector2(3 * getFacing(), 0));
 			
@@ -188,6 +188,52 @@ public class Jack extends Character
 		
 	};
 	
+	private class SignatureState extends CharacterState
+	{
+		private Hitbox m_hitbox = new Hitbox();
+
+		private Rectangle m_rect;
+		
+		private BodyFixture m_fixture;
+		
+		SignatureState()
+		{
+			super("signature");
+			//setDuration(1f);
+			m_hitbox.setDuration(0.2f);
+			m_hitbox.setDamage(5);
+			m_hitbox.setHitstun(0);
+			m_hitbox.setBaseKnockback(new Vector2(0, 0));
+			m_hitbox.setScaledKnockback(new Vector2(0, 0));
+			
+			m_rect = new Rectangle(100, 100);
+			m_rect.translate(0, 0);
+			
+			m_fixture = new BodyFixture(m_rect);
+		}
+		
+		protected void init()
+		{
+			addHitbox(m_hitbox);
+			m_hitbox.addToFixture(m_fixture);
+			m_body.addFixture(m_fixture);
+		}
+		
+		public void interrupt()
+		{
+			m_body.removeFixture(m_fixture);
+			removeHitbox(m_hitbox);
+		}
+		
+		public void end()
+		{
+			m_body.removeFixture(m_fixture);
+			removeHitbox(m_hitbox);
+		}
+		
+		
+	};
+	
 	public void jab()
 	{
 		interruptStates(new CharacterState("jab", 0.1f));
@@ -217,7 +263,8 @@ public class Jack extends Character
 	
 	public void signature()
 	{
-		
+		interruptStates(new CharacterState("signature", 0.5f));
+		addState(new SignatureState());
 	}
 	
 	public void recover()
