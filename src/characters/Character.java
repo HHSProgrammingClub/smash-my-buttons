@@ -143,7 +143,7 @@ public abstract class Character implements Drawable
 	public void resetJump()
 	{
 		if(m_jumped)
-			m_sprite.setAnimation("idle");
+			addState(new IdleState());
 		m_jumped = false;
 		m_recovered = false;
 	}
