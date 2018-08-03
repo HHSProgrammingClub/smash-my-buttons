@@ -11,4 +11,9 @@ public class IdleState extends CharacterState
 	{
 		super("idle", p_duration);
 	}
+	
+	protected void init()
+	{
+		m_character.setAttacking(false);
+	}
 }

@@ -12,6 +12,7 @@ public class Hitstun extends CharacterState
 	public void init()
 	{
 		m_character.setStunned(true);
+		m_character.setAttacking(false);
 		//To make it so they don't slide around so much when hit
 		//So stuff without hitstun is essentially a windbox as there's no
 		//linear damping :)

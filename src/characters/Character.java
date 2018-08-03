@@ -32,6 +32,7 @@ public abstract class Character implements Drawable
 	private boolean m_moving = false;
 	protected boolean m_superArmour = false;
 	private boolean m_stunned = false;
+	private boolean m_attacking = false;
 	private boolean m_facingRight = false;
 	
 	// -1 = left 1 = right: for use with placing hitboxes, applying forces, etc.
@@ -186,7 +187,7 @@ public abstract class Character implements Drawable
 	
 	public void performAction(int p_action)
 	{
-		if(m_stunned)
+		if(m_attacking || m_stunned)
 			return;
 		
 		switch(p_action)
@@ -206,40 +207,56 @@ public abstract class Character implements Drawable
 				
 			case ACTION_JAB:
 				jab();
+				setAttacking(true);
 				return;
 				
 			case ACTION_TILT:
 				tilt();
+				setAttacking(true);
 				return;
 				
 			case ACTION_SMASH:
 				smash();
+				setAttacking(true);
 				return;
 				
 			case ACTION_SIGNATURE:
 				signature();
+				setAttacking(true);
 				return;
 				
 			case ACTION_PROJECTILE:
 				projectile();
+				setAttacking(true);
 				return;
 				
 			case ACTION_RECOVERY:
 				recover();
+				setAttacking(true);
 				return;
 		}
+	}
+	
+	public void setAttacking(boolean p_attacking)
+	{
+		m_attacking = p_attacking;
+	}
+	
+	public boolean isAttacking()
+	{
+		return m_attacking;
 	}
 	
 	public void takeHit(Hitbox p_hitbox)
 	{
 		//may want this to happen after the scaling
-		if(p_hitbox.isAlive()) {
+		if(p_hitbox.isAlive())
+		{
 			addDamage(p_hitbox.getDamage());
 			
 			Vector2 base = p_hitbox.getBaseKnockback();
 			Vector2 scaled = p_hitbox.getScaledKnockback().multiply((double)(m_damage)/50);
 			
-			//Controversial change: Reset velocity when hit.
 			m_body.setLinearVelocity(0, 0);
 			System.out.println(base.add(scaled));
 			m_body.applyImpulse(base.add(scaled));

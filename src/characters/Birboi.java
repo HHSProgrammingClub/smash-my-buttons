@@ -94,8 +94,8 @@ public class Birboi extends Character
 					{
 						getBody().applyImpulse(new Vector2(12 * m_character.getFacing(), 0));
 						m_hitbox.setDamage(15);
-						m_hitbox.setBaseKnockback(new Vector2(1 * m_character.getFacing(), -.5));
-						m_hitbox.setScaledKnockback(new Vector2(.5 * m_character.getFacing(), -.2));
+						m_hitbox.setBaseKnockback(new Vector2(8 * m_character.getFacing(), -5));
+						m_hitbox.setScaledKnockback(new Vector2(1.5 * m_character.getFacing(), -2));
 						m_hitbox.setDuration(duration);
 						
 						m_rect.translate(1 + .4 * m_character.getFacing(), 1.25);
