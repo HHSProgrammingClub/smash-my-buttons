@@ -178,6 +178,11 @@ public abstract class Character implements Drawable
 		return m_facingRight ? FACING_RIGHT : FACING_LEFT;
 	}
 	
+	public Vector2 alignFacing(Vector2 p_vec)
+	{
+		return new Vector2(p_vec.x * getFacing(), p_vec.y);
+	}
+	
 	protected abstract void jab();
 	protected abstract void tilt();
 	protected abstract void smash();
