@@ -18,8 +18,10 @@ public class GroundListener extends ContactAdapter
 			// Veeeeery rudimentary ground collision algorithm
 			// Essentially, tests whether it has collided with the top half
 			// of the TerrainPiece
-			if(userdata.second.getBody().getWorldCenter().y < point.getPoint().y)
+			if(userdata.second.getBody().getWorldCenter().y < point.getPoint().y
+					&& !(point.getFixture2().getUserData() instanceof Hitbox))
 			{
+				System.out.println("Jump reset!");
 				userdata.second.resetJump();
 			}
 		}
