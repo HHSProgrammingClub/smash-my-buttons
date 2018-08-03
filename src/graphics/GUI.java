@@ -14,14 +14,35 @@ public class GUI
 	private final float SCALE_W = 0.6f;
 	private final float SCALE_H = 0.8f;
 	
+	private final float xRatio = .8f;
+	private final float yRatio = .6f;
+	private final float scale  = .8f;
+	
 	public GUI()
 	{
 		//get the resolution of the user's computer
 		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 		
+		float proporitonalWidth  = gd.getDisplayMode().getWidth()  / xRatio;
+		float proportionalHeight = gd.getDisplayMode().getHeight() / yRatio;
+		
+		int width;
+		int height;
+		
+		if(proporitonalWidth > proportionalHeight)
+		{
+			height = (int) (gd.getDisplayMode().getHeight() * scale);
+			width  = (int) (height * xRatio/yRatio);
+		}
+		else
+		{
+			width = (int) (gd.getDisplayMode().getWidth() * scale);
+			height  = (int) (width * yRatio/xRatio);
+		}
+		
 		//set dimensions of window according to the user's computer
-		int width = (int) (gd.getDisplayMode().getWidth() * SCALE_W);
-		int height = (int) (gd.getDisplayMode().getHeight() * SCALE_H);
+		//int width = (int) (gd.getDisplayMode().getWidth() * SCALE_W);
+		//int height = (int) (gd.getDisplayMode().getHeight() * SCALE_H);
 		
 		//initialize the window
 		m_window = new JFrame("AI Fighters");
