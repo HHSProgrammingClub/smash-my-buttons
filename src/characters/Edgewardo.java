@@ -92,13 +92,57 @@ public class Edgewardo extends Character
 		interruptStates(new CharacterState("jab", 0.1f));
 		addState(new JabState());
 	}
-	
-	//tilt is kinda weird
 
 	@Override
 	public void tilt() 
 	{
-		// TODO Auto-generated method stub
+		float duration = 0.5f;
+		
+		CharacterState tiltDash = new CharacterState("tilt_dash", 0.2f)
+		{
+			Hitbox m_hitbox = new Hitbox();
+			Rectangle m_rect;
+			BodyFixture m_fixture;
+			
+			@Override
+			public void init()
+			{
+				m_hitbox.setDuration(0.5f);
+				m_hitbox.setDamage(10);
+				m_hitbox.setHitstun(0.5f);
+				m_hitbox.setBaseKnockback(new Vector2(getFacing(), 0));
+				m_hitbox.setScaledKnockback(new Vector2(5 * getFacing(), -1));
+				
+				m_rect.translate(3 * getFacing(), 1.5);
+				
+				m_fixture = new BodyFixture(m_rect);
+				
+				addHitbox(m_hitbox);
+				m_hitbox.addToFixture(m_fixture);
+				m_body.addFixture(m_fixture);
+			}
+			
+			@Override
+			public void end()
+			{
+				m_body.removeFixture(m_fixture);
+				removeHitbox(m_hitbox);
+				
+			}
+	
+		};
+				
+		CharacterState tiltEnd = new CharacterState("tilt_end", 0.1f)
+				{
+					@Override
+					public void init()
+					{
+						m_body.translate(6 * getFacing(), 0);
+					}
+				};
+
+		interruptStates(tiltDash);
+		addState(tiltEnd);
 		
 	}
 	
