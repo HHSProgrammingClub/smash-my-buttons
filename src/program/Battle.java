@@ -52,6 +52,7 @@ public class Battle
 		switch(p_port) {
 		case 1:
 			p_controller.getCharacter().getBody().translate(2, 0);
+			p_controller.getCharacter().setFacing(1);
 		break;
 		case 2:
 			p_controller.getCharacter().getBody().translate(9, 0);

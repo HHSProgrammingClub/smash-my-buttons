@@ -201,6 +201,11 @@ public abstract class Character implements Drawable
 		return new Vector2(p_vec.x * getFacing(), p_vec.y);
 	}
 	
+	public void setFacing(int p_direction)
+	{
+		m_facingRight = (p_direction == FACING_RIGHT) ? true : false;
+	}
+	
 	public Vector2 getRunForce()
 	{
 		return alignFacing(runForce);
