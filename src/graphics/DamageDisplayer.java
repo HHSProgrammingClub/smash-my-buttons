@@ -32,7 +32,7 @@ public class DamageDisplayer implements Drawable
 	@Override
 	public void draw(Renderer p_renderer)
 	{
-		int height = Toolkit.getDefaultToolkit().getScreenSize().height;
+		int height = p_renderer.getHeight();
 		//TODO: make sure things are centered ish or at least spaced evenly
 		AffineTransform transform = new AffineTransform();
 		transform.translate(m_player*2 + 0.5, height/64-3);
