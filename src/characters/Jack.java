@@ -233,6 +233,57 @@ public class Jack extends Character
 		
 	};
 	
+	private class RecoveryState extends CharacterState
+	{
+		private Hitbox m_hitbox = new Hitbox();
+
+		private Rectangle m_rect;
+		
+		private BodyFixture m_fixture;
+		
+		RecoveryState()
+		{
+			super("recovery");
+			//setDuration(1f);
+			m_hitbox.setDuration(1f);
+			m_hitbox.setDamage(2);
+			m_hitbox.setHitstun(0.4f);
+			m_hitbox.setBaseKnockback(new Vector2(0, -2));
+			m_hitbox.setScaledKnockback(new Vector2(0, -2));
+			
+			m_rect = new Rectangle(1.2, 0.2);
+			m_rect.translate(length - 0.3 * getFacing(), 0.15);
+			
+			m_fixture = new BodyFixture(m_rect);
+			getBody().setLinearVelocity(getBody().getLinearVelocity().x, 0);
+			getBody().applyImpulse(new Vector2(0, -9));
+		}
+		
+		protected void init()
+		{
+			addHitbox(m_hitbox);
+			m_hitbox.addToFixture(m_fixture);
+			m_body.addFixture(m_fixture);
+			getBody().setGravityScale(0);
+		}
+		
+		public void interrupt()
+		{
+			m_body.removeFixture(m_fixture);
+			removeHitbox(m_hitbox);
+			getBody().setGravityScale(1);
+		}
+		
+		public void end()
+		{
+			m_body.removeFixture(m_fixture);
+			removeHitbox(m_hitbox);
+			getBody().setGravityScale(1);
+		}
+		
+		
+	};
+	
 	public void jab()
 	{
 		interruptStates(new CharacterState("jab", 0.1f));
@@ -268,7 +319,11 @@ public class Jack extends Character
 	
 	public void recover()
 	{
-		
+		if(!m_recovered) {
+			interruptStates(new CharacterState("idle", 0.05f));
+			addState(new RecoveryState());
+			m_recovered = true;
+		}
 	}
 
 	@Override
