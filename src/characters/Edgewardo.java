@@ -1,5 +1,7 @@
 package characters;
 
+import java.awt.geom.AffineTransform;
+
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.BodyFixture;
 import org.dyn4j.geometry.MassType;
@@ -88,7 +90,7 @@ public class Edgewardo extends Character
 	
 	@Override
 	public void jab() 
-	{
+	{	
 		interruptStates(new CharacterState("jab", 0.1f));
 		addState(new JabState());
 	}
@@ -96,9 +98,10 @@ public class Edgewardo extends Character
 	@Override
 	public void tilt() 
 	{
-		float duration = 0.5f;
 		
-		CharacterState tiltDash = new CharacterState("tilt_dash", 0.2f)
+		CharacterState tiltBeginning = new CharacterState("tilt_dash", 0.2f) {};
+		
+		CharacterState tiltDash = new CharacterState("tilt_dash")
 		{
 			Hitbox m_hitbox = new Hitbox();
 			Rectangle m_rect;
@@ -113,6 +116,7 @@ public class Edgewardo extends Character
 				m_hitbox.setBaseKnockback(new Vector2(getFacing(), 0));
 				m_hitbox.setScaledKnockback(new Vector2(5 * getFacing(), -1));
 				
+				m_rect = new Rectangle(4, 1); //reaalllly big hitbox
 				m_rect.translate(3 * getFacing(), 1.5);
 				
 				m_fixture = new BodyFixture(m_rect);
@@ -127,23 +131,22 @@ public class Edgewardo extends Character
 			{
 				m_body.removeFixture(m_fixture);
 				removeHitbox(m_hitbox);
-				
 			}
-	
 		};
 				
-		CharacterState tiltEnd = new CharacterState("tilt_end", 0.1f)
+		CharacterState tiltEnd = new CharacterState("tilt_end")
 				{
 					@Override
 					public void init()
 					{
 						m_body.translate(6 * getFacing(), 0);
+						m_body.setGravityScale(1);
 					}
 				};
-
-		interruptStates(tiltDash);
-		addState(tiltEnd);
-		
+				
+		interruptStates(tiltBeginning);
+		addState(tiltDash);
+		addState(tiltEnd);	
 	}
 	
 	private class SmashState extends CharacterState
@@ -198,22 +201,125 @@ public class Edgewardo extends Character
 	@Override
 	public void projectile()
 	{
-		// TODO Auto-generated method stub
 		m_sprite.setAnimation("projectile");
 	}
 
 	@Override
 	public void signature()
 	{
-		// TODO Auto-generated method stub
+		// TODO: brooding fog sprites
 		m_sprite.setAnimation("signature");
+	}
+	
+	private class RecoveryState extends CharacterState
+	{
+		
+		
+		public RecoveryState()
+		{
+			super("recovery");
+			
+			
+		}
+		
+		protected void init()
+		{
+			
+		}
+		
+		public void end()
+		{
+			
+			
+		}
 	}
 
 	@Override
 	public void recover() 
 	{
-		// TODO Auto-generated method stub
-		m_sprite.setAnimation("recovery");
+		CharacterState recoveryStart = new CharacterState("recovery", 0.5f)
+				{
+					private Hitbox m_hitbox = new Hitbox();
+					private Rectangle m_rect;
+					private BodyFixture m_fixture;
+					
+					@Override
+					public void init()
+					{
+						m_hitbox.setDuration(1.0f);
+						m_hitbox.setDamage(2);
+						m_hitbox.setHitstun(0.1f);
+						m_hitbox.setBaseKnockback(new Vector2(1, -1));
+						m_hitbox.setScaledKnockback(new Vector2(1, -1));
+						
+						m_rect = new Rectangle(1, 1);
+						m_rect.translate(1, 1.25);
+						
+						m_fixture = new BodyFixture(m_rect);
+						
+						addHitbox(m_hitbox);
+						m_hitbox.addToFixture(m_fixture);
+						m_body.addFixture(m_fixture);
+					}
+					
+					@Override
+					public void end()
+					{
+						m_body.translate(0, -4);
+						m_body.removeFixture(m_fixture);
+						removeHitbox(m_hitbox);
+					}
+				};
+				
+		CharacterState recoveryEnd = new CharacterState("jump_dsc")
+				{
+					private Hitbox m_hitbox = new Hitbox();
+					private Rectangle m_rect;
+					private BodyFixture m_fixture;
+					
+					@Override
+					public void init()
+					{
+						m_hitbox.setDuration(1.0f);
+						m_hitbox.setDamage(10);
+						m_hitbox.setHitstun(0.5f);
+						m_hitbox.setBaseKnockback(new Vector2(5 * getFacing(), -1));
+						m_hitbox.setScaledKnockback(new Vector2(10 * getFacing(), -1));
+						
+						m_rect = new Rectangle(1, 1);
+						m_rect.translate(1, 1.25);
+						
+						m_fixture = new BodyFixture(m_rect);
+						
+						addHitbox(m_hitbox);
+						m_hitbox.addToFixture(m_fixture);
+						m_body.addFixture(m_fixture);
+						
+						Texture explosionTexture = new Texture();
+						explosionTexture.openResource("resources/images/explosion");
+						
+						Sprite explosion = new Sprite(explosionTexture);
+						explosion.setAnimation("explosion");
+						
+						AffineTransform explosionOffset = new AffineTransform();
+						explosionOffset.translate(m_body.getLocalCenter().x, m_body.getLocalCenter().y);
+						//somehow draw this
+					}
+					
+					@Override
+					public void end()
+					{
+						m_body.removeFixture(m_fixture);
+						removeHitbox(m_hitbox);
+					}
+				};
+		
+		if(!m_recovered)
+		{
+			interruptStates(recoveryStart);
+			addState(recoveryEnd);
+			m_recovered = true;
+		}
 	}
 
 	@Override
