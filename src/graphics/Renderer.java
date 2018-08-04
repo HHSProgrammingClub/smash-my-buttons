@@ -227,6 +227,16 @@ public class Renderer implements Page
 	{
 		
 	}
+	
+	public int getWidth()
+	{
+		return m_width;
+	}
+	
+	public int getHeight()
+	{
+		return m_height;
+	}
 
 	@Override
 	public JComponent getComponent()
