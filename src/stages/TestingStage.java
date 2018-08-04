@@ -24,19 +24,19 @@ public class TestingStage extends Stage
 	
 	private void createLand()
 	{
-		Rectangle groundShape = new Rectangle(20, 1);
-		groundShape.translate(10, 0.5);
+		Rectangle groundShape = new Rectangle(10, 1);
+		groundShape.translate(0, 0);
 		Body groundBody = new Body();
 		Transform t = new Transform();
-		t.setTranslation(0, 6);
+		t.setTranslation(7, 6);
 		groundBody.setTransform(t);
 		groundBody.addFixture(groundShape);
 		
-		Rectangle groundShape2 = new Rectangle(2, 1);
-		groundShape2.translate(6, 0.5);
+		Rectangle groundShape2 = new Rectangle(3, 1);
+		groundShape2.translate(0, 0);
 		Body groundBody2 = new Body();
 		Transform t2 = new Transform();
-		t2.setTranslation(0, 5);
+		t2.setTranslation(7, 4);
 		groundBody2.setTransform(t2);
 		groundBody2.addFixture(groundShape2);
 		groundBody2.setMassType(MassType.INFINITE);
@@ -54,7 +54,7 @@ public class TestingStage extends Stage
 		ground2.setSprite(groundSprite);
 			
 		getPhysicsWorld().addBody(groundBody);
-		getPhysicsWorld().addBody(groundBody2);
+		//getPhysicsWorld().addBody(groundBody2);
 			
 		m_terrain.add(ground);
 	}

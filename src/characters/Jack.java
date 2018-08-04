@@ -187,6 +187,52 @@ public class Jack extends Character
 		
 	};
 	
+	private class ProjState extends CharacterState
+	{
+		private Hitbox m_hitbox = new Hitbox();
+		private Body m_body = new Body();
+		private Rectangle m_rect;
+		
+		private BodyFixture m_fixture;
+		
+		ProjState()
+		{
+			super("projectile");
+			
+			m_hitbox.setDuration(0.2f);
+			m_hitbox.setDamage(10);
+			m_hitbox.setHitstun(0.75f);
+			m_hitbox.setBaseKnockback(new Vector2(3 * getFacing(), 0));
+			m_hitbox.setScaledKnockback(new Vector2(5 * getFacing(), -5));
+			
+			m_rect = new Rectangle(1.2, 1);
+			m_rect.translate(length + 0.45 * getFacing(), 1.25);
+			
+			m_fixture = new BodyFixture(m_rect);
+		}
+		
+		protected void init()
+		{
+			addHitbox(m_hitbox);
+			m_hitbox.addToFixture(m_fixture);
+			m_body.addFixture(m_fixture);
+		}
+		
+		public void interrupt()
+		{
+			m_body.removeFixture(m_fixture);
+			removeHitbox(m_hitbox);
+		}
+		
+		public void end()
+		{
+			m_body.removeFixture(m_fixture);
+			removeHitbox(m_hitbox);
+		}
+		
+		
+	};
+	
 	private class SignatureState extends CharacterState
 	{
 		private Hitbox m_hitbox = new Hitbox();

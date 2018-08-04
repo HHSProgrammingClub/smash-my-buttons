@@ -49,6 +49,17 @@ public class Battle
 	public void addCharacter(CharacterController p_controller, int p_port)
 	{
 		m_charControllers[p_port - 1] = p_controller;
+		switch(p_port) {
+		case 1:
+			p_controller.getCharacter().getBody().translate(2, 0);
+		break;
+		case 2:
+			p_controller.getCharacter().getBody().translate(9, 0);
+		break;
+		}
+		if(p_controller instanceof PlayerController) {
+			((PlayerController)(p_controller)).setPortControl(p_port);
+		}
 		m_stage.getPhysicsWorld().addBody(p_controller.getCharacter().getBody());
 		m_renderList.addDrawable(p_controller.getCharacter());
 		m_renderList.addDrawable(new DamageDisplayer(p_controller.getCharacter(), p_port));
