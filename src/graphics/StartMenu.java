@@ -50,8 +50,19 @@ public class StartMenu implements Page
 				p_gui.setPage(new CharacterSelect(p_gui));
 			}
 		});
-		
-		JLabel lblAwesomeTitleText = new JLabel("Awesome Title Text");
+		String titleText;
+		String[] epicTitles = {
+			"Code Fighters!",
+			"AI Fighters",
+			"AI-Vengers Infinity War",
+			"Thanos Wholly Approves of This Event",
+			"Alexa, Play Despacito",
+			"Super Smash Code Ultimate",
+			"Code Fight",
+			"Smash 'em up",
+			"Smash my Buttons"
+		};
+		JLabel lblAwesomeTitleText = new JLabel(epicTitles[(int)(Math.random() * epicTitles.length)]);
 		lblAwesomeTitleText.setFont(new Font("Verdana", Font.BOLD, 28));
 		GridBagConstraints gbc_lblAwesomeTitleText = new GridBagConstraints();
 		gbc_lblAwesomeTitleText.insets = new Insets(0, 0, 5, 5);

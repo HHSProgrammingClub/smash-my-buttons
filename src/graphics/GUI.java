@@ -45,7 +45,19 @@ public class GUI
 		//int height = (int) (gd.getDisplayMode().getHeight() * SCALE_H);
 		
 		//initialize the window
-		m_window = new JFrame("AI Fighters");
+		String titleText;
+		String[] epicTitles = {
+			"Code Fighters!",
+			"AI Fighters",
+			"AI-Vengers Infinity War",
+			"Thanos Wholly Approves of This Event",
+			"Alexa, Play Despacito",
+			"Super Smash Code Ultimate",
+			"Code Fight",
+			"Smash 'em up",
+			"Smash my Buttons"
+		};
+		m_window = new JFrame(epicTitles[(int)(Math.random() * epicTitles.length)]);
 		m_window.setSize(width, height);
 		m_window.setResizable(false);
 		m_window.setVisible(true);

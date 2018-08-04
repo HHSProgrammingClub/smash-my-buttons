@@ -21,7 +21,7 @@ public class GroundListener extends ContactAdapter
 			if(userdata.second.getBody().getWorldCenter().y < point.getPoint().y
 					&& !(point.getFixture2().getUserData() instanceof Hitbox))
 			{
-				System.out.println("Jump reset!");
+				//System.out.println("Jump reset!");
 				userdata.second.resetJump();
 			}
 		}
