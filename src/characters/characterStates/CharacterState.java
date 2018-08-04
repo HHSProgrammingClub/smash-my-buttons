@@ -21,6 +21,7 @@ public class CharacterState
 	private String m_animationName = "";
 	
 	private boolean m_started = false;
+	private boolean m_paused  = false;
 	
 	private boolean m_indefinite;
 	
@@ -126,6 +127,22 @@ public class CharacterState
 		return m_started;
 	}
 	
+	public void pause()
+	{
+		m_paused = true;
+	}
+	
+	public void resume()
+	{
+		m_character.getSprite().setAnimation(m_animation);
+		m_paused = true;
+	}
+	
+	public boolean isPaused()
+	{
+		return m_paused;
+	}
+	
 	/**
 	 * Starts the animation and calls init(), you probably don't want to override this one
 	 */
@@ -186,8 +203,14 @@ public class CharacterState
 	public final boolean update(float p_delta)
 	{
 		m_timer -= p_delta;
+		onUpdate();
 		if(activationTest())
 			activate();
 		return m_timer > 0;
+	}
+	
+	protected void onUpdate()
+	{
+		
 	}
 }

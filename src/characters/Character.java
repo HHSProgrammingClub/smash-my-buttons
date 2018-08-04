@@ -27,25 +27,25 @@ public abstract class Character implements Drawable
 	private int m_damage;
 	private int m_stock = 3;
 	private String m_name = "George the Glass-Cutter";
-	private boolean m_jumped = false;
-	private boolean m_recovered = false;
-	private boolean m_moving = false;
+	private boolean m_jumped        = false;
+	private boolean m_recovered     = false;
+	private boolean m_moving        = false;
 	protected boolean m_superArmour = false;
-	private boolean m_stunned = false;
-	private boolean m_attacking = false;
-	private boolean m_facingRight = false;
+	private boolean m_stunned       = false;
+	private boolean m_attacking     = false;
+	private boolean m_facingRight   = false;
 	
 	// -1 = left 1 = right: for use with placing hitboxes, applying forces, etc.
 	//not for use with flipping sprites
-	private static final int FACING_LEFT = -1;
+	private static final int FACING_LEFT  = -1;
 	private static final int FACING_RIGHT = 1;
 	
-	private static final Vector2 LEFT_SCALE = new Vector2(1, 1);
+	private static final Vector2 LEFT_SCALE  = new Vector2(1, 1);
 	private static final Vector2 RIGHT_SCALE = new Vector2(-1, 1);
 
 	protected static Vector2 jumpImpulse = new Vector2(0, -20);
-	protected static Vector2 runLeft = new Vector2(-5, 0);
-	protected static Vector2 runRight = new Vector2(5, 0);
+	protected static Vector2 runForce    = new Vector2(10, 0);
+	protected static float   maxRunSpeed = 6;
 	
 	public static String[] characterNames = {"Jack", "Birboi", "Cam", "W'all", "Edgewardo", "Jimmy"};
 	
@@ -59,8 +59,8 @@ public abstract class Character implements Drawable
 	public static final int ACTION_JAB   		= 1;
 	public static final int ACTION_TILT  		= 2;
 	public static final int ACTION_SMASH 		= 3;
-	public static final int ACTION_PROJECTILE   = 4;
-	public static final int ACTION_SIGNATURE    = 5;
+	public static final int ACTION_PROJECTILE = 4;
+	public static final int ACTION_SIGNATURE  = 5;
 	public static final int ACTION_RECOVERY 	= 6;
 	
 	protected static double position = 0;
@@ -79,6 +79,24 @@ public abstract class Character implements Drawable
 	protected void addAnimationState(String p_name, float p_duration)
 	{
 		addState(new CharacterState(p_name, p_duration));
+	}
+	
+	protected void pushState(CharacterState p_state)
+	{
+		p_state.setCharacter(this);
+		if(!m_stateStack.empty())
+			m_stateStack.get(0).pause();
+		m_stateStack.push(p_state);
+	}
+	
+	protected void pushAnimationState(Animation p_animation, float p_duration)
+	{
+		pushState(new CharacterState(p_animation, p_duration));
+	}
+	
+	protected void pushAnimationState(String p_name, float p_duration)
+	{
+		pushState(new CharacterState(p_name, p_duration));
 	}
 	
 	protected void interruptStates(CharacterState p_state)
@@ -152,18 +170,18 @@ public abstract class Character implements Drawable
 	{
 		m_moving = true;
 		m_facingRight = false;
-		m_body.applyForce(runLeft);
+		m_body.applyForce(getRunForce());
 		if(!m_jumped)
-			interruptStates(new RunningState());
+			m_sprite.setAnimation("run");
 	}
 	
 	public void moveRight()
 	{
 		m_moving = true;
 		m_facingRight = true;
-		m_body.applyForce(runRight);
+		m_body.applyForce(getRunForce());
 		if(!m_jumped)
-			interruptStates(new RunningState());
+			m_sprite.setAnimation("run");
 	}
 	
 	public void stopRunning()
@@ -181,6 +199,16 @@ public abstract class Character implements Drawable
 	public Vector2 alignFacing(Vector2 p_vec)
 	{
 		return new Vector2(p_vec.x * getFacing(), p_vec.y);
+	}
+	
+	public Vector2 getRunForce()
+	{
+		return alignFacing(runForce);
+	}
+	
+	public float getMaxRunSpeed()
+	{
+		return maxRunSpeed;
 	}
 	
 	protected abstract void jab();
@@ -346,10 +374,14 @@ public abstract class Character implements Drawable
 			
 			if(!currentState.isStarted())
 				currentState.start();
+
+			if(currentState.isPaused())
+				currentState.resume();
+			
+			currentState.update(p_delta);
 			
 			if(!currentState.isIndefinite())
 			{
-				currentState.update(p_delta);
 				if (currentState.getTimer() <= 0)
 				{
 					currentState.end();
