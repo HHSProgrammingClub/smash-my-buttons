@@ -62,6 +62,8 @@ public class GUI
 		
 		//display page
 		m_window.add(m_currentPage.getComponent());
+		// Make sure this component has focus so it can receive input
+		m_currentPage.getComponent().requestFocusInWindow(); 
 		m_window.validate();
 	}
 	
