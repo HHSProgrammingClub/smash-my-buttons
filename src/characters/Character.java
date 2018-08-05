@@ -34,6 +34,10 @@ public abstract class Character implements Drawable
 	private boolean m_stunned       = false;
 	private boolean m_attacking     = false;
 	private boolean m_facingRight   = false;
+	private final static float RIGHT_BLAST_LINE = 18;
+	private final static float LEFT_BLAST_LINE = -18;
+	private final static float UPPER_BLAST_LINE = -5;
+	private final static float BOTTOM_BLAST_LINE = 11;
 	
 	// -1 = left 1 = right: for use with placing hitboxes, applying forces, etc.
 	//not for use with flipping sprites
@@ -403,6 +407,18 @@ public abstract class Character implements Drawable
 
 				m_stateStack.peek().start();
 			}
+		}
+		if(m_body.getWorldCenter().x > RIGHT_BLAST_LINE ||
+			m_body.getWorldCenter().x < LEFT_BLAST_LINE ||
+			m_body.getWorldCenter().y < UPPER_BLAST_LINE ||
+			m_body.getWorldCenter().y > BOTTOM_BLAST_LINE) {
+			m_stock--;
+			//TODO: Perhaps a character state for waiting time?
+			Transform t = new Transform();
+			t.translate(7, 0);
+			m_body.setTransform(t);
+			m_body.setLinearVelocity(0, 0);
+			setDamage(0);
 		}
 	}
 }

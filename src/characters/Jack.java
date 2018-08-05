@@ -190,7 +190,7 @@ public class Jack extends Character
 	private class ProjState extends CharacterState
 	{
 		private Hitbox m_hitbox = new Hitbox();
-		private Body m_body = new Body();
+
 		private Rectangle m_rect;
 		
 		private BodyFixture m_fixture;
@@ -202,8 +202,8 @@ public class Jack extends Character
 			m_hitbox.setDuration(0.2f);
 			m_hitbox.setDamage(10);
 			m_hitbox.setHitstun(0.75f);
-			m_hitbox.setBaseKnockback(new Vector2(3 * getFacing(), 0));
-			m_hitbox.setScaledKnockback(new Vector2(5 * getFacing(), -5));
+			m_hitbox.setBaseKnockback(new Vector2(0, 0));
+			m_hitbox.setScaledKnockback(new Vector2(0, -20));
 			
 			m_rect = new Rectangle(1.2, 1);
 			m_rect.translate(length + 0.45 * getFacing(), 1.25);
@@ -354,7 +354,9 @@ public class Jack extends Character
 	
 	public void projectile()
 	{
-		
+		//Placeholder for testing.
+		interruptStates(new CharacterState("projectile", 0.05f));
+		addState(new ProjState());
 	}
 	
 	public void signature()
