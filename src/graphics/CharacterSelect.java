@@ -78,6 +78,27 @@ public class CharacterSelect implements Page
 		setUpPanel(p_gui);
 	}
 	
+	private static AIController createAIController(String p_filePath)
+	{
+		AIController controller = new AIController();
+		
+        try
+		{
+        	controller.openFile(p_filePath);
+		} catch (FileNotFoundException e1)
+		{
+			e1.printStackTrace();
+			return null;
+		} catch (IOException e1)
+		{
+			e1.printStackTrace();
+			return null;
+		}
+        
+        controller.setCharacter(newCharacter(controller.getTargetCharacter()));
+        return controller;
+	}
+	
 	/**
 	 * @wbp.parser.entryPoint
 	 */
@@ -101,31 +122,15 @@ public class CharacterSelect implements Page
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				AIController tempController = new AIController();
-				
 				int returnVal = m_fileChooser.showOpenDialog(p_gui.getWindow());
-
 		        if (returnVal == JFileChooser.APPROVE_OPTION)
 		        {
 		            File file = m_fileChooser.getSelectedFile();
 		            String filePath = file.getPath();
 		            System.out.println("Attempting to load " + filePath + " as player 1");
 		            
-		            //i feel like there may be a better way...
-		            try
-					{
-						tempController.openFile(filePath);
-					} catch (FileNotFoundException e1)
-					{
-						e1.printStackTrace();
-						return;
-					} catch (IOException e1)
-					{
-						e1.printStackTrace();
-						return;
-					}
-		            m_p1 = tempController;
-		            System.out.println("Player 1 AI script loaded at " + filePath);
+		            m_p1 = createAIController(filePath);
+		            System.out.print("Player 1 AI script loaded at " + filePath);
 		        }
 			}
 		});
@@ -160,30 +165,14 @@ public class CharacterSelect implements Page
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				AIController tempController = new AIController();
-				
 				int returnVal = m_fileChooser.showOpenDialog(p_gui.getWindow());
-
 		        if (returnVal == JFileChooser.APPROVE_OPTION)
 		        {
 		            File file = m_fileChooser.getSelectedFile();
 		            String filePath = file.getPath();
 		            System.out.println("Attempting to load " + filePath + " as player 2");
 		            
-		            //i feel like there may be a better way...
-		            try
-					{
-						tempController.openFile(filePath);
-					} catch (FileNotFoundException e1)
-					{
-						e1.printStackTrace();
-						return;
-					} catch (IOException e1)
-					{
-						e1.printStackTrace();
-						return;
-					}
-		            m_p2 = tempController;
+		            m_p2 = createAIController(filePath);
 		            System.out.print("Player 2 AI script loaded at " + filePath);
 		        }
 			}

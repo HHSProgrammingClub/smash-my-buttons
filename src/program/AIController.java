@@ -144,6 +144,7 @@ public class AIController extends CharacterController
 		m_script = buf.lines().collect(Collectors.joining("\n"));
 		buf.close();
 		stream.close();
+		initScript();
 	}
 	
 	/**
@@ -160,41 +161,26 @@ public class AIController extends CharacterController
 		}
 		m_script = new BufferedReader(new InputStreamReader(script))
 				  .lines().collect(Collectors.joining("\n"));
-	}
-
-	@Override
-	public String getName()
-	{
-		return m_name;
+		initScript();
 	}
 	
-	@Override
-	public String getAuthor()
-	{
-		return m_author;
-	}
-	
-	//@Override
-	public String getTargetCharacter()
-	{
-		return m_targetCharacter;
-	}
-	
-	@Override
-	public void start()
+	private void initScript()
 	{
 		try
 		{
 			System.out.println("Loading Python Interpreter...");
 			
-			m_interpretor.cleanup(); // Reset the interpreter
+			// Reset the interpreter
+			m_interpretor.cleanup();
+			// Remove access to other classes in the project
 			m_interpretor.getSystemState().setClassLoader(new PyClassLoader());
+			// Output to the console
 			m_interpretor.setOut(System.out);
 			
 			System.out.println("Python Interpreter Ready");
 			System.out.println("Compiling script...");
 			
-			// Compile script
+			// Interpret the global scope of the script
 			m_interpretor.exec(m_script);
 			
 			// Get the loop function
@@ -230,6 +216,31 @@ public class AIController extends CharacterController
 		{
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public String getName()
+	{
+		return m_name;
+	}
+	
+	@Override
+	public String getAuthor()
+	{
+		return m_author;
+	}
+	
+	//@Override
+	public String getTargetCharacter()
+	{
+		return m_targetCharacter;
+	}
+	
+	@Override
+	public void start()
+	{
+		// Reset script by loading it again
+		initScript();
 	}
 
 	@Override
