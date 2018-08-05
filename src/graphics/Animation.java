@@ -22,11 +22,17 @@ public class Animation
 		m_interval = 0;
 	}
 	
+	/**
+	 * Get the root frame.
+	 */
 	public IntRect getFrame()
 	{
 		return m_frame;
 	}
 	
+	/**
+	 * Get frame at an index. This will calculate looping for you.
+	 */
 	public IntRect getFrame(int p_frame)
 	{
 		int frameIdx = 0;
@@ -42,14 +48,30 @@ public class Animation
 		return frame; 
 	}
 	
+	/**
+	 * Get the amount of frames in this animation.
+	 */
 	public int getFrameCount()
 	{
 		return m_frameCount;
 	}
 	
+	/**
+	 * Get interval between each frame in seconds.
+	 * @return
+	 */
 	public float getInterval()
 	{
 		return m_interval;
+	}
+	
+	/**
+	 * Returns the duration from the start of the first frame
+	 * to the end of the last frame.
+	 */
+	public float getDuration()
+	{
+		return m_interval*m_frameCount;
 	}
 	
 	public int getLoopType()
