@@ -265,6 +265,11 @@ public class Edgewardo extends Character
 					@Override
 					public void end()
 					{
+						//Needed buff to recovery
+						//Basically, if this isn't here, edgy keeps falling
+						//and has no time to go anywhere before falling
+						//to his death
+						getBody().setLinearVelocity(0, 0);
 						m_body.translate(0, -4);
 						m_body.removeFixture(m_fixture);
 						removeHitbox(m_hitbox);

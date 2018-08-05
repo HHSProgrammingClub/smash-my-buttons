@@ -196,7 +196,7 @@ public abstract class Character implements Drawable
 	public void stopRunning()
 	{
 		m_moving = false;
-		if(!m_jumped)
+		if(!m_jumped && !m_attacking)
 			interruptStates(new StoppingState());
 	}
 	
