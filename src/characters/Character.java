@@ -43,9 +43,9 @@ public abstract class Character implements Drawable
 	private static final Vector2 LEFT_SCALE  = new Vector2(1, 1);
 	private static final Vector2 RIGHT_SCALE = new Vector2(-1, 1);
 
-	protected static Vector2 jumpImpulse = new Vector2(0, -20);
-	protected static Vector2 runForce    = new Vector2(10, 0);
-	protected static float   maxRunSpeed = 6;
+	protected Vector2 jumpImpulse = new Vector2(0, -20);
+	protected Vector2 runForce    = new Vector2(10, 0);
+	protected float   maxRunSpeed = 6;
 	
 	public static String[] characterNames = {"Jack", "Birboi", "Cam", "W'all", "Edgewardo", "Jimmy"};
 	

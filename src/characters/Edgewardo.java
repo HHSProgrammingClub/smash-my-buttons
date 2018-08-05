@@ -22,6 +22,8 @@ public class Edgewardo extends Character
 
 	public Edgewardo()
 	{
+		jumpImpulse = new Vector2(0, -9);
+		runForce = new Vector2(12, 0);
 		Body emo = new Body();
 		
 		Transform t = new Transform();
@@ -32,7 +34,10 @@ public class Edgewardo extends Character
 		// Add the collision fixture
 		Rectangle rect = new Rectangle(1, 2);
 		rect.translate(1, 1); // Set to topleft
-		emo.addFixture(rect);
+		
+		BodyFixture bf = new BodyFixture(rect);
+		bf.setDensity(0.75); // Make him lighter
+		emo.addFixture(bf);
 		emo.setMass(MassType.FIXED_ANGULAR_VELOCITY);
 
 		setBody(emo);
@@ -57,8 +62,8 @@ public class Edgewardo extends Character
 			super("jab");
 			
 			m_hitbox.setDuration(0.2f);
-			m_hitbox.setDamage(5);
-			m_hitbox.setHitstun(0.3f);
+			m_hitbox.setDamage(2);
+			m_hitbox.setHitstun(1.5f);
 			m_hitbox.setBaseKnockback(new Vector2(1.5 * getFacing(), 0));
 			m_hitbox.setScaledKnockback(new Vector2(getFacing(), -1));
 		
@@ -111,13 +116,13 @@ public class Edgewardo extends Character
 			public void init()
 			{
 				m_hitbox.setDuration(0.5f);
-				m_hitbox.setDamage(10);
+				m_hitbox.setDamage(7);
 				m_hitbox.setHitstun(0.5f);
 				m_hitbox.setBaseKnockback(new Vector2(getFacing(), 0));
 				m_hitbox.setScaledKnockback(new Vector2(5 * getFacing(), -1));
 				
 				m_rect = new Rectangle(4, 1); //reaalllly big hitbox
-				m_rect.translate(3 * getFacing(), 1.5);
+				m_rect.translate(-3 * getFacing(), 1.5);
 				
 				m_fixture = new BodyFixture(m_rect);
 				
@@ -291,7 +296,7 @@ public class Edgewardo extends Character
 						m_hitbox.setBaseKnockback(new Vector2(5 * getFacing(), -1));
 						m_hitbox.setScaledKnockback(new Vector2(10 * getFacing(), -1));
 						
-						m_rect = new Rectangle(1, 1);
+						m_rect = new Rectangle(2, 2);
 						m_rect.translate(1, 1.25);
 						
 						m_fixture = new BodyFixture(m_rect);
