@@ -16,4 +16,10 @@ public class IdleState extends CharacterState
 	{
 		m_character.setAttacking(false);
 	}
+	
+	@Override
+	public boolean handleAction(int p_action)
+	{
+		return true;
+	}
 }

@@ -65,6 +65,11 @@ public abstract class Character implements Drawable
 	
 	protected static double position = 0;
 	
+	protected Character()
+	{
+		
+	}
+	
 	protected void addState(CharacterState p_state)
 	{
 		p_state.setCharacter(this);
@@ -81,7 +86,7 @@ public abstract class Character implements Drawable
 		addState(new CharacterState(p_name, p_duration));
 	}
 	
-	protected void pushState(CharacterState p_state)
+	public void pushState(CharacterState p_state)
 	{
 		p_state.setCharacter(this);
 		if(!m_stateStack.empty())
@@ -150,18 +155,22 @@ public abstract class Character implements Drawable
 	
 	public abstract String getName();
 	
+	public Vector2 getJumpImpulse()
+	{
+		return jumpImpulse;
+	}
+	
 	protected void jump() //to be pronounced [jʌmp] (ipa)
 	{
-		m_body.setLinearVelocity(m_body.getLinearVelocity().x, 0);
-		m_body.applyImpulse(jumpImpulse);
 		m_jumped = true;
-		m_sprite.setAnimation("jump_asc");
+		pushState(new JumpState());
+		System.out.println("jumpo");
 	}
 	
 	public void resetJump()
 	{
-		if(m_jumped)
-			addState(new IdleState());
+		if(m_stateStack.peek() instanceof JumpState)
+			m_stateStack.pop();
 		m_jumped = false;
 		m_recovered = false;
 	}
@@ -225,7 +234,7 @@ public abstract class Character implements Drawable
 	
 	public void performAction(int p_action)
 	{
-		if(m_attacking || m_stunned)
+		if(!m_stateStack.peek().handleAction(p_action))
 			return;
 		
 		switch(p_action)
@@ -240,7 +249,7 @@ public abstract class Character implements Drawable
 				
 			case ACTION_JUMP:
 				if(!m_jumped)
-					jump();
+				jump();
 				return;
 				
 			case ACTION_JAB:
@@ -375,7 +384,7 @@ public abstract class Character implements Drawable
 		
 		if(m_stateStack.size() > 0)
 		{
-			CharacterState currentState = m_stateStack.get(0);
+			CharacterState currentState = m_stateStack.peek();
 			
 			if(!currentState.isStarted())
 				currentState.start();
@@ -385,17 +394,14 @@ public abstract class Character implements Drawable
 			
 			currentState.update(p_delta);
 			
-			if(!currentState.isIndefinite())
+			if(!currentState.isIndefinite() && currentState.getTimer() <= 0)
 			{
-				if (currentState.getTimer() <= 0)
-				{
-					currentState.end();
-					m_stateStack.remove(0);
-					if(!(m_stateStack.size() > 0))
-						addState(new IdleState());
+				currentState.end();
+				m_stateStack.pop();
+				if(!(m_stateStack.size() > 0))
+					addState(new IdleState());
 
-					m_stateStack.get(0).start();
-				}
+				m_stateStack.peek().start();
 			}
 		}
 	}

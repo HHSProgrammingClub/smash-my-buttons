@@ -18,6 +18,12 @@ public class RunningState extends CharacterState
 	protected void onUpdate()
 	{
 		if(Math.abs(m_character.getBody().getLinearVelocity().x) < m_character.getMaxRunSpeed())
-			m_character.getBody().applyForce(m_character.getRunForce());;
+			m_character.getBody().applyForce(m_character.getRunForce());
+	}
+	
+	@Override
+	public boolean handleAction(int p_action)
+	{
+		return true;
 	}
 }
