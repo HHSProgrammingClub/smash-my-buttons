@@ -40,7 +40,7 @@ public class Birboi extends Character
 		
 		setSprite(sp);
 		
-		jumpImpulse = new Vector2(0, -25);
+		jumpImpulse = new Vector2(0, -20); //TODO: multiple jumps
 	}
 	
 	@Override
@@ -48,8 +48,8 @@ public class Birboi extends Character
 	{
 		Hitbox jabBox = new Hitbox();
 		
-		jabBox.setBaseKnockback(new Vector2());
-		jabBox.setScaledKnockback(alignFacing(new Vector2(0, -1)));
+		jabBox.setBaseKnockback(new Vector2(0, -5));
+		jabBox.setScaledKnockback(alignFacing(new Vector2(0, -2)));
 		jabBox.setDamage(6);
 		jabBox.setDuration(10);
 		jabBox.setHitstun(.15f);
@@ -161,7 +161,6 @@ public class Birboi extends Character
 	@Override
 	public void smash()
 	{
-		// TODO Create hitboxes
 		float duration = .4f;
 		
 		CharacterState smashStartup = new CharacterState("smash_startup")
@@ -244,6 +243,7 @@ public class Birboi extends Character
 						}
 					}
 				};
+		pushState(new CharacterState("smash_contact", .5f));
 		pushState(smashFlight);
 		pushState(smashStartup);
 	}
@@ -266,7 +266,60 @@ public class Birboi extends Character
 	public void recover() 
 	{
 		// TODO Auto-generated method stub
+		Hitbox recoverBox = new Hitbox();
 		
+		recoverBox.setBaseKnockback(alignFacing(new Vector2(.6, 4)));
+		recoverBox.setScaledKnockback(alignFacing(new Vector2(.1, 4)));
+		recoverBox.setDamage(0);
+		recoverBox.setDuration(10);
+		recoverBox.setHitstun(0);
+		
+		Vector2 recoverBoxPos = new Vector2(1, 1.8);
+		
+		Rectangle rr = new Rectangle(3.2, 2.4);
+		rr.translate(recoverBoxPos);
+		
+		BodyFixture rf = new BodyFixture(rr);
+		recoverBox.addToFixture(rf);
+		
+		CharacterState recoveryStartup = new CharacterState("recovery", .3f)
+		{
+			@Override
+			protected void init()
+			{
+				m_body.setLinearVelocity(0, 0);
+				m_body.setGravityScale(0);
+				m_superArmour = true;
+				
+				m_body.addFixture(rf);
+				addHitbox(recoverBox);
+			}
+			
+			@Override
+			public void end()
+			{
+				m_body.setGravityScale(1);
+				m_superArmour = false;
+				
+				m_body.removeFixture(rf);
+				removeHitbox(recoverBox);
+			}
+		};
+		
+		//TODO: Figure out how to only play the animation once, and simply stay on the last frame
+		//If not, i have a idea which would work instead
+		CharacterState recoveryFlight = new CharacterState("recovery", .4f)
+		{
+			@Override
+			protected void init()
+			{
+				m_body.setLinearVelocity(0, 0);
+				m_body.applyImpulse(new Vector2(0, -15));
+			}
+		};
+		
+		pushState(recoveryFlight);
+		pushState(recoveryStartup);
 	}
 
 	@Override
