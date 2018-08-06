@@ -30,7 +30,7 @@ public class Birboi extends Character
 		
 		// Add the collision fixture
 		Rectangle rect = new Rectangle(1, 1.4f);
-		rect.translate(1, 1.35); // Set to topleft
+		rect.translate(1, 1.3); // Set to topleft
 		BodyFixture bf = new BodyFixture(rect);
 		bf.setDensity(0.65);
 		birb.addFixture(rect);
@@ -249,7 +249,7 @@ public class Birboi extends Character
 						}
 					}
 				};
-		pushState(new CharacterState("smash_contact", .5f));
+		pushState(new CharacterState("smash_contact", .3f));
 		pushState(smashFlight);
 		pushState(smashStartup);
 	}
@@ -331,7 +331,8 @@ public class Birboi extends Character
 			}
 		};
 		
-		if(!m_recovered) {
+		if(!m_recovered)
+		{
 			pushState(new JumpState(false));
 			pushState(recoveryStartup);
 		}
