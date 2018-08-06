@@ -334,6 +334,8 @@ public class Jack extends Character
 	{
 		/*interruptStates(new CharacterState("jab", 0.1f));
 		addState(new JabState());*/
+		pushState(new JabState());
+		pushState(new CharacterState("jab", .1f));
 		//System.out.println(getDamage());
 	}
 	
@@ -342,6 +344,9 @@ public class Jack extends Character
 		/*interruptStates(new CharacterState("tilt", 0.1f));
 		addState(new TiltState());
 		addState(new CharacterState("idle", 0.3f));*/
+		pushState(new WaitState(.3f));
+		pushState(new TiltState());
+		pushState(new CharacterState("tilt", .1f));
 	}
 	
 	public void smash()
@@ -350,6 +355,9 @@ public class Jack extends Character
 		addState(new CharacterState("smash", 0.1f));
 		addState(new SmashState());
 		addState(new CharacterState("idle", 0.3f));*/
+		pushState(new WaitState(.3f));
+		pushState(new SmashState());
+		pushState(new CharacterState("smash", .1f));
 	}
 	
 	public void projectile()
@@ -357,19 +365,26 @@ public class Jack extends Character
 		//Placeholder for testing.
 		/*interruptStates(new CharacterState("projectile", 0.05f));
 		addState(new ProjState());*/
+		pushState(new ProjState());
+		pushState(new CharacterState("projectile", .05f));
 	}
 	
 	public void signature()
 	{
 		/*interruptStates(new CharacterState("signature", 0.5f));
 		addState(new SignatureState());*/
+		pushState(new SignatureState());
+		pushState(new CharacterState("signature", .5f));
 	}
 	
 	public void recover()
 	{
-		if(!m_recovered) {
+		if(!m_recovered)
+		{
 			/*interruptStates(new CharacterState("idle", 0.05f));
 			addState(new RecoveryState());*/
+			pushState(new RecoveryState());
+			pushState(new WaitState(.05f));
 			m_recovered = true;
 		}
 	}

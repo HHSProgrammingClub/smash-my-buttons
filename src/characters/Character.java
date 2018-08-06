@@ -83,6 +83,13 @@ public abstract class Character implements Drawable
 		m_stateStack.peek().resume();
 	}
 	
+	public void endState()
+	{
+		m_stateStack.peek().end();
+		m_stateStack.pop();
+		m_stateStack.peek().resume();
+	}
+	
 	public CharacterState peekState()
 	{
 		return m_stateStack.peek();
@@ -303,12 +310,15 @@ public abstract class Character implements Drawable
 	{
 		Transform t = m_body.getTransform();
 		
-		IntRect frame = m_sprite.getAnimation().getFrame();
-		int offset = m_facingRight ? frame.w / 32 : 0;
-		m_sprite.setPosition(t.getTranslationX() + offset, t.getTranslationY());
-		m_sprite.setRotation(t.getRotation());
-		m_sprite.setScale(m_facingRight ? RIGHT_SCALE : LEFT_SCALE);
-		m_sprite.draw(p_renderer);
+		if (m_sprite.getAnimation() != null)
+		{
+			IntRect frame = m_sprite.getAnimation().getFrame();
+			int offset = m_facingRight ? frame.w / 32 : 0;
+			m_sprite.setPosition(t.getTranslationX() + offset, t.getTranslationY());
+			m_sprite.setRotation(t.getRotation());
+			m_sprite.setScale(m_facingRight ? RIGHT_SCALE : LEFT_SCALE);
+			m_sprite.draw(p_renderer);
+		}
 	}
 	
 	public void update(float p_delta)

@@ -82,7 +82,7 @@ public class Renderer implements Page
 	 */
 	public void clear()
 	{
-		m_graphics.setColor(Color.WHITE);
+		m_graphics.setColor(Color.LIGHT_GRAY);
 		m_graphics.fillRect(0, 0, m_width, m_height);
 	}
 	

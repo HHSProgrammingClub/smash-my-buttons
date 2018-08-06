@@ -70,6 +70,7 @@ public class CharacterState
 	public void setAnimation(Animation p_animation)
 	{
 		m_animation = p_animation;
+		m_animationName = m_animation.getName();
 	}
 	
 	public void setAnimation(String p_animationName)
@@ -142,9 +143,9 @@ public class CharacterState
 	 */
 	public void start()
 	{
-		if(!m_animationName.equals(""));
+		if(m_animation == null);
 		{
-			setAnimation(m_character.getSprite().getTexture().getAnimation(m_animationName));
+			setAnimation(m_animationName);
 			if(m_duration == null)
 				setDuration(m_animation.getDuration());
 		}
@@ -204,14 +205,14 @@ public class CharacterState
 	{
 		if(!m_started)
 			start();
-		m_timer -= p_delta;
 		onUpdate();
 		//TODO: move to onUpdate()
-		if(activationTest())
-			activate();
+		/*if(activationTest())
+			activate();*/
 		m_character.getSprite().setAnimation(m_animation);
+		m_timer -= p_delta;
 		if(!m_indefinite && m_timer < 0)
-			m_character.popState();
+			m_character.endState();
 	}
 	
 	protected void onUpdate()

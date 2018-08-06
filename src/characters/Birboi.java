@@ -40,7 +40,7 @@ public class Birboi extends Character
 		
 		setSprite(sp);
 	}
-
+	
 	@Override
 	public void jab()
 	{
@@ -128,6 +128,7 @@ public class Birboi extends Character
 						getBody().setGravityScale(1);
 					}
 					
+					//TODO: move to onUpdate()
 					@Override
 					public boolean activationTest()
 					{

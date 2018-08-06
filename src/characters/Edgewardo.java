@@ -98,6 +98,8 @@ public class Edgewardo extends Character
 	{	
 		/*interruptStates(new CharacterState("jab", 0.1f));
 		addState(new JabState());*/
+		pushState(new JabState());
+		pushState(new CharacterState("jab", .1f));
 	}
 
 	@Override
@@ -152,6 +154,9 @@ public class Edgewardo extends Character
 		/*interruptStates(tiltBeginning);
 		addState(tiltDash);
 		addState(tiltEnd);*/
+		pushState(tiltEnd);
+		pushState(tiltDash);
+		pushState(tiltBeginning);
 	}
 	
 	private class SmashState extends CharacterState
@@ -201,6 +206,8 @@ public class Edgewardo extends Character
 	{
 		/*interruptStates(new CharacterState("smash", 0.1f));
 		addState(new SmashState());*/
+		pushState(new SmashState());
+		pushState(new CharacterState("smash", .1f));
 	}
 
 	@Override
@@ -328,6 +335,8 @@ public class Edgewardo extends Character
 		{
 			/*interruptStates(recoveryStart);
 			addState(recoveryEnd);*/
+			pushState(recoveryEnd);
+			pushState(recoveryStart);
 			m_recovered = true;
 		}
 	}

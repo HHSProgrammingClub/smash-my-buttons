@@ -329,8 +329,8 @@ public class PlayerController extends CharacterController
 		m_keyBinder.addKeyBinding("jump", KeyEvent.VK_UP, KeyBinder.ACTIVATION_PRESSED);
 		m_keyBinder.addKeyBinding("moveLeft", KeyEvent.VK_LEFT, KeyBinder.ACTIVATION_DOWN);
 		m_keyBinder.addKeyBinding("moveRight", KeyEvent.VK_RIGHT, KeyBinder.ACTIVATION_DOWN);
-		m_keyBinder.addKeyBinding("stopRunning", KeyEvent.VK_LEFT, KeyBinder.ACTIVATION_RELEASE);
-		m_keyBinder.addKeyBinding("stopRunning", KeyEvent.VK_RIGHT, KeyBinder.ACTIVATION_RELEASE);
+		/*m_keyBinder.addKeyBinding("stopRunning", KeyEvent.VK_LEFT, KeyBinder.ACTIVATION_RELEASE);
+		m_keyBinder.addKeyBinding("stopRunning", KeyEvent.VK_RIGHT, KeyBinder.ACTIVATION_RELEASE);*/
 		
 		m_keyBinder.addKeyBinding("projectile", KeyEvent.VK_DOWN, KeyBinder.ACTIVATION_PRESSED); //I would say this is for some well thought out reason but it's because I can't find the KeyEvent corresponding to the originally planned ` key
 		m_keyBinder.addKeyBinding("jab", KeyEvent.VK_I, KeyBinder.ACTIVATION_PRESSED);
