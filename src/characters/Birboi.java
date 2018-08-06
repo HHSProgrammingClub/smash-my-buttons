@@ -46,7 +46,7 @@ public class Birboi extends Character
 		
 		setSprite(sp);
 		
-		jumpImpulse = new Vector2(0, -20); //TODO: multiple jumps
+		jumpImpulse = new Vector2(0, -17); //TODO: multiple jumps
 	}
 	
 	@Override
@@ -271,7 +271,6 @@ public class Birboi extends Character
 	@Override
 	public void recover() 
 	{
-		// TODO Auto-generated method stub
 		Hitbox recoverBox = new Hitbox();
 		
 		recoverBox.setBaseKnockback(alignFacing(new Vector2(2, 4)));
@@ -288,8 +287,11 @@ public class Birboi extends Character
 		BodyFixture rf = new BodyFixture(rr);
 		recoverBox.addToFixture(rf);
 		
-		CharacterState recoveryStartup = new CharacterState("recovery", .3f)
+		CharacterState recoveryStartup = new CharacterState("recovery", .6f)
 		{
+			private float delay = .3f;
+			private boolean jumped = false;
+			
 			@Override
 			protected void init()
 			{
@@ -310,21 +312,20 @@ public class Birboi extends Character
 				m_body.removeFixture(rf);
 				removeHitbox(recoverBox);
 			}
-		};
-		
-		//TODO: Figure out how to only play the animation once, and simply stay on the last frame
-		//If not, i have a idea which would work instead
-		CharacterState recoveryFlight = new CharacterState("recovery", .4f)
-		{
+			
 			@Override
-			protected void init()
+			protected void onUpdate()
 			{
-				m_body.setLinearVelocity(0, 0);
-				m_body.applyImpulse(new Vector2(0, -20));
+				if(!jumped && (getDuration() - getTimer()) >= delay)
+				{
+					m_body.applyImpulse(new Vector2(0, -10));
+					jumped = true;
+				}
 			}
 		};
+		
 		if(!m_recovered) {
-			pushState(recoveryFlight);
+			pushState(new JumpState(false));
 			pushState(recoveryStartup);
 			m_recovered = true;
 		}
