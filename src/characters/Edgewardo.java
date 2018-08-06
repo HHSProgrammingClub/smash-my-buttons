@@ -105,10 +105,9 @@ public class Edgewardo extends Character
 	@Override
 	public void tilt() 
 	{
+		CharacterState tiltBeginning = new CharacterState("tilt_dash", 0.4f) {};
 		
-		CharacterState tiltBeginning = new CharacterState("tilt_dash", 0.2f) {};
-		
-		CharacterState tiltDash = new CharacterState("tilt_dash")
+		CharacterState tiltDash = new CharacterState("tilt_dash", 0.1f)
 		{
 			Hitbox m_hitbox = new Hitbox();
 			Rectangle m_rect;
@@ -117,14 +116,14 @@ public class Edgewardo extends Character
 			@Override
 			public void init()
 			{
-				m_hitbox.setDuration(0.5f);
+				m_hitbox.setDuration(0.1f);
 				m_hitbox.setDamage(7);
 				m_hitbox.setHitstun(0.5f);
 				m_hitbox.setBaseKnockback(new Vector2(getFacing(), 0));
 				m_hitbox.setScaledKnockback(new Vector2(5 * getFacing(), -1));
 				
 				m_rect = new Rectangle(4, 1); //reaalllly big hitbox
-				m_rect.translate(-3 * getFacing(), 1.5);
+				m_rect.translate(3 * getFacing(), 1.5);
 				
 				m_fixture = new BodyFixture(m_rect);
 				
@@ -141,7 +140,7 @@ public class Edgewardo extends Character
 			}
 		};
 				
-		CharacterState tiltEnd = new CharacterState("tilt_end")
+		CharacterState tiltEnd = new CharacterState("tilt_end", 0.5f)
 				{
 					@Override
 					public void init()
@@ -225,25 +224,14 @@ public class Edgewardo extends Character
 	
 	private class RecoveryState extends CharacterState
 	{
-		
-		
 		public RecoveryState()
 		{
 			super("recovery");
-			
-			
 		}
 		
-		protected void init()
-		{
-			
-		}
+		protected void init() {}
 		
-		public void end()
-		{
-			
-			
-		}
+		public void end() {}
 	}
 
 	@Override
@@ -277,12 +265,8 @@ public class Edgewardo extends Character
 					@Override
 					public void end()
 					{
-						//Needed buff to recovery
-						//Basically, if this isn't here, edgy keeps falling
-						//and has no time to go anywhere before falling
-						//to his death
 						getBody().setLinearVelocity(0, 0);
-						m_body.translate(0, -4);
+						m_body.translate(0, -8);
 						m_body.removeFixture(m_fixture);
 						removeHitbox(m_hitbox);
 					}
