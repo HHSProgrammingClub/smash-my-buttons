@@ -304,6 +304,12 @@ public class Birboi extends Character
 			}
 			
 			@Override
+			public void interrupt()
+			{
+				m_recovered = true;
+			}
+			
+			@Override
 			public void end()
 			{
 				m_body.setGravityScale(1);
@@ -311,6 +317,7 @@ public class Birboi extends Character
 				
 				m_body.removeFixture(rf);
 				removeHitbox(recoverBox);
+				m_recovered = true;
 			}
 			
 			@Override
@@ -327,7 +334,6 @@ public class Birboi extends Character
 		if(!m_recovered) {
 			pushState(new JumpState(false));
 			pushState(recoveryStartup);
-			m_recovered = true;
 		}
 	}
 
