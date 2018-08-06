@@ -25,8 +25,8 @@ public class Birboi extends Character
 		position += 1;
 		
 		// Add the collision fixture
-		Rectangle rect = new Rectangle(1, 1.5f);
-		rect.translate(1, 1.25); // Set to topleft
+		Rectangle rect = new Rectangle(1, 1.4f);
+		rect.translate(1, 1.35); // Set to topleft
 		birb.addFixture(rect);
 		birb.setMass(MassType.FIXED_ANGULAR_VELOCITY);
 
@@ -39,27 +39,129 @@ public class Birboi extends Character
 		sp.setAnimation("idle");
 		
 		setSprite(sp);
+		
+		jumpImpulse = new Vector2(0, -20); //TODO: multiple jumps
 	}
 	
 	@Override
 	public void jab()
 	{
-		// TODO Auto-generated method stub
+		Hitbox jabBox = new Hitbox();
 		
+		jabBox.setBaseKnockback(new Vector2(0, -5));
+		jabBox.setScaledKnockback(alignFacing(new Vector2(0, -2)));
+		jabBox.setDamage(6);
+		jabBox.setDuration(10);
+		jabBox.setHitstun(.15f);
+		
+		Vector2 jabBoxPos    = new Vector2(1, 1);
+		Vector2 jabBoxOffset = new Vector2(.5, 0);
+		
+		Rectangle r = new Rectangle(.7, 1.2);
+		r.translate(jabBoxPos.add(alignFacing(jabBoxOffset)));
+		
+		BodyFixture f = new BodyFixture(r);
+		jabBox.addToFixture(f);
+		
+		CharacterState jabState = new CharacterState("jab", .2f)
+		{
+			@Override
+			protected void init()
+			{
+				m_body.addFixture(f);
+				addHitbox(jabBox);
+			}
+			
+			@Override
+			public void interrupt()
+			{
+				end();
+			}
+			
+			@Override
+			public void end()
+			{
+				m_body.removeFixture(f);
+				removeHitbox(jabBox);
+			}
+		};
+		
+		pushState(jabState);
 	}
-
+	
 	@Override
 	public void tilt() 
 	{
-		// TODO Auto-generated method stub
+		Hitbox tiltBoxFront = new Hitbox();
 		
+		tiltBoxFront.setBaseKnockback(alignFacing(new Vector2(1.5, 4)));
+		tiltBoxFront.setScaledKnockback(alignFacing(new Vector2(.2, 3.6)));
+		tiltBoxFront.setDamage(9);
+		tiltBoxFront.setDuration(10);
+		tiltBoxFront.setHitstun(.1f);
+		
+		Vector2 tiltBoxPos    = new Vector2(1, 1.3);
+		Vector2 tiltBoxOffset = new Vector2(1, 0);
+		
+		Rectangle r = new Rectangle(1.1, 1.4);
+		r.translate(tiltBoxPos.add(alignFacing(tiltBoxOffset)));
+		
+		BodyFixture f = new BodyFixture(r);
+		tiltBoxFront.addToFixture(f);
+		
+		
+		
+		Hitbox tiltBoxBack = new Hitbox();
+		
+		tiltBoxBack.setBaseKnockback(alignFacing(new Vector2(2, -3)));
+		tiltBoxBack.setScaledKnockback(alignFacing(new Vector2(.3, -4)));
+		tiltBoxBack.setDamage(11);
+		tiltBoxBack.setDuration(10);
+		tiltBoxBack.setHitstun(.3f);
+		
+		Vector2 tiltBoxPosBack    = new Vector2(1, 1.3);
+		Vector2 tiltBoxOffsetBack = new Vector2(-1, 0);
+		
+		Rectangle rb = new Rectangle(1.1, 1.4);
+		rb.translate(tiltBoxPosBack.add(alignFacing(tiltBoxOffsetBack)));
+		
+		BodyFixture fb = new BodyFixture(rb);
+		tiltBoxBack.addToFixture(fb);
+		
+		CharacterState tiltState = new CharacterState("tilt")
+		{
+			@Override
+			protected void init()
+			{
+				m_body.addFixture(f);
+				addHitbox(tiltBoxFront);
+				m_body.addFixture(fb);
+				addHitbox(tiltBoxBack);
+			}
+			
+			@Override
+			public void interrupt()
+			{
+				end();
+			}
+			
+			@Override
+			public void end()
+			{
+				m_body.removeFixture(f);
+				removeHitbox(tiltBoxFront);
+				m_body.removeFixture(fb);
+				removeHitbox(tiltBoxBack);
+			}
+		};
+		
+		pushState(tiltState);
 	}
-
+	
 	@Override
 	public void smash()
 	{
-		// TODO Create hitboxes
-		float duration = .5f;
+		float duration = .4f;
 		
 		CharacterState smashStartup = new CharacterState("smash_startup")
 				{
@@ -89,12 +191,14 @@ public class Birboi extends Character
 					Rectangle m_rect = new Rectangle(.6, 1.7);
 					BodyFixture m_fixture;
 					
-					final Vector2 m_baseImpulse     = new Vector2(12, 0);
+					final Vector2 m_baseImpulse     = new Vector2(16, 0);
 					final Vector2 m_baseKnockback   = new Vector2(8, -5);
 					final Vector2 m_scaledKnockback = new Vector2(1.5, -2);
 					
 					final Vector2 m_hitboxBasePos   = new Vector2(1, 1.25);
 					final Vector2 m_hitboxOffsetPos = new Vector2(.4, 0);
+					
+					final Vector2 coolDownImpulse = new Vector2(-1.5, -8);
 					
 					@Override
 					public void init()
@@ -128,43 +232,94 @@ public class Birboi extends Character
 						getBody().setGravityScale(1);
 					}
 					
-					//TODO: move to onUpdate()
 					@Override
-					public boolean activationTest()
+					protected void onUpdate()
 					{
-						return !m_hitbox.isAlive() && getTimer() > 0;
-					}
-					
-					@Override
-					public void activate()
-					{
-						setDuration(0);
-						getBody().setLinearVelocity(0, 0);
+						if(!m_hitbox.isAlive() && getTimer() > 0)
+						{
+							setDuration(0);
+							m_body.setLinearVelocity(0, 0);
+							m_body.applyImpulse(alignFacing(coolDownImpulse));
+						}
 					}
 				};
+		pushState(new CharacterState("smash_contact", .5f));
 		pushState(smashFlight);
 		pushState(smashStartup);
 	}
-
+	
 	@Override
 	public void projectile()
 	{
 		// TODO Auto-generated method stub
 		
 	}
-
+	
 	@Override
 	public void signature() 
 	{
 		// TODO Auto-generated method stub
 		
 	}
-
+	
 	@Override
 	public void recover() 
 	{
 		// TODO Auto-generated method stub
+		Hitbox recoverBox = new Hitbox();
 		
+		recoverBox.setBaseKnockback(alignFacing(new Vector2(.6, 4)));
+		recoverBox.setScaledKnockback(alignFacing(new Vector2(.1, 4)));
+		recoverBox.setDamage(0);
+		recoverBox.setDuration(10);
+		recoverBox.setHitstun(0);
+		
+		Vector2 recoverBoxPos = new Vector2(1, 1.8);
+		
+		Rectangle rr = new Rectangle(3.2, 2.4);
+		rr.translate(recoverBoxPos);
+		
+		BodyFixture rf = new BodyFixture(rr);
+		recoverBox.addToFixture(rf);
+		
+		CharacterState recoveryStartup = new CharacterState("recovery", .3f)
+		{
+			@Override
+			protected void init()
+			{
+				m_body.setLinearVelocity(0, 0);
+				m_body.setGravityScale(0);
+				m_superArmour = true;
+				
+				m_body.addFixture(rf);
+				addHitbox(recoverBox);
+			}
+			
+			@Override
+			public void end()
+			{
+				m_body.setGravityScale(1);
+				m_superArmour = false;
+				
+				m_body.removeFixture(rf);
+				removeHitbox(recoverBox);
+			}
+		};
+		
+		//TODO: Figure out how to only play the animation once, and simply stay on the last frame
+		//If not, i have a idea which would work instead
+		CharacterState recoveryFlight = new CharacterState("recovery", .4f)
+		{
+			@Override
+			protected void init()
+			{
+				m_body.setLinearVelocity(0, 0);
+				m_body.applyImpulse(new Vector2(0, -15));
+			}
+		};
+		
+		pushState(recoveryFlight);
+		pushState(recoveryStartup);
 	}
 
 	@Override

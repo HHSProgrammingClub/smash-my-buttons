@@ -12,6 +12,7 @@ import graphics.IntRect;
 import graphics.Renderer;
 import graphics.Sprite;
 import program.Hitbox;
+import program.CharacterEffect;
 import characters.characterStates.*;
 
 public abstract class Character implements Drawable
@@ -48,6 +49,7 @@ public abstract class Character implements Drawable
 	public static String[] characterNames = {"Jack", "Birboi", "Cam", "W'all", "Edgewardo", "Jimmy"};
 	
 	private ArrayList<Hitbox> m_hitboxes = new ArrayList<Hitbox> ();
+	private ArrayList<CharacterEffect> m_effects  = new ArrayList<CharacterEffect>();
 	
 	private Stack<CharacterState> m_stateStack = new Stack<CharacterState> ();
 	
@@ -305,6 +307,16 @@ public abstract class Character implements Drawable
 		m_hitboxes.remove(p_hitbox);
 	}
 	
+	protected void addEffect(CharacterEffect p_effect)
+	{
+		m_effects.add(p_effect);
+	}
+	
+	protected void removeEffect(CharacterEffect p_effect)
+	{
+		m_effects.remove(p_effect);
+	}
+	
 	@Override
 	public void draw(Renderer p_renderer)
 	{
@@ -319,6 +331,9 @@ public abstract class Character implements Drawable
 			m_sprite.setScale(m_facingRight ? RIGHT_SCALE : LEFT_SCALE);
 			m_sprite.draw(p_renderer);
 		}
+		
+		for(CharacterEffect e : m_effects)
+			e.draw(p_renderer);
 	}
 	
 	public void update(float p_delta)

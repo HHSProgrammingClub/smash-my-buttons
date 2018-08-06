@@ -12,6 +12,7 @@ import org.dyn4j.geometry.Vector2;
 import characters.characterStates.CharacterState;
 import graphics.Sprite;
 import graphics.Texture;
+import program.CharacterEffect;
 import program.Hitbox;
 
 public class Edgewardo extends Character
@@ -37,7 +38,7 @@ public class Edgewardo extends Character
 		rect.translate(1, 1); // Set to topleft
 		
 		BodyFixture bf = new BodyFixture(rect);
-		bf.setDensity(0.75); // Make him lighter
+		bf.setDensity(0.75);
 		emo.addFixture(bf);
 		emo.setMass(MassType.FIXED_ANGULAR_VELOCITY);
 
@@ -97,8 +98,6 @@ public class Edgewardo extends Character
 	@Override
 	public void jab() 
 	{	
-		/*interruptStates(new CharacterState("jab", 0.1f));
-		addState(new JabState());*/
 		pushState(new JabState());
 		pushState(new CharacterState("jab", .1f));
 	}
@@ -151,9 +150,6 @@ public class Edgewardo extends Character
 					}
 				};
 				
-		/*interruptStates(tiltBeginning);
-		addState(tiltDash);
-		addState(tiltEnd);*/
 		pushState(tiltEnd);
 		pushState(tiltDash);
 		pushState(tiltBeginning);
@@ -204,8 +200,6 @@ public class Edgewardo extends Character
 	@Override
 	public void smash()
 	{
-		/*interruptStates(new CharacterState("smash", 0.1f));
-		addState(new SmashState());*/
 		pushState(new SmashState());
 		pushState(new CharacterState("smash", .1f));
 	}
@@ -275,7 +269,7 @@ public class Edgewardo extends Character
 					}
 				};
 				
-		CharacterState recoveryEnd = new CharacterState("jump_dsc")
+		CharacterState recoveryEnd = new CharacterState("jump_dsc", 0.1f)
 				{
 					private Hitbox m_hitbox = new Hitbox();
 					private Rectangle m_rect;
@@ -310,6 +304,15 @@ public class Edgewardo extends Character
 						//somehow draw this
 						
 						m_body.setLinearDamping(0);
+						float offset = -1.5f;
+						explosionOffset.translate(m_body.getWorldCenter().x + offset, m_body.getWorldCenter().y + offset);
+						explosionOffset.scale(1.5, 1.5);
+						
+						CharacterEffect ExplosionEffect = new CharacterEffect(explosion, explosionOffset);
+						
+						addEffect(ExplosionEffect);
+						
+						m_body.setLinearDamping(0);
 					}
 					
 					@Override
@@ -323,8 +326,6 @@ public class Edgewardo extends Character
 		
 		if(!m_recovered)
 		{
-			/*interruptStates(recoveryStart);
-			addState(recoveryEnd);*/
 			pushState(recoveryEnd);
 			pushState(recoveryStart);
 			m_recovered = true;
