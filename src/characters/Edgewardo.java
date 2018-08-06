@@ -23,7 +23,8 @@ public class Edgewardo extends Character
 	public Edgewardo()
 	{
 		jumpImpulse = new Vector2(0, -9);
-		runForce = new Vector2(12, 0);
+		runForce = new Vector2(20, 0);
+		maxRunSpeed = 5.5f;
 		Body emo = new Body();
 		
 		Transform t = new Transform();
@@ -260,13 +261,15 @@ public class Edgewardo extends Character
 						addHitbox(m_hitbox);
 						m_hitbox.addToFixture(m_fixture);
 						m_body.addFixture(m_fixture);
+						m_body.setLinearDamping(2);
 					}
 					
 					@Override
 					public void end()
 					{
 						getBody().setLinearVelocity(0, 0);
-						m_body.translate(0, -8);
+						//nerfed back a bit
+						m_body.translate(0, -4);
 						m_body.removeFixture(m_fixture);
 						removeHitbox(m_hitbox);
 					}
@@ -287,7 +290,7 @@ public class Edgewardo extends Character
 						m_hitbox.setBaseKnockback(new Vector2(5 * getFacing(), -1));
 						m_hitbox.setScaledKnockback(new Vector2(10 * getFacing(), -1));
 						
-						m_rect = new Rectangle(2, 2);
+						m_rect = new Rectangle(10000, 10000);
 						m_rect.translate(1, 1.25);
 						
 						m_fixture = new BodyFixture(m_rect);
@@ -305,11 +308,14 @@ public class Edgewardo extends Character
 						AffineTransform explosionOffset = new AffineTransform();
 						explosionOffset.translate(m_body.getLocalCenter().x, m_body.getLocalCenter().y);
 						//somehow draw this
+						
+						m_body.setLinearDamping(0);
 					}
 					
 					@Override
 					public void end()
 					{
+						m_body.applyImpulse(new Vector2(0, -2));
 						m_body.removeFixture(m_fixture);
 						removeHitbox(m_hitbox);
 					}

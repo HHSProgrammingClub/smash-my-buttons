@@ -42,7 +42,7 @@ public abstract class Character implements Drawable
 	private static final Vector2 RIGHT_SCALE = new Vector2(-1, 1);
 
 	protected Vector2 jumpImpulse = new Vector2(0, -20);
-	protected Vector2 runForce    = new Vector2(70, 0);
+	protected Vector2 runForce    = new Vector2(20, 0);
 	protected float   maxRunSpeed = 5;
 	
 	public static String[] characterNames = {"Jack", "Birboi", "Cam", "W'all", "Edgewardo", "Jimmy"};
