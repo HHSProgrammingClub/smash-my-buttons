@@ -20,6 +20,12 @@ public class HitboxListener implements CollisionListener {
 			c.takeHit(h);
 			return false;
 		}
+		if(body1.getUserData() instanceof characters.Character &&
+				body2.getUserData() instanceof characters.Character &&
+				!(fixture1.getUserData() instanceof Hitbox) &&
+				!(fixture2.getUserData() instanceof Hitbox)) {
+			return false;
+		}
 		//System.out.println("3 blind mice");
 		return true;
 	}
