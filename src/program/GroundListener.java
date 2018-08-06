@@ -1,7 +1,7 @@
 package program;
 
 import org.dyn4j.dynamics.contact.ContactAdapter;
-import org.dyn4j.dynamics.contact.ContactPoint;
+import org.dyn4j.dynamics.contact.PersistedContactPoint;
 
 import characters.Character;
 import stages.TerrainPiece;
@@ -9,7 +9,7 @@ import stages.TerrainPiece;
 public class GroundListener extends ContactAdapter
 {
 	@Override
-	public boolean begin(ContactPoint point)
+	public boolean persist(PersistedContactPoint point)
 	{
 		util.Pair<TerrainPiece, Character> userdata
 			= util.ListenerUtil.checkUserDataForClasses(point, TerrainPiece.class, false, characters.Character.class, false);

@@ -1,6 +1,5 @@
 package characters;
 
-import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.Stack;
 
@@ -8,16 +7,12 @@ import org.dyn4j.dynamics.Body;
 import org.dyn4j.geometry.Transform;
 import org.dyn4j.geometry.Vector2;
 
-import graphics.Animation;
 import graphics.Drawable;
 import graphics.IntRect;
 import graphics.Renderer;
 import graphics.Sprite;
 import program.Hitbox;
 import characters.characterStates.*;
-
-
-//TODO: Add a way to lock out actions
 
 public abstract class Character implements Drawable
 {
@@ -28,8 +23,7 @@ public abstract class Character implements Drawable
 	private int m_stock = 3;
 	private String m_name = "George the Glass-Cutter";
 	private boolean m_jumped        = false;
-	protected boolean m_recovered     = false;
-	private boolean m_moving        = false;
+	protected boolean m_recovered   = false;
 	protected boolean m_superArmour = false;
 	private boolean m_stunned       = false;
 	private boolean m_attacking     = false;
@@ -48,8 +42,8 @@ public abstract class Character implements Drawable
 	private static final Vector2 RIGHT_SCALE = new Vector2(-1, 1);
 
 	protected Vector2 jumpImpulse = new Vector2(0, -20);
-	protected Vector2 runForce    = new Vector2(10, 0);
-	protected float   maxRunSpeed = 6;
+	protected Vector2 runForce    = new Vector2(70, 0);
+	protected float   maxRunSpeed = 5;
 	
 	public static String[] characterNames = {"Jack", "Birboi", "Cam", "W'all", "Edgewardo", "Jimmy"};
 	
@@ -63,68 +57,35 @@ public abstract class Character implements Drawable
 	public static final int ACTION_JAB   		= 1;
 	public static final int ACTION_TILT  		= 2;
 	public static final int ACTION_SMASH 		= 3;
-	public static final int ACTION_PROJECTILE = 4;
-	public static final int ACTION_SIGNATURE  = 5;
+	public static final int ACTION_PROJECTILE   = 4;
+	public static final int ACTION_SIGNATURE    = 5;
 	public static final int ACTION_RECOVERY 	= 6;
 	
 	protected static double position = 0;
 	
 	protected Character()
 	{
-		
-	}
-	
-	protected void addState(CharacterState p_state)
-	{
-		p_state.setCharacter(this);
-		m_stateStack.add(p_state);
-	}
-	
-	protected void addAnimationState(Animation p_animation, float p_duration)
-	{
-		addState(new CharacterState(p_animation, p_duration));
-	}
-	
-	protected void addAnimationState(String p_name, float p_duration)
-	{
-		addState(new CharacterState(p_name, p_duration));
+		pushState(new IdleState());
 	}
 	
 	public void pushState(CharacterState p_state)
 	{
 		p_state.setCharacter(this);
 		if(!m_stateStack.empty())
-			m_stateStack.get(0).pause();
+			m_stateStack.peek().pause();
 		m_stateStack.push(p_state);
 	}
 	
-	protected void pushAnimationState(Animation p_animation, float p_duration)
+	public void popState()
 	{
-		pushState(new CharacterState(p_animation, p_duration));
+		m_stateStack.peek().interrupt();
+		m_stateStack.pop();
+		m_stateStack.peek().resume();
 	}
 	
-	protected void pushAnimationState(String p_name, float p_duration)
+	public CharacterState peekState()
 	{
-		pushState(new CharacterState(p_name, p_duration));
-	}
-	
-	protected void interruptStates(CharacterState p_state)
-	{
-		if(m_stateStack.size() > 0)
-			m_stateStack.get(0).interrupt();
-		m_stateStack.clear();
-		addState(p_state);
-	}
-	
-	protected void interruptStates()
-	{
-		interruptStates(new IdleState());
-	}
-	
-	protected void interruptCurrentState()
-	{
-		m_stateStack.get(0).interrupt();
-		m_stateStack.remove(0);
+		return m_stateStack.peek();
 	}
 	
 	public int getStock()
@@ -167,41 +128,14 @@ public abstract class Character implements Drawable
 	protected void jump() //to be pronounced [jʌmp] (ipa)
 	{
 		m_jumped = true;
-		pushState(new JumpState());
-		System.out.println("jumpo");
 	}
 	
 	public void resetJump()
 	{
-		if(m_stateStack.peek() instanceof JumpState)
-			m_stateStack.pop();
+		if(peekState() instanceof JumpState)
+			popState();
 		m_jumped = false;
 		m_recovered = false;
-	}
-	
-	public void moveLeft()
-	{
-		m_moving = true;
-		m_facingRight = false;
-		m_body.applyForce(getRunForce());
-		if(!m_jumped)
-			m_sprite.setAnimation("run");
-	}
-	
-	public void moveRight()
-	{
-		m_moving = true;
-		m_facingRight = true;
-		m_body.applyForce(getRunForce());
-		if(!m_jumped)
-			m_sprite.setAnimation("run");
-	}
-	
-	public void stopRunning()
-	{
-		m_moving = false;
-		if(!m_jumped && !m_attacking)
-			interruptStates(new StoppingState());
 	}
 	
 	public int getFacing()
@@ -219,9 +153,11 @@ public abstract class Character implements Drawable
 		m_facingRight = (p_direction == FACING_RIGHT) ? true : false;
 	}
 	
-	public Vector2 getRunForce()
+	public void applyRunForce()
 	{
-		return alignFacing(runForce);
+		if(Math.abs(getBody().getLinearVelocity().x) < getMaxRunSpeed()
+				|| Math.signum(getBody().getLinearVelocity().x) != Math.signum(getFacing()))
+			m_body.applyForce(alignFacing(runForce));
 	}
 	
 	public float getMaxRunSpeed()
@@ -244,11 +180,11 @@ public abstract class Character implements Drawable
 		switch(p_action)
 		{
 			case ACTION_MOVERIGHT:
-				moveRight();
+				m_facingRight = true;
 				return;
 				
 			case ACTION_MOVELEFT:
-				moveLeft();
+				m_facingRight = false;
 				return;
 				
 			case ACTION_JUMP:
@@ -321,7 +257,7 @@ public abstract class Character implements Drawable
 	{
 		if(m_superArmour || p_duration <= 0)
 			return;
-		interruptStates(new Hitstun(p_duration));
+		pushState(new Hitstun(p_duration));
 	}
 	
 	public void setStunned(boolean p_stunned)
@@ -338,7 +274,7 @@ public abstract class Character implements Drawable
 	{
 		if(m_superArmour)
 			return;
-		interruptStates(new Hitstun(0));
+		pushState(new Hitstun(0));
 	}
 
 	public void setBody(Body p_body)
@@ -386,28 +322,11 @@ public abstract class Character implements Drawable
 		    }
 	    }
 		
-		if(m_stateStack.size() > 0)
-		{
-			CharacterState currentState = m_stateStack.peek();
-			
-			if(!currentState.isStarted())
-				currentState.start();
-
-			if(currentState.isPaused())
-				currentState.resume();
-			
-			currentState.update(p_delta);
-			
-			if(!currentState.isIndefinite() && currentState.getTimer() <= 0)
-			{
-				currentState.end();
-				m_stateStack.pop();
-				if(!(m_stateStack.size() > 0))
-					addState(new IdleState());
-
-				m_stateStack.peek().start();
-			}
-		}
+		//CharacterState currentState = peekState();
+		
+		peekState().update(p_delta);
+		
+		//TODO: move this stuff out of the charcter class to a collision listener
 		if(m_body.getWorldCenter().x > RIGHT_BLAST_LINE ||
 			m_body.getWorldCenter().x < LEFT_BLAST_LINE ||
 			m_body.getWorldCenter().y < UPPER_BLAST_LINE ||

@@ -141,8 +141,8 @@ public class Birboi extends Character
 						getBody().setLinearVelocity(0, 0);
 					}
 				};
-		interruptStates(smashStartup);
-		addState(smashFlight);
+		pushState(smashFlight);
+		pushState(smashStartup);
 	}
 
 	@Override

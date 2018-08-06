@@ -23,7 +23,7 @@ public class Jack extends Character
 	{
 		//attribute editing
 		jumpImpulse = new Vector2(0, -15);
-		runForce = new Vector2(8, 0);
+		//runForce = new Vector2(8, 0);
 		
 		Body tushie = new Body();
 		
@@ -332,44 +332,44 @@ public class Jack extends Character
 	
 	public void jab()
 	{
-		interruptStates(new CharacterState("jab", 0.1f));
-		addState(new JabState());
+		/*interruptStates(new CharacterState("jab", 0.1f));
+		addState(new JabState());*/
 		//System.out.println(getDamage());
 	}
 	
 	public void tilt()
 	{
-		interruptStates(new CharacterState("tilt", 0.1f));
+		/*interruptStates(new CharacterState("tilt", 0.1f));
 		addState(new TiltState());
-		addState(new CharacterState("idle", 0.3f));
+		addState(new CharacterState("idle", 0.3f));*/
 	}
 	
 	public void smash()
 	{
-		interruptStates(new CharacterState("idle", 0.2f));
+		/*interruptStates(new CharacterState("idle", 0.2f));
 		addState(new CharacterState("smash", 0.1f));
 		addState(new SmashState());
-		addState(new CharacterState("idle", 0.3f));
+		addState(new CharacterState("idle", 0.3f));*/
 	}
 	
 	public void projectile()
 	{
 		//Placeholder for testing.
-		interruptStates(new CharacterState("projectile", 0.05f));
-		addState(new ProjState());
+		/*interruptStates(new CharacterState("projectile", 0.05f));
+		addState(new ProjState());*/
 	}
 	
 	public void signature()
 	{
-		interruptStates(new CharacterState("signature", 0.5f));
-		addState(new SignatureState());
+		/*interruptStates(new CharacterState("signature", 0.5f));
+		addState(new SignatureState());*/
 	}
 	
 	public void recover()
 	{
 		if(!m_recovered) {
-			interruptStates(new CharacterState("idle", 0.05f));
-			addState(new RecoveryState());
+			/*interruptStates(new CharacterState("idle", 0.05f));
+			addState(new RecoveryState());*/
 			m_recovered = true;
 		}
 	}

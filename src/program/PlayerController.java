@@ -251,14 +251,14 @@ public class PlayerController extends CharacterController
 				getCharacter().performAction(Character.ACTION_MOVERIGHT);
 			}});
 		
-		m_keyBinder.addAction("stopRunning", new KeyBindAction()
+		/*m_keyBinder.addAction("stopRunning", new KeyBindAction()
 				{
 					@Override
 					public void onAction()
 					{
 						getCharacter().stopRunning();
 					}
-				});
+				});*/
 		
 		m_keyBinder.addAction("jab", new KeyBindAction()
 		{
@@ -313,8 +313,8 @@ public class PlayerController extends CharacterController
 		m_keyBinder.addKeyBinding("jump", KeyEvent.VK_W, KeyBinder.ACTIVATION_PRESSED);
 		m_keyBinder.addKeyBinding("moveLeft", KeyEvent.VK_A, KeyBinder.ACTIVATION_DOWN);
 		m_keyBinder.addKeyBinding("moveRight", KeyEvent.VK_D, KeyBinder.ACTIVATION_DOWN);
-		m_keyBinder.addKeyBinding("stopRunning", KeyEvent.VK_A, KeyBinder.ACTIVATION_RELEASE);
-		m_keyBinder.addKeyBinding("stopRunning", KeyEvent.VK_D, KeyBinder.ACTIVATION_RELEASE);
+		/*m_keyBinder.addKeyBinding("stopRunning", KeyEvent.VK_A, KeyBinder.ACTIVATION_RELEASE);
+		m_keyBinder.addKeyBinding("stopRunning", KeyEvent.VK_D, KeyBinder.ACTIVATION_RELEASE);*/
 		
 		m_keyBinder.addKeyBinding("projectile", KeyEvent.VK_S, KeyBinder.ACTIVATION_PRESSED); //I would say this is for some well thought out reason but it's because I can't find the KeyEvent corresponding to the originally planned ` key
 		m_keyBinder.addKeyBinding("jab", KeyEvent.VK_1, KeyBinder.ACTIVATION_PRESSED);

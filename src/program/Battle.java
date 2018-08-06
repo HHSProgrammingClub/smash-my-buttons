@@ -1,11 +1,9 @@
 package program;
 
 import java.awt.geom.AffineTransform;
-import java.util.ArrayList;
 
 import org.dyn4j.dynamics.World;
 
-import characters.characterStates.IdleState;
 import graphics.DebugDrawer;
 import graphics.GUI;
 import graphics.RenderList;
@@ -65,7 +63,6 @@ public class Battle
 		m_renderList.addDrawable(p_controller.getCharacter());
 		m_renderList.addDrawable(new DamageDisplayer(p_controller.getCharacter(), p_port));
 		//p_controller.getCharacter().getBody().translate(3 + 4 * p_port, 0);
-		p_controller.getCharacter().pushState(new IdleState());
 	}
 	
 	public int getCharacterCount()

@@ -42,7 +42,7 @@ public class CharacterState
 	 */
 	public CharacterState(Animation p_animation)
 	{
-		this(p_animation, p_animation.getInterval() * p_animation.getFrameCount());
+		this(p_animation, p_animation.getDuration());
 	}
 	
 	/**
@@ -104,12 +104,6 @@ public class CharacterState
 	public void setCharacter(Character p_character)
 	{
 		m_character = p_character;
-		if(!m_animationName.equals(""))
-		{
-			setAnimation(m_character.getSprite().getTexture().getAnimation(m_animationName));
-			if(m_duration == null)
-				setDuration(m_animation.getInterval() * m_animation.getFrameCount());
-		}
 	}
 	
 	public float getDuration()
@@ -148,6 +142,12 @@ public class CharacterState
 	 */
 	public void start()
 	{
+		if(!m_animationName.equals(""));
+		{
+			setAnimation(m_character.getSprite().getTexture().getAnimation(m_animationName));
+			if(m_duration == null)
+				setDuration(m_animation.getDuration());
+		}
 		m_character.getSprite().setAnimation(m_animation);
 		m_started = true;
 		init();
@@ -200,13 +200,18 @@ public class CharacterState
 	 * @param p_delta
 	 * @return false if p_timer <= 0
 	 */
-	public final boolean update(float p_delta)
+	public final void update(float p_delta)
 	{
+		if(!m_started)
+			start();
 		m_timer -= p_delta;
 		onUpdate();
+		//TODO: move to onUpdate()
 		if(activationTest())
 			activate();
-		return m_timer > 0;
+		m_character.getSprite().setAnimation(m_animation);
+		if(!m_indefinite && m_timer < 0)
+			m_character.popState();
 	}
 	
 	protected void onUpdate()
