@@ -130,6 +130,7 @@ public class Edgewardo extends Character
 				addHitbox(m_hitbox);
 				m_hitbox.addToFixture(m_fixture);
 				m_body.addFixture(m_fixture);
+				m_body.setLinearDamping(20);
 			}
 			
 			@Override
@@ -137,6 +138,7 @@ public class Edgewardo extends Character
 			{
 				m_body.removeFixture(m_fixture);
 				removeHitbox(m_hitbox);
+				m_body.setLinearDamping(0);
 			}
 		};
 				
@@ -147,6 +149,13 @@ public class Edgewardo extends Character
 					{
 						m_body.translate(6 * getFacing(), 0);
 						m_body.setGravityScale(1);
+						m_body.setAsleep(false);
+						m_body.setLinearDamping(42);
+					}
+					
+					@Override
+					public void end() {
+						m_body.setLinearDamping(0);
 					}
 				};
 				
@@ -255,7 +264,7 @@ public class Edgewardo extends Character
 						addHitbox(m_hitbox);
 						m_hitbox.addToFixture(m_fixture);
 						m_body.addFixture(m_fixture);
-						m_body.setLinearDamping(2);
+						m_body.setLinearDamping(10);
 					}
 					
 					@Override
@@ -312,7 +321,7 @@ public class Edgewardo extends Character
 						
 						addEffect(ExplosionEffect);
 						
-						m_body.setLinearDamping(0);
+						m_body.setLinearDamping(40);
 					}
 					
 					@Override
@@ -321,6 +330,7 @@ public class Edgewardo extends Character
 						m_body.applyImpulse(new Vector2(0, -2));
 						m_body.removeFixture(m_fixture);
 						removeHitbox(m_hitbox);
+						m_body.setLinearDamping(0);
 					}
 				};
 		
