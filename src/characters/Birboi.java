@@ -17,6 +17,10 @@ public class Birboi extends Character
 {
 	public Birboi()
 	{
+		jumpImpulse = new Vector2(0, -15);
+		runForce = new Vector2(20, 0);
+		maxRunSpeed = 6.5f;
+		
 		Body birb = new Body();
 		
 		Transform t = new Transform();
@@ -27,6 +31,8 @@ public class Birboi extends Character
 		// Add the collision fixture
 		Rectangle rect = new Rectangle(1, 1.4f);
 		rect.translate(1, 1.35); // Set to topleft
+		BodyFixture bf = new BodyFixture(rect);
+		bf.setDensity(0.65);
 		birb.addFixture(rect);
 		birb.setMass(MassType.FIXED_ANGULAR_VELOCITY);
 
@@ -96,12 +102,12 @@ public class Birboi extends Character
 		
 		tiltBoxFront.setBaseKnockback(alignFacing(new Vector2(1.5, 4)));
 		tiltBoxFront.setScaledKnockback(alignFacing(new Vector2(.2, 3.6)));
-		tiltBoxFront.setDamage(9);
-		tiltBoxFront.setDuration(10);
+		tiltBoxFront.setDamage(5);
+		tiltBoxFront.setDuration(30);
 		tiltBoxFront.setHitstun(.1f);
 		
 		Vector2 tiltBoxPos    = new Vector2(1, 1.3);
-		Vector2 tiltBoxOffset = new Vector2(1, 0);
+		Vector2 tiltBoxOffset = new Vector2(0.5, 0);
 		
 		Rectangle r = new Rectangle(1.1, 1.4);
 		r.translate(tiltBoxPos.add(alignFacing(tiltBoxOffset)));
@@ -115,12 +121,12 @@ public class Birboi extends Character
 		
 		tiltBoxBack.setBaseKnockback(alignFacing(new Vector2(2, -3)));
 		tiltBoxBack.setScaledKnockback(alignFacing(new Vector2(.3, -4)));
-		tiltBoxBack.setDamage(11);
-		tiltBoxBack.setDuration(10);
-		tiltBoxBack.setHitstun(.3f);
+		tiltBoxBack.setDamage(3);
+		tiltBoxBack.setDuration(30);
+		tiltBoxBack.setHitstun(.1f);
 		
 		Vector2 tiltBoxPosBack    = new Vector2(1, 1.3);
-		Vector2 tiltBoxOffsetBack = new Vector2(-1, 0);
+		Vector2 tiltBoxOffsetBack = new Vector2(-0.5, 0);
 		
 		Rectangle rb = new Rectangle(1.1, 1.4);
 		rb.translate(tiltBoxPosBack.add(alignFacing(tiltBoxOffsetBack)));
@@ -204,7 +210,7 @@ public class Birboi extends Character
 					public void init()
 					{
 						getBody().applyImpulse(alignFacing(m_baseImpulse));
-						m_hitbox.setDamage(15);
+						m_hitbox.setDamage(9);
 						m_hitbox.setBaseKnockback(alignFacing(m_baseKnockback));
 						m_hitbox.setScaledKnockback(alignFacing(m_scaledKnockback));
 						m_hitbox.setDuration(duration);
@@ -268,9 +274,9 @@ public class Birboi extends Character
 		// TODO Auto-generated method stub
 		Hitbox recoverBox = new Hitbox();
 		
-		recoverBox.setBaseKnockback(alignFacing(new Vector2(.6, 4)));
+		recoverBox.setBaseKnockback(alignFacing(new Vector2(2, 4)));
 		recoverBox.setScaledKnockback(alignFacing(new Vector2(.1, 4)));
-		recoverBox.setDamage(0);
+		recoverBox.setDamage(4);
 		recoverBox.setDuration(10);
 		recoverBox.setHitstun(0);
 		
@@ -314,12 +320,14 @@ public class Birboi extends Character
 			protected void init()
 			{
 				m_body.setLinearVelocity(0, 0);
-				m_body.applyImpulse(new Vector2(0, -15));
+				m_body.applyImpulse(new Vector2(0, -20));
 			}
 		};
-		
-		pushState(recoveryFlight);
-		pushState(recoveryStartup);
+		if(!m_recovered) {
+			pushState(recoveryFlight);
+			pushState(recoveryStartup);
+			m_recovered = true;
+		}
 	}
 
 	@Override

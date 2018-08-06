@@ -22,7 +22,7 @@ public class Jack extends Character
 	public Jack() 
 	{
 		//attribute editing
-		jumpImpulse = new Vector2(0, -15);
+		jumpImpulse = new Vector2(0, -20);
 		runForce = new Vector2(20, 0);
 		maxRunSpeed = 3.5f;
 		

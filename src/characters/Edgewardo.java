@@ -23,7 +23,7 @@ public class Edgewardo extends Character
 
 	public Edgewardo()
 	{
-		jumpImpulse = new Vector2(0, -9);
+		jumpImpulse = new Vector2(0, -12);
 		runForce = new Vector2(20, 0);
 		maxRunSpeed = 5.5f;
 		Body emo = new Body();
@@ -281,10 +281,10 @@ public class Edgewardo extends Character
 						m_hitbox.setDuration(1.0f);
 						m_hitbox.setDamage(10);
 						m_hitbox.setHitstun(0.5f);
-						m_hitbox.setBaseKnockback(new Vector2(5 * getFacing(), -1));
-						m_hitbox.setScaledKnockback(new Vector2(10 * getFacing(), -1));
+						m_hitbox.setBaseKnockback(new Vector2(5 * getFacing(), -5));
+						m_hitbox.setScaledKnockback(new Vector2(10 * getFacing(), -10));
 						
-						m_rect = new Rectangle(10000, 10000);
+						m_rect = new Rectangle(2, 2);
 						m_rect.translate(1, 1.25);
 						
 						m_fixture = new BodyFixture(m_rect);
@@ -303,7 +303,7 @@ public class Edgewardo extends Character
 						explosionOffset.translate(m_body.getLocalCenter().x, m_body.getLocalCenter().y);
 						//somehow draw this
 						
-						m_body.setLinearDamping(0);
+						//m_body.setLinearDamping(0);
 						float offset = -1.5f;
 						explosionOffset.translate(m_body.getWorldCenter().x + offset, m_body.getWorldCenter().y + offset);
 						explosionOffset.scale(1.5, 1.5);
