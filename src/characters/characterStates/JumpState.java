@@ -4,6 +4,8 @@ import characters.Character;
 
 public class JumpState extends CharacterState
 {
+	private boolean m_falling = false;
+	
 	public JumpState()
 	{
 		super("jump_asc", -1);
@@ -19,6 +21,13 @@ public class JumpState extends CharacterState
 	public void interrupt()
 	{
 		System.out.println("jumpend");
+	}
+	
+	@Override
+	protected void onUpdate()
+	{
+		if(!m_falling && m_character.getBody().getLinearVelocity().y > 0)
+			setAnimation("jump_dsc");
 	}
 	
 	@Override
