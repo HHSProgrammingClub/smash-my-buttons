@@ -22,10 +22,10 @@ import javax.swing.SwingConstants;
 
 import characters.Character;
 import characters.*;
-import program.AIController;
 import program.Battle;
 import program.CharacterController;
 import program.PlayerController;
+import pythonAI.AIController;
 import stages.Stage;
 import stages.TestingStage;
 
@@ -73,6 +73,7 @@ public class CharacterSelect implements Page
 	
 	public CharacterSelect(GUI p_gui)
 	{
+		m_fileChooser.setCurrentDirectory(new File("."));
 		m_p1 = new PlayerController();
 		m_p2 = new PlayerController();
 		setUpPanel(p_gui);
