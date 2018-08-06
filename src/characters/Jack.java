@@ -18,7 +18,7 @@ public class Jack extends Character
 {	
 	private static double position = 0;
 	private float length = 1;
-	private float height = 2;
+	private float height = 1.5f;
 	public Jack() 
 	{
 		//attribute editing
@@ -35,7 +35,7 @@ public class Jack extends Character
 		
 		// Add the collision fixture
 		Rectangle rect = new Rectangle(length, height);
-		rect.translate(1, 1); // Set to topleft
+		rect.translate(1, 1.25); // Set to topleft
 		tushie.addFixture(rect);
 		tushie.setMass(MassType.FIXED_ANGULAR_VELOCITY);
 
