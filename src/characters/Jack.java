@@ -23,7 +23,8 @@ public class Jack extends Character
 	{
 		//attribute editing
 		jumpImpulse = new Vector2(0, -15);
-		//runForce = new Vector2(8, 0);
+		runForce = new Vector2(20, 0);
+		maxRunSpeed = 3.5f;
 		
 		Body tushie = new Body();
 		
@@ -384,7 +385,7 @@ public class Jack extends Character
 			/*interruptStates(new CharacterState("idle", 0.05f));
 			addState(new RecoveryState());*/
 			pushState(new RecoveryState());
-			pushState(new WaitState(.05f));
+			//pushState(new WaitState(.05f));
 			m_recovered = true;
 		}
 	}
