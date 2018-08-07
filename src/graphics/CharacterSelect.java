@@ -98,6 +98,7 @@ public class CharacterSelect implements Page
 		}
         
         controller.setCharacter(newCharacter(controller.getTargetCharacter()));
+        controller.setupPlayerInterface();
         return controller;
 	}
 	

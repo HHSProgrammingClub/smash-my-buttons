@@ -17,5 +17,5 @@ public interface PlayerInterface
 	public void recover();
 	public void signature();
 	public void jump();
-	public void getHitstun();
+	public float getHitstun();
 }

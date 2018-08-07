@@ -35,77 +35,83 @@ class PyClassLoader extends ClassLoader
  */
 class PyCharacterWrapper implements pyInterfaces.PlayerInterface
 {
-	public Battle m_battle;
 	public Character m_character;
+	
+	public void setCharacter(Character p_character) {
+		m_character = p_character;
+	}
 	
 	@Override
 	public float getX()
 	{
 		// TODO Auto-generated method stub
-		return 0;
+		return (float) m_character.getBody().getWorldCenter().x;
 	}
 
 	@Override
 	public float getY()
 	{
-		return 0;
+		return (float) m_character.getBody().getWorldCenter().y;
+	}
+	
+	public void moveLeft()
+	{
+		m_character.performAction(Character.ACTION_MOVELEFT);
+	}
+	
+	public void moveRight()
+	{
+		m_character.performAction(Character.ACTION_MOVERIGHT);
 	}
 
 	@Override
 	public void jab()
 	{
+		m_character.performAction(Character.ACTION_JAB);
 	}
 
 	@Override
 	public void tilt()
 	{
-		System.out.print("Recover");
+		m_character.performAction(Character.ACTION_TILT);
 	}
 
 	@Override
 	public void smash()
 	{
-		// TODO Auto-generated method stub
-
-		System.out.println("Smash!");
+		m_character.performAction(Character.ACTION_SMASH);
 	}
 
 	@Override
 	public void proj()
 	{
-		// TODO Auto-generated method stub
-
-		System.out.println("Shoot dem projectiles!");
+		m_character.performAction(Character.ACTION_PROJECTILE);
 	}
 
 	@Override
 	public void recover()
 	{
 		m_character.performAction(Character.ACTION_RECOVERY);
-		System.out.print("Recover");
 	}
 
 	@Override
 	public void signature()
 	{
-		// TODO Auto-generated method stub
-
-		System.out.println("Signiture attackness!");
+		m_character.performAction(Character.ACTION_SIGNATURE);
 	}
 
 	@Override
 	public void jump()
 	{
 		m_character.performAction(Character.ACTION_JUMP);
-		System.out.print("Jump");
+		//System.out.print("Jump");
 	}
 
 	@Override
-	public void getHitstun()
+	public float getHitstun()
 	{
 		// TODO Auto-generated method stub
-
-		System.out.println("Get hit, son.");
+		return m_character.peekState().getTimer();
 	}
 }
 
@@ -126,6 +132,15 @@ public class AIController extends CharacterController
 	{
 		m_interpretor = new PythonInterpreter();
 		m_playerInterface = new PyCharacterWrapper();
+		
+	}
+	
+	public void setupPlayerInterface() {
+		if(m_character != null) {
+			m_playerInterface.setCharacter(m_character);
+		}else {
+			System.out.println("No character set! :(");
+		}
 	}
 	
 	/**

@@ -382,7 +382,7 @@ public class Jack extends Character
 		//Placeholder for testing.
 		/*interruptStates(new CharacterState("projectile", 0.05f));
 		addState(new ProjState());*/
-		pushState(new CharacterState("idle", 0.4f));
+		pushState(new WaitState(0.4f));
 		pushState(new ProjState());
 		pushState(new CharacterState("projectile", .1f));
 	}
