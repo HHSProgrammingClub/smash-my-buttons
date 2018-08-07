@@ -318,7 +318,7 @@ public class Jack extends Character
 			m_rect.translate(length - 0.3 * getFacing(), 0.15);
 			
 			m_fixture = new BodyFixture(m_rect);
-			getBody().setLinearVelocity(getBody().getLinearVelocity().x, 0);
+			getBody().setLinearVelocity(3 * getFacing(), 0);
 			getBody().applyImpulse(new Vector2(0, -9));
 		}
 		

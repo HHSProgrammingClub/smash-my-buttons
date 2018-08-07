@@ -24,8 +24,8 @@ public class Edgewardo extends Character
 	public Edgewardo()
 	{
 		jumpImpulse = new Vector2(0, -12);
-		runForce = new Vector2(20, 0);
-		maxRunSpeed = 5.5f;
+		runForce = new Vector2(23, 0);
+		maxRunSpeed = 6.5f;
 		Body emo = new Body();
 		
 		Transform t = new Transform();

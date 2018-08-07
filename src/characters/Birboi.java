@@ -54,11 +54,11 @@ public class Birboi extends Character
 	{
 		Hitbox jabBox = new Hitbox();
 		
-		jabBox.setBaseKnockback(new Vector2(0, -5));
-		jabBox.setScaledKnockback(alignFacing(new Vector2(0, -2)));
+		jabBox.setBaseKnockback(new Vector2(0, -3));
+		jabBox.setScaledKnockback(alignFacing(new Vector2(0, -5)));
 		jabBox.setDamage(6);
 		jabBox.setDuration(10);
-		jabBox.setHitstun(.15f);
+		jabBox.setHitstun(.1f);
 		
 		Vector2 jabBoxPos    = new Vector2(1, 1);
 		Vector2 jabBoxOffset = new Vector2(.5, 0);
@@ -69,7 +69,7 @@ public class Birboi extends Character
 		BodyFixture f = new BodyFixture(r);
 		jabBox.addToFixture(f);
 		
-		CharacterState jabState = new CharacterState("jab", .2f)
+		CharacterState jabState = new CharacterState("jab", .25f)
 		{
 			@Override
 			protected void init()
