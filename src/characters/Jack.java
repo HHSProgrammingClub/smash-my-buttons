@@ -2,6 +2,7 @@ package characters;
 
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.BodyFixture;
+import org.dyn4j.dynamics.World;
 import org.dyn4j.geometry.MassType;
 import org.dyn4j.geometry.Rectangle;
 import org.dyn4j.geometry.Transform;
@@ -11,6 +12,7 @@ import characters.characterStates.*;
 import graphics.Sprite;
 import graphics.Texture;
 import program.Hitbox;
+import program.Projectile;
 
 //A sample character.
 
@@ -81,6 +83,7 @@ public class Jack extends Character
 			addHitbox(m_hitbox);
 			m_hitbox.addToFixture(m_fixture);
 			m_body.addFixture(m_fixture);
+			
 		}
 		
 		public void interrupt()
@@ -190,48 +193,61 @@ public class Jack extends Character
 	
 	private class ProjState extends CharacterState
 	{
+		private Projectile coffee;
 		private Hitbox m_hitbox = new Hitbox();
-
 		private Rectangle m_rect;
-		
 		private BodyFixture m_fixture;
+		private Body m_bodied = new Body();
 		
 		ProjState()
 		{
 			super("projectile");
 			
-			m_hitbox.setDuration(0.2f);
-			m_hitbox.setDamage(10);
-			m_hitbox.setHitstun(0.75f);
-			m_hitbox.setBaseKnockback(new Vector2(0, 0));
-			m_hitbox.setScaledKnockback(new Vector2(0, -20));
+			Texture explosionTexture = new Texture();
+			explosionTexture.openResource("resources/images/coffee");
 			
-			m_rect = new Rectangle(1.2, 1);
-			m_rect.translate(length + 0.45 * getFacing(), 1.25);
+			Sprite explosion = new Sprite(explosionTexture);
+			explosion.setAnimation("default");
 			
+			m_hitbox.setDuration(2f);
+			m_hitbox.setDamage(6);
+			m_hitbox.setHitstun(0.3f);
+			m_hitbox.setBaseKnockback(new Vector2(2 * getFacing(), 0));
+			m_hitbox.setScaledKnockback(new Vector2(1 * getFacing(), 0));
+			
+			m_rect = new Rectangle(0.5, 0.5);
+			m_rect.translate(0, 0);
+			coffee = new Projectile(explosion, m_hitbox);
+			coffee.setCharacter((Character) m_body.getUserData());
 			m_fixture = new BodyFixture(m_rect);
+			Transform t = new Transform();
+			t.translate(m_body.getTransform().getTranslation());
+			t.translate(1, 1);
+			m_bodied.setTransform(t);
+			m_bodied.addFixture(m_fixture);
+			m_bodied.setMass(MassType.NORMAL);
 		}
 		
 		protected void init()
 		{
 			addHitbox(m_hitbox);
 			m_hitbox.addToFixture(m_fixture);
-			m_body.addFixture(m_fixture);
+			m_fixture.setSensor(false);
+			coffee.setBody(m_bodied);
+			m_bodied.applyImpulse(new Vector2(2 * getFacing(), -2));
+			m_bodied.applyTorque(3);
+			m_world.addBody(m_bodied);
 		}
 		
-		public void interrupt()
+		protected void onUpdate()
 		{
-			m_body.removeFixture(m_fixture);
-			removeHitbox(m_hitbox);
+			if(!m_hitbox.isAlive()) {
+				m_bodied.removeFixture(m_fixture);
+				removeHitbox(m_hitbox);
+				m_bodied.removeAllFixtures();
+				m_world.removeBody(m_bodied);
+			}
 		}
-		
-		public void end()
-		{
-			m_body.removeFixture(m_fixture);
-			removeHitbox(m_hitbox);
-		}
-		
-		
 	};
 	
 	private class SignatureState extends CharacterState
@@ -366,8 +382,9 @@ public class Jack extends Character
 		//Placeholder for testing.
 		/*interruptStates(new CharacterState("projectile", 0.05f));
 		addState(new ProjState());*/
+		pushState(new CharacterState("idle", 0.4f));
 		pushState(new ProjState());
-		pushState(new CharacterState("projectile", .05f));
+		pushState(new CharacterState("projectile", .1f));
 	}
 	
 	public void signature()
@@ -375,7 +392,7 @@ public class Jack extends Character
 		/*interruptStates(new CharacterState("signature", 0.5f));
 		addState(new SignatureState());*/
 		pushState(new SignatureState());
-		pushState(new CharacterState("signature", .5f));
+		//pushState(new CharacterState("signature", .5f));
 	}
 	
 	public void recover()

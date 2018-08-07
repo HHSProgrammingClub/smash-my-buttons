@@ -62,6 +62,7 @@ public class Battle
 		m_stage.getPhysicsWorld().addBody(p_controller.getCharacter().getBody());
 		m_renderList.addDrawable(p_controller.getCharacter());
 		m_renderList.addDrawable(new DamageDisplayer(p_controller.getCharacter(), p_port));
+		p_controller.getCharacter().setWorld(getWorld());
 		//p_controller.getCharacter().getBody().translate(3 + 4 * p_port, 0);
 	}
 	

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Stack;
 
 import org.dyn4j.dynamics.Body;
+import org.dyn4j.dynamics.World;
 import org.dyn4j.geometry.Transform;
 import org.dyn4j.geometry.Vector2;
 
@@ -33,6 +34,7 @@ public abstract class Character implements Drawable
 	private final static float LEFT_BLAST_LINE = -18;
 	private final static float UPPER_BLAST_LINE = -5;
 	private final static float BOTTOM_BLAST_LINE = 11;
+	protected World m_world;
 	
 	// -1 = left 1 = right: for use with placing hitboxes, applying forces, etc.
 	//not for use with flipping sprites
@@ -68,6 +70,10 @@ public abstract class Character implements Drawable
 	protected Character()
 	{
 		pushState(new IdleState());
+	}
+	
+	public void setWorld(World p_world) {
+		m_world = p_world;
 	}
 	
 	public void pushState(CharacterState p_state)
