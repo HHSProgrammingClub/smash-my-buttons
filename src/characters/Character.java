@@ -76,6 +76,9 @@ public abstract class Character implements Drawable
 		m_world = p_world;
 	}
 	
+	public boolean jumped() { return m_jumped; }
+	public boolean recovered() { return m_recovered; }
+	
 	public void pushState(CharacterState p_state)
 	{
 		p_state.setCharacter(this);

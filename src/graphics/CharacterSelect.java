@@ -133,6 +133,7 @@ public class CharacterSelect implements Page
 		            System.out.println("Attempting to load " + filePath + " as player 1");
 		            
 		            m_p1 = createAIController(filePath);
+		            ((AIController)m_p1).setupEnemyInterface(m_p2.getCharacter());
 		            System.out.print("Player 1 AI script loaded at " + filePath);
 		        }
 			}
@@ -176,6 +177,7 @@ public class CharacterSelect implements Page
 		            System.out.println("Attempting to load " + filePath + " as player 2");
 		            
 		            m_p2 = createAIController(filePath);
+		            ((AIController)m_p2).setupEnemyInterface(m_p1.getCharacter());
 		            System.out.print("Player 2 AI script loaded at " + filePath);
 		        }
 			}

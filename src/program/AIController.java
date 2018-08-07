@@ -54,11 +54,13 @@ class PyCharacterWrapper implements pyInterfaces.PlayerInterface
 		return (float) m_character.getBody().getWorldCenter().y;
 	}
 	
+	@Override
 	public void moveLeft()
 	{
 		m_character.performAction(Character.ACTION_MOVELEFT);
 	}
 	
+	@Override
 	public void moveRight()
 	{
 		m_character.performAction(Character.ACTION_MOVERIGHT);
@@ -113,6 +115,44 @@ class PyCharacterWrapper implements pyInterfaces.PlayerInterface
 		// TODO Auto-generated method stub
 		return m_character.peekState().getTimer();
 	}
+
+	@Override
+	public boolean jumped() {
+		return m_character.jumped();
+	}
+
+	@Override
+	public boolean recovered() {
+		return m_character.recovered();
+	}
+}
+
+class PyEnemyWrapper implements pyInterfaces.EnemyInterface {
+	public Character m_character;
+	
+	public void setCharacter(Character p_character) {
+		m_character = p_character;
+	}
+	
+	@Override
+	public float getX()
+	{
+		// TODO Auto-generated method stub
+		return (float) m_character.getBody().getWorldCenter().x;
+	}
+
+	@Override
+	public float getY()
+	{
+		return (float) m_character.getBody().getWorldCenter().y;
+	}
+	
+	@Override
+	public float getHitstun()
+	{
+		// TODO Auto-generated method stub
+		return m_character.peekState().getTimer();
+	}
 }
 
 /**
@@ -127,17 +167,26 @@ public class AIController extends CharacterController
 	private PyObject m_pyLoopFunction;
 	private String m_name, m_author, m_targetCharacter;
 	private PyCharacterWrapper m_playerInterface;
+	private PyEnemyWrapper m_enemyInterface;
 	
 	public AIController()
 	{
 		m_interpretor = new PythonInterpreter();
 		m_playerInterface = new PyCharacterWrapper();
-		
+		m_enemyInterface = new PyEnemyWrapper();
 	}
 	
 	public void setupPlayerInterface() {
 		if(m_character != null) {
 			m_playerInterface.setCharacter(m_character);
+		}else {
+			System.out.println("No character set! :(");
+		}
+	}
+	
+	public void setupEnemyInterface(Character enemy) {
+		if(enemy != null) {
+			m_enemyInterface.setCharacter(enemy);
 		}else {
 			System.out.println("No character set! :(");
 		}
@@ -279,7 +328,8 @@ public class AIController extends CharacterController
 		try
 		{
 			if (m_pyLoopFunction != null)
-				m_pyLoopFunction._jcall(new Object[] {(pyInterfaces.PlayerInterface)m_playerInterface});
+				m_pyLoopFunction._jcall(new Object[] {(pyInterfaces.PlayerInterface)m_playerInterface,
+														(pyInterfaces.EnemyInterface)m_enemyInterface});
 		}
 		catch(Exception e)
 		{

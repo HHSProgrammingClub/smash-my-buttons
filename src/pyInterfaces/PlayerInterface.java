@@ -8,6 +8,8 @@ package pyInterfaces;
  */
 public interface PlayerInterface
 {
+	public void moveLeft();
+	public void moveRight();
 	public float getX();
 	public float getY();
 	public void jab();
@@ -18,4 +20,6 @@ public interface PlayerInterface
 	public void signature();
 	public void jump();
 	public float getHitstun();
+	public boolean jumped();
+	public boolean recovered();
 }
