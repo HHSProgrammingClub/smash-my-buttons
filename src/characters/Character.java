@@ -24,7 +24,7 @@ public abstract class Character implements Drawable
 	private int m_damage;
 	private int m_stock = 3;
 	private String m_name = "George the Glass-Cutter";
-	private boolean m_jumped        = false;
+	protected boolean m_jumped       = false;
 	protected boolean m_recovered   = false;
 	protected boolean m_superArmour = false;
 	private boolean m_stunned       = false;

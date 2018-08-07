@@ -11,6 +11,7 @@ import org.dyn4j.geometry.Vector2;
 import graphics.Sprite;
 import graphics.Texture;
 import program.Hitbox;
+import program.Projectile;
 import characters.characterStates.*;
 
 public class Birboi extends Character
@@ -106,10 +107,10 @@ public class Birboi extends Character
 		tiltBoxFront.setDuration(30);
 		tiltBoxFront.setHitstun(.1f);
 		
-		Vector2 tiltBoxPos    = new Vector2(1, 1.3);
-		Vector2 tiltBoxOffset = new Vector2(0.5, 0);
+		Vector2 tiltBoxPos    = new Vector2(1, 1.5);
+		Vector2 tiltBoxOffset = new Vector2(.9, 0);
 		
-		Rectangle r = new Rectangle(1.1, 1.4);
+		Rectangle r = new Rectangle(1.1, 1);
 		r.translate(tiltBoxPos.add(alignFacing(tiltBoxOffset)));
 		
 		BodyFixture f = new BodyFixture(r);
@@ -125,10 +126,10 @@ public class Birboi extends Character
 		tiltBoxBack.setDuration(30);
 		tiltBoxBack.setHitstun(.1f);
 		
-		Vector2 tiltBoxPosBack    = new Vector2(1, 1.3);
-		Vector2 tiltBoxOffsetBack = new Vector2(-0.5, 0);
+		Vector2 tiltBoxPosBack    = new Vector2(1, 1.5);
+		Vector2 tiltBoxOffsetBack = new Vector2(-.9, 0);
 		
-		Rectangle rb = new Rectangle(1.1, 1.4);
+		Rectangle rb = new Rectangle(r.getWidth(), r.getHeight());
 		rb.translate(tiltBoxPosBack.add(alignFacing(tiltBoxOffsetBack)));
 		
 		BodyFixture fb = new BodyFixture(rb);
@@ -169,6 +170,18 @@ public class Birboi extends Character
 	{
 		float duration = .4f;
 		
+		CharacterState smashContact = new CharacterState("smash_contact", .3f)
+		{
+			final Vector2 coolDownImpulse = new Vector2(-1.5, -8);
+			
+			@Override
+			protected void init()
+			{
+				m_body.setLinearVelocity(0, 0);
+				m_body.applyImpulse(alignFacing(coolDownImpulse));
+			}
+		};
+		
 		CharacterState smashStartup = new CharacterState("smash_startup")
 				{
 					@Override
@@ -204,8 +217,6 @@ public class Birboi extends Character
 					final Vector2 m_hitboxBasePos   = new Vector2(1, 1.25);
 					final Vector2 m_hitboxOffsetPos = new Vector2(.4, 0);
 					
-					final Vector2 coolDownImpulse = new Vector2(-1.5, -8);
-					
 					@Override
 					public void init()
 					{
@@ -233,9 +244,7 @@ public class Birboi extends Character
 					@Override
 					public void end()
 					{
-						getBody().removeFixture(m_fixture);
-						removeHitbox(m_hitbox);
-						getBody().setGravityScale(1);
+						interrupt();
 					}
 					
 					@Override
@@ -243,13 +252,11 @@ public class Birboi extends Character
 					{
 						if(!m_hitbox.isAlive() && getTimer() > 0)
 						{
-							setDuration(0);
-							m_body.setLinearVelocity(0, 0);
-							m_body.applyImpulse(alignFacing(coolDownImpulse));
+							popState();
+							pushState(smashContact);
 						}
 					}
 				};
-		pushState(new CharacterState("smash_contact", .3f));
 		pushState(smashFlight);
 		pushState(smashStartup);
 	}
@@ -264,8 +271,142 @@ public class Birboi extends Character
 	@Override
 	public void signature() 
 	{
-		// TODO Auto-generated method stub
+		Hitbox signatureBox = new Hitbox();
 		
+		signatureBox.setBaseKnockback(alignFacing(new Vector2(1.2, 3)));
+		signatureBox.setScaledKnockback(alignFacing(new Vector2(.2, 6)));
+		signatureBox.setDamage(11);
+		signatureBox.setDuration(30);
+		signatureBox.setHitstun(.4f);
+		
+		Vector2 signatureBoxPos    = new Vector2(1, 1.3);
+		Vector2 signatureBoxOffset = new Vector2(0, 0);
+		
+		Rectangle sr = new Rectangle(1, 1.4);
+		sr.translate(signatureBoxPos.add(alignFacing(signatureBoxOffset)));
+		
+		BodyFixture sf = new BodyFixture(sr);
+		signatureBox.addToFixture(sf);
+		
+		CharacterState signatureContact = new CharacterState("smash_contact", .3f)
+		{
+			private final Vector2 imp = new Vector2(-3, -4);
+			
+			@Override
+			protected void init()
+			{
+				m_body.setLinearVelocity(0, 0);
+				m_body.applyImpulse(alignFacing(imp));
+			}
+		};
+		
+		CharacterState signatureState = new CharacterState("signature", -1)
+		{
+			@Override
+			protected void init()
+			{
+				m_body.setGravityScale(0);
+				m_body.setLinearVelocity(alignFacing(new Vector2(1.75, 8)));
+				m_body.addFixture(sf);
+				addHitbox(signatureBox);
+			}
+			
+			@Override
+			public void interrupt()
+			{
+				m_body.setGravityScale(1);
+				m_body.removeFixture(sf);
+				removeHitbox(signatureBox);
+			}
+			
+			@Override
+			public void end()
+			{
+				m_body.setGravityScale(1);
+				m_body.removeFixture(sf);
+				removeHitbox(signatureBox);
+			}
+			
+			private void spawnShockwaves()
+			{
+				Projectile[] shockwaves = new Projectile[2];
+				for(int i = 0; i < shockwaves.length; i++)
+				{
+					int flip = (i == 0 ? 1 : -1);
+					
+					Texture shockwave = new Texture();
+					shockwave.openResource("resources/images/" + (i == 0 ? "shockwave_L" : "shockwave_R"));
+					Sprite sp = new Sprite(shockwave);
+					sp.setAnimation("default");
+					
+					Hitbox box = new Hitbox();
+					box.setBaseKnockback(alignFacing(new Vector2(1 * flip, -2)));
+					box.setScaledKnockback(alignFacing(new Vector2(.5 * flip, -1)));
+					box.setDamage(7);
+					box.setDuration(1.5f);
+					box.setHitstun(.25f);
+					
+					Vector2 offset = new Vector2(1 + .6 * flip, 1.5);
+					
+					Rectangle r = new Rectangle(.3, 1);
+					
+					Body b = new Body();
+					b.addFixture(new BodyFixture(r));
+					b.setMassType(MassType.INFINITE);
+					
+					Transform t = new Transform();
+					t.translate(m_body.getTransform().getTranslation());
+					t.translate(offset);
+					b.setTransform(t);
+					
+					Projectile p = new Projectile();
+					p.setCharacter((Character) m_body.getUserData());
+					p.setHitbox(box);
+					p.setBody(b);
+					p.setSprite(sp);
+					
+					p.getBody().setLinearVelocity(2 * flip, 0);
+					
+					m_world.addBody(b);
+				}
+			}
+			
+			private void contactGround()
+			{
+				spawnShockwaves();
+				popState();
+			}
+			
+			private void contactPlayer()
+			{
+				popState();
+				pushState(signatureContact);
+			}
+			
+			@Override
+			protected void onUpdate()
+			{
+				if(m_body.getLinearVelocity().y == 0)
+					contactGround();
+				if(!signatureBox.isAlive())
+					contactPlayer();
+			}
+		};
+		
+		CharacterState signatureStartup = new CharacterState("jump_asc", .25f)
+		{
+			@Override
+			protected void init()
+			{
+				if(m_jumped)
+					popState();
+				else
+					m_body.applyImpulse(alignFacing(new Vector2(.7, -17)));
+			}
+		};
+		
+		pushState(signatureState);
+		pushState(signatureStartup);
 	}
 	
 	@Override
