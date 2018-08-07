@@ -125,6 +125,11 @@ class PyCharacterWrapper implements pyInterfaces.PlayerInterface
 	public boolean recovered() {
 		return m_character.recovered();
 	}
+
+	@Override
+	public int getDamage() {
+		return m_character.getDamage();
+	}
 }
 
 class PyEnemyWrapper implements pyInterfaces.EnemyInterface {
@@ -152,6 +157,11 @@ class PyEnemyWrapper implements pyInterfaces.EnemyInterface {
 	{
 		// TODO Auto-generated method stub
 		return m_character.peekState().getTimer();
+	}
+	
+	@Override
+	public int getDamage() {
+		return m_character.getDamage();
 	}
 }
 

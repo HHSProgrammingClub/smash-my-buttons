@@ -264,7 +264,7 @@ public abstract class Character implements Drawable
 			if(p_hitbox.getHitstun() > 0) {
 				m_body.setLinearVelocity(0, 0);
 			}
-			System.out.println(base.add(scaled));
+			//System.out.println(base.add(scaled));
 			m_body.applyImpulse(base.add(scaled));
 			applyHitstun(p_hitbox.getHitstun());
 			p_hitbox.kill();

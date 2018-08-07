@@ -22,4 +22,5 @@ public interface PlayerInterface
 	public float getHitstun();
 	public boolean jumped();
 	public boolean recovered();
+	public int getDamage();
 }
