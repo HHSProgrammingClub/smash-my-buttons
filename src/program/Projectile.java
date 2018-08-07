@@ -3,11 +3,15 @@ import java.util.Iterator;
 
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.BodyFixture;
+import org.dyn4j.geometry.Transform;
 
+import graphics.Drawable;
+import graphics.Renderer;
 import graphics.Sprite;
+import characters.Character;
 
-public class Projectile {
-	
+public class Projectile implements Drawable
+{
 	public Projectile() {}
 	
 	public Projectile(Sprite p_sprite)
@@ -52,7 +56,28 @@ public class Projectile {
 		return m_body;
 	}
 	
+	public void setCharacter(Character p_character)
+	{
+		m_character = p_character;
+	}
+	
+	public Character getCharacter()
+	{
+		return m_character;
+	}
+	
+	@Override
+	public void draw(Renderer p_renderer)
+	{
+		Transform t = m_body.getTransform();
+		
+		m_sprite.setPosition(t.getTranslationX(), t.getTranslationY());
+		m_sprite.setRotation(t.getRotation());
+		m_sprite.draw(p_renderer);
+	}
+	
 	private Hitbox m_hitbox;
 	private Sprite m_sprite;
 	private Body m_body;
+	private Character m_character;
 }
