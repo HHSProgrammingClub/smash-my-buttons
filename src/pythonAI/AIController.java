@@ -6,12 +6,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.util.stream.Collectors;
 
 import org.python.core.PyException;
 import org.python.core.PyObject;
-import org.python.util.PythonInterpreter;
 
 import characters.Character;
 import program.Battle;
@@ -23,9 +21,10 @@ import pythonAI.editor.Editor;
  */
 class PyCharacterWrapper implements pythonAI.interfaces.PlayerInterface
 {
-	public Character m_character;
+	private Character m_character;
 	
-	public void setCharacter(Character p_character) {
+	public void setCharacter(Character p_character)
+	{
 		m_character = p_character;
 	}
 	
@@ -166,12 +165,31 @@ public class AIController extends CharacterController
 	private PyEnemyWrapper m_enemyInterface;
 	private Editor m_editor;
 	private PyInterpreter m_interpreter;
+	private PyInterpreterCallback m_callback = new PyInterpreterCallback()
+	{
+		@Override
+		public void onException(PyException p_exception)
+		{}
+
+		@Override
+		public void onBeginReinitialize()
+		{}
+
+		@Override
+		public void onEndReinitialize()
+		{
+			loadGlobals();
+		}
+	};
 	
 	public AIController()
 	{
 		m_interpreter = new PyInterpreter();
+		m_interpreter.addCallback(m_callback);
+		
 		m_playerInterface = new PyCharacterWrapper();
 		m_enemyInterface = new PyEnemyWrapper();
+		
 		m_editor = new Editor();
 		m_editor.setInterpreter(m_interpreter);
 		m_editor.setVisible(true);
@@ -193,7 +211,7 @@ public class AIController extends CharacterController
 	public void start()
 	{
 		// Reset script by loading it again
-		reinitialize();
+		m_interpreter.reinitialize();
 	}
 
 	@Override
@@ -209,7 +227,7 @@ public class AIController extends CharacterController
 	@Override
 	public void reset()
 	{
-		reinitialize();
+		m_interpreter.reinitialize();
 	}
 	
 	@Override
@@ -242,7 +260,7 @@ public class AIController extends CharacterController
 		stream.close();
 		m_interpreter.setScript(script);
 		m_editor.setSaveFilepath(p_path);
-		reinitialize();
+		m_interpreter.reinitialize();
 	}
 	
 	/**
@@ -260,19 +278,33 @@ public class AIController extends CharacterController
 		String script = new BufferedReader(new InputStreamReader(scream))
 				  .lines().collect(Collectors.joining("\n"));
 		m_interpreter.setScript(script);
-		reinitialize();
+		m_interpreter.reinitialize();
 	}
 	
-	public void reinitialize()
+
+
+	//@Override
+	public String getTargetCharacter()
+	{
+		return m_targetCharacter;
+	}
+	
+	public void setEnemyCharacter(Character enemy)
+	{
+		if(enemy != null)
+			m_enemyInterface.setCharacter(enemy);
+		else
+			System.out.println("No character set! :(");
+	}
+	
+	private void loadGlobals()
 	{
 		try
 		{
-			m_interpreter.reinitialize();
-			
-			// Get the loop function
-			/*m_pyLoopFunction = m_interpreter.getGlobal("loop");
+			// Get loop function
+			m_pyLoopFunction = m_interpreter.getGlobal("loop");
 			if (m_pyLoopFunction == null)
-				throw new NullPointerException("loop function is missing.");*/
+				throw new NullPointerException("loop function is missing.");
 			
 			// Load AIName
 			m_name = m_interpreter.getGlobalString("AIName");
@@ -298,28 +330,12 @@ public class AIController extends CharacterController
 			e.printStackTrace();
 		}
 	}
-
-	//@Override
-	public String getTargetCharacter()
-	{
-		return m_targetCharacter;
-	}
-	
-	public void setEnemyCharacter(Character enemy)
-	{
-		if(enemy != null)
-			m_enemyInterface.setCharacter(enemy);
-		else
-			System.out.println("No character set! :(");
-	}
 	
 	/**
 	 * Calls the loop function in your script.
 	 */
 	private void callLoop()
 	{
-		// We'll just get it every frame so it is properly updated
-		m_pyLoopFunction = m_interpreter.getGlobal("loop");
 		if (m_pyLoopFunction != null)
 			m_interpreter.call(m_pyLoopFunction, new Object[] {(pythonAI.interfaces.PlayerInterface)m_playerInterface,
 					(pythonAI.interfaces.EnemyInterface)m_enemyInterface});

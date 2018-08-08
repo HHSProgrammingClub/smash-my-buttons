@@ -5,5 +5,6 @@ import org.python.core.PyException;
 public interface PyInterpreterCallback
 {
 	public void onException(PyException p_exception);
-	public void onReinitialize();
+	public void onBeginReinitialize();
+	public void onEndReinitialize();
 }

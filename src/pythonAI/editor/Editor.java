@@ -20,10 +20,7 @@ import org.python.core.PyException;
 
 import pythonAI.PyInterpreter;
 import pythonAI.PyInterpreterCallback;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JMenuItem;
+import java.awt.Dimension;
 
 public class Editor
 {
@@ -43,17 +40,21 @@ public class Editor
 				}
 
 				@Override
-				public void onReinitialize()
+				public void onBeginReinitialize()
 				{
 					m_parser.resetException();
 					m_textArea.setText(m_pyInterpreter.getScript());
 				}
+
+				@Override
+				public void onEndReinitialize()
+				{}
 			};
 	
 	public Editor()
 	{
 		m_window = new JFrame("Python Editor");
-		m_window.setSize(600, 800);
+		m_window.setSize(500, 500);
 		m_window.setResizable(true);
 		m_window.setVisible(false); 
 		m_window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -91,6 +92,7 @@ public class Editor
 		panel.add(errorStrip, BorderLayout.LINE_END);
 		
 		m_outputConsole = new OutputTextArea();
+		m_outputConsole.setPreferredSize(new Dimension(106, 200));
 		
 		JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, panel, m_outputConsole);
 		
@@ -108,7 +110,7 @@ public class Editor
 	{
 		m_pyInterpreter = p_pyInterpreter;
 		p_pyInterpreter.setOutputStream(m_outputConsole.getOutputStream());
-		p_pyInterpreter.setCallback(m_callback);
+		p_pyInterpreter.addCallback(m_callback);
 		m_textArea.setText(p_pyInterpreter.getScript());
 	}
 	

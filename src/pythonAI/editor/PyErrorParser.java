@@ -12,6 +12,7 @@ import org.fife.ui.rsyntaxtextarea.parser.DefaultParserNotice;
 import org.fife.ui.rsyntaxtextarea.parser.ParseResult;
 import org.fife.ui.rsyntaxtextarea.parser.ParserNotice.Level;
 import org.python.core.PyException;
+import org.python.core.PyTuple;
 
 /**
  * Displays the errors thrown by Jython in the text editor.
@@ -36,49 +37,57 @@ public class PyErrorParser extends AbstractParser
 	{
 		m_parseResult.clearNotices();
 		
-		 // why jython why
-		String message = p_exception.value.__getitem__(0).asString();
-		
-		DefaultParserNotice notice = null;
-		
-		if (p_exception.traceback != null)
-		{
-			int line = p_exception.traceback.tb_lineno - 1;
-			notice = new DefaultParserNotice(this, message, line);
-			try
-			{
-				int offset = m_textArea.getLineStartOffset(line);
-				m_textArea.setCaretPosition(offset);
-			}
-			catch (BadLocationException e)
-			{
-				// ...
-			}
-		}
-		else
-		{
-			int line = p_exception.value.__getitem__(1).__getitem__(1).asInt() - 1;
-			int column = p_exception.value.__getitem__(1).__getitem__(2).asInt();
-			String text = p_exception.value.__getitem__(1).__getitem__(3).asString();
+		try {
+			String message = p_exception.value.__getitem__(0).asString();
 			
-			// Get exact offset to error
-			int offset;
-			try
+			DefaultParserNotice notice = null;
+			
+			if (p_exception.traceback != null)
 			{
-				offset = m_textArea.getLineStartOffset(line) + column;
-				m_textArea.setCaretPosition(offset);
+				int line = p_exception.traceback.tb_lineno - 1;
+				notice = new DefaultParserNotice(this, message, line);
+				try
+				{
+					int offset = m_textArea.getLineStartOffset(line);
+					m_textArea.setCaretPosition(offset);
+				}
+				catch (BadLocationException e)
+				{
+					// ...
+				}
 			}
-			catch (BadLocationException e)
+			else
 			{
-				offset = -1;
+				// why jython why
+				int line = p_exception.value.__getitem__(1).__getitem__(1).asInt() - 1;
+				int column = p_exception.value.__getitem__(1).__getitem__(2).asInt();
+				String text = p_exception.value.__getitem__(1).__getitem__(3).asString();
+				
+				// Get exact offset to error
+				int offset;
+				try
+				{
+					offset = m_textArea.getLineStartOffset(line) + column;
+					m_textArea.setCaretPosition(offset);
+				}
+				catch (BadLocationException e)
+				{
+					offset = -1;
+				}
+				notice = new DefaultParserNotice(this, message, line, offset, text.length() - column);
 			}
-			notice = new DefaultParserNotice(this, message, line, offset, text.length() - column);
+			
+			notice.setColor(Color.RED);
+			notice.setLevel(Level.ERROR);
+			notice.setToolTipText(PyException.exceptionClassName(p_exception.type) + ": " + message);
+			m_parseResult.addNotice(notice);
+		} catch (Exception e)
+		{
+			// Right now, any exception means that the position in which
+			// the error occurred could not be found.
+			e.printStackTrace();
+			System.out.println("You may ignore the error above.");
 		}
-		
-		notice.setColor(Color.RED);
-		notice.setLevel(Level.ERROR);
-		notice.setToolTipText(PyException.exceptionClassName(p_exception.type) + ": " + message);
-		m_parseResult.addNotice(notice);
 	}
 	
 	@Override

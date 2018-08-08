@@ -1,6 +1,7 @@
 package pythonAI;
 
 import java.io.OutputStream;
+import java.util.ArrayList;
 
 import org.python.core.PyException;
 import org.python.core.PyObject;
@@ -25,7 +26,7 @@ class PyClassLoader extends ClassLoader
 public class PyInterpreter
 {
 	private PythonInterpreter m_interpreter;
-	private PyInterpreterCallback m_callback;
+	private ArrayList<PyInterpreterCallback> m_callback = new ArrayList<PyInterpreterCallback>();
 	private boolean m_ready = false;
 	private String m_script = "";
 	
@@ -38,8 +39,8 @@ public class PyInterpreter
 	{
 		try
 		{
-			if (m_callback != null)
-				m_callback.onReinitialize();
+			for (PyInterpreterCallback i : m_callback)
+				i.onBeginReinitialize();
 			
 			System.out.println("Loading Python Interpreter...");
 			
@@ -57,11 +58,14 @@ public class PyInterpreter
 			System.out.println("Script Compiled");
 			
 			m_ready = true;
+			
+			for (PyInterpreterCallback i : m_callback)
+				i.onEndReinitialize();
 		}
 		catch(PyException e)
 		{
-			if (m_callback != null)
-				m_callback.onException(e);
+			for (PyInterpreterCallback i : m_callback)
+				i.onException(e);
 			m_ready = false;
 		}
 	}
@@ -81,9 +85,9 @@ public class PyInterpreter
 		return  m_script;
 	}
 
-	public void setCallback(PyInterpreterCallback p_callback)
+	public void addCallback(PyInterpreterCallback p_callback)
 	{
-		m_callback = p_callback;
+		m_callback.add(p_callback);
 	}
 	
 	public void setOutputStream(OutputStream p_outputStream)
@@ -103,8 +107,8 @@ public class PyInterpreter
 		}
 		catch(PyException e)
 		{
-			if (m_callback != null)
-				m_callback.onException(e);
+			for (PyInterpreterCallback i : m_callback)
+				i.onException(e);
 			return null;
 		}
 	}
@@ -120,8 +124,8 @@ public class PyInterpreter
 		}
 		catch(PyException e)
 		{
-			if (m_callback != null)
-				m_callback.onException(e);
+			for (PyInterpreterCallback i : m_callback)
+				i.onException(e);
 			return null;
 		}
 	}
@@ -134,8 +138,8 @@ public class PyInterpreter
 		}
 		catch(PyException e)
 		{
-			if (m_callback != null)
-				m_callback.onException(e);
+			for (PyInterpreterCallback i : m_callback)
+				i.onException(e);
 			m_ready = false;
 		}
 	}
