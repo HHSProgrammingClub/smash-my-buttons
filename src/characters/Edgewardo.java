@@ -250,14 +250,13 @@ public class Edgewardo extends Character
 			m_rect = new Rectangle(0.5, 0.5);
 			m_rect.translate(0, 0);
 			
-			//projectile keeps hurting Edge despite this
 			knife = new Projectile(knifeSprite, m_hitbox);
 			knife.setCharacter((Character) m_body.getUserData());
 			m_fixture = new BodyFixture(m_rect);
 			
 			Transform t = new Transform();
 			t.translate(m_body.getTransform().getTranslation());
-			t.translate(1.5*getFacing(), 1);
+			t.translate(getFacing(), 1);
 			
 			m_knifeBody.setTransform(t);
 			m_knifeBody.addFixture(m_fixture);

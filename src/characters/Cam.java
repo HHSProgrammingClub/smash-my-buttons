@@ -168,7 +168,7 @@ public class Cam extends Character
 		private Body duffelBody = new Body();
 		
 		//just for fun
-		private int equipCount = (int)(Math.random()*5 + 1);
+		private int equipCount = (int)(Math.random()*2 + 1);
 		private Projectile[] m_equipment = new Projectile[equipCount];
 		private Hitbox[] equipBoxes = new Hitbox[equipCount];
 		private Rectangle[] equipRects = new Rectangle[equipCount];

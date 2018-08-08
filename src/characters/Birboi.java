@@ -368,6 +368,8 @@ public class Birboi extends Character
 					p.getBody().setLinearVelocity(2 * flip, 0);
 					
 					m_world.addBody(b);
+					
+					addProjectile(p);
 				}
 			}
 			

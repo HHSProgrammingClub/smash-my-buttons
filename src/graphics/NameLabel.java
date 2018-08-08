@@ -56,14 +56,14 @@ public class NameLabel implements Drawable
 		if(position.x < 0) //far left
 		{
 			arrow.setPosition(0.5, t.getTranslation().y + offset);
-			arrow.setRotation(Math.PI/2); //270 degrees point left
+			arrow.setRotation(Math.PI/2); //90 degrees point left
 			
 			textScalar.translate(0.5, t.getTranslation().y + offset);
 		}
 		else if(position.x > 13) //far right
 		{
 			arrow.setPosition(11.5, t.getTranslation().y + offset);
-			arrow.setRotation(Math.PI*3/2); //90 degrees pointing right
+			arrow.setRotation(Math.PI*3/2); //270 degrees pointing right
 			
 			textScalar.translate(10.5, t.getTranslation().y + offset);
 		}
