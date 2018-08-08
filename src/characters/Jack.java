@@ -225,6 +225,8 @@ public class Jack extends Character
 			m_bodied.setTransform(t);
 			m_bodied.addFixture(m_fixture);
 			m_bodied.setMass(MassType.NORMAL);
+			
+			addProjectile(coffee);
 		}
 		
 		protected void init()

@@ -66,6 +66,11 @@ public class Projectile implements Drawable
 		return m_character;
 	}
 	
+	public Sprite getSprite()
+	{
+		return m_sprite;
+	}
+	
 	@Override
 	public void draw(Renderer p_renderer)
 	{

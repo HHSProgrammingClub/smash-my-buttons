@@ -262,6 +262,8 @@ public class Edgewardo extends Character
 			m_knifeBody.setTransform(t);
 			m_knifeBody.addFixture(m_fixture);
 			m_knifeBody.setMass(MassType.INFINITE);
+			
+			addProjectile(knife);
 		}
 		
 		protected void init()
@@ -278,10 +280,11 @@ public class Edgewardo extends Character
 		{
 			if(!m_hitbox.isAlive()) 
 			{
-				m_body.removeFixture(m_fixture);
+				m_knifeBody.removeFixture(m_fixture);
 				removeHitbox(m_hitbox);
 				m_knifeBody.removeAllFixtures();
-				m_world.removeBody(m_body);
+				m_world.removeBody(m_knifeBody);
+				removeProjectile(knife);
 			}
 		}
 	}
@@ -353,6 +356,8 @@ public class Edgewardo extends Character
 							
 							fogBodies[i].setLinearVelocity((0.5 + randomVelocity)*getFacing(), 0);
 							m_world.addBody(fogBodies[i]);
+							
+							addProjectile(m_fog[i]);
 						}
 					}
 					
@@ -365,6 +370,7 @@ public class Edgewardo extends Character
 							removeHitbox(m_hitboxes[i]);
 							fogBodies[i].removeAllFixtures();
 							m_world.removeBody(fogBodies[i]);
+							removeProjectile(m_fog[i]);
 						}
 					}
 					
@@ -377,6 +383,7 @@ public class Edgewardo extends Character
 							removeHitbox(m_hitboxes[i]);
 							fogBodies[i].removeAllFixtures();
 							m_world.removeBody(fogBodies[i]);
+							removeProjectile(m_fog[i]);
 						}
 					}
 				};

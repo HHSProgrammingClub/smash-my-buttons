@@ -161,60 +161,156 @@ public class Cam extends Character
 	
 	private class ProjState extends CharacterState
 	{
-		private Projectile coffee;
-		private Hitbox m_hitbox = new Hitbox();
-		private Rectangle m_rect;
-		private BodyFixture m_fixture;
-		private Body m_bodied = new Body();
+		private Projectile duffelBag;
+		private Hitbox duffelBox = new Hitbox();
+		private Rectangle duffelRect;
+		private BodyFixture duffelFix;
+		private Body duffelBody = new Body();
 		
-		ProjState()
+		//just for fun
+		private int equipCount = (int)(Math.random()*5 + 1);
+		private Projectile[] m_equipment = new Projectile[equipCount];
+		private Hitbox[] equipBoxes = new Hitbox[equipCount];
+		private Rectangle[] equipRects = new Rectangle[equipCount];
+		private BodyFixture[] equipFixes = new BodyFixture[equipCount];
+		private Body[] equipBodies = new Body[equipCount];
+		
+		public ProjState()
 		{
 			super("projectile");
 			
-			Texture explosionTexture = new Texture();
-			explosionTexture.openResource("resources/images/coffee");
+			//Cam throws the duffel bag and random equipment
+			Texture duffelTexture = new Texture();
+			duffelTexture.openResource("resources/images/duffelbag");
+			Sprite duffelSprite = new Sprite(duffelTexture);
+			duffelSprite.setAnimation("default");
 			
-			Sprite explosion = new Sprite(explosionTexture);
-			explosion.setAnimation("default");
+			Texture equipTex1 = new Texture();
+			equipTex1.openResource("resources/images/equipment1");
+			Sprite equipSprite1 = new Sprite(equipTex1, "default");
 			
-			m_hitbox.setDuration(2f);
-			m_hitbox.setDamage(6);
-			m_hitbox.setHitstun(0.3f);
-			m_hitbox.setBaseKnockback(new Vector2(2 * getFacing(), 0));
-			m_hitbox.setScaledKnockback(new Vector2(1 * getFacing(), 0));
+			Texture equipTex2 = new Texture();
+			equipTex2.openResource("resources/images/equipment2");
+			Sprite equipSprite2 = new Sprite(equipTex2, "default");
 			
-			m_rect = new Rectangle(0.5, 0.5);
-			m_rect.translate(0, 0);
-			coffee = new Projectile(explosion, m_hitbox);
-			coffee.setCharacter((Character) m_body.getUserData());
-			m_fixture = new BodyFixture(m_rect);
+			Texture equipTex3 = new Texture();
+			equipTex3.openResource("resources/images/equipment3");
+			Sprite equipSprite3 = new Sprite(equipTex2, "default");
+			
+			//initialize the random equipment
+			for(int i = 0; i < equipCount; i++)
+			{
+				equipBoxes[i] = new Hitbox();
+				equipBoxes[i].setDuration(2.0f);
+				equipBoxes[i].setDamage(2);
+				equipBoxes[i].setHitstun(0.1f);
+				equipBoxes[i].setBaseKnockback(new Vector2(2 * getFacing(), 0));
+				equipBoxes[i].setScaledKnockback(new Vector2(getFacing(), 0));
+				
+				int RNG = (int)(Math.random()*3 + 1);
+				switch(RNG)
+				{
+					case 1:
+						m_equipment[i] = new Projectile(equipSprite1, equipBoxes[i]);
+						equipRects[i] = new Rectangle(0.5, 0.5);
+						break;
+					case 2:
+						m_equipment[i] = new Projectile(equipSprite2, equipBoxes[i]);
+						equipRects[i] = new Rectangle(0.5, 1);
+						break;
+					case 3:
+						m_equipment[i] = new Projectile(equipSprite3, equipBoxes[i]);
+						equipRects[i] = new Rectangle(0.5, 0.5);
+						break;
+				}
+				equipRects[i].translate(0, 0);
+				m_equipment[i].setCharacter((Character) m_body.getUserData());
+				equipFixes[i] = new BodyFixture(equipRects[i]);
+				
+				Transform t = new Transform();
+				t.translate(m_body.getTransform().getTranslation());
+				t.translate(1.5, 1);
+				
+				equipBodies[i] = new Body();
+				equipBodies[i].setTransform(t);
+				equipBodies[i].addFixture(equipFixes[i]);
+				equipBodies[i].setMass(MassType.NORMAL);
+				
+				addProjectile(m_equipment[i]);
+			}
+			
+			duffelBox.setDuration(2.0f);
+			duffelBox.setDamage(6);
+			duffelBox.setHitstun(0.3f);
+			duffelBox.setBaseKnockback(new Vector2(2 * getFacing(), 0));
+			duffelBox.setScaledKnockback(new Vector2(getFacing(), 0));
+			
+			duffelRect = new Rectangle(0.5, 0.5);
+			duffelRect.translate(0, 0);
+			
+			duffelBag = new Projectile(duffelSprite, duffelBox);
+			duffelBag.setCharacter((Character) m_body.getUserData());
+			
+			duffelFix = new BodyFixture(duffelRect);
+			
 			Transform t = new Transform();
 			t.translate(m_body.getTransform().getTranslation());
 			t.translate(1, 1);
-			m_bodied.setTransform(t);
-			m_bodied.addFixture(m_fixture);
-			m_bodied.setMass(MassType.NORMAL);
+			
+			duffelBody.setTransform(t);
+			duffelBody.addFixture(duffelFix);
+			duffelBody.setMass(MassType.NORMAL);
+			
+			addProjectile(duffelBag);
+			
 		}
 		
 		protected void init()
 		{
-			addHitbox(m_hitbox);
-			m_hitbox.addToFixture(m_fixture);
-			m_fixture.setSensor(false);
-			coffee.setBody(m_bodied);
-			m_bodied.applyImpulse(new Vector2(2 * getFacing(), -2));
-			m_bodied.applyTorque(3);
-			m_world.addBody(m_bodied);
+			for(int i = 0; i < equipCount; i++)
+			{
+				addHitbox(equipBoxes[i]);
+				equipBoxes[i].addToFixture(equipFixes[i]);
+				equipFixes[i].setSensor(false);
+				m_equipment[i].setBody(equipBodies[i]);
+				float RNG = (float)(Math.random() * 2 + 1);
+				equipBodies[i].applyImpulse(new Vector2(RNG * getFacing(), -RNG));
+				equipBodies[i].applyTorque(RNG + 1);
+				m_world.addBody(equipBodies[i]);
+			}
+			
+			addHitbox(duffelBox);
+			duffelBox.addToFixture(duffelFix);
+			duffelFix.setSensor(false);
+			duffelBag.setBody(duffelBody);
+			duffelBody.applyImpulse(new Vector2(2 * getFacing(), -2));
+			duffelBody.applyTorque(1.5);
+			m_world.addBody(duffelBody);
 		}
 		
 		protected void onUpdate()
 		{
-			if(!m_hitbox.isAlive()) {
-				m_bodied.removeFixture(m_fixture);
-				removeHitbox(m_hitbox);
-				m_bodied.removeAllFixtures();
-				m_world.removeBody(m_bodied);
+			for(int i = 0; i < equipCount; i++)
+			{
+				if(!equipBoxes[i].isAlive())
+				{
+					equipBodies[i].removeFixture(equipFixes[i]);
+					removeHitbox(equipBoxes[i]);
+					equipBodies[i].removeAllFixtures();
+					m_world.removeBody(equipBodies[i]);
+					removeProjectile(m_equipment[i]);
+				}
 			}
+			
+			if(!duffelBox.isAlive())
+			{
+				duffelBody.removeFixture(duffelFix);
+				removeHitbox(duffelBox);
+				duffelBody.removeAllFixtures();
+				m_world.removeBody(duffelBody);
+				removeProjectile(duffelBag);
+			}
+			
 		}
 	};
 	
@@ -356,7 +452,7 @@ public class Cam extends Character
 		addState(new ProjState());*/
 		pushState(new WaitState(0.4f));
 		pushState(new ProjState());
-		pushState(new CharacterState("projectile", .1f));
+		pushState(new WaitState(0.2f));
 	}
 	
 	public void signature()

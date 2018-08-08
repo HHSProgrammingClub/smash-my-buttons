@@ -13,6 +13,7 @@ import graphics.IntRect;
 import graphics.Renderer;
 import graphics.Sprite;
 import program.Hitbox;
+import program.Projectile;
 import program.CharacterEffect;
 import characters.characterStates.*;
 
@@ -52,6 +53,7 @@ public abstract class Character implements Drawable
 	
 	private ArrayList<Hitbox> m_hitboxes = new ArrayList<Hitbox> ();
 	private ArrayList<CharacterEffect> m_effects  = new ArrayList<CharacterEffect>();
+	private ArrayList<Projectile> m_projectiles = new ArrayList<Projectile>();
 	
 	private Stack<CharacterState> m_stateStack = new Stack<CharacterState> ();
 	
@@ -326,6 +328,16 @@ public abstract class Character implements Drawable
 		m_effects.remove(p_effect);
 	}
 	
+	protected void addProjectile(Projectile p_projectile)
+	{
+		m_projectiles.add(p_projectile);
+	}
+	
+	protected void removeProjectile(Projectile p_projectile)
+	{
+		m_projectiles.remove(p_projectile);
+	}
+	
 	@Override
 	public void draw(Renderer p_renderer)
 	{
@@ -345,6 +357,15 @@ public abstract class Character implements Drawable
 		{
 			e.getSprite().setScale(m_facingRight ? RIGHT_SCALE : LEFT_SCALE);
 			e.draw(p_renderer);
+		}
+		
+		for(Projectile p : m_projectiles)
+		{
+			if(p.getBody() != null)
+			{
+				p.getSprite().setScale(m_facingRight ? RIGHT_SCALE : LEFT_SCALE);
+				p.draw(p_renderer);
+			}
 		}
 	}
 	
