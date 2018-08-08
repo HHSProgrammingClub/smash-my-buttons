@@ -266,9 +266,9 @@ public class Birboi extends Character
 	@Override
 	public void projectile()
 	{
-		CharacterState windup  = new CharacterState("projectile_start");
+		CharacterState windup   = new CharacterState("projectile_start");
 		
-		CharacterState screech = new CharacterState("projectile_screech", .4f)
+		CharacterState screech = new CharacterState("projectile_screech", .4f) //<- adjust this for cooldown time
 		{
 			@Override
 			protected void init()
@@ -278,11 +278,56 @@ public class Birboi extends Character
 			
 			private void spawnScreech()
 			{
+				float duration = 10;
+				
 				Hitbox screechbox = new Hitbox();
+				screechbox.setBaseKnockback(new Vector2(0, 0));
+				screechbox.setScaledKnockback(new Vector2());
+				screechbox.setDamage(4);
+				screechbox.setHitstun(.6f);
+				screechbox.setDuration(duration);
+				
+				Texture texas = new Texture();
+				texas.openResource("resources/images/screech");
+				
+				Sprite s = new Sprite(texas, "default");
+				s.setScale(m_facingRight ? RIGHT_SCALE : LEFT_SCALE);
+				
+				Rectangle rekt = new Rectangle(1.5, 1.9);
+				
+				rekt.translate(alignFacing(new Vector2(-.65, .9)));
+				
+				Vector2 spawnPos = new Vector2(1, 0).add(alignFacing(new Vector2(2, .1)));
+				Vector2 velocity = alignFacing(new Vector2(3, 0));
+				
+				BodyFixture fix = new BodyFixture(rekt);
+				
+				Body B = new Body();
+				B.addFixture(fix);
+				B.setMassType(MassType.INFINITE);
+				B.setLinearVelocity(velocity);
+				
+				Transform t = new Transform();
+				t.translate(m_body.getTransform().getTranslation());
+				t.translate(spawnPos);
+				
+				B.setTransform(t);
 				
 				Projectile screech = new Projectile();
+				screech.setCharacter((Character) m_body.getUserData());
+				screech.setHitbox(screechbox);
+				screech.setDuration(duration);
+				screech.setSprite(s);
+				screech.setBody(B);
+				
+				addHitbox(screechbox);
+				addProjectile(screech);
+				m_world.addBody(B);
 			}
 		};
+		
+		pushState(screech);
+		pushState(windup);
 	}
 	
 	@Override
@@ -319,7 +364,6 @@ public class Birboi extends Character
 		
 		CharacterState signatureState = new CharacterState("signature", -1)
 		{
-			Projectile[] shockwaves = new Projectile[2];
 			@Override
 			protected void init()
 			{
@@ -442,7 +486,7 @@ public class Birboi extends Character
 		
 		recoverBox.setBaseKnockback(alignFacing(new Vector2(2, 4)));
 		recoverBox.setScaledKnockback(alignFacing(new Vector2(.1, 4)));
-		recoverBox.setDamage(4);
+		recoverBox.setDamage(0);
 		recoverBox.setDuration(10);
 		recoverBox.setHitstun(0);
 		

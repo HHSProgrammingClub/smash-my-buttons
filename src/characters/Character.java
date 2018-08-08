@@ -30,7 +30,7 @@ public abstract class Character implements Drawable
 	protected boolean m_superArmour = false;
 	private boolean m_stunned       = false;
 	private boolean m_attacking     = false;
-	private boolean m_facingRight   = false;
+	boolean m_facingRight   = false;
 	private final static float RIGHT_BLAST_LINE = 18;
 	private final static float LEFT_BLAST_LINE = -18;
 	private final static float UPPER_BLAST_LINE = -5;
@@ -42,8 +42,8 @@ public abstract class Character implements Drawable
 	private static final int FACING_LEFT  = -1;
 	private static final int FACING_RIGHT = 1;
 	
-	private static final Vector2 LEFT_SCALE  = new Vector2(1, 1);
-	private static final Vector2 RIGHT_SCALE = new Vector2(-1, 1);
+	static final Vector2 LEFT_SCALE  = new Vector2(1, 1);
+	static final Vector2 RIGHT_SCALE = new Vector2(-1, 1);
 
 	protected Vector2 jumpImpulse = new Vector2(0, -20);
 	protected Vector2 runForce    = new Vector2(20, 0);
@@ -363,7 +363,8 @@ public abstract class Character implements Drawable
 		{
 			if(p.getBody() != null)
 			{
-				p.getSprite().setScale(m_facingRight ? RIGHT_SCALE : LEFT_SCALE);
+				//this has... interesting consequences. maybe move it to add_projectile?
+				//p.getSprite().setScale(m_facingRight ? RIGHT_SCALE : LEFT_SCALE);
 				p.draw(p_renderer);
 			}
 		}
