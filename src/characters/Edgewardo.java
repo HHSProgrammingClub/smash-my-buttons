@@ -10,10 +10,12 @@ import org.dyn4j.geometry.Transform;
 import org.dyn4j.geometry.Vector2;
 
 import characters.characterStates.CharacterState;
+import characters.characterStates.WaitState;
 import graphics.Sprite;
 import graphics.Texture;
 import program.CharacterEffect;
 import program.Hitbox;
+import program.Projectile;
 
 public class Edgewardo extends Character
 {
@@ -212,18 +214,174 @@ public class Edgewardo extends Character
 		pushState(new SmashState());
 		pushState(new CharacterState("smash", .1f));
 	}
+	
+	private class ProjectileStart extends CharacterState
+	{
+		public ProjectileStart()
+		{
+			super("projectile");
+		}
+	}
 
+	private class ProjectileState extends CharacterState
+	{
+		private Projectile knife;
+		private Hitbox m_hitbox = new Hitbox();
+		private Rectangle m_rect;
+		private BodyFixture m_fixture;
+		private Body m_knifeBody = new Body();
+		
+		public ProjectileState()
+		{
+			super("idle");
+			
+			Texture knifeTex = new Texture();
+			knifeTex.openResource("resources/images/knife");
+			
+			Sprite knifeSprite = new Sprite(knifeTex);
+			knifeSprite.setAnimation("default");
+			
+			m_hitbox.setDuration(2f);
+			m_hitbox.setDamage(6);
+			m_hitbox.setHitstun(0.3f);
+			m_hitbox.setBaseKnockback(new Vector2(2 * getFacing(), 0));
+			m_hitbox.setScaledKnockback(new Vector2(1 * getFacing(), 0));
+			
+			m_rect = new Rectangle(0.5, 0.5);
+			m_rect.translate(0, 0);
+			
+			//projectile keeps hurting Edge despite this
+			knife = new Projectile(knifeSprite, m_hitbox);
+			knife.setCharacter((Character) m_body.getUserData());
+			m_fixture = new BodyFixture(m_rect);
+			
+			Transform t = new Transform();
+			t.translate(m_body.getTransform().getTranslation());
+			t.translate(1.5*getFacing(), 1);
+			
+			m_knifeBody.setTransform(t);
+			m_knifeBody.addFixture(m_fixture);
+			m_knifeBody.setMass(MassType.INFINITE);
+		}
+		
+		protected void init()
+		{
+			addHitbox(m_hitbox);
+			m_hitbox.addToFixture(m_fixture);
+			m_fixture.setSensor(false);
+			knife.setBody(m_knifeBody);
+			m_knifeBody.setLinearVelocity(new Vector2(20*getFacing(), 0));
+			m_world.addBody(m_knifeBody);
+		}
+		
+		protected void onUpdate()
+		{
+			if(!m_hitbox.isAlive()) 
+			{
+				m_body.removeFixture(m_fixture);
+				removeHitbox(m_hitbox);
+				m_knifeBody.removeAllFixtures();
+				m_world.removeBody(m_body);
+			}
+		}
+	}
+	
 	@Override
 	public void projectile()
 	{
-		m_sprite.setAnimation("projectile");
+		pushState(new WaitState(0.4f));
+		pushState(new ProjectileState());
+		pushState(new CharacterState("projectile", 0.4f));
 	}
 
 	@Override
 	public void signature()
 	{
-		// TODO: brooding fog sprites
-		m_sprite.setAnimation("signature");
+		CharacterState sigState = new CharacterState("signature", 2.5f)
+				{
+					//randomness for fun
+					private Hitbox[] m_hitboxes = new Hitbox[(int)((Math.random() * 5)+2)];
+					private int length = m_hitboxes.length;
+					
+					private Projectile[] m_fog = new Projectile[length];
+					private BodyFixture[] m_fixtures = new BodyFixture[length];
+					private Body[] fogBodies = new Body[length];
+					private Sprite fogSprite;
+					
+					@Override
+					public void init()
+					{
+						Texture fogTexture = new Texture();
+						fogTexture.openResource("resources/images/fog");
+						
+						fogSprite = new Sprite(fogTexture, "default");
+						
+						for(int i = 0; i < m_hitboxes.length; i++)
+						{
+							m_hitboxes[i] = new Hitbox();
+							float randomDuration = (float)(Math.random() * 5);
+							m_hitboxes[i].setDuration(randomDuration);
+							m_hitboxes[i].setDamage(1);
+							m_hitboxes[i].setBaseKnockback(new Vector2(0, 0));
+							m_hitboxes[i].setScaledKnockback(new Vector2(0, 0));
+							
+							Rectangle rect = new Rectangle(2, 1);
+							rect.translate(0, 0);
+							
+							m_fog[i] = new Projectile(fogSprite, m_hitboxes[i]);
+							m_fog[i].setCharacter((Character) m_body.getUserData());
+							
+							m_fixtures[i] = new BodyFixture(rect);
+							
+							Transform t = new Transform();
+							t.translate(m_body.getTransform().getTranslation());
+							
+							double randomDirection = Math.random();
+							double randomOffset = Math.random() * (randomDirection >= 0.5 ? 1 : -1);
+							t.translate(1 + randomOffset, 1.5+randomOffset);
+							
+							fogBodies[i] = new Body();
+							fogBodies[i].setTransform(t);
+							fogBodies[i].addFixture(m_fixtures[i]);
+							fogBodies[i].setMass(MassType.INFINITE); //this is funny because all these are fog
+						
+							addHitbox(m_hitboxes[i]);
+							m_hitboxes[i].addToFixture(m_fixtures[i]);
+							m_fixtures[i].setSensor(false);
+							m_fog[i].setBody(fogBodies[i]);
+							double randomVelocity = Math.random() * (randomDirection >= 0.5 ? 1 : -1);
+							
+							fogBodies[i].setLinearVelocity((0.5 + randomVelocity)*getFacing(), 0);
+							m_world.addBody(fogBodies[i]);
+						}
+					}
+					
+					@Override
+					public void interrupt()
+					{
+						for(int i = 0; i < length; i++)
+						{
+							fogBodies[i].removeFixture(m_fixtures[i]);
+							removeHitbox(m_hitboxes[i]);
+							fogBodies[i].removeAllFixtures();
+							m_world.removeBody(fogBodies[i]);
+						}
+					}
+					
+					@Override
+					public void end()
+					{
+						for(int i = 0; i < length; i++)
+						{
+							fogBodies[i].removeFixture(m_fixtures[i]);
+							removeHitbox(m_hitboxes[i]);
+							fogBodies[i].removeAllFixtures();
+							m_world.removeBody(fogBodies[i]);
+						}
+					}
+				};
+		// TODO: disappearing animation
+		pushState(sigState);
 	}
 	
 	private class RecoveryState extends CharacterState

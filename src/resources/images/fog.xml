@@ -1,0 +1,4 @@
+<atlas>
+    <subtexture name="default" x="0" y="0" w="64" h="32" loop="1"/>
+    <subtexture name="fadeout" x="0" y="32" w="64" h="32" frames="4" interval="300"/>
+</atlas>
