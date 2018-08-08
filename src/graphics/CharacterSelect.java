@@ -52,20 +52,6 @@ public class CharacterSelect implements Page
 	
 	private String m_chosenStageName;
 	
-	private static Character newCharacter(String p_name)
-	{
-		switch(p_name)
-		{
-			case "Jack":
-				return new Jack();
-			case "Birboi":
-				return new Birboi();
-			case "Edgewardo":
-				return new Edgewardo();
-		}
-		return new Jack();
-	}
-	
 	private static Stage newStage(String p_name)
 	{
 		return new TestingStage();
@@ -82,7 +68,6 @@ public class CharacterSelect implements Page
 	private static AIController createAIController(String p_filePath)
 	{
 		AIController controller = new AIController();
-		
         try
 		{
         	controller.openFile(p_filePath);
@@ -95,8 +80,8 @@ public class CharacterSelect implements Page
 			e1.printStackTrace();
 			return null;
 		}
-        
-        controller.setCharacter(newCharacter(controller.getTargetCharacter()));
+        if (controller.getTargetCharacter() != null)
+        	controller.setCharacter(CharacterFactory.create(controller.getTargetCharacter()));
         return controller;
 	}
 	
@@ -155,7 +140,6 @@ public class CharacterSelect implements Page
 		m_panel.add(lblPlayer2, gbc_lblPlayer_1);
 		
 		
-		
 		JButton ai2ScriptLoad = new JButton("Load Script");
 		GridBagConstraints gbc_ai2ScriptLoad = new GridBagConstraints();
 		gbc_ai2ScriptLoad.anchor = GridBagConstraints.NORTH;
@@ -179,7 +163,9 @@ public class CharacterSelect implements Page
 			}
 		});
 		
-		JComboBox<String> stageSelect = new JComboBox<String>(Stage.stageNames);
+		JComboBox<String> stageSelect = new JComboBox<String>();
+		for (String i : Stage.stageNames)
+			stageSelect.addItem(i);
 		stageSelect.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
@@ -197,14 +183,16 @@ public class CharacterSelect implements Page
 		ai2ScriptLoad.setEnabled(false);
 		m_panel.add(ai2ScriptLoad, gbc_ai2ScriptLoad);
 		
-		JComboBox<String> characterSelector1 = new JComboBox<String>(Character.characterNames);
+		JComboBox<String> characterSelector1 = new JComboBox<String>();
+		for (String i : Character.characterNames)
+			characterSelector1.addItem(i);
 		characterSelector1.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
 			{
 				JComboBox<String> bawks = (JComboBox<String>)e.getSource();
 		        String characterName = (String)bawks.getSelectedItem();
-		        m_p1.setCharacter(newCharacter(characterName));
+		        m_p1.setCharacter(CharacterFactory.create(characterName));
 		        System.out.println("Player 1 character set to " + characterName);
 			}
 		});
@@ -227,6 +215,11 @@ public class CharacterSelect implements Page
 						royale.startBattle(p_gui);
 					}
 				});
+
+		GridBagConstraints gbc_p2AiCheckBox = new GridBagConstraints();
+		gbc_p2AiCheckBox.insets = new Insets(0, 0, 5, 5);
+		gbc_p2AiCheckBox.gridx = 3;
+		gbc_p2AiCheckBox.gridy = 2;
 		m_panel.add(btnStartFight, gbc_btnStartFight);
 		
 		
@@ -238,14 +231,16 @@ public class CharacterSelect implements Page
 		gbc_characterSelector1.gridy = 6;
 		m_panel.add(characterSelector1, gbc_characterSelector1);
 		
-		JComboBox<String> characterSelector2 = new JComboBox<String>(Character.characterNames);
+		JComboBox<String> characterSelector2 = new JComboBox<String>();
+		for (String i : Character.characterNames)
+			characterSelector2.addItem(i);
 		characterSelector2.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
 			{
 				JComboBox<String> bawks = (JComboBox<String>)e.getSource();
 		        String characterName = (String)bawks.getSelectedItem();
-		        m_p2.setCharacter(newCharacter(characterName));
+		        m_p2.setCharacter(CharacterFactory.create(characterName));
 		        System.out.println("Player 2 character set to " + characterName);
 			}
 		});
@@ -306,10 +301,6 @@ public class CharacterSelect implements Page
 				}
 			}
 		});
-		GridBagConstraints gbc_p2AiCheckBox = new GridBagConstraints();
-		gbc_p2AiCheckBox.insets = new Insets(0, 0, 5, 5);
-		gbc_p2AiCheckBox.gridx = 3;
-		gbc_p2AiCheckBox.gridy = 2;
 		m_panel.add(p2AiCheckBox, gbc_p2AiCheckBox);
 		m_panel.add(ai1ScriptLoad, gbc_ai1ScriptLoad);
 		

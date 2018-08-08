@@ -1,7 +1,8 @@
 AIName = "CrazyAI"
 AIAuthor = "MGT"
-AITargetCharacter = "Billy"
-
+AITargetCharacter = "Birboi"
+print("pie")
 def loop(player):
 	player.smash()
+	#print x
 	return
