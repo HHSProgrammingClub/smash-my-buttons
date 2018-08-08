@@ -1,9 +1,12 @@
 package graphics;
 
+import java.awt.Dimension;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 
 import javax.swing.JFrame;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 public class GUI
 {
@@ -59,7 +62,7 @@ public class GUI
 		};
 		m_window = new JFrame(epicTitles[(int)(Math.random() * epicTitles.length)]);
 		m_window.setSize(width, height);
-		m_window.setResizable(false);
+		m_window.setResizable(true);
 		m_window.setVisible(true);
 		m_window.setLocationRelativeTo(null);
 		m_window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -36,7 +36,7 @@ public class Renderer implements Page
 	
 	private Stack<AffineTransform> m_transformStack = new Stack<AffineTransform>();
 	
-	private Lock m_frameSwapLock = new ReentrantLock(); 
+	private Lock m_frameSwapLock = new ReentrantLock();
 	
 	/**
 	 * Creates renderer for displaying images and shapes
@@ -96,7 +96,7 @@ public class Renderer implements Page
 	 */
 	public void clear()
 	{
-		m_graphics.setColor(Color.LIGHT_GRAY);
+		m_graphics.setColor(Color.BLACK);
 		m_graphics.fillRect(0, 0, m_width, m_height);
 	}
 	

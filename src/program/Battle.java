@@ -108,6 +108,42 @@ public class Battle
 		battleThread.interrupt();
 	}
 	
+	/**
+	 * Calculates the transform for adjusting the render target to
+	 * the window size.
+	 * 
+	 * @param p_transform Transform to be modified
+	 * @param p_targetWidth Width of target
+	 * @param p_targetHeight Height of target
+	 * @param p_windowWidth Width of window
+	 * @param p_windowHeight Height of window
+	 * @param p_scale Optional scale factor
+	 */
+	private static void calcRenderTargetTransform(AffineTransform p_transform,
+			double p_targetWidth, double p_targetHeight,
+			double p_windowWidth, double p_windowHeight, double p_scale)
+	{
+		// targetsize:windowsize
+		double widthRatio = Math.min((p_windowHeight / p_targetHeight) * (p_targetWidth / p_windowWidth), 1.0);
+		double heightRatio = Math.min((p_windowWidth / p_targetWidth) * (p_targetHeight / p_windowHeight), 1.0);
+		
+		// Size of new target
+		double width = p_windowWidth * widthRatio;
+		double height = p_windowHeight * heightRatio;
+		
+		// Amount to scale the transform
+		double xScale = (width * p_scale) / p_targetWidth;
+		double yScale = (height * p_scale) / p_targetHeight;
+		
+		// Translate to center
+		double xTrans = (p_windowWidth - width) / 2;
+		double yTrans = (p_windowHeight - height) / 2;
+		
+		// Apply
+		p_transform.translate(xTrans, yTrans);
+		p_transform.scale(xScale, yScale);
+	}
+	
 	private void gameLoop()
 	{
 		m_stage.registerTerrainSprites(m_renderList);
@@ -143,9 +179,8 @@ public class Battle
 			// This transform will affect everything that is draw to our world.
 			AffineTransform worldTransform = new AffineTransform();
 			java.awt.Dimension rendererSize = m_renderer.getComponent().getSize();
-			//worldTransform.scale(128, 128); //temporary --- for Cathy's laptop
-			worldTransform.scale((rendererSize.width * 32) / 400.0,
-					(rendererSize.height * 32) / 300.0); // One unit is 64 pixels
+			calcRenderTargetTransform(worldTransform, 400, 300, rendererSize.width, rendererSize.height, 32);
+			
 			m_renderer.pushTransform(worldTransform);
 			
 			//update the world
@@ -156,10 +191,10 @@ public class Battle
 			if(m_visibleHitboxes)
 				debugger.draw(m_renderer);
 			
+			m_renderer.popTransform();
+			
 			//display the current frame
 			m_renderer.display();
-			
-			m_renderer.popTransform();
 			
 			//delay
 			try {
