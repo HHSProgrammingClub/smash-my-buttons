@@ -387,7 +387,7 @@ public class Birboi extends Character
 					p.setSprite(sp);
 					p.setDuration(timer);
 					
-					p.getBody().setLinearVelocity(3 * flip, 0);
+					p.getBody().setLinearVelocity(5 * flip, 0);
 					
 					addHitbox(box);
 					

@@ -6,4 +6,6 @@ public interface EnemyInterface
 	public float getY();
 	public float getHitstun();
 	public int getDamage();
+	public double getXVel();
+	public double getYVel();
 }

@@ -33,4 +33,14 @@ class PyEnemyWrapper implements pythonAI.interfaces.EnemyInterface {
 	public int getDamage() {
 		return m_character.getDamage();
 	}
+
+	@Override
+	public double getXVel() {
+		return m_character.getBody().getLinearVelocity().x;
+	}
+
+	@Override
+	public double getYVel() {
+		return m_character.getBody().getLinearVelocity().y;
+	}
 }

@@ -66,13 +66,13 @@ public class Edgewardo extends Character
 			super("jab");
 			
 			m_hitbox.setDuration(0.2f);
-			m_hitbox.setDamage(2);
-			m_hitbox.setHitstun(1.5f);
+			m_hitbox.setDamage(0);
+			m_hitbox.setHitstun(0.75f);
 			m_hitbox.setBaseKnockback(new Vector2(1.5 * getFacing(), 0));
 			m_hitbox.setScaledKnockback(new Vector2(getFacing(), -1));
 		
 			m_rect = new Rectangle(0.5, 1);
-			m_rect.translate(length + 0.25 * getFacing(), 1);
+			m_rect.translate(length + 0.3 * getFacing(), 1);
 			
 			m_fixture = new BodyFixture(m_rect);
 		}
@@ -107,7 +107,7 @@ public class Edgewardo extends Character
 	@Override
 	public void tilt() 
 	{
-		CharacterState tiltBeginning = new CharacterState("tilt_dash", 0.4f) {};
+		CharacterState tiltBeginning = new CharacterState("tilt_dash", 0.3f) {};
 		
 		CharacterState tiltDash = new CharacterState("tilt_dash", 0.1f)
 		{
@@ -120,7 +120,7 @@ public class Edgewardo extends Character
 			{
 				m_hitbox.setDuration(0.1f);
 				m_hitbox.setDamage(7);
-				m_hitbox.setHitstun(0.5f);
+				m_hitbox.setHitstun(0.3f);
 				m_hitbox.setBaseKnockback(new Vector2(getFacing(), 0));
 				m_hitbox.setScaledKnockback(new Vector2(5 * getFacing(), -1));
 				
@@ -180,10 +180,10 @@ public class Edgewardo extends Character
 			m_hitbox.setDamage(15);
 			m_hitbox.setHitstun(0.4f);
 			m_hitbox.setBaseKnockback(new Vector2(0.5 * getFacing(), 0));
-			m_hitbox.setScaledKnockback(new Vector2(4 * getFacing(), -1));
+			m_hitbox.setScaledKnockback(new Vector2(6 * getFacing(), -4));
 			
 			m_rect = new Rectangle(0.5, 1);
-			m_rect.translate(length + 0.5 * getFacing(), 1.25);
+			m_rect.translate(length + 0.6 * getFacing(), 1.25);
 		
 			m_fixture = new BodyFixture(m_rect);
 		}
@@ -212,7 +212,7 @@ public class Edgewardo extends Character
 	public void smash()
 	{
 		pushState(new SmashState());
-		pushState(new CharacterState("smash", .1f));
+		pushState(new CharacterState("smash", .3f));
 	}
 	
 	private class ProjectileStart extends CharacterState
@@ -234,7 +234,7 @@ public class Edgewardo extends Character
 		public ProjectileState()
 		{
 			super("idle");
-			
+			setDuration(0.3f);
 			Texture knifeTex = new Texture();
 			knifeTex.openResource("resources/images/knife");
 			
@@ -242,9 +242,9 @@ public class Edgewardo extends Character
 			knifeSprite.setAnimation("default");
 			
 			m_hitbox.setDuration(2f);
-			m_hitbox.setDamage(6);
-			m_hitbox.setHitstun(0.3f);
-			m_hitbox.setBaseKnockback(new Vector2(2 * getFacing(), 0));
+			m_hitbox.setDamage(2);
+			m_hitbox.setHitstun(0.05f);
+			m_hitbox.setBaseKnockback(new Vector2(0, 0));
 			m_hitbox.setScaledKnockback(new Vector2(1 * getFacing(), 0));
 			
 			m_rect = new Rectangle(0.5, 0.5);
@@ -271,7 +271,7 @@ public class Edgewardo extends Character
 			m_hitbox.addToFixture(m_fixture);
 			m_fixture.setSensor(false);
 			knife.setBody(m_knifeBody);
-			m_knifeBody.setLinearVelocity(new Vector2(20*getFacing(), 0));
+			m_knifeBody.setLinearVelocity(new Vector2(10*getFacing(), 0));
 			m_world.addBody(m_knifeBody);
 		}
 		
@@ -291,9 +291,8 @@ public class Edgewardo extends Character
 	@Override
 	public void projectile()
 	{
-		pushState(new WaitState(0.4f));
 		pushState(new ProjectileState());
-		pushState(new CharacterState("projectile", 0.4f));
+		pushState(new CharacterState("projectile", 0.1f));
 	}
 
 	@Override
@@ -321,9 +320,10 @@ public class Edgewardo extends Character
 						for(int i = 0; i < m_hitboxes.length; i++)
 						{
 							m_hitboxes[i] = new Hitbox();
-							float randomDuration = (float)(Math.random() * 5);
+							float randomDuration = (float)(Math.random() * 2) + 2;
 							m_hitboxes[i].setDuration(randomDuration);
-							m_hitboxes[i].setDamage(1);
+							m_hitboxes[i].setDamage(2);
+							m_hitboxes[i].setHitstun(0);
 							m_hitboxes[i].setBaseKnockback(new Vector2(0, 0));
 							m_hitboxes[i].setScaledKnockback(new Vector2(0, 0));
 							
@@ -487,6 +487,7 @@ public class Edgewardo extends Character
 						m_body.removeFixture(m_fixture);
 						removeHitbox(m_hitbox);
 						m_body.setLinearDamping(0);
+						m_recovered = true;
 					}
 				};
 		

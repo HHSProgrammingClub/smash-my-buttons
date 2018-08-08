@@ -23,4 +23,6 @@ public interface PlayerInterface
 	public boolean jumped();
 	public boolean recovered();
 	public int getDamage();
+	public double getXVel();
+	public double getYVel();
 }
