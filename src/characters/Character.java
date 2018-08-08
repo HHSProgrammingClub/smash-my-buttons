@@ -392,6 +392,10 @@ public abstract class Character implements Drawable
 		
 		peekState().update(p_delta);
 		
+		for(int i = 0; i < m_projectiles.size(); i++)
+			if(!m_projectiles.get(i).update(p_delta))
+				m_projectiles.remove(i--);
+		
 		//TODO: move this stuff out of the charcter class to a collision listener
 		if(m_body.getWorldCenter().x > RIGHT_BLAST_LINE ||
 			m_body.getWorldCenter().x < LEFT_BLAST_LINE ||
