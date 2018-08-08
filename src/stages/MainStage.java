@@ -1,5 +1,7 @@
 package stages;
 
+import java.awt.geom.AffineTransform;
+
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.World;
 import org.dyn4j.geometry.MassType;
@@ -10,9 +12,9 @@ import org.dyn4j.geometry.Vector2;
 import graphics.Sprite;
 import graphics.Texture;
 
-public class TestingStage extends Stage
+public class MainStage extends Stage
 {
-	public TestingStage()
+	public MainStage()
 	{
 		World aWorld = new World();
 		aWorld.setGravity(new Vector2(0, 27));
@@ -32,26 +34,19 @@ public class TestingStage extends Stage
 		groundBody.setTransform(t);
 		groundBody.addFixture(groundShape);
 		
-		Rectangle groundShape2 = new Rectangle(3, 1);
-		groundShape2.translate(0, 0);
-		Body groundBody2 = new Body();
-		Transform t2 = new Transform();
-		t2.setTranslation(7, 4);
-		groundBody2.setTransform(t2);
-		groundBody2.addFixture(groundShape2);
-		groundBody2.setMassType(MassType.INFINITE);
-		
 		Texture groundTexture = new Texture();
-		groundTexture.openResource("resources/images/testing_ground");
+		groundTexture.openResource("resources/images/stage");
 			
-		Sprite groundSprite = new Sprite(groundTexture, "ground");
+		Sprite groundSprite = new Sprite(groundTexture, "default");
 			
 		TerrainPiece ground = new TerrainPiece();
 		ground.setBody(groundBody);
 		ground.setSprite(groundSprite);
-		TerrainPiece ground2 = new TerrainPiece();
-		ground2.setBody(groundBody2);
-		ground2.setSprite(groundSprite);
+		
+		AffineTransform stageOffset = new AffineTransform();
+		stageOffset.translate(2, 5);
+		
+		ground.setTransform(stageOffset);
 			
 		getPhysicsWorld().addBody(groundBody);
 		//getPhysicsWorld().addBody(groundBody2);

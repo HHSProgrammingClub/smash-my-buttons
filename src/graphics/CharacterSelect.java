@@ -27,7 +27,7 @@ import program.CharacterController;
 import program.PlayerController;
 import pythonAI.AIController;
 import stages.Stage;
-import stages.TestingStage;
+import stages.MainStage;
 
 /*class EnvironmentComboBoxRenderer extends BasicComboBoxRenderer
 {
@@ -54,7 +54,7 @@ public class CharacterSelect implements Page
 	
 	private static Stage newStage(String p_name)
 	{
-		return new TestingStage();
+		return new MainStage();
 	}
 	
 	public CharacterSelect(GUI p_gui)
