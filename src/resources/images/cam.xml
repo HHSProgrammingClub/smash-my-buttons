@@ -10,5 +10,5 @@
     <subtexture name="smash_flash" x="0" y="256" w="64" h="64" frames="5" interval="150"/>
     <subtexture name="projectile" x="0" y="448" w="64" h="64" frames="4" interval="100"/>
     <subtexture name="recovery" x="0" y="512" w="64" h="64" frames="4" interval="100"/>
-    <subtexture name="signature" x="0" y="576" w="64" h="64" frames="2" interval="200" loop="1"/>
+    <subtexture name="signature" x="0" y="576" w="64" h="64" frames="4" interval="200" loop="1"/>
 </atlas>

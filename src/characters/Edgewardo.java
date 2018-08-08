@@ -271,7 +271,6 @@ public class Edgewardo extends Character
 					public void end()
 					{
 						getBody().setLinearVelocity(0, 0);
-						//nerfed back a bit
 						m_body.translate(0, -4);
 						m_body.removeFixture(m_fixture);
 						removeHitbox(m_hitbox);
@@ -302,24 +301,17 @@ public class Edgewardo extends Character
 						m_hitbox.addToFixture(m_fixture);
 						m_body.addFixture(m_fixture);
 						
-						Texture explosionTexture = new Texture();
-						explosionTexture.openResource("resources/images/explosion");
-						
-						Sprite explosion = new Sprite(explosionTexture);
-						explosion.setAnimation("explosion");
-						
 						AffineTransform explosionOffset = new AffineTransform();
-						explosionOffset.translate(m_body.getLocalCenter().x, m_body.getLocalCenter().y);
 						//somehow draw this
 						
 						//m_body.setLinearDamping(0);
-						float offset = -1.5f;
-						explosionOffset.translate(m_body.getWorldCenter().x + offset, m_body.getWorldCenter().y + offset);
+						float offset = 1.5f;
+						explosionOffset.translate(m_body.getWorldCenter().x + getFacing(), m_body.getWorldCenter().y - offset);
 						explosionOffset.scale(1.5, 1.5);
 						
-						CharacterEffect ExplosionEffect = new CharacterEffect(explosion, explosionOffset);
+						CharacterEffect explosionEffect = new CharacterEffect("explosion", "explosion", explosionOffset);
 						
-						addEffect(ExplosionEffect);
+						addEffect(explosionEffect);
 						
 						m_body.setLinearDamping(40);
 					}

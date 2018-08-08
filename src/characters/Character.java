@@ -342,7 +342,10 @@ public abstract class Character implements Drawable
 		}
 		
 		for(CharacterEffect e : m_effects)
+		{
+			e.getSprite().setScale(m_facingRight ? RIGHT_SCALE : LEFT_SCALE);
 			e.draw(p_renderer);
+		}
 	}
 	
 	public void update(float p_delta)

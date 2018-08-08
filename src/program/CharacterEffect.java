@@ -5,6 +5,7 @@ import java.awt.geom.AffineTransform;
 import graphics.Drawable;
 import graphics.Renderer;
 import graphics.Sprite;
+import graphics.Texture;
 
 /*
  * Certain effects like explosions, flashes, that characters produce
@@ -16,16 +17,31 @@ public class CharacterEffect implements Drawable
 	
 	public CharacterEffect() {}
 	
-	public CharacterEffect(Sprite p_sprite)
+	public CharacterEffect(String p_name, String p_animation)
 	{
-		m_sprite = p_sprite;
+		Texture texture = new Texture();
+		texture.openResource("resources/images/" + p_name);
+		
+		m_sprite = new Sprite(texture);
+		m_sprite.setAnimation(p_animation);
+		
 		m_transform = new AffineTransform();
 	}
 	
-	public CharacterEffect(Sprite p_sprite, AffineTransform p_transformer)
+	public CharacterEffect(String p_name, String p_animation, AffineTransform p_transformer)
 	{
-		m_sprite = p_sprite;
+		Texture texture = new Texture();
+		texture.openResource("resources/images/" + p_name);
+		
+		m_sprite = new Sprite(texture);
+		m_sprite.setAnimation(p_animation);
+		
 		m_transform = p_transformer;
+	}
+	
+	public Sprite getSprite()
+	{
+		return m_sprite;
 	}
 	
 	@Override
