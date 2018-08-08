@@ -36,6 +36,8 @@ public class Projectile implements Drawable
 		m_hitbox = p_hitbox;
 	}
 	
+	public Hitbox getHitbox() { return m_hitbox; }
+	
 	public void setBody(Body p_body)
 	{
 		//add the hitbox to all BodyFixtures in the body -- can change
