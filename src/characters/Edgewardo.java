@@ -21,7 +21,7 @@ public class Edgewardo extends Character
 {
 	private static double position = 0;
 	private float length = 1;
-	private float height = 2;
+	private float height = 1.5f;
 
 	public Edgewardo()
 	{
