@@ -103,9 +103,9 @@ public class Birboi extends Character
 		
 		tiltBoxFront.setBaseKnockback(alignFacing(new Vector2(7, 4)));
 		tiltBoxFront.setScaledKnockback(alignFacing(new Vector2(3.5, 2.5)));
-		tiltBoxFront.setDamage(4);
+		tiltBoxFront.setDamage(2);
 		tiltBoxFront.setDuration(30);
-		tiltBoxFront.setHitstun(.1f);
+		tiltBoxFront.setHitstun(0.f);
 		
 		Vector2 tiltBoxPos    = new Vector2(1, 1.5);
 		Vector2 tiltBoxOffset = new Vector2(.5, 0);
@@ -184,80 +184,81 @@ public class Birboi extends Character
 		};
 		
 		CharacterState smashStartup = new CharacterState("smash_startup")
-				{
-					@Override
-					public void init()
-					{
-						getBody().setLinearVelocity(0, 0);
-						getBody().setGravityScale(0.1);
-					}
-					
-					@Override
-					public void interrupt()
-					{
-						getBody().setGravityScale(1);
-					}
-					
-					@Override
-					public void end()
-					{
-						
-					}
-				};
+		{
+			@Override
+			public void init()
+			{
+				getBody().setLinearVelocity(0, 0);
+				getBody().setGravityScale(0.1);
+			}
+			
+			@Override
+			public void interrupt()
+			{
+				getBody().setGravityScale(1);
+			}
+			
+			@Override
+			public void end()
+			{
+				
+			}
+		};
 		
 		CharacterState smashFlight = new CharacterState("smash_fly", duration)
-				{
-					Hitbox m_hitbox = new Hitbox();
-					Rectangle m_rect = new Rectangle(.6, 1.7);
-					BodyFixture m_fixture;
-					
-					final Vector2 m_baseImpulse     = new Vector2(16, 0);
-					final Vector2 m_baseKnockback   = new Vector2(8, -5);
-					final Vector2 m_scaledKnockback = new Vector2(1.5, -2);
-					
-					final Vector2 m_hitboxBasePos   = new Vector2(1, 1.25);
-					final Vector2 m_hitboxOffsetPos = new Vector2(.4, 0);
-					
-					@Override
-					public void init()
-					{
-						getBody().applyImpulse(alignFacing(m_baseImpulse));
-						m_hitbox.setDamage(9);
-						m_hitbox.setBaseKnockback(alignFacing(m_baseKnockback));
-						m_hitbox.setScaledKnockback(alignFacing(m_scaledKnockback));
-						m_hitbox.setDuration(duration);
-						
-						m_rect.translate(m_hitboxBasePos.add(alignFacing(m_hitboxOffsetPos)));
-						m_fixture = new BodyFixture(m_rect);
-						getBody().addFixture(m_fixture);
-						m_hitbox.addToFixture(m_fixture);
-						addHitbox(m_hitbox);
-					}
-					
-					@Override
-					public void interrupt()
-					{
-						getBody().removeFixture(m_fixture);
-						removeHitbox(m_hitbox);
-						getBody().setGravityScale(1);
-					}
+		{
+			Hitbox m_hitbox = new Hitbox();
+			Rectangle m_rect = new Rectangle(.6, 1.7);
+			BodyFixture m_fixture;
+			
+			final Vector2 m_baseImpulse     = new Vector2(16, 0);
+			final Vector2 m_baseKnockback   = new Vector2(8, -5);
+			final Vector2 m_scaledKnockback = new Vector2(1.5, -2);
+			
+			final Vector2 m_hitboxBasePos   = new Vector2(1, 1.25);
+			final Vector2 m_hitboxOffsetPos = new Vector2(.4, 0);
+			
+			@Override
+			public void init()
+			{
+				getBody().applyImpulse(alignFacing(m_baseImpulse));
+				m_hitbox.setDamage(9);
+				m_hitbox.setBaseKnockback(alignFacing(m_baseKnockback));
+				m_hitbox.setScaledKnockback(alignFacing(m_scaledKnockback));
+				m_hitbox.setDuration(duration);
+				
+				m_rect.translate(m_hitboxBasePos.add(alignFacing(m_hitboxOffsetPos)));
+				m_fixture = new BodyFixture(m_rect);
+				getBody().addFixture(m_fixture);
+				m_hitbox.addToFixture(m_fixture);
+				addHitbox(m_hitbox);
+			}
+			
+			@Override
+			public void interrupt()
+			{
+				getBody().removeFixture(m_fixture);
+				removeHitbox(m_hitbox);
+				getBody().setGravityScale(1);
+			}
 
-					@Override
-					public void end()
-					{
-						interrupt();
-					}
-					
-					@Override
-					protected void onUpdate()
-					{
-						if(!m_hitbox.isAlive() && getTimer() > 0)
-						{
-							popState();
-							pushState(smashContact);
-						}
-					}
-				};
+			@Override
+			public void end()
+			{
+				interrupt();
+			}
+			
+			@Override
+			protected void onUpdate()
+			{
+				if(!m_hitbox.isAlive() && getTimer() > 0)
+				{
+					popState();
+					pushState(smashContact);
+				}
+			}
+		};
+		
 		pushState(smashFlight);
 		pushState(smashStartup);
 	}
@@ -265,8 +266,23 @@ public class Birboi extends Character
 	@Override
 	public void projectile()
 	{
-		// TODO Auto-generated method stub
+		CharacterState windup  = new CharacterState("projectile_start");
 		
+		CharacterState screech = new CharacterState("projectile_screech", .4f)
+		{
+			@Override
+			protected void init()
+			{
+				spawnScreech();
+			}
+			
+			private void spawnScreech()
+			{
+				Hitbox screechbox = new Hitbox();
+				
+				Projectile screech = new Projectile();
+			}
+		};
 	}
 	
 	@Override
@@ -303,7 +319,7 @@ public class Birboi extends Character
 		
 		CharacterState signatureState = new CharacterState("signature", -1)
 		{
-			public Projectile[] shockwaves = new Projectile[2];
+			Projectile[] shockwaves = new Projectile[2];
 			@Override
 			protected void init()
 			{
@@ -331,6 +347,9 @@ public class Birboi extends Character
 			
 			private void spawnShockwaves()
 			{
+				float timer = .5f;
+				
+				Projectile[] shockwaves = new Projectile[2];
 				for(int i = 0; i < shockwaves.length; i++)
 				{
 					int flip = (i == 0 ? 1 : -1);
@@ -339,12 +358,13 @@ public class Birboi extends Character
 					shockwave.openResource("resources/images/" + (i == 0 ? "shockwave_L" : "shockwave_R"));
 					Sprite sp = new Sprite(shockwave);
 					sp.setAnimation("default");
+					sp.setPosition(0, -4);
 					
 					Hitbox box = new Hitbox();
 					box.setBaseKnockback(alignFacing(new Vector2(1 * flip, -2)));
 					box.setScaledKnockback(alignFacing(new Vector2(.5 * flip, -1)));
 					box.setDamage(3);
-					box.setDuration(0.5f);
+					box.setDuration(timer);
 					box.setHitstun(.25f);
 					
 					Vector2 offset = new Vector2(1 + .6 * flip, 1.5);
@@ -365,8 +385,11 @@ public class Birboi extends Character
 					p.setHitbox(box);
 					p.setBody(b);
 					p.setSprite(sp);
+					p.setDuration(timer);
 					
 					p.getBody().setLinearVelocity(3 * flip, 0);
+					
+					addHitbox(box);
 					
 					m_world.addBody(b);
 					
