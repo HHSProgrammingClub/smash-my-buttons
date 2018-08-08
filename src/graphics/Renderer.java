@@ -14,6 +14,8 @@ import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.Stack;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
@@ -33,6 +35,8 @@ public class Renderer implements Page
 	private float m_scale = 1;
 	
 	private Stack<AffineTransform> m_transformStack = new Stack<AffineTransform>();
+	
+	private Lock m_frameSwapLock = new ReentrantLock(); 
 	
 	/**
 	 * Creates renderer for displaying images and shapes
@@ -56,9 +60,14 @@ public class Renderer implements Page
 			@Override
 			public void paintComponent(Graphics g)
 			{
-				super.paintComponent(g);
-				g.drawImage(m_frontBuffer, 0, 0, this);
-				repaint();
+				m_frameSwapLock.lock();
+				try {
+					super.paintComponent(g);
+					g.drawImage(m_frontBuffer, 0, 0, this);
+					repaint();
+				} finally {
+					m_frameSwapLock.unlock();
+				}
 			}
 		};
 		
@@ -70,11 +79,16 @@ public class Renderer implements Page
 	 */
 	public void display()
 	{
-		BufferedImage temp = m_backBuffer;
-		m_backBuffer = m_frontBuffer;
-		m_frontBuffer = temp;
-		
-		m_graphics = m_backBuffer.createGraphics();
+		m_frameSwapLock.lock();
+		try {
+			BufferedImage temp = m_backBuffer;
+			m_backBuffer = m_frontBuffer;
+			m_frontBuffer = temp;
+			
+			m_graphics = m_backBuffer.createGraphics();
+		} finally {
+			m_frameSwapLock.unlock();
+		}
 	}
 	
 	/**
