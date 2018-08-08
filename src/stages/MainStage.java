@@ -9,13 +9,22 @@ import org.dyn4j.geometry.Rectangle;
 import org.dyn4j.geometry.Transform;
 import org.dyn4j.geometry.Vector2;
 
+import graphics.Renderer;
 import graphics.Sprite;
 import graphics.Texture;
 
 public class MainStage extends Stage
 {
+	private Sprite m_background;
+	
 	public MainStage()
 	{
+		Texture BGtexture = new Texture();
+		BGtexture.openResource("resources/images/BG_placeholder");
+		m_background = new Sprite(BGtexture, "default");
+		
+		setBackground(m_background);
+		
 		World aWorld = new World();
 		aWorld.setGravity(new Vector2(0, 27));
 		//set up world
