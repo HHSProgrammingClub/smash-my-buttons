@@ -142,8 +142,10 @@ public class Battle
 			
 			// This transform will affect everything that is draw to our world.
 			AffineTransform worldTransform = new AffineTransform();
+			java.awt.Dimension rendererSize = m_renderer.getComponent().getSize();
 			//worldTransform.scale(128, 128); //temporary --- for Cathy's laptop
-			worldTransform.scale(64, 64); // One unit is 64 pixels
+			worldTransform.scale((rendererSize.width * 32) / 400.0,
+					(rendererSize.height * 32) / 300.0); // One unit is 64 pixels
 			m_renderer.pushTransform(worldTransform);
 			
 			//update the world
