@@ -391,7 +391,7 @@ public class Birboi extends Character
 			
 			private void spawnShockwaves()
 			{
-				float timer = .5f;
+				float timer = 1f;
 				
 				Projectile[] shockwaves = new Projectile[2];
 				for(int i = 0; i < shockwaves.length; i++)
@@ -399,7 +399,7 @@ public class Birboi extends Character
 					int flip = (i == 0 ? 1 : -1);
 					
 					Texture shockwave = new Texture();
-					shockwave.openResource("resources/images/" + (i == 0 ? "shockwave_L" : "shockwave_R"));
+					shockwave.openResource("resources/images/" + (i == 0 ? "shockwave_R" : "shockwave_L"));
 					Sprite sp = new Sprite(shockwave);
 					sp.setAnimation("default");
 					sp.setPosition(0, -4);
@@ -411,9 +411,10 @@ public class Birboi extends Character
 					box.setDuration(timer);
 					box.setHitstun(.25f);
 					
-					Vector2 offset = new Vector2(1 + .6 * flip, 1.5);
+					Vector2 offset = new Vector2(0 + .6 * flip, .9);
 					
 					Rectangle r = new Rectangle(.3, 1);
+					r.translate(new Vector2(1, .6).add(new Vector2(.2 * flip, 0)));
 					
 					Body b = new Body();
 					b.addFixture(new BodyFixture(r));
@@ -431,7 +432,7 @@ public class Birboi extends Character
 					p.setSprite(sp);
 					p.setDuration(timer);
 					
-					p.getBody().setLinearVelocity(5 * flip, 0);
+					p.getBody().setLinearVelocity(3.5 * flip, 0);
 					
 					addHitbox(box);
 					
@@ -463,7 +464,7 @@ public class Birboi extends Character
 			}
 		};
 		
-		CharacterState signatureStartup = new CharacterState("jump_asc", .25f)
+		CharacterState signatureStartup = new CharacterState("recovery", .3f)
 		{
 			@Override
 			protected void init()
