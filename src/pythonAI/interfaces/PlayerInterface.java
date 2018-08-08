@@ -8,6 +8,8 @@ package pythonAI.interfaces;
  */
 public interface PlayerInterface
 {
+	public void moveLeft();
+	public void moveRight();
 	public float getX();
 	public float getY();
 	public void jab();
@@ -17,5 +19,8 @@ public interface PlayerInterface
 	public void recover();
 	public void signature();
 	public void jump();
-	public void getHitstun();
+	public float getHitstun();
+	public boolean jumped();
+	public boolean recovered();
+	public int getDamage();
 }

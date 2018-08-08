@@ -12,6 +12,7 @@ import org.dyn4j.geometry.Vector2;
 import characters.characterStates.CharacterState;
 import graphics.Sprite;
 import graphics.Texture;
+import program.CharacterEffect;
 import program.Hitbox;
 
 public class Edgewardo extends Character
@@ -22,8 +23,9 @@ public class Edgewardo extends Character
 
 	public Edgewardo()
 	{
-		jumpImpulse = new Vector2(0, -9);
-		runForce = new Vector2(12, 0);
+		jumpImpulse = new Vector2(0, -12);
+		runForce = new Vector2(23, 0);
+		maxRunSpeed = 6.5f;
 		Body emo = new Body();
 		
 		Transform t = new Transform();
@@ -36,7 +38,7 @@ public class Edgewardo extends Character
 		rect.translate(1, 1); // Set to topleft
 		
 		BodyFixture bf = new BodyFixture(rect);
-		bf.setDensity(0.75); // Make him lighter
+		bf.setDensity(0.75);
 		emo.addFixture(bf);
 		emo.setMass(MassType.FIXED_ANGULAR_VELOCITY);
 
@@ -96,8 +98,6 @@ public class Edgewardo extends Character
 	@Override
 	public void jab() 
 	{	
-		/*interruptStates(new CharacterState("jab", 0.1f));
-		addState(new JabState());*/
 		pushState(new JabState());
 		pushState(new CharacterState("jab", .1f));
 	}
@@ -130,6 +130,7 @@ public class Edgewardo extends Character
 				addHitbox(m_hitbox);
 				m_hitbox.addToFixture(m_fixture);
 				m_body.addFixture(m_fixture);
+				m_body.setLinearDamping(20);
 			}
 			
 			@Override
@@ -137,6 +138,7 @@ public class Edgewardo extends Character
 			{
 				m_body.removeFixture(m_fixture);
 				removeHitbox(m_hitbox);
+				m_body.setLinearDamping(0);
 			}
 		};
 				
@@ -147,12 +149,16 @@ public class Edgewardo extends Character
 					{
 						m_body.translate(6 * getFacing(), 0);
 						m_body.setGravityScale(1);
+						m_body.setAsleep(false);
+						m_body.setLinearDamping(42);
+					}
+					
+					@Override
+					public void end() {
+						m_body.setLinearDamping(0);
 					}
 				};
 				
-		/*interruptStates(tiltBeginning);
-		addState(tiltDash);
-		addState(tiltEnd);*/
 		pushState(tiltEnd);
 		pushState(tiltDash);
 		pushState(tiltBeginning);
@@ -203,8 +209,6 @@ public class Edgewardo extends Character
 	@Override
 	public void smash()
 	{
-		/*interruptStates(new CharacterState("smash", 0.1f));
-		addState(new SmashState());*/
 		pushState(new SmashState());
 		pushState(new CharacterState("smash", .1f));
 	}
@@ -260,19 +264,20 @@ public class Edgewardo extends Character
 						addHitbox(m_hitbox);
 						m_hitbox.addToFixture(m_fixture);
 						m_body.addFixture(m_fixture);
+						m_body.setLinearDamping(10);
 					}
 					
 					@Override
 					public void end()
 					{
 						getBody().setLinearVelocity(0, 0);
-						m_body.translate(0, -8);
+						m_body.translate(0, -4);
 						m_body.removeFixture(m_fixture);
 						removeHitbox(m_hitbox);
 					}
 				};
 				
-		CharacterState recoveryEnd = new CharacterState("jump_dsc")
+		CharacterState recoveryEnd = new CharacterState("jump_dsc", 0.1f)
 				{
 					private Hitbox m_hitbox = new Hitbox();
 					private Rectangle m_rect;
@@ -284,8 +289,8 @@ public class Edgewardo extends Character
 						m_hitbox.setDuration(1.0f);
 						m_hitbox.setDamage(10);
 						m_hitbox.setHitstun(0.5f);
-						m_hitbox.setBaseKnockback(new Vector2(5 * getFacing(), -1));
-						m_hitbox.setScaledKnockback(new Vector2(10 * getFacing(), -1));
+						m_hitbox.setBaseKnockback(new Vector2(5 * getFacing(), -5));
+						m_hitbox.setScaledKnockback(new Vector2(10 * getFacing(), -10));
 						
 						m_rect = new Rectangle(2, 2);
 						m_rect.translate(1, 1.25);
@@ -296,29 +301,33 @@ public class Edgewardo extends Character
 						m_hitbox.addToFixture(m_fixture);
 						m_body.addFixture(m_fixture);
 						
-						Texture explosionTexture = new Texture();
-						explosionTexture.openResource("resources/images/explosion");
-						
-						Sprite explosion = new Sprite(explosionTexture);
-						explosion.setAnimation("explosion");
-						
 						AffineTransform explosionOffset = new AffineTransform();
-						explosionOffset.translate(m_body.getLocalCenter().x, m_body.getLocalCenter().y);
 						//somehow draw this
+						
+						//m_body.setLinearDamping(0);
+						float offset = 1.5f;
+						explosionOffset.translate(m_body.getWorldCenter().x + getFacing(), m_body.getWorldCenter().y - offset);
+						explosionOffset.scale(1.5, 1.5);
+						
+						CharacterEffect explosionEffect = new CharacterEffect("explosion", "explosion", explosionOffset);
+						
+						addEffect(explosionEffect);
+						
+						m_body.setLinearDamping(40);
 					}
 					
 					@Override
 					public void end()
 					{
+						m_body.applyImpulse(new Vector2(0, -2));
 						m_body.removeFixture(m_fixture);
 						removeHitbox(m_hitbox);
+						m_body.setLinearDamping(0);
 					}
 				};
 		
 		if(!m_recovered)
 		{
-			/*interruptStates(recoveryStart);
-			addState(recoveryEnd);*/
 			pushState(recoveryEnd);
 			pushState(recoveryStart);
 			m_recovered = true;

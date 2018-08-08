@@ -62,7 +62,7 @@ class KeyBinder
 			if (m_state != STATE_DOWN)
 			{
 				m_state = STATE_PRESSED;
-				System.out.println("pressed");
+				//System.out.println("pressed");
 			}
 		}
 		

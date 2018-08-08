@@ -10,7 +10,7 @@ public abstract class CharacterController
 	 * Set the character this controller has control over.
 	 * @param p_character
 	 */
-	public final void setCharacter(Character p_character)
+	public void setCharacter(Character p_character)
 	{
 		m_character = p_character;
 	}

@@ -1,9 +1,3 @@
-<<<<<<< Updated upstream
 <atlas>
     <subtexture name="default" x="0" y="0" w="576" h="40" loop="1"/>
 </atlas>
-=======
-<atlas>
-    <subtexture name="default:default" x="0" y="0" w="576" h="40" loop="1"/>
-</atlas>
->>>>>>> Stashed changes

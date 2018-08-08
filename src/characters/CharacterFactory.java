@@ -12,6 +12,8 @@ public final class CharacterFactory
 				return new Birboi();
 			case "Edgewardo":
 				return new Edgewardo();
+			case "Cam":
+				return new Cam();
 		}
 		return new Jack();
 	}
