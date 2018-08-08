@@ -270,9 +270,9 @@ public class AIController extends CharacterController
 			m_interpreter.reinitialize();
 			
 			// Get the loop function
-			m_pyLoopFunction = m_interpreter.getGlobal("loop");
+			/*m_pyLoopFunction = m_interpreter.getGlobal("loop");
 			if (m_pyLoopFunction == null)
-				throw new NullPointerException("loop function is missing.");
+				throw new NullPointerException("loop function is missing.");*/
 			
 			// Load AIName
 			m_name = m_interpreter.getGlobalString("AIName");
@@ -318,6 +318,8 @@ public class AIController extends CharacterController
 	 */
 	private void callLoop()
 	{
+		// We'll just get it every frame so it is properly updated
+		m_pyLoopFunction = m_interpreter.getGlobal("loop");
 		if (m_pyLoopFunction != null)
 			m_interpreter.call(m_pyLoopFunction, new Object[] {(pythonAI.interfaces.PlayerInterface)m_playerInterface,
 					(pythonAI.interfaces.EnemyInterface)m_enemyInterface});
