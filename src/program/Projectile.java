@@ -36,6 +36,8 @@ public class Projectile implements Drawable
 		m_hitbox = p_hitbox;
 	}
 	
+	public Hitbox getHitbox() { return m_hitbox; }
+	
 	public void setBody(Body p_body)
 	{
 		//add the hitbox to all BodyFixtures in the body -- can change
@@ -81,8 +83,24 @@ public class Projectile implements Drawable
 		m_sprite.draw(p_renderer);
 	}
 	
+	public void setDuration(float p_duration)
+	{
+		m_duration = p_duration;
+		m_timer = m_duration;
+	}
+	
+	public boolean update(float p_delta)
+	{
+		if(m_duration < 0)
+			return true;
+		m_timer -= p_delta;
+		return m_timer > 0;
+	}
+	
 	private Hitbox m_hitbox;
 	private Sprite m_sprite;
 	private Body m_body;
 	private Character m_character;
+	private float m_duration = -1;
+	private float m_timer;
 }

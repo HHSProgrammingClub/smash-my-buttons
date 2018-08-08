@@ -380,9 +380,21 @@ public abstract class Character implements Drawable
 		    }
 	    }
 		
+		for(int i = 0; i < m_projectiles.size(); i++) {
+			m_projectiles.get(i).getHitbox().updateTimer(p_delta);
+			if(!m_projectiles.get(i).getHitbox().isAlive()) {
+				m_world.removeBody(m_projectiles.get(i).getBody());
+				removeProjectile(m_projectiles.get(i));
+				i--;
+			}
+		}
 		//CharacterState currentState = peekState();
 		
 		peekState().update(p_delta);
+		
+		for(int i = 0; i < m_projectiles.size(); i++)
+			if(!m_projectiles.get(i).update(p_delta))
+				m_projectiles.remove(i--);
 		
 		//TODO: move this stuff out of the charcter class to a collision listener
 		if(m_body.getWorldCenter().x > RIGHT_BLAST_LINE ||

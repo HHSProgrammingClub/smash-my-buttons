@@ -57,9 +57,9 @@ public class Birboi extends Character
 		
 		jabBox.setBaseKnockback(new Vector2(0, -3));
 		jabBox.setScaledKnockback(alignFacing(new Vector2(0, -5)));
-		jabBox.setDamage(6);
+		jabBox.setDamage(2);
 		jabBox.setDuration(10);
-		jabBox.setHitstun(.1f);
+		jabBox.setHitstun(0f);
 		
 		Vector2 jabBoxPos    = new Vector2(1, 1);
 		Vector2 jabBoxOffset = new Vector2(.5, 0);
@@ -101,16 +101,16 @@ public class Birboi extends Character
 	{
 		Hitbox tiltBoxFront = new Hitbox();
 		
-		tiltBoxFront.setBaseKnockback(alignFacing(new Vector2(1.5, 4)));
-		tiltBoxFront.setScaledKnockback(alignFacing(new Vector2(.2, 3.6)));
-		tiltBoxFront.setDamage(5);
+		tiltBoxFront.setBaseKnockback(alignFacing(new Vector2(7, 4)));
+		tiltBoxFront.setScaledKnockback(alignFacing(new Vector2(3.5, 2.5)));
+		tiltBoxFront.setDamage(2);
 		tiltBoxFront.setDuration(30);
-		tiltBoxFront.setHitstun(.1f);
+		tiltBoxFront.setHitstun(0.f);
 		
 		Vector2 tiltBoxPos    = new Vector2(1, 1.5);
-		Vector2 tiltBoxOffset = new Vector2(.9, 0);
+		Vector2 tiltBoxOffset = new Vector2(.5, 0);
 		
-		Rectangle r = new Rectangle(1.1, 1);
+		Rectangle r = new Rectangle(0.5, 1);
 		r.translate(tiltBoxPos.add(alignFacing(tiltBoxOffset)));
 		
 		BodyFixture f = new BodyFixture(r);
@@ -120,14 +120,14 @@ public class Birboi extends Character
 		
 		Hitbox tiltBoxBack = new Hitbox();
 		
-		tiltBoxBack.setBaseKnockback(alignFacing(new Vector2(2, -3)));
-		tiltBoxBack.setScaledKnockback(alignFacing(new Vector2(.3, -4)));
+		tiltBoxBack.setBaseKnockback(alignFacing(new Vector2(7, -3)));
+		tiltBoxBack.setScaledKnockback(alignFacing(new Vector2(3.5, -4)));
 		tiltBoxBack.setDamage(3);
 		tiltBoxBack.setDuration(30);
 		tiltBoxBack.setHitstun(.1f);
 		
 		Vector2 tiltBoxPosBack    = new Vector2(1, 1.5);
-		Vector2 tiltBoxOffsetBack = new Vector2(-.9, 0);
+		Vector2 tiltBoxOffsetBack = new Vector2(-.5, 0);
 		
 		Rectangle rb = new Rectangle(r.getWidth(), r.getHeight());
 		rb.translate(tiltBoxPosBack.add(alignFacing(tiltBoxOffsetBack)));
@@ -140,6 +140,7 @@ public class Birboi extends Character
 			@Override
 			protected void init()
 			{
+				m_body.applyImpulse(new Vector2(1.5 * getFacing(), 0));
 				m_body.addFixture(f);
 				addHitbox(tiltBoxFront);
 				m_body.addFixture(fb);
@@ -161,7 +162,7 @@ public class Birboi extends Character
 				removeHitbox(tiltBoxBack);
 			}
 		};
-		
+		pushState(new WaitState(0.2f));
 		pushState(tiltState);
 	}
 	
@@ -170,7 +171,7 @@ public class Birboi extends Character
 	{
 		float duration = .4f;
 		
-		CharacterState smashContact = new CharacterState("smash_contact", .3f)
+		CharacterState smashContact = new CharacterState("smash_contact", .4f)
 		{
 			final Vector2 coolDownImpulse = new Vector2(-1.5, -8);
 			
@@ -183,80 +184,81 @@ public class Birboi extends Character
 		};
 		
 		CharacterState smashStartup = new CharacterState("smash_startup")
-				{
-					@Override
-					public void init()
-					{
-						getBody().setLinearVelocity(0, 0);
-						getBody().setGravityScale(0);
-					}
-					
-					@Override
-					public void interrupt()
-					{
-						getBody().setGravityScale(1);
-					}
-					
-					@Override
-					public void end()
-					{
-						
-					}
-				};
+		{
+			@Override
+			public void init()
+			{
+				getBody().setLinearVelocity(0, 0);
+				getBody().setGravityScale(0.1);
+			}
+			
+			@Override
+			public void interrupt()
+			{
+				getBody().setGravityScale(1);
+			}
+			
+			@Override
+			public void end()
+			{
+				
+			}
+		};
 		
 		CharacterState smashFlight = new CharacterState("smash_fly", duration)
-				{
-					Hitbox m_hitbox = new Hitbox();
-					Rectangle m_rect = new Rectangle(.6, 1.7);
-					BodyFixture m_fixture;
-					
-					final Vector2 m_baseImpulse     = new Vector2(16, 0);
-					final Vector2 m_baseKnockback   = new Vector2(8, -5);
-					final Vector2 m_scaledKnockback = new Vector2(1.5, -2);
-					
-					final Vector2 m_hitboxBasePos   = new Vector2(1, 1.25);
-					final Vector2 m_hitboxOffsetPos = new Vector2(.4, 0);
-					
-					@Override
-					public void init()
-					{
-						getBody().applyImpulse(alignFacing(m_baseImpulse));
-						m_hitbox.setDamage(9);
-						m_hitbox.setBaseKnockback(alignFacing(m_baseKnockback));
-						m_hitbox.setScaledKnockback(alignFacing(m_scaledKnockback));
-						m_hitbox.setDuration(duration);
-						
-						m_rect.translate(m_hitboxBasePos.add(alignFacing(m_hitboxOffsetPos)));
-						m_fixture = new BodyFixture(m_rect);
-						getBody().addFixture(m_fixture);
-						m_hitbox.addToFixture(m_fixture);
-						addHitbox(m_hitbox);
-					}
-					
-					@Override
-					public void interrupt()
-					{
-						getBody().removeFixture(m_fixture);
-						removeHitbox(m_hitbox);
-						getBody().setGravityScale(1);
-					}
+		{
+			Hitbox m_hitbox = new Hitbox();
+			Rectangle m_rect = new Rectangle(.6, 1.7);
+			BodyFixture m_fixture;
+			
+			final Vector2 m_baseImpulse     = new Vector2(16, 0);
+			final Vector2 m_baseKnockback   = new Vector2(8, -5);
+			final Vector2 m_scaledKnockback = new Vector2(1.5, -2);
+			
+			final Vector2 m_hitboxBasePos   = new Vector2(1, 1.25);
+			final Vector2 m_hitboxOffsetPos = new Vector2(.4, 0);
+			
+			@Override
+			public void init()
+			{
+				getBody().applyImpulse(alignFacing(m_baseImpulse));
+				m_hitbox.setDamage(9);
+				m_hitbox.setBaseKnockback(alignFacing(m_baseKnockback));
+				m_hitbox.setScaledKnockback(alignFacing(m_scaledKnockback));
+				m_hitbox.setDuration(duration);
+				
+				m_rect.translate(m_hitboxBasePos.add(alignFacing(m_hitboxOffsetPos)));
+				m_fixture = new BodyFixture(m_rect);
+				getBody().addFixture(m_fixture);
+				m_hitbox.addToFixture(m_fixture);
+				addHitbox(m_hitbox);
+			}
+			
+			@Override
+			public void interrupt()
+			{
+				getBody().removeFixture(m_fixture);
+				removeHitbox(m_hitbox);
+				getBody().setGravityScale(1);
+			}
 
-					@Override
-					public void end()
-					{
-						interrupt();
-					}
-					
-					@Override
-					protected void onUpdate()
-					{
-						if(!m_hitbox.isAlive() && getTimer() > 0)
-						{
-							popState();
-							pushState(smashContact);
-						}
-					}
-				};
+			@Override
+			public void end()
+			{
+				interrupt();
+			}
+			
+			@Override
+			protected void onUpdate()
+			{
+				if(!m_hitbox.isAlive() && getTimer() > 0)
+				{
+					popState();
+					pushState(smashContact);
+				}
+			}
+		};
+		
 		pushState(smashFlight);
 		pushState(smashStartup);
 	}
@@ -264,8 +266,23 @@ public class Birboi extends Character
 	@Override
 	public void projectile()
 	{
-		// TODO Auto-generated method stub
+		CharacterState windup  = new CharacterState("projectile_start");
 		
+		CharacterState screech = new CharacterState("projectile_screech", .4f)
+		{
+			@Override
+			protected void init()
+			{
+				spawnScreech();
+			}
+			
+			private void spawnScreech()
+			{
+				Hitbox screechbox = new Hitbox();
+				
+				Projectile screech = new Projectile();
+			}
+		};
 	}
 	
 	@Override
@@ -273,9 +290,9 @@ public class Birboi extends Character
 	{
 		Hitbox signatureBox = new Hitbox();
 		
-		signatureBox.setBaseKnockback(alignFacing(new Vector2(1.2, 3)));
-		signatureBox.setScaledKnockback(alignFacing(new Vector2(.2, 6)));
-		signatureBox.setDamage(11);
+		signatureBox.setBaseKnockback(alignFacing(new Vector2(4, 3)));
+		signatureBox.setScaledKnockback(alignFacing(new Vector2(2, 3)));
+		signatureBox.setDamage(8);
 		signatureBox.setDuration(30);
 		signatureBox.setHitstun(.4f);
 		
@@ -302,6 +319,7 @@ public class Birboi extends Character
 		
 		CharacterState signatureState = new CharacterState("signature", -1)
 		{
+			Projectile[] shockwaves = new Projectile[2];
 			@Override
 			protected void init()
 			{
@@ -329,6 +347,8 @@ public class Birboi extends Character
 			
 			private void spawnShockwaves()
 			{
+				float timer = .5f;
+				
 				Projectile[] shockwaves = new Projectile[2];
 				for(int i = 0; i < shockwaves.length; i++)
 				{
@@ -338,12 +358,13 @@ public class Birboi extends Character
 					shockwave.openResource("resources/images/" + (i == 0 ? "shockwave_L" : "shockwave_R"));
 					Sprite sp = new Sprite(shockwave);
 					sp.setAnimation("default");
+					sp.setPosition(0, -4);
 					
 					Hitbox box = new Hitbox();
 					box.setBaseKnockback(alignFacing(new Vector2(1 * flip, -2)));
 					box.setScaledKnockback(alignFacing(new Vector2(.5 * flip, -1)));
-					box.setDamage(7);
-					box.setDuration(1.5f);
+					box.setDamage(3);
+					box.setDuration(timer);
 					box.setHitstun(.25f);
 					
 					Vector2 offset = new Vector2(1 + .6 * flip, 1.5);
@@ -364,8 +385,11 @@ public class Birboi extends Character
 					p.setHitbox(box);
 					p.setBody(b);
 					p.setSprite(sp);
+					p.setDuration(timer);
 					
-					p.getBody().setLinearVelocity(2 * flip, 0);
+					p.getBody().setLinearVelocity(3 * flip, 0);
+					
+					addHitbox(box);
 					
 					m_world.addBody(b);
 					
@@ -406,7 +430,7 @@ public class Birboi extends Character
 					m_body.applyImpulse(alignFacing(new Vector2(.7, -17)));
 			}
 		};
-		
+		pushState(new WaitState(0.4f));
 		pushState(signatureState);
 		pushState(signatureStartup);
 	}

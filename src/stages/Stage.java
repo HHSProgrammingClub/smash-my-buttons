@@ -10,7 +10,7 @@ import graphics.Sprite;
 
 public abstract class Stage implements Drawable
 {
-	public static String[] stageNames = {"TestingStage"};
+	public static String[] stageNames = {"Main Stage"};
 	
 	private World m_world = new World();
 	private Sprite m_background;

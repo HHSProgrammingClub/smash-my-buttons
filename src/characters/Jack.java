@@ -67,9 +67,9 @@ public class Jack extends Character
 			
 			m_hitbox.setDuration(0.1f);
 			m_hitbox.setDamage(2);
-			m_hitbox.setHitstun(0.3f);
-			m_hitbox.setBaseKnockback(new Vector2(4 * getFacing(), 0));
-			m_hitbox.setScaledKnockback(new Vector2(2 * getFacing(), -1));
+			m_hitbox.setHitstun(0.4f);
+			m_hitbox.setBaseKnockback(new Vector2(0.5 * getFacing(), 0));
+			m_hitbox.setScaledKnockback(new Vector2(getFacing(), 0));
 			
 			m_rect = new Rectangle(0.5, 0.2);
 			m_rect.translate(length + 0.45 * getFacing(), 1.25);
@@ -353,7 +353,7 @@ public class Jack extends Character
 		/*interruptStates(new CharacterState("jab", 0.1f));
 		addState(new JabState());*/
 		pushState(new JabState());
-		pushState(new CharacterState("jab", .1f));
+		pushState(new CharacterState("jab", .05f));
 		//System.out.println(getDamage());
 	}
 	
@@ -362,7 +362,7 @@ public class Jack extends Character
 		/*interruptStates(new CharacterState("tilt", 0.1f));
 		addState(new TiltState());
 		addState(new CharacterState("idle", 0.3f));*/
-		pushState(new WaitState(.3f));
+		pushState(new WaitState(.2f));
 		pushState(new TiltState());
 		pushState(new CharacterState("tilt", .1f));
 	}
