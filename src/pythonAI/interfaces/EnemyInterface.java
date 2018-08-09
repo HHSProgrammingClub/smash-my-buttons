@@ -8,4 +8,5 @@ public interface EnemyInterface
 	public int getDamage();
 	public double getXVel();
 	public double getYVel();
+	public String getName();
 }

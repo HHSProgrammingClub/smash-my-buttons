@@ -9,6 +9,7 @@ import org.dyn4j.geometry.Rectangle;
 import org.dyn4j.geometry.Transform;
 import org.dyn4j.geometry.Vector2;
 import characters.characterStates.CharacterState;
+import characters.characterStates.Hitstun;
 import characters.characterStates.IdleState;
 import characters.characterStates.WaitState;
 import graphics.Sprite;
@@ -22,6 +23,16 @@ public class Cam extends Character
 	private static double position = 0;
 	private float length = 1;
 	private float height = 1.5f;
+	
+	private double Kbooster = 1; //Knockback booster
+	private float Sbooster = 1; //Speed booster
+	
+	private void resetBoosts() {
+		Kbooster = 1;
+		Sbooster = 1;
+		runForce = new Vector2(30, 0);
+		maxRunSpeed = 4.5f;
+	}
 	
 	public Cam() 
 	{
@@ -69,17 +80,17 @@ public class Cam extends Character
 		JabState()
 		{
 			super("jab");
-			
+			setDuration(0.1f);
 			m_hitbox.setDuration(0.05f);
 			m_hitbox.setDamage(1);
-			m_hitbox.setHitstun(0.4f);
+			m_hitbox.setHitstun(0.1f);
 			m_hitbox.setBaseKnockback(new Vector2(0, 0));
 			m_hitbox.setScaledKnockback(new Vector2(0.5 * getFacing(), 0));
 			
 			m_body.setLinearVelocity(0, 0);
 			
-			m_rect = new Rectangle(1, 1);
-			m_rect.translate(length + 0.75 * getFacing(), 1.25);
+			m_rect = new Rectangle(1.3, 1);
+			m_rect.translate(length + 0.8 * getFacing(), 1.25);
 			
 			m_fixture = new BodyFixture(m_rect);
 			
@@ -109,6 +120,7 @@ public class Cam extends Character
 			m_body.removeFixture(m_fixture);
 			removeHitbox(m_hitbox);
 			removeEffect(flashEffect);
+			resetBoosts();
 		}
 		
 		
@@ -128,8 +140,8 @@ public class Cam extends Character
 			m_hitbox.setDuration(0.1f);
 			m_hitbox.setDamage(3);
 			m_hitbox.setHitstun(0.5f);
-			m_hitbox.setBaseKnockback(new Vector2(5 * getFacing(), 0));
-			m_hitbox.setScaledKnockback(new Vector2(4 * getFacing(), -2.5));
+			m_hitbox.setBaseKnockback(new Vector2(9 * getFacing() * Kbooster, 0));
+			m_hitbox.setScaledKnockback(new Vector2(2 * getFacing() * Kbooster, -2.5 * Kbooster));
 			
 			m_rect = new Rectangle(0.9, 0.3);
 			m_rect.translate(length + 0.7 * getFacing(), 1.4);
@@ -154,6 +166,7 @@ public class Cam extends Character
 		{
 			m_body.removeFixture(m_fixture);
 			removeHitbox(m_hitbox);
+			resetBoosts();
 		}
 		
 		
@@ -240,7 +253,7 @@ public class Cam extends Character
 			}
 			
 			duffelBox.setDuration(2.0f);
-			duffelBox.setDamage(6);
+			duffelBox.setDamage(3);
 			duffelBox.setHitstun(0.3f);
 			duffelBox.setBaseKnockback(new Vector2(2 * getFacing(), 0));
 			duffelBox.setScaledKnockback(new Vector2(getFacing(), 0));
@@ -273,8 +286,9 @@ public class Cam extends Character
 				equipBoxes[i].addToFixture(equipFixes[i]);
 				equipFixes[i].setSensor(false);
 				m_equipment[i].setBody(equipBodies[i]);
-				float RNG = (float)(Math.random() * 2 + 1);
-				equipBodies[i].applyImpulse(new Vector2(RNG * getFacing(), -RNG));
+				float RNG = (float)(Math.random() * 2 + 2);
+				float RNGzus = (float) (Math.random() * 3);
+				equipBodies[i].applyImpulse(new Vector2(RNG * getFacing(), -RNGzus));
 				equipBodies[i].applyTorque(RNG + 1);
 				m_world.addBody(equipBodies[i]);
 			}
@@ -290,27 +304,12 @@ public class Cam extends Character
 		
 		protected void onUpdate()
 		{
-			for(int i = 0; i < equipCount; i++)
-			{
-				if(!equipBoxes[i].isAlive())
-				{
-					equipBodies[i].removeFixture(equipFixes[i]);
-					removeHitbox(equipBoxes[i]);
-					equipBodies[i].removeAllFixtures();
-					m_world.removeBody(equipBodies[i]);
-					removeProjectile(m_equipment[i]);
-				}
-			}
 			
-			if(!duffelBox.isAlive())
-			{
-				duffelBody.removeFixture(duffelFix);
-				removeHitbox(duffelBox);
-				duffelBody.removeAllFixtures();
-				m_world.removeBody(duffelBody);
-				removeProjectile(duffelBag);
-			}
-			
+		}
+		
+		@Override
+		public void end() {
+			resetBoosts();
 		}
 	};
 	
@@ -325,36 +324,17 @@ public class Cam extends Character
 		SignatureState()
 		{
 			super("signature");
-			//setDuration(1f);
-			m_hitbox.setDuration(0.2f);
-			m_hitbox.setDamage(5);
-			m_hitbox.setHitstun(0);
-			m_hitbox.setBaseKnockback(new Vector2(0, 0));
-			m_hitbox.setScaledKnockback(new Vector2(0, 0));
-			
-			m_rect = new Rectangle(100, 100);
-			m_rect.translate(0, 0);
-			
-			m_fixture = new BodyFixture(m_rect);
+			setDuration(1f);
 		}
 		
-		protected void init()
-		{
-			addHitbox(m_hitbox);
-			m_hitbox.addToFixture(m_fixture);
-			m_body.addFixture(m_fixture);
-		}
-		
-		public void interrupt()
-		{
-			m_body.removeFixture(m_fixture);
-			removeHitbox(m_hitbox);
-		}
-		
+		@Override
 		public void end()
 		{
-			m_body.removeFixture(m_fixture);
-			removeHitbox(m_hitbox);
+			Kbooster = 1.75;
+			Sbooster = 0.2f;
+			jumpImpulse = new Vector2(0, -15);
+			runForce = new Vector2(500, 0);
+			maxRunSpeed = 4.5f;
 		}
 		
 		
@@ -365,7 +345,7 @@ public class Cam extends Character
 		/*interruptStates(new CharacterState("jab", 0.1f));
 		addState(new JabState());*/
 		pushState(new JabState());
-		pushState(new CharacterState("jab", .1f));
+		pushState(new CharacterState("jab", .1f * Sbooster));
 		//System.out.println(getDamage());
 	}
 	
@@ -374,24 +354,31 @@ public class Cam extends Character
 		/*interruptStates(new CharacterState("tilt", 0.1f));
 		addState(new TiltState());
 		addState(new CharacterState("idle", 0.3f));*/
-		pushState(new WaitState(.1f));
+		pushState(new WaitState(.1f * Sbooster));
 		pushState(new TiltState());
-		pushState(new CharacterState("tilt", .2f));
+		pushState(new CharacterState("tilt", .28f * Sbooster));
 	}
 	
 	public void smash()
 	{
-		CharacterState smashStartup = new CharacterState("smash_startup", 1.0f)
+		CharacterState smashStartup = new CharacterState("smash_startup", 1.0f * Sbooster)
 				{
+					@Override
+					public void init() {
+						m_superArmour = true;
+					}
 					@Override
 					public void interrupt()
 					{
-						//needs something here
-						pushState(new IdleState());
+						m_superArmour = false;
+					}
+					@Override
+					public void end() {
+						m_superArmour = false;
 					}
 				};
 				
-		CharacterState smashFlash = new CharacterState("smash_flash", 0.5f)
+		CharacterState smashFlash = new CharacterState("smash_flash", 0.5f * Sbooster)
 				{
 					private Hitbox m_hitbox = new Hitbox();
 					private Rectangle m_rect;
@@ -402,15 +389,15 @@ public class Cam extends Character
 					public void init()
 					{
 						m_hitbox.setDuration(0.2f);
-						m_hitbox.setDamage(10);
-						m_hitbox.setHitstun(0.75f);
-						m_hitbox.setBaseKnockback(new Vector2(3 * getFacing(), 0));
-						m_hitbox.setScaledKnockback(new Vector2(5 * getFacing(), -5));
+						m_hitbox.setDamage(20);
+						m_hitbox.setHitstun(1.6f);
+						m_hitbox.setBaseKnockback(new Vector2(0 * getFacing(), 0));
+						m_hitbox.setScaledKnockback(new Vector2(0 * getFacing(), -0));
 						
 						m_body.setLinearVelocity(0, 0);
 						
-						m_rect = new Rectangle(2, 1);
-						m_rect.translate(length + 1 * getFacing(), 1.25);
+						m_rect = new Rectangle(2.3, 1);
+						m_rect.translate(length + 1.25 * getFacing(), 1);
 						
 						m_fixture = new BodyFixture(m_rect);
 						
@@ -439,6 +426,7 @@ public class Cam extends Character
 						m_body.removeFixture(m_fixture);
 						removeHitbox(m_hitbox);
 						removeEffect(bigFlashEffect);
+						resetBoosts();
 					}
 				};
 		pushState(smashFlash);
@@ -450,9 +438,9 @@ public class Cam extends Character
 		//Placeholder for testing.
 		/*interruptStates(new CharacterState("projectile", 0.05f));
 		addState(new ProjState());*/
-		pushState(new WaitState(0.4f));
+		pushState(new WaitState(0.4f * Sbooster));
 		pushState(new ProjState());
-		pushState(new WaitState(0.2f));
+		pushState(new WaitState(0.2f * Sbooster));
 	}
 	
 	public void signature()
@@ -467,11 +455,7 @@ public class Cam extends Character
 	{
 		CharacterState recoveryStart = new CharacterState("recovery", 0.3f)
 				{
-					@Override
-					public void init()
-					{
-						m_body.setLinearVelocity(0, 0);
-					}
+					
 				};
 				
 		CharacterState recoveryBomb = new CharacterState("jump_asc", 0.3f)
@@ -485,23 +469,24 @@ public class Cam extends Character
 					public void init()
 					{
 						//setDuration(1f);
-						m_hitbox.setDuration(1f);
-						m_hitbox.setDamage(2);
-						m_hitbox.setHitstun(0.4f);
-						m_hitbox.setBaseKnockback(new Vector2(0, -2));
-						m_hitbox.setScaledKnockback(new Vector2(0, -2));
+						m_hitbox.setDuration(0.1f);
+						m_hitbox.setDamage(22);
+						m_hitbox.setHitstun(0.2f);
+						m_hitbox.setBaseKnockback(new Vector2(12 * getFacing() * Kbooster,
+								-12 * Kbooster));
+						m_hitbox.setScaledKnockback(new Vector2(8 * getFacing() * Kbooster,
+								-7 * Kbooster));
 						
-						m_rect = new Rectangle(1.2, 0.2);
-						m_rect.translate(length - 0.3 * getFacing(), 0.15);
+						m_rect = new Rectangle(1.8, 1.8);
+						m_rect.translate(1, 1);
 						
 						m_fixture = new BodyFixture(m_rect);
 						getBody().setLinearVelocity(getBody().getLinearVelocity().x, 0);
-						getBody().applyImpulse(new Vector2(0, -9));
+						getBody().applyImpulse(new Vector2(10 * getFacing(), -23));
 					
 						addHitbox(m_hitbox);
 						m_hitbox.addToFixture(m_fixture);
 						m_body.addFixture(m_fixture);
-						getBody().setGravityScale(0);
 					
 						AffineTransform explosionOffset = new AffineTransform();
 						explosionOffset.translate(m_body.getWorldCenter().x+ (getFacing()), m_body.getWorldCenter().y-2);
@@ -510,6 +495,8 @@ public class Cam extends Character
 						explosion = new CharacterEffect("explosion", "explosion", explosionOffset);
 						
 						addEffect(explosion);
+						setDamage(getDamage() + 18);
+						pushState(new Hitstun(0.5f));
 					}
 					
 					@Override
@@ -517,7 +504,6 @@ public class Cam extends Character
 					{
 						m_body.removeFixture(m_fixture);
 						removeHitbox(m_hitbox);
-						getBody().setGravityScale(1);
 					}
 					
 					@Override
@@ -525,7 +511,7 @@ public class Cam extends Character
 					{
 						m_body.removeFixture(m_fixture);
 						removeHitbox(m_hitbox);
-						getBody().setGravityScale(1);
+						resetBoosts();
 					}
 				};
 		
@@ -541,7 +527,7 @@ public class Cam extends Character
 	@Override
 	public String getName()
 	{
-		return Character.characterNames[1];
+		return Character.characterNames[2];
 	}
 
 }

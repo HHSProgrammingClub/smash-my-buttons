@@ -55,8 +55,8 @@ public class Birboi extends Character
 	{
 		Hitbox jabBox = new Hitbox();
 		
-		jabBox.setBaseKnockback(new Vector2(0, -3));
-		jabBox.setScaledKnockback(alignFacing(new Vector2(0, -5)));
+		jabBox.setBaseKnockback(new Vector2(0, -9));
+		jabBox.setScaledKnockback(alignFacing(new Vector2(0, -8)));
 		jabBox.setDamage(2);
 		jabBox.setDuration(10);
 		jabBox.setHitstun(0f);
@@ -268,7 +268,7 @@ public class Birboi extends Character
 	{
 		CharacterState windup   = new CharacterState("projectile_start");
 		
-		CharacterState screech = new CharacterState("projectile_screech", .4f) //<- adjust this for cooldown time
+		CharacterState screech = new CharacterState("projectile_screech", .7f) //<- adjust this for cooldown time
 		{
 			@Override
 			protected void init()
@@ -281,10 +281,10 @@ public class Birboi extends Character
 				float duration = 10;
 				
 				Hitbox screechbox = new Hitbox();
-				screechbox.setBaseKnockback(new Vector2(0, 0));
-				screechbox.setScaledKnockback(new Vector2());
-				screechbox.setDamage(4);
-				screechbox.setHitstun(.6f);
+				screechbox.setBaseKnockback(new Vector2(9 * getFacing(), 0));
+				screechbox.setScaledKnockback(new Vector2(0, 0));
+				screechbox.setDamage(3);
+				screechbox.setHitstun(0f);
 				screechbox.setDuration(duration);
 				
 				Texture texas = new Texture();
@@ -485,8 +485,8 @@ public class Birboi extends Character
 	{
 		Hitbox recoverBox = new Hitbox();
 		
-		recoverBox.setBaseKnockback(alignFacing(new Vector2(2, 4)));
-		recoverBox.setScaledKnockback(alignFacing(new Vector2(.1, 4)));
+		recoverBox.setBaseKnockback(alignFacing(new Vector2(12, 4)));
+		recoverBox.setScaledKnockback(alignFacing(new Vector2(2, 4)));
 		recoverBox.setDamage(0);
 		recoverBox.setDuration(10);
 		recoverBox.setHitstun(0);
