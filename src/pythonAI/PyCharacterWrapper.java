@@ -30,55 +30,55 @@ class PyCharacterWrapper implements pythonAI.interfaces.PlayerInterface
 	@Override
 	public void moveLeft()
 	{
-		m_character.performAction(Character.ACTION_MOVELEFT);
+		m_character.handleEvent(Character.ACTION_MOVELEFT);
 	}
 	
 	@Override
 	public void moveRight()
 	{
-		m_character.performAction(Character.ACTION_MOVERIGHT);
+		m_character.handleEvent(Character.ACTION_MOVERIGHT);
 	}
 
 	@Override
 	public void jab()
 	{
-		m_character.performAction(Character.ACTION_JAB);
+		m_character.handleEvent(Character.ACTION_JAB);
 	}
 
 	@Override
 	public void tilt()
 	{
-		m_character.performAction(Character.ACTION_TILT);
+		m_character.handleEvent(Character.ACTION_TILT);
 	}
 
 	@Override
 	public void smash()
 	{
-		m_character.performAction(Character.ACTION_SMASH);
+		m_character.handleEvent(Character.ACTION_SMASH);
 	}
 
 	@Override
 	public void proj()
 	{
-		m_character.performAction(Character.ACTION_PROJECTILE);
+		m_character.handleEvent(Character.ACTION_PROJECTILE);
 	}
 
 	@Override
 	public void recover()
 	{
-		m_character.performAction(Character.ACTION_RECOVERY);
+		m_character.handleEvent(Character.ACTION_RECOVERY);
 	}
 
 	@Override
 	public void signature()
 	{
-		m_character.performAction(Character.ACTION_SIGNATURE);
+		m_character.handleEvent(Character.ACTION_SIGNATURE);
 	}
 
 	@Override
 	public void jump()
 	{
-		m_character.performAction(Character.ACTION_JUMP);
+		m_character.handleEvent(Character.ACTION_JUMP);
 		//System.out.print("Jump");
 	}
 

@@ -57,15 +57,16 @@ public abstract class Character implements Drawable
 	
 	private Stack<CharacterState> m_stateStack = new Stack<CharacterState> ();
 	
+	public static final int EVENT_HITSTUN	    = -3;
 	public static final int ACTION_MOVERIGHT	= -2;
-	public static final int ACTION_MOVELEFT 	= -1;
-	public static final int ACTION_JUMP  		= 0;
-	public static final int ACTION_JAB   		= 1;
-	public static final int ACTION_TILT  		= 2;
+	public static final int ACTION_MOVELEFT   = -1;
+	public static final int ACTION_JUMP  	    = 0;
+	public static final int ACTION_JAB   	    = 1;
+	public static final int ACTION_TILT 	    = 2;
 	public static final int ACTION_SMASH 		= 3;
-	public static final int ACTION_PROJECTILE   = 4;
-	public static final int ACTION_SIGNATURE    = 5;
-	public static final int ACTION_RECOVERY 	= 6;
+	public static final int ACTION_PROJECTILE = 4;
+	public static final int ACTION_SIGNATURE  = 5;
+	public static final int ACTION_RECOVERY   = 6;
 	
 	protected static double position = 0;
 	
@@ -192,12 +193,12 @@ public abstract class Character implements Drawable
 	protected abstract void signature();
 	protected abstract void recover();
 	
-	public void performAction(int p_action)
+	public void handleEvent(int p_event)
 	{
-		if(!m_stateStack.peek().handleAction(p_action))
+		if(!m_stateStack.peek().handleAction(p_event))
 			return;
 		
-		switch(p_action)
+		switch(p_event)
 		{
 			case ACTION_MOVERIGHT:
 				m_facingRight = true;
@@ -275,8 +276,9 @@ public abstract class Character implements Drawable
 	
 	public void applyHitstun(float p_duration)
 	{
-		if(m_superArmour || p_duration <= 0)
+		if(m_superArmour || p_duration < 0)
 			return;
+		handleEvent(EVENT_HITSTUN);
 		pushState(new Hitstun(p_duration));
 	}
 	

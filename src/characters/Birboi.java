@@ -70,7 +70,7 @@ public class Birboi extends Character
 		BodyFixture f = new BodyFixture(r);
 		jabBox.addToFixture(f);
 		
-		CharacterState jabState = new CharacterState("jab", .25f)
+		AttackState jabState = new AttackState("jab", .25f)
 		{
 			@Override
 			protected void init()
@@ -135,7 +135,7 @@ public class Birboi extends Character
 		BodyFixture fb = new BodyFixture(rb);
 		tiltBoxBack.addToFixture(fb);
 		
-		CharacterState tiltState = new CharacterState("tilt")
+		AttackState tiltState = new AttackState("tilt")
 		{
 			@Override
 			protected void init()
@@ -162,6 +162,7 @@ public class Birboi extends Character
 				removeHitbox(tiltBoxBack);
 			}
 		};
+		
 		pushState(new WaitState(0.2f));
 		pushState(tiltState);
 	}
@@ -171,7 +172,7 @@ public class Birboi extends Character
 	{
 		float duration = .4f;
 		
-		CharacterState smashContact = new CharacterState("smash_contact", .4f)
+		AttackState smashContact = new AttackState("smash_contact", .4f)
 		{
 			final Vector2 coolDownImpulse = new Vector2(-1.5, -8);
 			
@@ -183,7 +184,7 @@ public class Birboi extends Character
 			}
 		};
 		
-		CharacterState smashStartup = new CharacterState("smash_startup")
+		AttackState smashStartup = new AttackState("smash_startup")
 		{
 			@Override
 			public void init()
@@ -205,7 +206,7 @@ public class Birboi extends Character
 			}
 		};
 		
-		CharacterState smashFlight = new CharacterState("smash_fly", duration)
+		AttackState smashFlight = new AttackState("smash_fly", duration)
 		{
 			Hitbox m_hitbox = new Hitbox();
 			Rectangle m_rect = new Rectangle(.6, 1.7);
@@ -266,9 +267,9 @@ public class Birboi extends Character
 	@Override
 	public void projectile()
 	{
-		CharacterState windup   = new CharacterState("projectile_start");
+		AttackState windup   = new AttackState("projectile_start");
 		
-		CharacterState screech = new CharacterState("projectile_screech", .7f) //<- adjust this for cooldown time
+		AttackState screech = new AttackState("projectile_screech", .4f) //<- adjust this for cooldown time
 		{
 			@Override
 			protected void init()
@@ -350,7 +351,7 @@ public class Birboi extends Character
 		BodyFixture sf = new BodyFixture(sr);
 		signatureBox.addToFixture(sf);
 		
-		CharacterState signatureContact = new CharacterState("smash_contact", .3f)
+		AttackState signatureContact = new AttackState("smash_contact", .3f)
 		{
 			private final Vector2 imp = new Vector2(-3, -4);
 			
@@ -362,7 +363,7 @@ public class Birboi extends Character
 			}
 		};
 		
-		CharacterState signatureState = new CharacterState("signature", -1)
+		AttackState signatureState = new AttackState("signature", -1)
 		{
 			@Override
 			protected void init()
@@ -464,7 +465,7 @@ public class Birboi extends Character
 			}
 		};
 		
-		CharacterState signatureStartup = new CharacterState("recovery", .3f)
+		AttackState signatureStartup = new AttackState("recovery", .3f)
 		{
 			@Override
 			protected void init()
@@ -499,7 +500,7 @@ public class Birboi extends Character
 		BodyFixture rf = new BodyFixture(rr);
 		recoverBox.addToFixture(rf);
 		
-		CharacterState recoveryStartup = new CharacterState("recovery", .6f)
+		AttackState recoveryStartup = new AttackState("recovery", .6f)
 		{
 			private float delay = .3f;
 			private boolean jumped = false;

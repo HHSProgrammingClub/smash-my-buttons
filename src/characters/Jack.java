@@ -53,7 +53,7 @@ public class Jack extends Character
 	
 	//TODO: ascending and descending jump sprites for Jack
 	
-	private class JabState extends CharacterState
+	private class JabState extends AttackState
 	{
 		private Hitbox m_hitbox = new Hitbox();
 
@@ -99,7 +99,7 @@ public class Jack extends Character
 		
 		
 	};
-	private class TiltState extends CharacterState
+	private class TiltState extends AttackState
 	{
 		private Hitbox m_hitbox = new Hitbox();
 
@@ -144,7 +144,7 @@ public class Jack extends Character
 		
 		
 	};
-	private class SmashState extends CharacterState
+	private class SmashState extends AttackState
 	{
 		private Hitbox m_hitbox = new Hitbox();
 
@@ -190,7 +190,7 @@ public class Jack extends Character
 		
 	};
 	
-	private class ProjState extends CharacterState
+	private class ProjState extends AttackState
 	{
 		private Projectile coffee;
 		private Hitbox m_hitbox = new Hitbox();
@@ -251,7 +251,7 @@ public class Jack extends Character
 		}
 	};
 	
-	private class SignatureState extends CharacterState
+	private class SignatureState extends AttackState
 	{
 		private Hitbox m_hitbox = new Hitbox();
 
@@ -297,7 +297,7 @@ public class Jack extends Character
 		
 	};
 	
-	private class RecoveryState extends CharacterState
+	private class RecoveryState extends AttackState
 	{
 		private Hitbox m_hitbox = new Hitbox();
 
@@ -350,58 +350,57 @@ public class Jack extends Character
 	
 	public void jab()
 	{
-		/*interruptStates(new CharacterState("jab", 0.1f));
+		/*interruptStates(new AttackState("jab", 0.1f));
 		addState(new JabState());*/
 		pushState(new JabState());
-		pushState(new CharacterState("jab", .05f));
+		pushState(new AttackState("jab", .05f));
 		//System.out.println(getDamage());
 	}
 	
 	public void tilt()
 	{
-		/*interruptStates(new CharacterState("tilt", 0.1f));
+		/*interruptStates(new AttackState("tilt", 0.1f));
 		addState(new TiltState());
-		addState(new CharacterState("idle", 0.3f));*/
+		addState(new AttackState("idle", 0.3f));*/
 		pushState(new WaitState(.2f));
 		pushState(new TiltState());
-		pushState(new CharacterState("tilt", .1f));
+		pushState(new AttackState("tilt", .1f));
 	}
 	
 	public void smash()
 	{
-		/*interruptStates(new CharacterState("idle", 0.2f));
-		addState(new CharacterState("smash", 0.1f));
+		/*interruptStates(new AttackState("idle", 0.2f));
+		addState(new AttackState("smash", 0.1f));
 		addState(new SmashState());
-		addState(new CharacterState("idle", 0.3f));*/
+		addState(new AttackState("idle", 0.3f));*/
 		pushState(new WaitState(.3f));
 		pushState(new SmashState());
-		pushState(new CharacterState("smash", .1f));
-		pushState(new WaitState(.2f));
+		pushState(new AttackState("smash", .1f));
 	}
 	
 	public void projectile()
 	{
 		//Placeholder for testing.
-		/*interruptStates(new CharacterState("projectile", 0.05f));
+		/*interruptStates(new AttackState("projectile", 0.05f));
 		addState(new ProjState());*/
 		pushState(new WaitState(0.4f));
 		pushState(new ProjState());
-		pushState(new CharacterState("projectile", .1f));
+		pushState(new AttackState("projectile", .1f));
 	}
 	
 	public void signature()
 	{
-		/*interruptStates(new CharacterState("signature", 0.5f));
+		/*interruptStates(new AttackState("signature", 0.5f));
 		addState(new SignatureState());*/
 		pushState(new SignatureState());
-		//pushState(new CharacterState("signature", .5f));
+		//pushState(new AttackState("signature", .5f));
 	}
 	
 	public void recover()
 	{
 		if(!m_recovered)
 		{
-			/*interruptStates(new CharacterState("idle", 0.05f));
+			/*interruptStates(new AttackState("idle", 0.05f));
 			addState(new RecoveryState());*/
 			pushState(new RecoveryState());
 			//pushState(new WaitState(.05f));

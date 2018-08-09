@@ -9,7 +9,7 @@ import org.dyn4j.geometry.Rectangle;
 import org.dyn4j.geometry.Transform;
 import org.dyn4j.geometry.Vector2;
 
-import characters.characterStates.CharacterState;
+import characters.characterStates.AttackState;
 import characters.characterStates.WaitState;
 import graphics.Sprite;
 import graphics.Texture;
@@ -55,7 +55,7 @@ public class Edgewardo extends Character
 		setSprite(sp);
 	}
 	
-	private class JabState extends CharacterState
+	private class JabState extends AttackState
 	{
 		private Hitbox m_hitbox = new Hitbox();
 		private Rectangle m_rect;
@@ -102,15 +102,15 @@ public class Edgewardo extends Character
 	{
 		pushState(new WaitState(0.2f));
 		pushState(new JabState());
-		pushState(new CharacterState("jab", .2f));
+		pushState(new AttackState("jab", .1f));
 	}
 
 	@Override
 	public void tilt() 
 	{
-		CharacterState tiltBeginning = new CharacterState("tilt_dash", 0.3f) {};
+		AttackState tiltBeginning = new AttackState("tilt_dash", 0.3f) {};
 		
-		CharacterState tiltDash = new CharacterState("tilt_dash", 0.1f)
+		AttackState tiltDash = new AttackState("tilt_dash", 0.1f)
 		{
 			Hitbox m_hitbox = new Hitbox();
 			Rectangle m_rect;
@@ -145,7 +145,7 @@ public class Edgewardo extends Character
 			}
 		};
 				
-		CharacterState tiltEnd = new CharacterState("tilt_end", 0.5f)
+		AttackState tiltEnd = new AttackState("tilt_end", 0.5f)
 				{
 					@Override
 					public void init()
@@ -167,7 +167,7 @@ public class Edgewardo extends Character
 		pushState(tiltBeginning);
 	}
 	
-	private class SmashState extends CharacterState
+	private class SmashState extends AttackState
 	{
 		private Hitbox m_hitbox = new Hitbox();
 		private Rectangle m_rect;
@@ -213,10 +213,10 @@ public class Edgewardo extends Character
 	public void smash()
 	{
 		pushState(new SmashState());
-		pushState(new CharacterState("smash", .3f));
+		pushState(new AttackState("smash", .3f));
 	}
 	
-	private class ProjectileStart extends CharacterState
+	private class ProjectileStart extends AttackState
 	{
 		public ProjectileStart()
 		{
@@ -224,7 +224,7 @@ public class Edgewardo extends Character
 		}
 	}
 
-	private class ProjectileState extends CharacterState
+	private class ProjectileState extends AttackState
 	{
 		private Projectile knife;
 		private Hitbox m_hitbox = new Hitbox();
@@ -293,13 +293,13 @@ public class Edgewardo extends Character
 	public void projectile()
 	{
 		pushState(new ProjectileState());
-		pushState(new CharacterState("projectile", 0.1f));
+		pushState(new AttackState("projectile", 0.1f));
 	}
 
 	@Override
 	public void signature()
 	{
-		CharacterState sigState = new CharacterState("signature", 2.5f)
+		AttackState sigState = new AttackState("signature", 2.5f)
 				{
 					//randomness for fun
 					private Hitbox[] m_hitboxes = new Hitbox[(int)((Math.random() * 5)+2)];
@@ -391,7 +391,7 @@ public class Edgewardo extends Character
 		pushState(sigState);
 	}
 	
-	private class RecoveryState extends CharacterState
+	private class RecoveryState extends AttackState
 	{
 		public RecoveryState()
 		{
@@ -406,7 +406,7 @@ public class Edgewardo extends Character
 	@Override
 	public void recover() 
 	{
-		CharacterState recoveryStart = new CharacterState("recovery", 0.5f)
+		AttackState recoveryStart = new AttackState("recovery", 0.5f)
 				{
 					private Hitbox m_hitbox = new Hitbox();
 					private Rectangle m_rect;
@@ -442,7 +442,7 @@ public class Edgewardo extends Character
 					}
 				};
 				
-		CharacterState recoveryEnd = new CharacterState("jump_dsc", 0.1f)
+		AttackState recoveryEnd = new AttackState("jump_dsc", 0.1f)
 				{
 					private Hitbox m_hitbox = new Hitbox();
 					private Rectangle m_rect;

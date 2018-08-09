@@ -8,7 +8,7 @@ import org.dyn4j.geometry.MassType;
 import org.dyn4j.geometry.Rectangle;
 import org.dyn4j.geometry.Transform;
 import org.dyn4j.geometry.Vector2;
-import characters.characterStates.CharacterState;
+import characters.characterStates.AttackState;
 import characters.characterStates.Hitstun;
 import characters.characterStates.IdleState;
 import characters.characterStates.WaitState;
@@ -67,7 +67,7 @@ public class Cam extends Character
 		setSprite(sp);
 	}
 	
-	private class JabState extends CharacterState
+	private class JabState extends AttackState
 	{
 		private Hitbox m_hitbox = new Hitbox();
 
@@ -125,7 +125,7 @@ public class Cam extends Character
 		
 		
 	};
-	private class TiltState extends CharacterState
+	private class TiltState extends AttackState
 	{
 		private Hitbox m_hitbox = new Hitbox();
 
@@ -172,7 +172,7 @@ public class Cam extends Character
 		
 	};
 	
-	private class ProjState extends CharacterState
+	private class ProjState extends AttackState
 	{
 		private Projectile duffelBag;
 		private Hitbox duffelBox = new Hitbox();
@@ -313,7 +313,7 @@ public class Cam extends Character
 		}
 	};
 	
-	private class SignatureState extends CharacterState
+	private class SignatureState extends AttackState
 	{
 		private Hitbox m_hitbox = new Hitbox();
 
@@ -342,26 +342,26 @@ public class Cam extends Character
 	
 	public void jab()
 	{
-		/*interruptStates(new CharacterState("jab", 0.1f));
+		/*interruptStates(new AttackState("jab", 0.1f));
 		addState(new JabState());*/
 		pushState(new JabState());
-		pushState(new CharacterState("jab", .1f * Sbooster));
+		pushState(new AttackState("jab", .1f * Sbooster));
 		//System.out.println(getDamage());
 	}
 	
 	public void tilt()
 	{
-		/*interruptStates(new CharacterState("tilt", 0.1f));
+		/*interruptStates(new AttackState("tilt", 0.1f));
 		addState(new TiltState());
-		addState(new CharacterState("idle", 0.3f));*/
+		addState(new AttackState("idle", 0.3f));*/
 		pushState(new WaitState(.1f * Sbooster));
 		pushState(new TiltState());
-		pushState(new CharacterState("tilt", .28f * Sbooster));
+		pushState(new AttackState("tilt", .2f * Sbooster));
 	}
 	
 	public void smash()
 	{
-		CharacterState smashStartup = new CharacterState("smash_startup", 1.0f * Sbooster)
+		AttackState smashStartup = new AttackState("smash_startup", 1.0f * Sbooster)
 				{
 					@Override
 					public void init() {
@@ -378,7 +378,7 @@ public class Cam extends Character
 					}
 				};
 				
-		CharacterState smashFlash = new CharacterState("smash_flash", 0.5f * Sbooster)
+		AttackState smashFlash = new AttackState("smash_flash", 0.5f * Sbooster)
 				{
 					private Hitbox m_hitbox = new Hitbox();
 					private Rectangle m_rect;
@@ -436,7 +436,7 @@ public class Cam extends Character
 	public void projectile()
 	{
 		//Placeholder for testing.
-		/*interruptStates(new CharacterState("projectile", 0.05f));
+		/*interruptStates(new AttackState("projectile", 0.05f));
 		addState(new ProjState());*/
 		pushState(new WaitState(0.4f * Sbooster));
 		pushState(new ProjState());
@@ -445,20 +445,20 @@ public class Cam extends Character
 	
 	public void signature()
 	{
-		/*interruptStates(new CharacterState("signature", 0.5f));
+		/*interruptStates(new AttackState("signature", 0.5f));
 		addState(new SignatureState());*/
 		pushState(new SignatureState());
-		//pushState(new CharacterState("signature", .5f));
+		//pushState(new AttackState("signature", .5f));
 	}
 	
 	public void recover()
 	{
-		CharacterState recoveryStart = new CharacterState("recovery", 0.3f)
+		AttackState recoveryStart = new AttackState("recovery", 0.3f)
 				{
 					
 				};
 				
-		CharacterState recoveryBomb = new CharacterState("jump_asc", 0.3f)
+		AttackState recoveryBomb = new AttackState("jump_asc", 0.3f)
 				{
 					private Hitbox m_hitbox = new Hitbox();
 					private Rectangle m_rect;
