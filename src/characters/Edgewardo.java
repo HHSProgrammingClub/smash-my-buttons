@@ -213,7 +213,8 @@ public class Edgewardo extends Character
 	public void smash()
 	{
 		pushState(new SmashState());
-		pushState(new AttackState("smash", .3f));
+		//animation plays twice with this
+		//pushState(new AttackState("smash", .3f));
 	}
 	
 	private class ProjectileStart extends AttackState
@@ -263,6 +264,7 @@ public class Edgewardo extends Character
 			m_knifeBody.addFixture(m_fixture);
 			m_knifeBody.setMass(MassType.INFINITE);
 			
+			knife.getSprite().setScale(m_facingRight ? RIGHT_SCALE : LEFT_SCALE);
 			addProjectile(knife);
 		}
 		
@@ -272,7 +274,7 @@ public class Edgewardo extends Character
 			m_hitbox.addToFixture(m_fixture);
 			m_fixture.setSensor(false);
 			knife.setBody(m_knifeBody);
-			m_knifeBody.setLinearVelocity(new Vector2(10*getFacing(), 0));
+			m_knifeBody.setLinearVelocity(new Vector2(15*getFacing(), 0));
 			m_world.addBody(m_knifeBody);
 		}
 		
@@ -293,7 +295,7 @@ public class Edgewardo extends Character
 	public void projectile()
 	{
 		pushState(new ProjectileState());
-		pushState(new AttackState("projectile", 0.1f));
+		pushState(new AttackState("projectile", 0.4f));
 	}
 
 	@Override

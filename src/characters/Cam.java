@@ -80,7 +80,7 @@ public class Cam extends Character
 		JabState()
 		{
 			super("jab");
-			setDuration(0.1f);
+			setDuration(0.2f);
 			m_hitbox.setDuration(0.05f);
 			m_hitbox.setDamage(1);
 			m_hitbox.setHitstun(0.1f);

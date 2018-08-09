@@ -9,7 +9,7 @@
     <subtexture name="tilt" x="0" y="320" w="64" h="64" frames="6" interval="50" loop="1"/>
     <subtexture name="smash_startup" x="0" y="384" w="64" h="64" frames="4" interval="100"/>
     <subtexture name="smash_fly" x="256" y="384" w="64" h="64" loop="1"/>
-    <subtexture name="smash_contact" x="320" y="384" w="64" h="64" frames="2" interval="100"/>
+    <subtexture name="smash_contact" x="320" y="384" w="64" h="64" frames="3" interval="100"/>
     <subtexture name="projectile_start" x="0" y="448" w="64" h="64" frames="2" interval="100" loop="1"/>
     <subtexture name="projectile_screech" x="128" y="448" w="64" h="64" frames="2" interval="75" loop="1"/>
     <subtexture name="recovery" x="0" y="512" w="64" h="64" frames="5" interval="100"/>
