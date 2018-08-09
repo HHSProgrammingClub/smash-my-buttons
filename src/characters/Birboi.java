@@ -238,7 +238,8 @@ public class Birboi extends Character
 			@Override
 			public void interrupt()
 			{
-				getBody().removeFixture(m_fixture);
+				if(m_fixture != null)
+					getBody().removeFixture(m_fixture);
 				removeHitbox(m_hitbox);
 				getBody().setGravityScale(1);
 			}
@@ -378,7 +379,8 @@ public class Birboi extends Character
 			public void interrupt()
 			{
 				m_body.setGravityScale(1);
-				m_body.removeFixture(sf);
+				if(sf != null)
+					m_body.removeFixture(sf);
 				removeHitbox(signatureBox);
 			}
 			
@@ -386,7 +388,8 @@ public class Birboi extends Character
 			public void end()
 			{
 				m_body.setGravityScale(1);
-				m_body.removeFixture(sf);
+				if(sf != null)
+					m_body.removeFixture(sf);
 				removeHitbox(signatureBox);
 			}
 			
