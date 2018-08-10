@@ -14,7 +14,9 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class Texture 
+import resourceManager.Resource;
+
+public class Texture implements Resource
 {
 	private ArrayList<Animation> m_animations = new ArrayList<Animation>();
 	private BufferedImage m_image;
@@ -36,6 +38,7 @@ public class Texture
 	 * Open an image from your sources. This only opens png and xml files.
 	 * @param p_path Path to both the texture and the atlas. Just leave out the extension.
 	 */
+	@Override
 	public void openResource(String p_path)
 	{
 		try
