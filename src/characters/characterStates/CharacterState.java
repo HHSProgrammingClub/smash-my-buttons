@@ -213,7 +213,7 @@ public class CharacterState
 	{
 		if(!m_started)
 			start();
-		onUpdate();
+		onUpdate(p_delta);
 		//TODO: move to onUpdate()
 		/*if(activationTest())
 			activate();*/
@@ -223,7 +223,7 @@ public class CharacterState
 			m_character.endState();
 	}
 	
-	protected void onUpdate()
+	protected void onUpdate(float p_delta)
 	{
 		
 	}

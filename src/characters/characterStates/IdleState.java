@@ -35,7 +35,7 @@ public class IdleState extends CharacterState
 	}
 	
 	@Override
-	protected void onUpdate()
+	protected void onUpdate(float p_delta)
 	{
 		if(m_character.getBody().getLinearVelocity().y != 0)
 			m_character.getBody().setLinearDamping(0);

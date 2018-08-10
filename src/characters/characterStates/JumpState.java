@@ -27,7 +27,7 @@ public class JumpState extends CharacterState
 	}
 	
 	@Override
-	protected void onUpdate()
+	protected void onUpdate(float p_delta)
 	{
 		if(!m_falling && m_character.getBody().getLinearVelocity().y > 0)
 			setAnimation("jump_dsc");

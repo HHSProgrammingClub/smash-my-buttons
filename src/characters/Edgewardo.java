@@ -279,7 +279,7 @@ public class Edgewardo extends Character
 			m_world.addBody(m_knifeBody);
 		}
 		
-		protected void onUpdate()
+		protected void onUpdate(float p_delta)
 		{
 			if(!m_hitbox.isAlive()) 
 			{

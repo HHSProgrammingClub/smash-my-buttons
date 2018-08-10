@@ -12,7 +12,7 @@ public class RunningState extends CharacterState
 	}
 	
 	@Override
-	protected void onUpdate()
+	protected void onUpdate(float p_delta)
 	{
 		if(!m_moving)
 			m_character.popState();

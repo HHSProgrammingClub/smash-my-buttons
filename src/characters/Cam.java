@@ -305,7 +305,7 @@ public class Cam extends Character
 			m_world.addBody(duffelBody);
 		}
 		
-		protected void onUpdate()
+		protected void onUpdate(float p_delta)
 		{
 			
 		}

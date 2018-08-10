@@ -240,7 +240,7 @@ public class Jack extends Character
 			m_world.addBody(m_bodied);
 		}
 		
-		protected void onUpdate()
+		protected void onUpdate(float p_delta)
 		{
 			if(!m_hitbox.isAlive()) {
 				m_bodied.removeFixture(m_fixture);

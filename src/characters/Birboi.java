@@ -306,7 +306,7 @@ public class Birboi extends Character
 			}
 			
 			@Override
-			protected void onUpdate()
+			protected void onUpdate(float p_delta)
 			{
 				if(!m_hitbox.isAlive() && getTimer() > 0)
 				{
@@ -323,10 +323,12 @@ public class Birboi extends Character
 	@Override
 	public void projectile()
 	{
-		AttackState windup   = new AttackState("projectile_start", .25f);
+		AttackState windup  = new AttackState("projectile_start", .25f);
 		
 		AttackState screech = new AttackState("projectile_screech", .6f) //<- adjust this for cooldown time
 		{
+			Hitbox screechbox;
+			
 			@Override
 			protected void init()
 			{
@@ -337,8 +339,8 @@ public class Birboi extends Character
 			{
 				float duration = 10;
 				
-				Hitbox screechbox = new Hitbox();
-				screechbox.setBaseKnockback(new Vector2(9 * getFacing(), 0));
+				screechbox = new Hitbox();
+				screechbox.setBaseKnockback(new Vector2(0, 0));
 				screechbox.setScaledKnockback(new Vector2(0, 0));
 				screechbox.setDamage(3);
 				screechbox.setHitstun(0f);
@@ -370,7 +372,20 @@ public class Birboi extends Character
 				
 				B.setTransform(t);
 				
-				Projectile screech = new Projectile();
+				Projectile screech = new Projectile()
+						{
+							@Override
+							public boolean update(float p_delta)
+							{
+								if(m_duration < 0)
+									return true;
+								m_timer -= p_delta;
+								
+								screechbox.setHitstun(m_duration - m_timer);
+								
+								return m_timer > 0;
+							}
+						};
 				screech.setCharacter((Character) m_body.getUserData());
 				screech.setHitbox(screechbox);
 				screech.setDuration(duration);
@@ -515,7 +530,7 @@ public class Birboi extends Character
 			}
 			
 			@Override
-			protected void onUpdate()
+			protected void onUpdate(float p_delta)
 			{
 				if(m_body.getLinearVelocity().y == 0)
 					contactGround();
@@ -593,7 +608,7 @@ public class Birboi extends Character
 			}
 			
 			@Override
-			protected void onUpdate()
+			protected void onUpdate(float p_delta)
 			{
 				if(!jumped && (getDuration() - getTimer()) >= delay)
 				{

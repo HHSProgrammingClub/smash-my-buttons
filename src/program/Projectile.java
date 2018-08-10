@@ -101,6 +101,6 @@ public class Projectile implements Drawable
 	private Sprite m_sprite;
 	private Body m_body;
 	private Character m_character;
-	private float m_duration = -1;
-	private float m_timer;
+	protected float m_duration = -1;
+	protected float m_timer;
 }
