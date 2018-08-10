@@ -291,7 +291,7 @@ public class Cam extends Character
 				m_equipment[i].setBody(equipBodies[i]);
 				float RNG = (float)(Math.random() * 2 + 2);
 				float RNGzus = (float) (Math.random() * 3);
-				equipBodies[i].applyImpulse(new Vector2(RNG * getFacing(), -RNGzus));
+				equipBodies[i].applyImpulse(new Vector2((i + 1) * getFacing(), -(equipCount - i)));
 				equipBodies[i].applyTorque(RNG + 1);
 				m_world.addBody(equipBodies[i]);
 			}

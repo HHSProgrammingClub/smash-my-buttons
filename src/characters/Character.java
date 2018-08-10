@@ -349,6 +349,10 @@ public abstract class Character implements Drawable
 		m_projectiles.remove(p_projectile);
 	}
 	
+	public Projectile[] getProjectiles() {
+		return (Projectile[]) m_projectiles.toArray();
+	}
+	
 	@Override
 	public void draw(Renderer p_renderer)
 	{
@@ -416,7 +420,7 @@ public abstract class Character implements Drawable
 			m_stock--;
 			//TODO: Perhaps a character state for waiting time?
 			Transform t = new Transform();
-			t.translate(7, 0);
+			t.translate(6.25, 0);
 			m_body.setTransform(t);
 			m_body.setLinearVelocity(0, 0);
 			applyHitstun(0.01f);

@@ -66,7 +66,7 @@ public class Jack extends Character
 			super("jab");
 			
 			m_hitbox.setDuration(0.1f);
-			m_hitbox.setDamage(2);
+			m_hitbox.setDamage(3);
 			m_hitbox.setHitstun(0.4f);
 			m_hitbox.setBaseKnockback(new Vector2(0.5 * getFacing(), 0));
 			m_hitbox.setScaledKnockback(new Vector2(getFacing(), 0));
@@ -114,8 +114,8 @@ public class Jack extends Character
 			m_hitbox.setDuration(0.1f);
 			m_hitbox.setDamage(5);
 			m_hitbox.setHitstun(0.5f);
-			m_hitbox.setBaseKnockback(new Vector2(4 * getFacing(), 0));
-			m_hitbox.setScaledKnockback(new Vector2(3 * getFacing(), 0));
+			m_hitbox.setBaseKnockback(new Vector2(8 * getFacing(), 0));
+			m_hitbox.setScaledKnockback(new Vector2(5 * getFacing(), 0));
 			
 			m_rect = new Rectangle(0.8, 0.3);
 			m_rect.translate(length + 0.6 * getFacing(), 1.4);
@@ -159,8 +159,8 @@ public class Jack extends Character
 			m_hitbox.setDuration(0.2f);
 			m_hitbox.setDamage(10);
 			m_hitbox.setHitstun(0.75f);
-			m_hitbox.setBaseKnockback(new Vector2(3 * getFacing(), 0));
-			m_hitbox.setScaledKnockback(new Vector2(7 * getFacing(), -7));
+			m_hitbox.setBaseKnockback(new Vector2(3 * getFacing(), -3));
+			m_hitbox.setScaledKnockback(new Vector2(10 * getFacing(), -10));
 			
 			m_rect = new Rectangle(1.2, 1);
 			m_rect.translate(length + 0.45 * getFacing(), 1.25);
@@ -263,6 +263,7 @@ public class Jack extends Character
 		{
 			super("signature");
 			//setDuration(1f);
+			setDuration(0.35f);
 			m_hitbox.setDuration(0.2f);
 			m_hitbox.setDamage(5);
 			m_hitbox.setHitstun(0);
@@ -362,7 +363,6 @@ public class Jack extends Character
 		/*interruptStates(new AttackState("tilt", 0.1f));
 		addState(new TiltState());
 		addState(new AttackState("idle", 0.3f));*/
-		pushState(new WaitState(.2f));
 		pushState(new TiltState());
 		pushState(new AttackState("tilt", .1f));
 	}
@@ -383,7 +383,7 @@ public class Jack extends Character
 		//Placeholder for testing.
 		/*interruptStates(new AttackState("projectile", 0.05f));
 		addState(new ProjState());*/
-		pushState(new WaitState(0.4f));
+		pushState(new WaitState(0.3f));
 		pushState(new ProjState());
 		pushState(new AttackState("projectile", .1f));
 	}

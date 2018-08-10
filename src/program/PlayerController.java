@@ -224,6 +224,8 @@ public class PlayerController extends CharacterController
 	
 	private KeyBinder m_keyBinder = new KeyBinder();
 	
+	private int m_port;
+	
 	public PlayerController()
 	{
 		// Define the actions
@@ -373,7 +375,10 @@ public class PlayerController extends CharacterController
 	public void setPortControl(int port) {
 		System.out.println("player" + port);
 		m_keyBinder.setGroup("player" + port);
+		m_port = port;
 	}
+	
+	public int getPort() { return m_port; }
 
 	@Override
 	public void update(Battle p_battle, float p_delta)

@@ -23,9 +23,11 @@ public class ResultsScreen implements Page
 	public ResultsScreen(CharacterController p_winner, GUI p_gui)
 	{
 		if(p_winner instanceof PlayerController)
-			m_winnerName = p_winner.getCharacter().getName();
+			m_winnerName = "Player " + ((PlayerController) p_winner).getPort();
 		else if(p_winner instanceof AIController)
-			m_winnerName = p_winner.getAuthor();
+			m_winnerName = p_winner.getAuthor() + "'s " + 
+		p_winner.getCharacter().getName() + " AI, " + 
+					p_winner.getName() + ",";
 		
 		setUpPage(p_gui);
 	}

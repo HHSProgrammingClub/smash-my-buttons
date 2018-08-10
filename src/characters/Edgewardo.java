@@ -324,10 +324,10 @@ public class Edgewardo extends Character
 						for(int i = 0; i < m_hitboxes.length; i++)
 						{
 							m_hitboxes[i] = new Hitbox();
-							float randomDuration = (float)(Math.random() * 2) + 3;
+							float randomDuration = (float)(Math.random() * 2) + 4;
 							m_hitboxes[i].setDuration(randomDuration);
 							m_hitboxes[i].setDamage(1);
-							m_hitboxes[i].setHitstun(0.2f);
+							m_hitboxes[i].setHitstun(0.1f);
 							m_hitboxes[i].setBaseKnockback(new Vector2(0, 0));
 							m_hitboxes[i].setScaledKnockback(new Vector2(0, 0));
 							

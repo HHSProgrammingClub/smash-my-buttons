@@ -13,6 +13,7 @@ public class Hitbox
 	private float m_timeLeft;
 	private float m_hitstun;
 	
+	
 	public void addToFixture(Fixture p_fixture)
 	{
 		p_fixture.setUserData(this);
