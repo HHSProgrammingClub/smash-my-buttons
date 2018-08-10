@@ -59,11 +59,11 @@ public class Battle
 		m_charControllers[p_port - 1] = p_controller;
 		switch(p_port) {
 		case 1:
-			p_controller.getCharacter().getBody().translate(2, 0);
+			p_controller.getCharacter().getBody().translate(2.25, 0);
 			p_controller.getCharacter().setFacing(1);
 		break;
 		case 2:
-			p_controller.getCharacter().getBody().translate(9, 0);
+			p_controller.getCharacter().getBody().translate(7.25, 0);
 		break;
 		}
 		if(p_controller instanceof PlayerController)

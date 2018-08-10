@@ -133,7 +133,7 @@ public class Edgewardo extends Character
 				addHitbox(m_hitbox);
 				m_hitbox.addToFixture(m_fixture);
 				m_body.addFixture(m_fixture);
-				m_body.setLinearDamping(20);
+				m_body.setLinearDamping(10);
 			}
 			
 			@Override
@@ -150,10 +150,11 @@ public class Edgewardo extends Character
 					@Override
 					public void init()
 					{
-						m_body.translate(6 * getFacing(), 0);
+						m_body.translate(3.5 * getFacing(), 0);
 						m_body.setGravityScale(1);
 						m_body.setAsleep(false);
-						m_body.setLinearDamping(42);
+						m_body.applyImpulse(new Vector2(2 * getFacing(), 0));
+						m_body.setLinearDamping(10);
 					}
 					
 					@Override
@@ -236,7 +237,7 @@ public class Edgewardo extends Character
 		public ProjectileState()
 		{
 			super("idle");
-			setDuration(0.3f);
+			setDuration(0.33f);
 			Texture knifeTex = new Texture();
 			knifeTex.openResource("resources/images/knife");
 			
@@ -245,7 +246,7 @@ public class Edgewardo extends Character
 			
 			m_hitbox.setDuration(2f);
 			m_hitbox.setDamage(2);
-			m_hitbox.setHitstun(0.05f);
+			m_hitbox.setHitstun(0.01f);
 			m_hitbox.setBaseKnockback(new Vector2(0, 0));
 			m_hitbox.setScaledKnockback(new Vector2(1 * getFacing(), 0));
 			
@@ -301,7 +302,7 @@ public class Edgewardo extends Character
 	@Override
 	public void signature()
 	{
-		AttackState sigState = new AttackState("signature", 2.5f)
+		AttackState sigState = new AttackState("signature", 0.8f)
 				{
 					//randomness for fun
 					private Hitbox[] m_hitboxes = new Hitbox[(int)((Math.random() * 5)+2)];
@@ -323,10 +324,10 @@ public class Edgewardo extends Character
 						for(int i = 0; i < m_hitboxes.length; i++)
 						{
 							m_hitboxes[i] = new Hitbox();
-							float randomDuration = (float)(Math.random() * 2) + 2;
+							float randomDuration = (float)(Math.random() * 2) + 3;
 							m_hitboxes[i].setDuration(randomDuration);
-							m_hitboxes[i].setDamage(2);
-							m_hitboxes[i].setHitstun(0);
+							m_hitboxes[i].setDamage(1);
+							m_hitboxes[i].setHitstun(0.2f);
 							m_hitboxes[i].setBaseKnockback(new Vector2(0, 0));
 							m_hitboxes[i].setScaledKnockback(new Vector2(0, 0));
 							
@@ -366,27 +367,12 @@ public class Edgewardo extends Character
 					@Override
 					public void interrupt()
 					{
-						for(int i = 0; i < length; i++)
-						{
-							fogBodies[i].removeFixture(m_fixtures[i]);
-							removeHitbox(m_hitboxes[i]);
-							fogBodies[i].removeAllFixtures();
-							m_world.removeBody(fogBodies[i]);
-							removeProjectile(m_fog[i]);
-						}
 					}
 					
 					@Override
 					public void end()
 					{
-						for(int i = 0; i < length; i++)
-						{
-							fogBodies[i].removeFixture(m_fixtures[i]);
-							removeHitbox(m_hitboxes[i]);
-							fogBodies[i].removeAllFixtures();
-							m_world.removeBody(fogBodies[i]);
-							removeProjectile(m_fog[i]);
-						}
+						
 					}
 				};
 		// TODO: disappearing animation

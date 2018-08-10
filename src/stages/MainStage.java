@@ -39,7 +39,7 @@ public class MainStage extends Stage
 		groundShape.translate(0, 0);
 		Body groundBody = new Body();
 		Transform t = new Transform();
-		t.setTranslation(7, 6);
+		t.setTranslation(6.25, 6);
 		groundBody.setTransform(t);
 		groundBody.addFixture(groundShape);
 		
@@ -53,7 +53,7 @@ public class MainStage extends Stage
 		ground.setSprite(groundSprite);
 		
 		AffineTransform stageOffset = new AffineTransform();
-		stageOffset.translate(2, 5);
+		stageOffset.translate(1.25, 5);
 		
 		ground.setTransform(stageOffset);
 			

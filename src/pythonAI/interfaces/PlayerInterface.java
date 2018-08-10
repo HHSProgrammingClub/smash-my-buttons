@@ -1,5 +1,8 @@
 package pythonAI.interfaces;
 
+import program.Hitbox;
+import program.Projectile;
+
 /**
  * This defines what functions are available in
  * the `player` instance in python
@@ -25,4 +28,7 @@ public interface PlayerInterface
 	public int getDamage();
 	public double getXVel();
 	public double getYVel();
+	public boolean boosted();
+	public Hitbox[] getHitboxes();
+	public Projectile[] getProjectiles();
 }

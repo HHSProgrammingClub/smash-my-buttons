@@ -25,7 +25,7 @@ public class Birboi extends Character
 		jumpImpulse = new Vector2(0, -15);
 		m_secondaryJumpImpulse = new Vector2(0, -13);
 		runForce = new Vector2(20, 0);
-		maxRunSpeed = 6.5f;
+		maxRunSpeed = 5f;
 		
 		Body birb = new Body();
 		
@@ -38,7 +38,7 @@ public class Birboi extends Character
 		Rectangle rect = new Rectangle(1, 1.4f);
 		rect.translate(1, 1.3); // Set to topleft
 		BodyFixture bf = new BodyFixture(rect);
-		bf.setDensity(0.65);
+		bf.setDensity(0.6);
 		birb.addFixture(rect);
 		birb.setMass(MassType.FIXED_ANGULAR_VELOCITY);
 
@@ -113,7 +113,7 @@ public class Birboi extends Character
 		jabBox.setScaledKnockback(alignFacing(new Vector2(0, -8)));
 		jabBox.setDamage(2);
 		jabBox.setDuration(10);
-		jabBox.setHitstun(0f);
+		jabBox.setHitstun(0.01f);
 		
 		Vector2 jabBoxPos    = new Vector2(1, 1);
 		Vector2 jabBoxOffset = new Vector2(.5, 0);
@@ -148,6 +148,7 @@ public class Birboi extends Character
 		};
 		
 		pushState(jabState);
+		pushState(new CharacterState("jab", 0.1f));
 	}
 	
 	@Override
@@ -322,9 +323,9 @@ public class Birboi extends Character
 	@Override
 	public void projectile()
 	{
-		AttackState windup   = new AttackState("projectile_start");
+		AttackState windup   = new AttackState("projectile_start", .25f);
 		
-		AttackState screech = new AttackState("projectile_screech", .4f) //<- adjust this for cooldown time
+		AttackState screech = new AttackState("projectile_screech", .6f) //<- adjust this for cooldown time
 		{
 			@Override
 			protected void init()
@@ -354,7 +355,7 @@ public class Birboi extends Character
 				rekt.translate(alignFacing(new Vector2(-.65, .9)));
 				
 				Vector2 spawnPos = new Vector2(1, 0).add(alignFacing(new Vector2(2, .1)));
-				Vector2 velocity = alignFacing(new Vector2(3, 0));
+				Vector2 velocity = alignFacing(new Vector2(8, 0));
 				
 				BodyFixture fix = new BodyFixture(rekt);
 				
@@ -504,6 +505,7 @@ public class Birboi extends Character
 			{
 				spawnShockwaves();
 				popState();
+				pushState(new WaitState(0.4f));
 			}
 			
 			private void contactPlayer()
@@ -533,7 +535,6 @@ public class Birboi extends Character
 					m_body.applyImpulse(alignFacing(new Vector2(.7, -17)));
 			}
 		};
-		pushState(new WaitState(0.4f));
 		pushState(signatureState);
 		pushState(signatureStartup);
 	}
@@ -565,7 +566,7 @@ public class Birboi extends Character
 			@Override
 			protected void init()
 			{
-				m_body.setLinearVelocity(0, 0);
+				m_body.setLinearDamping(10);
 				m_body.setGravityScale(0);
 				m_superArmour = true;
 				
@@ -582,6 +583,7 @@ public class Birboi extends Character
 			@Override
 			public void end()
 			{
+				m_body.setLinearDamping(0);
 				m_body.setGravityScale(1);
 				m_superArmour = false;
 				
@@ -595,6 +597,7 @@ public class Birboi extends Character
 			{
 				if(!jumped && (getDuration() - getTimer()) >= delay)
 				{
+					m_body.setLinearDamping(0);
 					m_body.applyImpulse(new Vector2(0, -10));
 					jumped = true;
 				}

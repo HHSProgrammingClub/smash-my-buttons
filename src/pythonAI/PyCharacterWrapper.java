@@ -1,6 +1,10 @@
 package pythonAI;
 
+import java.util.ArrayList;
+
 import characters.Character;
+import program.Hitbox;
+import program.Projectile;
 
 /**
  * This wrapper delegates calls from the interface to a real Character object
@@ -112,5 +116,23 @@ class PyCharacterWrapper implements pythonAI.interfaces.PlayerInterface
 	@Override
 	public double getYVel() {
 		return m_character.getBody().getLinearVelocity().y;
+	}
+
+	@Override
+	public boolean boosted() {
+		// TODO Auto-generated method stub
+		return m_character.getKbooster() > 1;
+	}
+
+	@Override
+	public Hitbox[] getHitboxes() {
+		//return m_character.
+		return null;
+	}
+
+	@Override
+	public Projectile[] getProjectiles() {
+		//return m_character.;
+		return null;
 	}
 }

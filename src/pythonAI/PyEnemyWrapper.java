@@ -1,6 +1,8 @@
 package pythonAI;
 
 import characters.Character;
+import program.Hitbox;
+import program.Projectile;
 
 class PyEnemyWrapper implements pythonAI.interfaces.EnemyInterface {
 	public Character m_character;
@@ -46,4 +48,31 @@ class PyEnemyWrapper implements pythonAI.interfaces.EnemyInterface {
 	
 	@Override
 	public String getName() { return m_character.getName(); }
+
+	@Override
+	public boolean boosted() {
+		return m_character.getKbooster() > 1;
+	}
+
+	@Override
+	public String currentStateName() {
+		return m_character.peekState().getName();
+	}
+
+	@Override
+	public float currentStateDurationLeft() {
+		return m_character.peekState().getTimer();
+	}
+
+	@Override
+	public Hitbox[] getHitboxes() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Projectile[] getProjectiles() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

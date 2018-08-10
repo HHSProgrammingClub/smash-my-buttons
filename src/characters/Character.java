@@ -31,10 +31,13 @@ public abstract class Character implements Drawable
 	private boolean m_stunned       = false;
 	private boolean m_attacking     = false;
 	boolean m_facingRight   = false;
-	private final static float RIGHT_BLAST_LINE = 18;
-	private final static float LEFT_BLAST_LINE = -18;
+	//centered around x=6.25
+	private final static float CENTER = 6.25f;
+	private final static float DISTANCE_FROM_CENTER = 10;
+	private final static float RIGHT_BLAST_LINE = CENTER + DISTANCE_FROM_CENTER;
+	private final static float LEFT_BLAST_LINE = CENTER - DISTANCE_FROM_CENTER;
 	private final static float UPPER_BLAST_LINE = -5;
-	private final static float BOTTOM_BLAST_LINE = 11;
+	private final static float BOTTOM_BLAST_LINE = 16;
 	protected World m_world;
 	
 	// -1 = left 1 = right: for use with placing hitboxes, applying forces, etc.
@@ -78,6 +81,8 @@ public abstract class Character implements Drawable
 	public void setWorld(World p_world) {
 		m_world = p_world;
 	}
+	
+	public double getKbooster() { return 1; }
 	
 	public boolean jumped() { return m_jumped; }
 	public boolean recovered() { return m_recovered; }
@@ -279,8 +284,10 @@ public abstract class Character implements Drawable
 	{
 		if(m_superArmour || p_duration < 0)
 			return;
-		handleEvent(EVENT_HITSTUN);
-		pushState(new Hitstun(p_duration));
+		if(p_duration > 0) {
+			handleEvent(EVENT_HITSTUN);
+			pushState(new Hitstun(p_duration));
+		}
 	}
 	
 	public void setStunned(boolean p_stunned)
@@ -412,6 +419,7 @@ public abstract class Character implements Drawable
 			t.translate(7, 0);
 			m_body.setTransform(t);
 			m_body.setLinearVelocity(0, 0);
+			applyHitstun(0.01f);
 			setDamage(0);
 		}
 	}

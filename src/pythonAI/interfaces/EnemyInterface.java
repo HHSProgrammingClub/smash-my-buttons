@@ -1,5 +1,8 @@
 package pythonAI.interfaces;
 
+import program.Hitbox;
+import program.Projectile;
+
 public interface EnemyInterface
 {
 	public float getX();
@@ -9,4 +12,9 @@ public interface EnemyInterface
 	public double getXVel();
 	public double getYVel();
 	public String getName();
+	public boolean boosted();
+	public String currentStateName();
+	public float currentStateDurationLeft();
+	public Hitbox[] getHitboxes();
+	public Projectile[] getProjectiles();
 }
