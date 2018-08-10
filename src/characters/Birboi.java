@@ -16,9 +16,14 @@ import characters.characterStates.*;
 
 public class Birboi extends Character
 {
+	private Vector2 m_secondaryJumpImpulse;
+	private final int m_maxJumps = 4;
+	private int m_jumpCount = 0;
+	
 	public Birboi()
 	{
 		jumpImpulse = new Vector2(0, -15);
+		m_secondaryJumpImpulse = new Vector2(0, -13);
 		runForce = new Vector2(20, 0);
 		maxRunSpeed = 6.5f;
 		
@@ -48,6 +53,55 @@ public class Birboi extends Character
 		setSprite(sp);
 		
 		jumpImpulse = new Vector2(0, -17); //TODO: multiple jumps
+	}
+	
+	@Override
+	public void jump()
+	{
+		pushState(new BirbJump());
+		m_jumped = true;
+	}
+	
+	class BirbJump extends JumpState
+	{
+		@Override
+		protected void init()
+		{
+			m_jumpCount++;
+			m_character.getBody().setLinearVelocity(m_character.getBody().getLinearVelocity().x, 0);
+			m_character.getBody().applyImpulse(m_character.getJumpImpulse());
+		}
+		
+		@Override
+		public void interrupt()
+		{
+			m_jumpCount = 0;
+		}
+		
+		@Override
+		public void end()
+		{
+			m_jumpCount = 0;
+		}
+		
+		@Override
+		public boolean handleAction(int p_action)
+		{
+			if(p_action == Character.ACTION_MOVELEFT
+					|| p_action == Character.ACTION_MOVERIGHT)
+				m_character.applyRunForce();
+			if(p_action == Character.ACTION_JUMP)
+			{
+				if(m_jumpCount++ < m_maxJumps)
+				{
+					m_body.setLinearVelocity(m_body.getLinearVelocity().x, 0);
+					m_body.applyImpulse(m_secondaryJumpImpulse);
+					m_sprite.restartAnimation();
+				}
+				return false;
+			}
+			return true;
+		}
 	}
 	
 	@Override

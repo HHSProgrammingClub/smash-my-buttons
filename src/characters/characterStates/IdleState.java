@@ -53,7 +53,7 @@ public class IdleState extends CharacterState
 			m_character.pushState(new RunningState());
 			break;
 		case Character.ACTION_JUMP:
-			m_character.pushState(new JumpState());
+			m_character.jump();
 			break;
 		}
 		return true;

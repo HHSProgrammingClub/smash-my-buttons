@@ -146,8 +146,9 @@ public abstract class Character implements Drawable
 		return jumpImpulse;
 	}
 	
-	protected void jump() //to be pronounced [jʌmp] (ipa)
+	public void jump() //to be pronounced [jʌmp] (ipa)
 	{
+		pushState(new JumpState());
 		m_jumped = true;
 	}
 	
