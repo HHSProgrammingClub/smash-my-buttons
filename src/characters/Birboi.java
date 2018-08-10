@@ -67,6 +67,7 @@ public class Birboi extends Character
 		@Override
 		protected void init()
 		{
+			setAnimation("fly");
 			m_jumpCount++;
 			m_character.getBody().setLinearVelocity(m_character.getBody().getLinearVelocity().x, 0);
 			m_character.getBody().applyImpulse(m_character.getJumpImpulse());
@@ -92,6 +93,7 @@ public class Birboi extends Character
 				m_character.applyRunForce();
 			if(p_action == Character.ACTION_JUMP)
 			{
+				setAnimation("fly");
 				if(m_jumpCount++ < m_maxJumps)
 				{
 					m_body.setLinearVelocity(m_body.getLinearVelocity().x, 0);
