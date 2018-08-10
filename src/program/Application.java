@@ -1,7 +1,7 @@
 package program;
 
 import graphics.GUI;
-import graphics.StartMenu;
+import graphics.pages.StartMenu;
 
 /**
  * Smash-Bros style game that teaches people how to code in Python

@@ -7,6 +7,7 @@ import org.dyn4j.geometry.Transform;
 import org.dyn4j.geometry.Vector2;
 
 import characters.Character;
+import graphics.pages.Renderer;
 import program.CharacterController;
 import program.PlayerController;
 import pythonAI.AIController;

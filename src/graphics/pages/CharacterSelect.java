@@ -1,4 +1,4 @@
-package graphics;
+package graphics.pages;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -21,6 +21,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import characters.Character;
+import graphics.GUI;
 import characters.*;
 import program.Battle;
 import program.CharacterController;

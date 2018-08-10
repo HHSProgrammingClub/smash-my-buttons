@@ -2,6 +2,8 @@ package graphics;
 
 import java.util.ArrayList;
 
+import graphics.pages.Renderer;
+
 /**
  * List of all the Drawable entities that Renderer draws
  * @author Catherine Guevara

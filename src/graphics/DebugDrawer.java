@@ -8,6 +8,7 @@ import org.dyn4j.dynamics.BodyFixture;
 import org.dyn4j.dynamics.World;
 import org.dyn4j.geometry.AABB;
 
+import graphics.pages.Renderer;
 import stages.TerrainPiece;
 
 public class DebugDrawer implements Drawable

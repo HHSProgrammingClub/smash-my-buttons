@@ -9,9 +9,9 @@ import org.dyn4j.geometry.Rectangle;
 import org.dyn4j.geometry.Transform;
 import org.dyn4j.geometry.Vector2;
 
-import graphics.Renderer;
 import graphics.Sprite;
 import graphics.Texture;
+import graphics.pages.Renderer;
 
 public class MainStage extends Stage
 {

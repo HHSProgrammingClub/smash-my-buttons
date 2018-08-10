@@ -1,4 +1,4 @@
-package graphics;
+package graphics.pages;
 
 import javax.swing.JComponent;
 

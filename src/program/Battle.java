@@ -8,7 +8,8 @@ import graphics.DebugDrawer;
 import graphics.GUI;
 import graphics.NameLabel;
 import graphics.RenderList;
-import graphics.Renderer;
+import graphics.pages.Renderer;
+import graphics.pages.ResultsScreen;
 import graphics.DamageDisplayer;
 import stages.Stage;
 
@@ -20,10 +21,15 @@ public class Battle
 	
 	private CharacterController[] m_charControllers = new CharacterController [2];
 	
+	private CharacterController m_winner;
+	
+	
 	private Renderer m_renderer = new Renderer();
 	RenderList m_renderList = new RenderList();
 	
 	private Thread battleThread;
+	
+	private GUI m_gui;
 	
 	public Battle(Stage p_env)
 	{
@@ -91,6 +97,7 @@ public class Battle
 	public void startBattle(GUI p_gui)
 	{
 		p_gui.setPage(m_renderer);
+		m_gui = p_gui;
 		
 		battleThread = new Thread(new Runnable()
 				{
@@ -106,6 +113,8 @@ public class Battle
 	public void endBattle()
 	{
 		battleThread.interrupt();
+		
+		m_gui.setPage(new ResultsScreen(m_winner, m_gui));
 	}
 	
 	/**
@@ -161,10 +170,8 @@ public class Battle
 		Clock gameClock = new Clock();
 		float delta = 0;
 		
-		m_renderer.setSizeScale(1f/32); 
+		m_renderer.setSizeScale(1f/32);
 		
-		//game loop: should move somewhere else and only start
-		//once the battle itself starts
 		while(true)
 		{ 
 			//calculate delta
@@ -176,7 +183,7 @@ public class Battle
 			
 			update(delta);
 			
-			// This transform will affect everything that is draw to our world.
+			// This transform will affect everything that is drawn to our world.
 			AffineTransform worldTransform = new AffineTransform();
 			java.awt.Dimension rendererSize = m_renderer.getComponent().getSize();
 			calcRenderTargetTransform(worldTransform, 400, 300, rendererSize.width, rendererSize.height, 32);
@@ -195,6 +202,15 @@ public class Battle
 			
 			//display the current frame
 			m_renderer.display();
+			
+			//check if one player has died, then make the other the winner
+			//if we ever add more players, this will have to change
+			for(int i = 0; i < m_charControllers.length; i++)
+				if(m_charControllers[i].getCharacter().getStock() == 0)
+				{
+					m_winner = m_charControllers[i == 0 ? 1 : 0];
+					endBattle();
+				}
 			
 			//delay
 			try {

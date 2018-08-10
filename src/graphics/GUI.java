@@ -5,6 +5,9 @@ import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 
 import javax.swing.JFrame;
+
+import graphics.pages.Page;
+
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 

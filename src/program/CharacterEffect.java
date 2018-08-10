@@ -3,9 +3,9 @@ package program;
 import java.awt.geom.AffineTransform;
 
 import graphics.Drawable;
-import graphics.Renderer;
 import graphics.Sprite;
 import graphics.Texture;
+import graphics.pages.Renderer;
 
 /*
  * Certain effects like explosions, flashes, that characters produce

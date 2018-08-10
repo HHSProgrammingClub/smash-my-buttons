@@ -4,6 +4,7 @@ import java.awt.geom.AffineTransform;
 
 import org.dyn4j.geometry.Vector2;
 
+import graphics.pages.Renderer;
 import program.Clock;
 
 public class Sprite implements Drawable

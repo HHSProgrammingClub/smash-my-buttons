@@ -5,8 +5,8 @@ import org.dyn4j.dynamics.World;
 
 import graphics.Drawable;
 import graphics.RenderList;
-import graphics.Renderer;
 import graphics.Sprite;
+import graphics.pages.Renderer;
 
 public abstract class Stage implements Drawable
 {

@@ -5,6 +5,7 @@ import java.awt.Toolkit;
 import java.awt.geom.AffineTransform;
 
 import characters.Character;
+import graphics.pages.Renderer;
 
 /**
  * Displays a character's damage and number of lives (stocks)

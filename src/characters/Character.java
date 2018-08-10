@@ -10,8 +10,8 @@ import org.dyn4j.geometry.Vector2;
 
 import graphics.Drawable;
 import graphics.IntRect;
-import graphics.Renderer;
 import graphics.Sprite;
+import graphics.pages.Renderer;
 import program.Hitbox;
 import program.Projectile;
 import program.CharacterEffect;

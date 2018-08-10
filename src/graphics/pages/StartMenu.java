@@ -1,4 +1,4 @@
-package graphics;
+package graphics.pages;
 
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -11,6 +11,8 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import graphics.GUI;
 
 public class StartMenu implements Page
 {

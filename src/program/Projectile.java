@@ -6,8 +6,8 @@ import org.dyn4j.dynamics.BodyFixture;
 import org.dyn4j.geometry.Transform;
 
 import graphics.Drawable;
-import graphics.Renderer;
 import graphics.Sprite;
+import graphics.pages.Renderer;
 import characters.Character;
 
 public class Projectile implements Drawable

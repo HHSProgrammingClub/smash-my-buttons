@@ -1,4 +1,4 @@
-package graphics;
+package graphics.pages;
 
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
@@ -19,6 +19,10 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
+
+import graphics.DoubleRect;
+import graphics.IntRect;
+import graphics.Texture;
 
 /**
  * Renders all the sprites, GUI, and additional shapes to the screen

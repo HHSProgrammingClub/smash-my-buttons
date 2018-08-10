@@ -220,7 +220,7 @@ class KeyBinder
 
 public class PlayerController extends CharacterController
 {
-	private graphics.Page m_page;
+	private graphics.pages.Page m_page;
 	
 	private KeyBinder m_keyBinder = new KeyBinder();
 	
@@ -345,7 +345,7 @@ public class PlayerController extends CharacterController
 	 * Give this controller a page to receive key events from.
 	 * @param p_page
 	 */
-	public void attachPage(graphics.Page p_page)
+	public void attachPage(graphics.pages.Page p_page)
 	{
 		m_page = p_page;
 		m_page.getComponent().addKeyListener(m_keyBinder.getKeyListener());
