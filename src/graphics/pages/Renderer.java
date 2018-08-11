@@ -241,6 +241,19 @@ public class Renderer implements Page
 		m_graphics.drawString(p_text, 0, 0);
 	}
 	
+	/**
+	 * Cover the canvas with a color
+	 * @param p_color The color to overlay the screen
+	 * @param p_opacity 0.0f transparent to 1.0f (opaque)
+	 */
+	public void addScreenOverlay(Color p_color, float p_opacity)
+	{
+		m_graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, p_opacity));
+		
+		m_graphics.setColor(p_color);
+		m_graphics.fillRect(0, 0, m_width, m_height);
+	}
+	
 	public void drawPath(Path2D.Double p_polygon, Color p_color)
 	{
 		

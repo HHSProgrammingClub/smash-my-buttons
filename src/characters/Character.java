@@ -8,6 +8,7 @@ import org.dyn4j.dynamics.World;
 import org.dyn4j.geometry.Transform;
 import org.dyn4j.geometry.Vector2;
 
+import graphics.DeathAnimation;
 import graphics.Drawable;
 import graphics.IntRect;
 import graphics.Sprite;
@@ -72,6 +73,8 @@ public abstract class Character implements Drawable
 	public static final int ACTION_RECOVERY   = 6;
 	
 	protected static double position = 0;
+	
+	private DeathAnimation death;
 	
 	protected Character()
 	{
@@ -349,13 +352,22 @@ public abstract class Character implements Drawable
 		m_projectiles.remove(p_projectile);
 	}
 	
-	public Projectile[] getProjectiles() {
+	public Projectile[] getProjectiles() 
+	{
 		return (Projectile[]) m_projectiles.toArray();
+	}
+	
+	public boolean isDead()
+	{
+		return (m_body.getWorldCenter().x > RIGHT_BLAST_LINE ||
+				m_body.getWorldCenter().x < LEFT_BLAST_LINE ||
+				m_body.getWorldCenter().y < UPPER_BLAST_LINE ||
+				m_body.getWorldCenter().y > BOTTOM_BLAST_LINE);
 	}
 	
 	@Override
 	public void draw(Renderer p_renderer)
-	{
+	{	
 		Transform t = m_body.getTransform();
 		
 		if (m_sprite.getAnimation() != null)
@@ -383,6 +395,9 @@ public abstract class Character implements Drawable
 				p.draw(p_renderer);
 			}
 		}
+
+		if(death != null) //checking if isDead() doesn't seem to work
+			death.draw(p_renderer);
 	}
 	
 	public void update(float p_delta)
@@ -413,11 +428,11 @@ public abstract class Character implements Drawable
 				m_projectiles.remove(i--);
 		
 		//TODO: move this stuff out of the charcter class to a collision listener
-		if(m_body.getWorldCenter().x > RIGHT_BLAST_LINE ||
-			m_body.getWorldCenter().x < LEFT_BLAST_LINE ||
-			m_body.getWorldCenter().y < UPPER_BLAST_LINE ||
-			m_body.getWorldCenter().y > BOTTOM_BLAST_LINE) {
+		if(isDead()) 
+		{
 			m_stock--;
+			death = new DeathAnimation(this);
+			death.setPosition(m_body.getWorldCenter());
 			//TODO: Perhaps a character state for waiting time?
 			Transform t = new Transform();
 			t.translate(6.25, 0);

@@ -94,9 +94,9 @@ public class NameLabel implements Drawable
 		p_renderer.pushTransform(textScalar);
 		
 		if(m_port == 1)
-			p_renderer.drawText(name, "SansSerif", Color.BLUE, 1, 1);
+			p_renderer.drawText(name, "Consolas", Color.BLUE, 1, 1);
 		else
-			p_renderer.drawText(name, "SansSerif", Color.RED, 1, 1);
+			p_renderer.drawText(name, "Consolas", Color.RED, 1, 1);
 		
 		p_renderer.popTransform();
 	}
