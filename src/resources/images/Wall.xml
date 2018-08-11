@@ -12,6 +12,6 @@
     <subtexture name="recovery_tumble" x="0" y="448" w="64" h="64" frames="7" interval="50"/>
     <subtexture name="recovery_slam" x="448" y="448" w="64" h="64"/>
     <subtexture name="signature_dash" x="0" y="512" w="64" h="64"/>
-    <subtexture name="signature_slam" x="64" y="512" w="64" h="64" frames="3" interval="100"/>
-    <subtexture name="signature_slamjam" x="192" y="512" w="64" h="64"/>
+    <subtexture name="signature_throw" x="64" y="512" w="64" h="64" frames="2" interval="100"/>
+    <subtexture name="signature_slam" x="128" y="512" w="64" h="64" frames="2" interval="100"/>
 </atlas>

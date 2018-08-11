@@ -12,6 +12,7 @@ import characters.characterStates.WaitState;
 import graphics.Sprite;
 import graphics.Texture;
 import program.Hitbox;
+import program.Projectile;
 import resourceManager.ResourceManager;
 
 public class WallTheEncircler extends Character
@@ -195,26 +196,247 @@ public class WallTheEncircler extends Character
 		pushState(new WaitState(1.0f));
 		pushState(new SmashState());
 	}
+	
+	private class ProjectileState extends AttackState
+	{
+		private Projectile chair;
+		private Hitbox m_hitbox = new Hitbox();
+		private Rectangle m_rect;
+		private BodyFixture m_fixture;
+		private Body chairBody = new Body();
+		
+		public ProjectileState()
+		{
+			super("projectile");
+			
+			Texture texMex = ResourceManager.getResource(Texture.class, "resources/images/chair");
+			
+			Sprite chairemAnime = new Sprite(texMex);
+			chairemAnime.setAnimation("default");
+			
+			m_hitbox.setDuration(3.0f);
+			m_hitbox.setDamage(8);
+			m_hitbox.setHitstun(0.2f);
+			m_hitbox.setBaseKnockback(new Vector2(getFacing(), 5));
+			m_hitbox.setScaledKnockback(new Vector2(2*getFacing(), 6));
+			
+			m_rect = new Rectangle(0.5, 0.5);
+			m_rect.translate(0, 0);
+			
+			chair = new Projectile(chairemAnime, m_hitbox);
+			chair.setCharacter((Character) m_body.getUserData());
+			
+			m_fixture = new BodyFixture(m_rect);
+			
+			Transform t = new Transform();
+			t.translate(chairBody.getTransform().getTranslation());
+			t.translate(1, 4);
+			
+			chairBody.setTransform(t);
+			chairBody.addFixture(m_fixture);
+			chairBody.setMass(MassType.NORMAL);
+			
+			addProjectile(chair);
+		}
+		
+		protected void init()
+		{
+			addHitbox(m_hitbox);
+			m_hitbox.addToFixture(m_fixture);
+			m_fixture.setSensor(false);
+			chair.setBody(chairBody);
+			chairBody.applyImpulse(new Vector2(4 * getFacing(), -2));
+			chairBody.applyTorque(1.5);
+			m_world.addBody(chairBody);
+		}
+		
+		protected void onUpdate(float p_delta)
+		{
+			if(!m_hitbox.isAlive()) {
+				chairBody.removeFixture(m_fixture);
+				removeHitbox(m_hitbox);
+				chairBody.removeAllFixtures();
+				m_world.removeBody(chairBody);
+			}
+		}
+	}
 
 	@Override
 	public void projectile() 
 	{
-		// TODO Auto-generated method stub
-		
+		//someone time this correctly
+		pushState(new ProjectileState());
+		pushState(new AttackState("projectile", 0.3f));
+		pushState(new WaitState(0.2f));
 	}
 
 	@Override
 	public void signature()
 	{
-		// TODO Auto-generated method stub
+		AttackState suplexSlam = new AttackState("signature_slam", 0.3f)
+		{
+			@Override
+			public void init()
+			{
+				m_body.setLinearVelocity(0, 25);
+			}
+			
+			@Override
+			public void end()
+			{
+				
+			}
+		};
 		
+		AttackState suplexThrow = new AttackState("signature_throw", 0.3f)
+		{
+			//somehow carry the target
+			@Override
+			public void init()
+			{
+				m_body.setLinearVelocity(-5*getFacing(), -15);
+			}
+			
+			@Override
+			public void end()
+			{
+				m_body.setLinearVelocity(0, 0);
+			}
+		};
+		
+		AttackState suplexDash = new AttackState("signature_dash", 1f)
+		{
+			Hitbox m_hitbox = new Hitbox();
+			Rectangle m_rect = new Rectangle(1, 2);
+			BodyFixture m_fixture;
+			
+			@Override
+			public void init()
+			{
+				m_body.setLinearVelocity(new Vector2(10*getFacing(), 0));
+			
+				m_hitbox.setDamage(0);
+				m_hitbox.setBaseKnockback(new Vector2(0, 0));
+				m_hitbox.setScaledKnockback(new Vector2(0, 0));
+				m_hitbox.setDuration(0.5f);
+				
+				m_rect.translate(0.5, 1.5);
+				m_fixture = new BodyFixture(m_rect);
+				
+				m_body.addFixture(m_fixture);
+				m_hitbox.addToFixture(m_fixture);
+				addHitbox(m_hitbox);
+			}
+			
+			@Override
+			public void interrupt()
+			{
+				if(m_fixture != null)
+					m_body.removeFixture(m_fixture);
+				removeHitbox(m_hitbox);
+				m_body.setLinearVelocity(0, 0);
+			}
+			
+			@Override
+			public void end()
+			{
+				interrupt();
+			}
+			
+			@Override
+			protected void onUpdate(float p_delta)
+			{
+				if(!m_hitbox.isAlive() && getTimer() > 0)
+				{
+					popState();
+					pushState(suplexSlam);
+					pushState(new WaitState(0.01f));
+					pushState(suplexThrow);
+				}
+			}
+		};
+		pushState(suplexDash);
 	}
 
 	@Override
 	public void recover()
 	{
-		// TODO Auto-generated method stub
+		AttackState recoveryJump = new AttackState("recovery_jump", 0.4f)
+		{
+			@Override
+			public void init()
+			{
+				m_body.applyImpulse(new Vector2(2*getFacing(), -30));
+			}
+			
+			@Override
+			public void end()
+			{
+				m_body.setLinearVelocity(0, 0);
+			}
+		};
 		
+		AttackState recoveryTumble = new AttackState("recovery_tumble", 0.3f)
+		{
+			@Override
+			public void init()
+			{
+				m_body.setLinearVelocity(0, 0);
+			}
+		};
+		
+		AttackState recoverySlam = new AttackState("recovery_slam", 0.3f)
+		{
+			private Hitbox m_hitbox = new Hitbox();
+			private Rectangle m_rect;
+			private BodyFixture m_fixture;
+			
+			@Override
+			public void init()
+			{
+				m_body.setLinearVelocity(0, 0);
+				m_body.applyImpulse(new Vector2(0, 40));
+				
+				m_hitbox.setDuration(0.2f);
+				m_hitbox.setDamage(10);
+				m_hitbox.setHitstun(0.2f);
+				m_hitbox.setBaseKnockback(new Vector2(getFacing(), 20));
+				m_hitbox.setScaledKnockback(new Vector2(getFacing(), 30));
+			
+				m_rect = new Rectangle(1, 0.2);
+				m_rect.translate(1, 2);
+				
+				m_fixture = new BodyFixture(m_rect);
+				
+				addHitbox(m_hitbox);
+				m_hitbox.addToFixture(m_fixture);
+				m_body.addFixture(m_fixture);
+			}
+			
+			@Override
+			public void interrupt()
+			{
+				m_body.removeFixture(m_fixture);
+				removeHitbox(m_hitbox);
+			}
+			
+			@Override
+			protected void onUpdate(float p_delta)
+			{
+				if(m_body.getLinearVelocity().y == 0)
+					m_body.applyImpulse(new Vector2(getFacing(), -15));
+				
+			}
+			
+			@Override
+			public void end()
+			{
+				interrupt();
+			}
+		};
+		pushState(recoverySlam);
+		pushState(recoveryTumble);
+		pushState(recoveryJump);
 	}
 
 	@Override
