@@ -1,3 +1,3 @@
 <atlas>
-    <subtexture name="default" x="0" y="0" w="48" h="32" frames="4" interval="100"/>
+    <subtexture name="default" x="0" y="0" w="48" h="32" frames="5" interval="100"/>
 </atlas>
