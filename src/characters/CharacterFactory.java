@@ -14,6 +14,8 @@ public final class CharacterFactory
 				return new Edgewardo();
 			case "Cam":
 				return new Cam();
+			case "W'all":
+				return new WallTheEncircler();
 		}
 		return new Jack();
 	}
