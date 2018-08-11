@@ -16,6 +16,7 @@ import graphics.Texture;
 import program.CharacterEffect;
 import program.Hitbox;
 import program.Projectile;
+import resourceManager.ResourceManager;
 
 public class Edgewardo extends Character
 {
@@ -46,8 +47,7 @@ public class Edgewardo extends Character
 
 		setBody(emo);
 		
-		Texture tex = new Texture();
-		tex.openResource("resources/images/edgewardo");
+		Texture tex = ResourceManager.getResource(Texture.class, "resources/images/edgewardo");
 		
 		Sprite sp = new Sprite(tex);
 		sp.setAnimation("idle");
@@ -238,8 +238,7 @@ public class Edgewardo extends Character
 		{
 			super("idle");
 			setDuration(0.33f);
-			Texture knifeTex = new Texture();
-			knifeTex.openResource("resources/images/knife");
+			Texture knifeTex = ResourceManager.getResource(Texture.class, "resources/images/knife");
 			
 			Sprite knifeSprite = new Sprite(knifeTex);
 			knifeSprite.setAnimation("default");
@@ -316,8 +315,7 @@ public class Edgewardo extends Character
 					@Override
 					public void init()
 					{
-						Texture fogTexture = new Texture();
-						fogTexture.openResource("resources/images/fog");
+						Texture fogTexture = ResourceManager.getResource(Texture.class, "resources/images/fog");
 						
 						fogSprite = new Sprite(fogTexture, "default");
 						

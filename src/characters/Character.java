@@ -352,9 +352,8 @@ public abstract class Character implements Drawable
 		m_projectiles.remove(p_projectile);
 	}
 	
-	public Projectile[] getProjectiles() 
-	{
-		return (Projectile[]) m_projectiles.toArray();
+	public Object[] getProjectiles() {
+		return m_projectiles.toArray();
 	}
 	
 	public boolean isDead()

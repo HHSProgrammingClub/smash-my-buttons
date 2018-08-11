@@ -12,6 +12,7 @@ import graphics.Sprite;
 import graphics.Texture;
 import program.Hitbox;
 import program.Projectile;
+import resourceManager.ResourceManager;
 
 //A sample character.
 
@@ -42,8 +43,7 @@ public class Jack extends Character
 
 		setBody(tushie);
 		
-		Texture tex = new Texture();
-		tex.openResource("resources/images/jack");
+		Texture tex = ResourceManager.getResource(Texture.class, "resources/images/jack");
 		
 		Sprite sp = new Sprite(tex);
 		sp.setAnimation("idle");
@@ -202,8 +202,7 @@ public class Jack extends Character
 		{
 			super("projectile");
 			
-			Texture explosionTexture = new Texture();
-			explosionTexture.openResource("resources/images/coffee");
+			Texture explosionTexture = ResourceManager.getResource(Texture.class, "resources/images/coffee");
 			
 			Sprite explosion = new Sprite(explosionTexture);
 			explosion.setAnimation("default");

@@ -30,5 +30,5 @@ public interface PlayerInterface
 	public double getYVel();
 	public boolean boosted();
 	public Hitbox[] getHitboxes();
-	public Projectile[] getProjectiles();
+	public Object[] getProjectiles();
 }

@@ -6,6 +6,7 @@ import org.dyn4j.dynamics.Body;
 import org.dyn4j.geometry.Vector2;
 
 import graphics.pages.Renderer;
+import resourceManager.ResourceManager;
 import characters.Character;
 
 public class DeathAnimation implements Drawable
@@ -20,8 +21,7 @@ public class DeathAnimation implements Drawable
 	 */
 	public DeathAnimation(Character p_character)
 	{
-		Texture LaTeX = new Texture();
-		LaTeX.openResource("resources/images/death");
+		Texture LaTeX = ResourceManager.getResource(Texture.class, "resources/images/death");
 		
 		death = new Sprite(LaTeX);
 		death.setAnimation("default");

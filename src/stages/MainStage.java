@@ -12,6 +12,7 @@ import org.dyn4j.geometry.Vector2;
 import graphics.Sprite;
 import graphics.Texture;
 import graphics.pages.Renderer;
+import resourceManager.ResourceManager;
 
 public class MainStage extends Stage
 {
@@ -19,8 +20,7 @@ public class MainStage extends Stage
 	
 	public MainStage()
 	{
-		Texture BGtexture = new Texture();
-		BGtexture.openResource("resources/images/BG_placeholder");
+		Texture BGtexture = ResourceManager.getResource(Texture.class, "resources/images/BG_placeholder");
 		m_background = new Sprite(BGtexture, "default");
 		
 		setBackground(m_background);
@@ -43,8 +43,7 @@ public class MainStage extends Stage
 		groundBody.setTransform(t);
 		groundBody.addFixture(groundShape);
 		
-		Texture groundTexture = new Texture();
-		groundTexture.openResource("resources/images/stage");
+		Texture groundTexture = ResourceManager.getResource(Texture.class, "resources/images/stage");
 			
 		Sprite groundSprite = new Sprite(groundTexture, "default");
 			

@@ -131,7 +131,7 @@ class PyCharacterWrapper implements pythonAI.interfaces.PlayerInterface
 	}
 
 	@Override
-	public Projectile[] getProjectiles() {
+	public Object[] getProjectiles() {
 		//return m_character.;
 		return m_character.getProjectiles();
 	}

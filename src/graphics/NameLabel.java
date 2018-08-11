@@ -11,6 +11,7 @@ import graphics.pages.Renderer;
 import program.CharacterController;
 import program.PlayerController;
 import pythonAI.AIController;
+import resourceManager.ResourceManager;
 
 /**
  * Displays the name of player on top of characters
@@ -31,8 +32,7 @@ public class NameLabel implements Drawable
 	 */
 	public NameLabel(CharacterController p_controller, int p_port)
 	{
-		Texture arrowTex = new Texture();
-		arrowTex.openResource("resources/images/arrow");
+		Texture arrowTex = ResourceManager.getResource(Texture.class, "resources/images/arrow");
 		
 		arrow = new Sprite(arrowTex, "default");
 		

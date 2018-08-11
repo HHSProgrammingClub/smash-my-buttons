@@ -17,6 +17,7 @@ import graphics.Texture;
 import program.CharacterEffect;
 import program.Hitbox;
 import program.Projectile;
+import resourceManager.ResourceManager;
 
 public class Cam extends Character
 {
@@ -61,8 +62,7 @@ public class Cam extends Character
 
 		setBody(nikon);
 		
-		Texture tex = new Texture();
-		tex.openResource("resources/images/cam");
+		Texture tex = ResourceManager.getResource(Texture.class, "resources/images/cam");
 		
 		Sprite sp = new Sprite(tex);
 		sp.setAnimation("idle");
@@ -196,22 +196,18 @@ public class Cam extends Character
 			super("projectile");
 			
 			//Cam throws the duffel bag and random equipment
-			Texture duffelTexture = new Texture();
-			duffelTexture.openResource("resources/images/duffelbag");
+			Texture duffelTexture = ResourceManager.getResource(Texture.class, "resources/images/duffelbag");
 			Sprite duffelSprite = new Sprite(duffelTexture);
 			duffelSprite.setAnimation("default");
 			
-			Texture equipTex1 = new Texture();
-			equipTex1.openResource("resources/images/equipment1");
+			Texture equipTex1 = ResourceManager.getResource(Texture.class, "resources/images/equipment1");
 			Sprite equipSprite1 = new Sprite(equipTex1, "default");
 			
-			Texture equipTex2 = new Texture();
-			equipTex2.openResource("resources/images/equipment2");
+			Texture equipTex2 = ResourceManager.getResource(Texture.class, "resources/images/equipment2");
 			Sprite equipSprite2 = new Sprite(equipTex2, "default");
 			
-			Texture equipTex3 = new Texture();
-			equipTex3.openResource("resources/images/equipment3");
-			Sprite equipSprite3 = new Sprite(equipTex2, "default");
+			Texture equipTex3 = ResourceManager.getResource(Texture.class, "resources/images/equipment3");
+			Sprite equipSprite3 = new Sprite(equipTex3, "default");
 			
 			//initialize the random equipment
 			for(int i = 0; i < equipCount; i++)

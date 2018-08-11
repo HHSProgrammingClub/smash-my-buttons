@@ -6,6 +6,7 @@ import java.awt.geom.AffineTransform;
 
 import characters.Character;
 import graphics.pages.Renderer;
+import resourceManager.ResourceManager;
 
 /**
  * Displays a character's damage and number of lives (stocks)
@@ -23,8 +24,7 @@ public class DamageDisplayer implements Drawable
 		m_character = p_character;
 		m_player = p_port;
 		
-		Texture tex = new Texture();
-		tex.openResource("resources/images/stock");
+		Texture tex = ResourceManager.getResource(Texture.class, "resources/images/stock");
 		
 		m_stockSprite = new Sprite(tex);
 		m_stockSprite.setAnimation("default");

@@ -12,6 +12,7 @@ import graphics.Sprite;
 import graphics.Texture;
 import program.Hitbox;
 import program.Projectile;
+import resourceManager.ResourceManager;
 import characters.characterStates.*;
 
 public class Birboi extends Character
@@ -44,8 +45,7 @@ public class Birboi extends Character
 
 		setBody(birb);
 		
-		Texture tex = new Texture();
-		tex.openResource("resources/images/birboi");
+		Texture tex = ResourceManager.getResource(Texture.class, "resources/images/birboi");
 		
 		Sprite sp = new Sprite(tex);
 		sp.setAnimation("idle");
@@ -348,8 +348,7 @@ public class Birboi extends Character
 				screechbox.setHitstun(0f);
 				screechbox.setDuration(duration);
 				
-				Texture texas = new Texture();
-				texas.openResource("resources/images/screech");
+				Texture texas = ResourceManager.getResource(Texture.class, "resources/images/screech");
 				
 				Sprite s = new Sprite(texas, "default");
 				s.setScale(m_facingRight ? RIGHT_SCALE : LEFT_SCALE);
@@ -474,8 +473,7 @@ public class Birboi extends Character
 				{
 					int flip = (i == 0 ? 1 : -1);
 					
-					Texture shockwave = new Texture();
-					shockwave.openResource("resources/images/" + (i == 0 ? "shockwave_R" : "shockwave_L"));
+					Texture shockwave = ResourceManager.getResource(Texture.class, "resources/images/" + (i == 0 ? "shockwave_R" : "shockwave_L"));
 					Sprite sp = new Sprite(shockwave);
 					sp.setAnimation("default");
 					sp.setPosition(0, -4);

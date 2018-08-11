@@ -6,6 +6,7 @@ import graphics.Drawable;
 import graphics.Sprite;
 import graphics.Texture;
 import graphics.pages.Renderer;
+import resourceManager.ResourceManager;
 
 /*
  * Certain effects like explosions, flashes, that characters produce
@@ -19,8 +20,7 @@ public class CharacterEffect implements Drawable
 	
 	public CharacterEffect(String p_name, String p_animation)
 	{
-		Texture texture = new Texture();
-		texture.openResource("resources/images/" + p_name);
+		Texture texture = ResourceManager.getResource(Texture.class, "resources/images/" + p_name);
 		
 		m_sprite = new Sprite(texture);
 		m_sprite.setAnimation(p_animation);
@@ -30,8 +30,7 @@ public class CharacterEffect implements Drawable
 	
 	public CharacterEffect(String p_name, String p_animation, AffineTransform p_transformer)
 	{
-		Texture texture = new Texture();
-		texture.openResource("resources/images/" + p_name);
+		Texture texture = ResourceManager.getResource(Texture.class, "resources/images/" + p_name);
 		
 		m_sprite = new Sprite(texture);
 		m_sprite.setAnimation(p_animation);
