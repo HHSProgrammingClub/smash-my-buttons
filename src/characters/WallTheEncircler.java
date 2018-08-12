@@ -2,6 +2,7 @@ package characters;
 
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.BodyFixture;
+import org.dyn4j.dynamics.joint.WeldJoint;
 import org.dyn4j.geometry.MassType;
 import org.dyn4j.geometry.Rectangle;
 import org.dyn4j.geometry.Transform;
@@ -274,10 +275,13 @@ public class WallTheEncircler extends Character
 		pushState(new WaitState(0.2f));
 	}
 
+	WeldJoint hold;
+	
 	@Override
 	public void signature()
 	{
-		AttackState suplexSlam = new AttackState("signature_slam", 0.3f)
+		
+		AttackState suplexSlam = new AttackState("signature_slam", -1f)
 		{
 			Hitbox m_hitbox = new Hitbox();
 			Rectangle m_rect = new Rectangle(1, 2);
@@ -307,22 +311,22 @@ public class WallTheEncircler extends Character
 			@Override
 			public void end()
 			{
-				m_body.removeFixture(m_fixture);
-				removeHitbox(m_hitbox);
-			}
-			
-			private void contactGround()
-			{
-				addHitbox(m_hitbox);
-				m_hitbox.addToFixture(m_fixture);
-				m_body.addFixture(m_fixture);
+				Hitbox welcomeToTheJam = new Hitbox();
+				welcomeToTheJam.setDamage(8);
+				welcomeToTheJam.setBaseKnockback(alignFacing(new Vector2(.5, -4)));
+				welcomeToTheJam.setScaledKnockback(alignFacing(new Vector2(.3, -2)));
+				welcomeToTheJam.setHitstun(.3f);
+				
+				m_opponent.takeHit(welcomeToTheJam);
+				
+				m_world.removeJoint(hold);
 			}
 			
 			@Override
 			protected void onUpdate(float p_delta)
 			{
 				if(m_body.getLinearVelocity().y == 0)
-					contactGround();
+					endState();
 			}
 		};
 		
@@ -342,7 +346,9 @@ public class WallTheEncircler extends Character
 			}
 		};
 		
-		AttackState suplexDash = new AttackState("signature_dash", 1f)
+		float dashDuration = 1f;
+		
+		AttackState suplexDash = new AttackState("signature_dash", dashDuration)
 		{
 			Hitbox m_hitbox = new Hitbox();
 			Rectangle m_rect = new Rectangle(1, 2);
@@ -351,14 +357,14 @@ public class WallTheEncircler extends Character
 			@Override
 			public void init()
 			{
-				m_body.setLinearVelocity(new Vector2(10*getFacing(), 0));
-			
+				m_body.applyImpulse(alignFacing(new Vector2(30, 0)));
+				
 				m_hitbox.setDamage(0);
 				m_hitbox.setBaseKnockback(new Vector2(0, 0));
 				m_hitbox.setScaledKnockback(new Vector2(0, 0));
-				m_hitbox.setDuration(0.5f);
+				m_hitbox.setDuration(dashDuration);
 				
-				m_rect.translate(0.5, 1.5);
+				m_rect.translate(0.5, 1);
 				m_fixture = new BodyFixture(m_rect);
 				
 				m_body.addFixture(m_fixture);
@@ -379,13 +385,23 @@ public class WallTheEncircler extends Character
 			public void end()
 			{
 				interrupt();
+				//pushState(new AttackState("signature_dash", cooldown));
 			}
 			
 			@Override
 			protected void onUpdate(float p_delta)
 			{
 				if(!m_hitbox.isAlive() && getTimer() > 0)
-				{
+				{	
+					Vector2 pos = m_body.getTransform().getTranslation();
+					Transform opT = m_opponent.getBody().getTransform();
+					opT.setTranslation(pos + alignFacing(new Vector2(.5, 0)));
+					
+					m_opponent.getBody().setTransform(opT);
+					
+					hold = new WeldJoint(m_body, m_opponent.getBody(), new Vector2());
+					m_world.addJoint(hold);
+					
 					popState();
 					pushState(suplexSlam);
 					pushState(new WaitState(0.01f));
@@ -393,6 +409,7 @@ public class WallTheEncircler extends Character
 				}
 			}
 		};
+		
 		pushState(suplexDash);
 	}
 

@@ -41,6 +41,8 @@ public abstract class Character implements Drawable
 	private final static float BOTTOM_BLAST_LINE = 16;
 	protected World m_world;
 	
+	protected Character m_opponent;
+	
 	// -1 = left 1 = right: for use with placing hitboxes, applying forces, etc.
 	//not for use with flipping sprites
 	private static final int FACING_LEFT  = -1;
@@ -145,6 +147,16 @@ public abstract class Character implements Drawable
 	public void addDamage(int p_damage)
 	{
 		m_damage += p_damage;
+	}
+	
+	public Character getOpponent()
+	{
+		return m_opponent;
+	}
+	
+	public void setOpponenet(Character p_opponent)
+	{
+		m_opponent = p_opponent;
 	}
 	
 	public abstract String getName();

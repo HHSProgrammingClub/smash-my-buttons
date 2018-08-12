@@ -162,7 +162,8 @@ public class Battle
 			if(m_charControllers[i] instanceof PlayerController)
 				((PlayerController) m_charControllers[i]).attachPage(m_renderer);
 			m_charControllers[i].start();
-		}		
+			m_charControllers[i].getCharacter().setOpponenet(m_charControllers[i == 0 ? 1 : 0].getCharacter());
+		}
 		
 		//debug
 		DebugDrawer debugger = new DebugDrawer(m_stage.getPhysicsWorld());
@@ -211,7 +212,7 @@ public class Battle
 					m_winner = m_charControllers[i == 0 ? 1 : 0];
 					endBattle();
 				}
-			
+			 
 			//delay                         | fps here
 			try {                         //V
 				long totalNanos = (int)(1e9/30) - (int)(gameClock.getElapse()*1e9f);
