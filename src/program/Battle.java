@@ -212,9 +212,9 @@ public class Battle
 					endBattle();
 				}
 			
-			//delay
-			try {
-				long totalNanos = 16666666 - (int)(gameClock.getElapse()*1e9f);
+			//delay                         | fps here
+			try {                         //V
+				long totalNanos = (int)(1e9/30) - (int)(gameClock.getElapse()*1e9f);
 				if(totalNanos > 0)
 				{
 					int nanos = (int) (totalNanos % 1000000);
