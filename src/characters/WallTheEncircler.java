@@ -23,9 +23,9 @@ public class WallTheEncircler extends Character
 	
 	public WallTheEncircler()
 	{
-		jumpImpulse = new Vector2(0, -15);
-		runForce = new Vector2(15, 0);
-		maxRunSpeed = 5.0f;
+		jumpImpulse = new Vector2(0, -35);
+		runForce = new Vector2(60, 0);
+		maxRunSpeed = 2.5f;
 		
 		Body swol = new Body();
 		
@@ -36,7 +36,9 @@ public class WallTheEncircler extends Character
 		
 		Rectangle getRekt = new Rectangle(length, height);
 		getRekt.translate(1, 1);
-		swol.addFixture(getRekt);
+		BodyFixture bf = new BodyFixture(getRekt);
+		bf.setDensity(1.5);
+		swol.addFixture(bf);
 		swol.setMass(MassType.FIXED_ANGULAR_VELOCITY);
 		
 		setBody(swol);
@@ -61,12 +63,12 @@ public class WallTheEncircler extends Character
 			
 			m_hitbox.setDuration(0.1f);
 			m_hitbox.setDamage(2);
-			m_hitbox.setHitstun(0.01f);
-			m_hitbox.setBaseKnockback(new Vector2(20 * getFacing(), 0));
-			m_hitbox.setScaledKnockback(new Vector2(20 * getFacing(), 0));
+			m_hitbox.setHitstun(0f);
+			m_hitbox.setBaseKnockback(new Vector2(14 * getFacing(), -1));
+			m_hitbox.setScaledKnockback(new Vector2(2 * getFacing(), 0));
 			
-			m_rect = new Rectangle(1, 1);
-			m_rect.translate(length + getFacing(), 1.5);
+			m_rect = new Rectangle(1, 0.5);
+			m_rect.translate(length + 0.5 * getFacing(), 1);
 			
 			m_fixture = new BodyFixture(m_rect);
 		}
@@ -76,19 +78,21 @@ public class WallTheEncircler extends Character
 			addHitbox(m_hitbox);
 			m_hitbox.addToFixture(m_fixture);
 			m_body.addFixture(m_fixture);
-			
+			m_superArmour = true;
 		}
 		
 		public void interrupt()
 		{
 			m_body.removeFixture(m_fixture);
 			removeHitbox(m_hitbox);
+			m_superArmour = false;
 		}
 		
 		public void end()
 		{
 			m_body.removeFixture(m_fixture);
 			removeHitbox(m_hitbox);
+			m_superArmour = false;
 		}
 	}
 	
@@ -96,7 +100,7 @@ public class WallTheEncircler extends Character
 	public void jab() 
 	{
 		pushState(new JabState());
-		pushState(new AttackState("jab", 0.05f));
+		pushState(new AttackState("jab", 0.12f));
 	}
 	
 	private class TiltState extends AttackState
@@ -108,15 +112,15 @@ public class WallTheEncircler extends Character
 		public TiltState()
 		{
 			super("tilt");
-			
+			setDuration(0.4f);
 			m_hitbox.setDuration(0.01f);
 			m_hitbox.setDamage(5);
 			m_hitbox.setHitstun(0.5f);
-			m_hitbox.setBaseKnockback(new Vector2(-10 * getFacing(), -15));
-			m_hitbox.setScaledKnockback(new Vector2(-20 * getFacing(), -20));
+			m_hitbox.setBaseKnockback(new Vector2(-7 * getFacing(), -20));
+			m_hitbox.setScaledKnockback(new Vector2(-2 * getFacing(), -2));
 			
-			m_rect = new Rectangle(1, 1);
-			m_rect.translate(length + getFacing(), 1.5);
+			m_rect = new Rectangle(0.5, 1);
+			m_rect.translate(length + 0.75 * getFacing(), 1.5);
 			
 			m_fixture = new BodyFixture(m_rect);
 		}
@@ -145,7 +149,7 @@ public class WallTheEncircler extends Character
 	public void tilt() 
 	{
 		pushState(new TiltState());
-		pushState(new AttackState("idle", 0.3f));
+		pushState(new AttackState("tilt", 0.239f));
 	}
 	
 	private class SmashState extends AttackState
@@ -157,21 +161,21 @@ public class WallTheEncircler extends Character
 		public SmashState()
 		{
 			super("smash");
-			
-			m_body.applyImpulse(alignFacing(new Vector2(10, 0)));
-			m_hitbox.setDamage(10);
-			m_hitbox.setBaseKnockback(new Vector2(5*getFacing(), -10));
-			m_hitbox.setScaledKnockback(new Vector2(5*getFacing(), -20));
+			setDuration(0.6f);
+			m_hitbox.setDamage(8);
+			m_hitbox.setBaseKnockback(new Vector2(-10 * getFacing(), -5));
+			m_hitbox.setScaledKnockback(new Vector2(-8 * getFacing(), -4));
 			m_hitbox.setDuration(0.5f);
 			
-			m_rect = new Rectangle(1, 1);
-			m_rect.translate(length + 0.5*getFacing(), 1.5);
+			m_rect = new Rectangle(1, 1.6);
+			m_rect.translate(length - 0.3 * getFacing(), 0.75);
 			
 			m_fixture = new BodyFixture(m_rect);
 		}
 		
 		protected void init()
 		{
+			m_body.applyImpulse(new Vector2(5 * getFacing(), 0));
 			addHitbox(m_hitbox);
 			m_hitbox.addToFixture(m_fixture);
 			m_body.addFixture(m_fixture);
@@ -275,16 +279,50 @@ public class WallTheEncircler extends Character
 	{
 		AttackState suplexSlam = new AttackState("signature_slam", 0.3f)
 		{
+			Hitbox m_hitbox = new Hitbox();
+			Rectangle m_rect = new Rectangle(1, 2);
+			BodyFixture m_fixture;
+			
 			@Override
 			public void init()
 			{
+				m_hitbox.setDuration(3.0f);
+				m_hitbox.setDamage(8);
+				m_hitbox.setHitstun(0.2f);
+				m_hitbox.setBaseKnockback(new Vector2(10 * getFacing(), -10));
+				m_hitbox.setScaledKnockback(new Vector2(7 * getFacing(), -7));
+				
+				m_rect = new Rectangle(1.3, 1.3);
+				m_rect.translate(1, 2);
 				m_body.setLinearVelocity(0, 25);
+				m_fixture = new BodyFixture(m_rect);
+			}
+			
+			@Override
+			public void interrupt() {
+				m_body.removeFixture(m_fixture);
+				removeHitbox(m_hitbox);
 			}
 			
 			@Override
 			public void end()
 			{
-				
+				m_body.removeFixture(m_fixture);
+				removeHitbox(m_hitbox);
+			}
+			
+			private void contactGround()
+			{
+				addHitbox(m_hitbox);
+				m_hitbox.addToFixture(m_fixture);
+				m_body.addFixture(m_fixture);
+			}
+			
+			@Override
+			protected void onUpdate(float p_delta)
+			{
+				if(m_body.getLinearVelocity().y == 0)
+					contactGround();
 			}
 		};
 		
@@ -366,7 +404,8 @@ public class WallTheEncircler extends Character
 			@Override
 			public void init()
 			{
-				m_body.applyImpulse(new Vector2(2*getFacing(), -30));
+				m_body.setLinearVelocity(0, 0);
+				m_body.applyImpulse(new Vector2(2*getFacing(), -45));
 			}
 			
 			@Override
@@ -383,6 +422,11 @@ public class WallTheEncircler extends Character
 			{
 				m_body.setLinearVelocity(0, 0);
 			}
+			
+			@Override
+			protected void onUpdate(float p_delta) {
+				m_body.applyImpulse(new Vector2(4 * getFacing(), 0));
+			}
 		};
 		
 		AttackState recoverySlam = new AttackState("recovery_slam", 0.3f)
@@ -398,12 +442,12 @@ public class WallTheEncircler extends Character
 				m_body.applyImpulse(new Vector2(0, 40));
 				
 				m_hitbox.setDuration(0.2f);
-				m_hitbox.setDamage(10);
-				m_hitbox.setHitstun(0.2f);
+				m_hitbox.setDamage(9);
+				m_hitbox.setHitstun(0.6f);
 				m_hitbox.setBaseKnockback(new Vector2(getFacing(), 20));
 				m_hitbox.setScaledKnockback(new Vector2(getFacing(), 30));
 			
-				m_rect = new Rectangle(1, 0.2);
+				m_rect = new Rectangle(1.4, 0.4);
 				m_rect.translate(1, 2);
 				
 				m_fixture = new BodyFixture(m_rect);
@@ -423,7 +467,8 @@ public class WallTheEncircler extends Character
 			@Override
 			protected void onUpdate(float p_delta)
 			{
-				if(m_body.getLinearVelocity().y == 0)
+				if(m_body.getLinearVelocity().y == 0 &&
+						m_body.getLinearVelocity().y < 10)
 					m_body.applyImpulse(new Vector2(getFacing(), -15));
 				
 			}
