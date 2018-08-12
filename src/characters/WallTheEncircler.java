@@ -403,7 +403,7 @@ public class WallTheEncircler extends Character
 				{	
 					Vector2 pos = m_body.getTransform().getTranslation();
 					Transform opT = m_opponent.getBody().getTransform();
-					opT.setTranslation(pos + alignFacing(new Vector2(.5, 0)));
+					opT.setTranslation(pos.add(alignFacing(new Vector2(.5, 0))));
 					
 					m_opponent.getBody().setTransform(opT);
 					

@@ -33,7 +33,7 @@ public class DamageDisplayer implements Drawable
 	@Override
 	public void draw(Renderer p_renderer)
 	{
-		int height = p_renderer.getHeight();
+		//translate the damage displaye depending on the player
 		AffineTransform transform = new AffineTransform();
 		transform.translate(m_player*3.5, 8); 
 		p_renderer.pushTransform(transform);
@@ -42,25 +42,25 @@ public class DamageDisplayer implements Drawable
 		AffineTransform shadowOffset = new AffineTransform();
 		shadowOffset.translate(0.1, 0);
 		p_renderer.pushTransform(shadowOffset);
-		p_renderer.drawText(Integer.toString(m_character.getDamage()) + "%", "SansSerif", Color.BLACK,  1, 0.25f);
+		p_renderer.drawText(Integer.toString(m_character.getDamage()) + "%", "Consolas", Color.BLACK,  1, 0.25f);
 		p_renderer.popTransform();
 		
 		//draw the damage
-		p_renderer.drawText(Integer.toString(m_character.getDamage()) + "%", "SansSerif", Color.BLACK,  1, 1);	
+		p_renderer.drawText(Integer.toString(m_character.getDamage()) + "%", "Consolas", Color.BLACK,  1, 1);	
 		
 		//render the name labels
 		AffineTransform nameOffset = new AffineTransform();
-		nameOffset.translate(0, 0.4); // FIXME: account for name lengths
+		nameOffset.translate(0, 0.4);
 		nameOffset.scale(.5, .5);
 		p_renderer.pushTransform(nameOffset);
-		p_renderer.drawText(m_character.getName(), "SansSerif", Color.BLACK,  1, 1);
+		p_renderer.drawText(m_character.getName(), "Consolas", Color.BLACK,  1, 1);
 		p_renderer.popTransform();
 		
 		//render the stocks
 		for(int i = 0; i < m_character.getStock(); i++)
 		{
 			AffineTransform stockOffset = new AffineTransform();
-			stockOffset.translate(0 + i, 0.4); // FIXME: make these even and next to name
+			stockOffset.translate(0 + i, 0.4);
 			stockOffset.scale(2, 2);
 			p_renderer.pushTransform(stockOffset);
 			
@@ -71,7 +71,6 @@ public class DamageDisplayer implements Drawable
 		//pop goes the weasel
 		p_renderer.popTransform();
 		
-		//TODO: render stocks then render name label next to stocks depending on name length
 	}
 
 }
