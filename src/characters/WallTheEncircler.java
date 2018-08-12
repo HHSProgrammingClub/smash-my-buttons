@@ -204,65 +204,73 @@ public class WallTheEncircler extends Character
 	
 	private class ProjectileState extends AttackState
 	{
-		private Projectile chair;
-		private Hitbox m_hitbox = new Hitbox();
-		private Rectangle m_rect;
-		private BodyFixture m_fixture;
-		private Body chairBody = new Body();
+		private Body chairBody;
 		
 		public ProjectileState()
 		{
-			super("projectile");
-			
+			super("idle", .0f);
+			initChair();
+		}
+		
+		private void initChair()
+		{
 			Texture texMex = ResourceManager.getResource(Texture.class, "resources/images/chair");
 			
 			Sprite chairemAnime = new Sprite(texMex);
 			chairemAnime.setAnimation("default");
 			
-			m_hitbox.setDuration(3.0f);
-			m_hitbox.setDamage(8);
-			m_hitbox.setHitstun(0.2f);
-			m_hitbox.setBaseKnockback(new Vector2(getFacing(), 5));
-			m_hitbox.setScaledKnockback(new Vector2(2*getFacing(), 6));
+			Hitbox chairHitbox = new Hitbox();
+			chairHitbox.setDuration(3.0f);
+			chairHitbox.setDamage(8);
+			chairHitbox.setHitstun(0.2f);
+			chairHitbox.setBaseKnockback(alignFacing(new Vector2(1, 5)));
+			chairHitbox.setScaledKnockback(alignFacing(new Vector2(2, 6)));
 			
-			m_rect = new Rectangle(0.5, 0.5);
-			m_rect.translate(0, 0);
+			Rectangle chairRect = new Rectangle(1, 1.3);
+			chairRect.translate(1, 1.1);
 			
-			chair = new Projectile(chairemAnime, m_hitbox);
-			chair.setCharacter((Character) m_body.getUserData());
+			BodyFixture chairFixture = new BodyFixture(chairRect);
 			
-			m_fixture = new BodyFixture(m_rect);
+			addHitbox(chairHitbox);
+			chairHitbox.addToFixture(chairFixture);
+			chairFixture.setSensor(false);
+			
+			chairBody = new Body();
 			
 			Transform t = new Transform();
-			t.translate(chairBody.getTransform().getTranslation());
-			t.translate(1, 4);
+			t.translate(m_body.getTransform().getTranslation());
+			t.translate(alignFacing(new Vector2(1, 0.3)));
 			
-			chairBody.setTransform(t);
-			chairBody.addFixture(m_fixture);
+			chairBody.addFixture(chairFixture);
 			chairBody.setMass(MassType.NORMAL);
+			chairBody.setTransform(t);
+			
+			Projectile chair = new Projectile(chairemAnime, chairHitbox)
+					{
+						public boolean update(float p_delta)
+						{
+							if(m_duration < 0 || !((Hitbox)m_body.getFixture(0).getUserData()).isAlive())
+								return true;
+							m_timer -= p_delta;
+							return m_timer > 0;
+						}
+					};
+			chair.setCharacter((Character) m_body.getUserData());
+			
+			chair.setBody(chairBody);
 			
 			addProjectile(chair);
+			m_world.addBody(chairBody);
+			
+			chairBody.setGravityScale(0);
 		}
 		
+		@Override
 		protected void init()
 		{
-			addHitbox(m_hitbox);
-			m_hitbox.addToFixture(m_fixture);
-			m_fixture.setSensor(false);
-			chair.setBody(chairBody);
-			chairBody.applyImpulse(new Vector2(4 * getFacing(), -2));
-			chairBody.applyTorque(1.5);
-			m_world.addBody(chairBody);
-		}
-		
-		protected void onUpdate(float p_delta)
-		{
-			if(!m_hitbox.isAlive()) {
-				chairBody.removeFixture(m_fixture);
-				removeHitbox(m_hitbox);
-				chairBody.removeAllFixtures();
-				m_world.removeBody(chairBody);
-			}
+			chairBody.setGravityScale(1);
+			chairBody.applyImpulse(alignFacing(new Vector2(12, -15)));
+			chairBody.applyTorque(15);
 		}
 	}
 
@@ -270,9 +278,9 @@ public class WallTheEncircler extends Character
 	public void projectile() 
 	{
 		//someone time this correctly
-		pushState(new ProjectileState());
-		pushState(new AttackState("projectile", 0.3f));
 		pushState(new WaitState(0.2f));
+		pushState(new ProjectileState());
+		pushState(new AttackState("projectile", .35f));
 	}
 
 	WeldJoint hold;

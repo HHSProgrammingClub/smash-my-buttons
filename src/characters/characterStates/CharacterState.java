@@ -20,7 +20,7 @@ public class CharacterState
 	
 	private String m_animationName = "";
 	
-	private boolean m_started = false;
+	protected boolean m_started = false;
 	private boolean m_paused  = false;
 	
 	private boolean m_indefinite;
