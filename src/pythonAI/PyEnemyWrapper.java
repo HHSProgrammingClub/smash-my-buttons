@@ -68,7 +68,7 @@ class PyEnemyWrapper implements pythonAI.interfaces.EnemyInterface
 	}
 
 	@Override
-	public float currentStateDurationLeft()
+	public float currentStateDuration()
 	{
 		return m_character.peekState().getTimer();
 	}

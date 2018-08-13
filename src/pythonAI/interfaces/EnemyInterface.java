@@ -14,7 +14,7 @@ public interface EnemyInterface
 	public String getName();
 	public boolean boosted();
 	public String currentStateName();
-	public float currentStateDurationLeft();
+	public float currentStateDuration();
 	public Hitbox[] getHitboxes();
 	public Projectile[] getProjectiles();
 }
