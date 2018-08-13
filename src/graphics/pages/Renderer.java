@@ -10,6 +10,7 @@ import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -252,6 +253,14 @@ public class Renderer implements Page
 		
 		m_graphics.setColor(p_color);
 		m_graphics.fillRect(0, 0, m_width, m_height);
+	}
+	
+	public void drawLine(double x1, double y1, double x2, double y2, Color p_color, float p_thickness, float p_opacity)
+	{
+		m_graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, p_opacity));
+		m_graphics.setColor(p_color);
+		m_graphics.setStroke(new BasicStroke(p_thickness));
+		m_graphics.draw(new Line2D.Double(x1, y1, x2, y2));
 	}
 	
 	public void drawPath(Path2D.Double p_polygon, Color p_color)
