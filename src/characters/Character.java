@@ -343,6 +343,10 @@ public abstract class Character implements Drawable
 		m_hitboxes.remove(p_hitbox);
 	}
 	
+	public Hitbox[] getHitboxes()
+	{
+		return (Hitbox[]) m_hitboxes.toArray();
+	}
 	
 	protected void addEffect(CharacterEffect p_effect)
 	{

@@ -1,10 +1,7 @@
 package pythonAI;
 
-import java.util.ArrayList;
-
 import characters.Character;
 import program.Hitbox;
-import program.Projectile;
 
 /**
  * This wrapper delegates calls from the interface to a real Character object
@@ -21,7 +18,6 @@ class PyCharacterWrapper implements pythonAI.interfaces.PlayerInterface
 	@Override
 	public float getX()
 	{
-		// TODO Auto-generated method stub
 		return (float) m_character.getBody().getWorldCenter().x;
 	}
 
@@ -83,56 +79,59 @@ class PyCharacterWrapper implements pythonAI.interfaces.PlayerInterface
 	public void jump()
 	{
 		m_character.handleEvent(Character.ACTION_JUMP);
-		//System.out.print("Jump");
 	}
 
 	@Override
 	public float getHitstun()
 	{
-		// TODO Auto-generated method stub
 		return m_character.peekState().getTimer();
 	}
 
 	@Override
-	public boolean jumped() {
+	public boolean jumped()
+	{
 		return m_character.jumped();
 	}
 
 	@Override
-	public boolean recovered() {
+	public boolean recovered()
+	{
 		return m_character.recovered();
 	}
 
 	@Override
-	public int getDamage() {
+	public int getDamage()
+	{
 		return m_character.getDamage();
 	}
 
 	@Override
-	public double getXVel() {
+	public double getXVel()
+	{
 		return m_character.getBody().getLinearVelocity().x;
 	}
 
 	@Override
-	public double getYVel() {
+	public double getYVel()
+	{
 		return m_character.getBody().getLinearVelocity().y;
 	}
 
 	@Override
-	public boolean boosted() {
-		// TODO Auto-generated method stub
+	public boolean boosted()
+	{
 		return m_character.getKbooster() > 1;
 	}
 
 	@Override
-	public Hitbox[] getHitboxes() {
-		//return m_character.
-		return null;
+	public Hitbox[] getHitboxes()
+	{
+		return m_character.getHitboxes();
 	}
 
 	@Override
-	public Object[] getProjectiles() {
-		//return m_character.;
+	public Object[] getProjectiles()
+	{
 		return m_character.getProjectiles();
 	}
 }
