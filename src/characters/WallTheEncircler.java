@@ -9,6 +9,7 @@ import org.dyn4j.geometry.Transform;
 import org.dyn4j.geometry.Vector2;
 
 import characters.characterStates.AttackState;
+import characters.characterStates.IdleState;
 import characters.characterStates.WaitState;
 import graphics.Sprite;
 import graphics.Texture;
@@ -163,7 +164,7 @@ public class WallTheEncircler extends Character
 		{
 			super("smash");
 			setDuration(0.6f);
-			m_hitbox.setDamage(8);
+			m_hitbox.setDamage(7);
 			m_hitbox.setBaseKnockback(new Vector2(-10 * getFacing(), -5));
 			m_hitbox.setScaledKnockback(new Vector2(-8 * getFacing(), -4));
 			m_hitbox.setDuration(0.5f);
@@ -176,7 +177,7 @@ public class WallTheEncircler extends Character
 		
 		protected void init()
 		{
-			m_body.applyImpulse(new Vector2(5 * getFacing(), 0));
+			m_body.applyImpulse(new Vector2(-5 * getFacing(), 0));
 			addHitbox(m_hitbox);
 			m_hitbox.addToFixture(m_fixture);
 			m_body.addFixture(m_fixture);
@@ -198,8 +199,9 @@ public class WallTheEncircler extends Character
 	@Override
 	public void smash() 
 	{
-		pushState(new WaitState(1.0f));
+		pushState(new WaitState(0.6f));
 		pushState(new SmashState());
+		pushState(new WaitState(0.1f));
 	}
 	
 	private class ProjectileState extends AttackState
@@ -208,8 +210,8 @@ public class WallTheEncircler extends Character
 		
 		public ProjectileState()
 		{
-			super("idle", .0f);
-			initChair();
+			super("signature_slam");
+			setDuration(0.3f);
 		}
 		
 		private void initChair()
@@ -221,7 +223,7 @@ public class WallTheEncircler extends Character
 			
 			Hitbox chairHitbox = new Hitbox();
 			chairHitbox.setDuration(3.0f);
-			chairHitbox.setDamage(8);
+			chairHitbox.setDamage(4);
 			chairHitbox.setHitstun(0.2f);
 			chairHitbox.setBaseKnockback(alignFacing(new Vector2(1, 5)));
 			chairHitbox.setScaledKnockback(alignFacing(new Vector2(2, 6)));
@@ -239,7 +241,7 @@ public class WallTheEncircler extends Character
 			
 			Transform t = new Transform();
 			t.translate(m_body.getTransform().getTranslation());
-			t.translate(alignFacing(new Vector2(1, 0.3)));
+			t.translate(alignFacing(new Vector2(0, -1.5)));
 			
 			chairBody.addFixture(chairFixture);
 			chairBody.setMass(MassType.NORMAL);
@@ -268,9 +270,10 @@ public class WallTheEncircler extends Character
 		@Override
 		protected void init()
 		{
+			initChair();
 			chairBody.setGravityScale(1);
-			chairBody.applyImpulse(alignFacing(new Vector2(12, -15)));
-			chairBody.applyTorque(15);
+			chairBody.applyImpulse(alignFacing(new Vector2(12, 15)));
+			chairBody.applyTorque(120);
 		}
 	}
 
@@ -280,7 +283,8 @@ public class WallTheEncircler extends Character
 		//someone time this correctly
 		pushState(new WaitState(0.2f));
 		pushState(new ProjectileState());
-		pushState(new AttackState("projectile", .35f));
+		pushState(new AttackState("signature_slam", 0.1f));
+		pushState(new WaitState(0.2f));
 	}
 
 	WeldJoint hold;
@@ -302,9 +306,10 @@ public class WallTheEncircler extends Character
 			{
 				Hitbox welcomeToTheJam = new Hitbox();
 				welcomeToTheJam.setDamage(8);
-				welcomeToTheJam.setBaseKnockback(alignFacing(new Vector2(.5, -4)));
-				welcomeToTheJam.setScaledKnockback(alignFacing(new Vector2(.3, -2)));
-				welcomeToTheJam.setHitstun(.3f);
+				welcomeToTheJam.setBaseKnockback(alignFacing(new Vector2(10, -6)));
+				welcomeToTheJam.setScaledKnockback(alignFacing(new Vector2(3, -4)));
+				welcomeToTheJam.setHitstun(0.3f);
+				
 				
 				m_opponent.takeHit(welcomeToTheJam);
 				
@@ -336,7 +341,7 @@ public class WallTheEncircler extends Character
 			}
 		};
 		
-		float dashDuration = 1f;
+		float dashDuration = 0.4f;
 		
 		AttackState suplexDash = new AttackState("signature_dash", dashDuration)
 		{
@@ -385,7 +390,7 @@ public class WallTheEncircler extends Character
 				{	
 					Vector2 pos = m_body.getTransform().getTranslation();
 					Transform opT = m_opponent.getBody().getTransform();
-					opT.setTranslation(pos.add(alignFacing(new Vector2(.5, 0))));
+					opT.setTranslation(pos.add(alignFacing(new Vector2(0.5, 0))));
 					
 					m_opponent.getBody().setTransform(opT);
 					
@@ -399,7 +404,7 @@ public class WallTheEncircler extends Character
 				}
 			}
 		};
-		
+		pushState(new WaitState(0.35f));
 		pushState(suplexDash);
 	}
 
