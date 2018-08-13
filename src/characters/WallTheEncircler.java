@@ -291,29 +291,10 @@ public class WallTheEncircler extends Character
 		
 		AttackState suplexSlam = new AttackState("signature_slam", -1f)
 		{
-			Hitbox m_hitbox = new Hitbox();
-			Rectangle m_rect = new Rectangle(1, 2);
-			BodyFixture m_fixture;
-			
 			@Override
-			public void init()
+			public void interrupt() 
 			{
-				m_hitbox.setDuration(3.0f);
-				m_hitbox.setDamage(8);
-				m_hitbox.setHitstun(0.2f);
-				m_hitbox.setBaseKnockback(new Vector2(10 * getFacing(), -10));
-				m_hitbox.setScaledKnockback(new Vector2(7 * getFacing(), -7));
-				
-				m_rect = new Rectangle(1.3, 1.3);
-				m_rect.translate(1, 2);
-				m_body.setLinearVelocity(0, 25);
-				m_fixture = new BodyFixture(m_rect);
-			}
-			
-			@Override
-			public void interrupt() {
-				m_body.removeFixture(m_fixture);
-				removeHitbox(m_hitbox);
+				m_world.removeJoint(hold);
 			}
 			
 			@Override
@@ -348,9 +329,10 @@ public class WallTheEncircler extends Character
 			}
 			
 			@Override
-			public void end()
+			public void interrupt()
 			{
 				m_body.setLinearVelocity(0, 0);
+				m_world.removeJoint(hold);
 			}
 		};
 		
@@ -449,7 +431,8 @@ public class WallTheEncircler extends Character
 			}
 			
 			@Override
-			protected void onUpdate(float p_delta) {
+			protected void onUpdate(float p_delta)
+			{
 				m_body.applyImpulse(new Vector2(4 * getFacing(), 0));
 			}
 		};
