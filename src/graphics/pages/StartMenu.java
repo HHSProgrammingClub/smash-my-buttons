@@ -26,7 +26,7 @@ public class StartMenu implements Page
 	/**
 	 * @wbp.parser.entryPoint
 	 */
-	private void setUpPanel(GUI p_gui)
+	private void setUpPanel(final GUI p_gui)
 	{
 		GridBagLayout gbl_m_panel = new GridBagLayout();
 		gbl_m_panel.columnWidths = new int[]{0, 57, 0, 0};

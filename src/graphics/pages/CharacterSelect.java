@@ -89,7 +89,7 @@ public class CharacterSelect implements Page
 	/**
 	 * @wbp.parser.entryPoint
 	 */
-	private void setUpPanel(GUI p_gui)
+	private void setUpPanel(final GUI p_gui)
 	{
 		GridBagLayout gbl_m_panel = new GridBagLayout();
 		gbl_m_panel.columnWidths = new int[]{0, 89, 200, 89, 0, 0};
@@ -98,7 +98,7 @@ public class CharacterSelect implements Page
 		gbl_m_panel.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		m_panel.setLayout(gbl_m_panel);
 		
-		JButton ai1ScriptLoad = new JButton("Load Script");
+		final JButton ai1ScriptLoad = new JButton("Load Script");
 		GridBagConstraints gbc_ai1ScriptLoad = new GridBagConstraints();
 		gbc_ai1ScriptLoad.anchor = GridBagConstraints.NORTH;
 		gbc_ai1ScriptLoad.fill = GridBagConstraints.HORIZONTAL;
@@ -139,15 +139,15 @@ public class CharacterSelect implements Page
 		
 		JLabel lblPlayer2 = new JLabel("Player 2");
 		lblPlayer2.setHorizontalAlignment(SwingConstants.CENTER);
-		GridBagConstraints gbc_lblPlayer_1 = new GridBagConstraints();
+		final GridBagConstraints gbc_lblPlayer_1 = new GridBagConstraints();
 		gbc_lblPlayer_1.insets = new Insets(0, 0, 5, 5);
 		gbc_lblPlayer_1.gridx = 3;
 		gbc_lblPlayer_1.gridy = 1;
 		m_panel.add(lblPlayer2, gbc_lblPlayer_1);
 		
 		
-		JButton ai2ScriptLoad = new JButton("Load Script");
-		GridBagConstraints gbc_ai2ScriptLoad = new GridBagConstraints();
+		final JButton ai2ScriptLoad = new JButton("Load Script");
+		final GridBagConstraints gbc_ai2ScriptLoad = new GridBagConstraints();
 		gbc_ai2ScriptLoad.anchor = GridBagConstraints.NORTH;
 		gbc_ai2ScriptLoad.insets = new Insets(0, 0, 5, 5);
 		gbc_ai2ScriptLoad.gridx = 3;
