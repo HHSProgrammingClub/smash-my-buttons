@@ -10,9 +10,9 @@ import characters.Character;
 import graphics.pages.Renderer;
 import stages.Stage;
 
-public class GridGuide implements Drawable
+public class GridRuler implements Drawable
 {
-	private boolean isVisible = false;
+	private boolean isVisible = true;
 	
 	private Stage m_stage;
 	private ArrayList<Character> m_charas= new ArrayList<Character>();
