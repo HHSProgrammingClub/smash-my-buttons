@@ -15,6 +15,7 @@ import characters.Character;
 import program.Battle;
 import program.CharacterController;
 import pythonAI.editor.Editor;
+import pythonAI.editor.EditorManager;
 
 /**
  * This controller is operated by a python script.
@@ -36,11 +37,11 @@ public class AIController extends CharacterController
 		{}
 
 		@Override
-		public void onBeginReinitialize()
+		public void onBeginRun()
 		{}
 
 		@Override
-		public void onEndReinitialize()
+		public void onEndRun()
 		{
 			loadGlobals();
 		}
@@ -53,10 +54,6 @@ public class AIController extends CharacterController
 		
 		m_playerInterface = new PyCharacterWrapper();
 		m_enemyInterface = new PyEnemyWrapper();
-		
-		m_editor = new Editor();
-		m_editor.setInterpreter(m_interpreter);
-		m_editor.setVisible(true);
 	}
 	
 	@Override
@@ -75,7 +72,7 @@ public class AIController extends CharacterController
 	public void start()
 	{
 		// Reset script by loading it again
-		m_interpreter.reinitialize();
+		m_interpreter.run();
 	}
 
 	@Override
@@ -91,7 +88,7 @@ public class AIController extends CharacterController
 	@Override
 	public void reset()
 	{
-		m_interpreter.reinitialize();
+		m_interpreter.run();
 	}
 	
 	@Override
@@ -114,17 +111,9 @@ public class AIController extends CharacterController
 	 */
 	public void openFile(String p_path) throws IOException, FileNotFoundException
 	{
-		File file = new File(p_path);
-		if (!file.exists())
-			throw new FileNotFoundException("Could not find file \"" + p_path + "\"");
-		InputStream stream = new FileInputStream(file);
-		BufferedReader buf = new BufferedReader(new InputStreamReader(stream));
-		String script = buf.lines().collect(Collectors.joining("\n"));
-		buf.close();
-		stream.close();
-		m_interpreter.setScript(script);
-		m_editor.setSaveFilepath(p_path);
-		m_interpreter.reinitialize();
+		m_editor = EditorManager.getInstance().openEditor(new File(p_path));
+		m_editor.setInterpreter(m_interpreter);
+		m_interpreter.run();
 	}
 	
 	/**
@@ -142,9 +131,9 @@ public class AIController extends CharacterController
 		String script = new BufferedReader(new InputStreamReader(scream))
 				  .lines().collect(Collectors.joining("\n"));
 		m_interpreter.setScript(script);
-		m_interpreter.reinitialize();
+		m_interpreter.setOutputStream(null);
+		m_interpreter.run();
 	}
-	
 
 
 	//@Override

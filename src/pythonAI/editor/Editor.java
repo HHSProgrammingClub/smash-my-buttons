@@ -4,8 +4,15 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.stream.Collectors;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -30,34 +37,44 @@ public class Editor
 	private PyInterpreter m_pyInterpreter;
 	private JButton m_btRun;
 	private OutputTextArea m_outputConsole;
-	private String m_saveFilepath;
-	private PyInterpreterCallback m_callback = new PyInterpreterCallback()
-			{
-				@Override
-				public void onException(PyException p_exception)
-				{
-					handleException(p_exception);
-				}
+	private File m_saveFile;
+	class PyInterEditorCallback implements PyInterpreterCallback
+	{
+		PyInterpreter m_pyInterpreter;
+		
+		public PyInterEditorCallback(PyInterpreter p_pyInterpreter)
+		{
+			m_pyInterpreter = p_pyInterpreter;
+		}
+		
+		@Override
+		public void onException(PyException p_exception)
+		{
+			handleException(p_exception);
+		}
 
-				@Override
-				public void onBeginReinitialize()
-				{
-					m_parser.resetException();
-					m_textArea.setText(m_pyInterpreter.getScript());
-				}
+		@Override
+		public void onBeginRun()
+		{
+			m_parser.resetException();
+			m_pyInterpreter.setScript(getText());
+		}
 
-				@Override
-				public void onEndReinitialize()
-				{}
-			};
+		@Override
+		public void onEndRun()
+		{}
+	}
 	
+	/**
+	 * @wbp.parser.constructor
+	 */
 	public Editor()
 	{
 		m_window = new JFrame("Python Editor");
 		m_window.setSize(500, 500);
 		m_window.setResizable(true);
 		m_window.setVisible(false); 
-		m_window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		m_window.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 
 		JPanel panel = new JPanel(new BorderLayout());
 		 
@@ -80,8 +97,7 @@ public class Editor
 			public void actionPerformed(ActionEvent arg0)
 			{
 				save();
-				m_pyInterpreter.setScript(m_textArea.getText());
-				m_pyInterpreter.reinitialize();
+				m_pyInterpreter.run();
 			}
 		});
 		m_btRun.setToolTipText("Run your script");
@@ -95,10 +111,17 @@ public class Editor
 		m_outputConsole.setPreferredSize(new Dimension(106, 200));
 		
 		JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, panel, m_outputConsole);
+		splitPane.setDividerLocation(300);
 		
 		m_window.setContentPane(splitPane);
 		m_window.pack();
 		m_window.setLocationRelativeTo(null);
+	}
+	
+	public Editor(File p_file) throws IOException
+	{
+		this();
+		openFile(p_file);
 	}
 	
 	public void setVisible(boolean p_visible)
@@ -109,9 +132,9 @@ public class Editor
 	public void setInterpreter(PyInterpreter p_pyInterpreter)
 	{
 		m_pyInterpreter = p_pyInterpreter;
-		p_pyInterpreter.setOutputStream(m_outputConsole.getOutputStream());
-		p_pyInterpreter.addCallback(m_callback);
-		m_textArea.setText(p_pyInterpreter.getScript());
+		m_pyInterpreter.setOutputStream(m_outputConsole.getOutputStream());
+		m_pyInterpreter.addCallback(new PyInterEditorCallback(m_pyInterpreter));
+		m_pyInterpreter.setScript(getText());
 	}
 	
 	/**
@@ -123,13 +146,44 @@ public class Editor
 		m_window.setTitle("Script Editor: " + p_str);
 	}
 	
+	public void setText(String p_text)
+	{
+		m_parser.resetException();
+		m_textArea.setText(p_text);
+		if (m_pyInterpreter != null)
+			m_pyInterpreter.setScript(getText());
+	}
+	
+	public String getText()
+	{
+		return m_textArea.getText();
+	}
+	
+	public void openFile(File p_file) throws IOException
+	{
+		if (!p_file.exists())
+			throw new FileNotFoundException("Could not find file \"" + p_file + "\"");
+		InputStream stream = new FileInputStream(p_file);
+		BufferedReader buf = new BufferedReader(new InputStreamReader(stream));
+		String script = buf.lines().collect(Collectors.joining("\n"));
+		setText(script);
+		buf.close();
+		stream.close();
+		m_saveFile = p_file;
+	}
+	
 	/**
-	 * Set filepath of the document to save to.
+	 * Set file of the document to save to.
 	 * @param p_filepath
 	 */
-	public void setSaveFilepath(String p_filepath)
+	public void setSaveFile(File p_file)
 	{
-		m_saveFilepath = p_filepath;
+		m_saveFile = p_file;
+	}
+	
+	public File getSaveFile()
+	{
+		return m_saveFile;
 	}
 	
 	/**
@@ -138,13 +192,14 @@ public class Editor
 	 */
 	public void save()
 	{
-		if (m_saveFilepath == null)
+		if (m_saveFile == null && 
+				m_saveFile.canWrite())
 			return;
 		PrintWriter out = null;
 		try
 		{
-			out = new PrintWriter(m_saveFilepath);
-			out.println(m_textArea.getText());
+			out = new PrintWriter(m_saveFile);
+			out.println(getText());
 			out.flush();
 		} catch (FileNotFoundException e)
 		{

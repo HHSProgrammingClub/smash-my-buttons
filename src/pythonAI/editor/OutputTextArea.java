@@ -14,8 +14,15 @@ import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
+import java.awt.event.InputMethodListener;
+import java.awt.event.InputMethodEvent;
+import javax.swing.JCheckBox;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 class OutputTextArea extends JPanel
 {
@@ -35,7 +42,8 @@ class OutputTextArea extends JPanel
 		}
 	};
 	private JPanel panel;
-	private JButton btnClear;;
+	private JButton btnClear;
+	private JCheckBox chckbxLockAtBottom;;
 
 	public OutputTextArea()
 	{
@@ -59,10 +67,25 @@ class OutputTextArea extends JPanel
 		btnClear.setToolTipText("Clear all output text");
 		panel.add(btnClear);
 		
+		chckbxLockAtBottom = new JCheckBox("Lock at bottom");
+		chckbxLockAtBottom.setSelected(true);
+		panel.add(chckbxLockAtBottom);
+		
 		m_outputTA = new JTextArea();
+		m_outputTA.addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentResized(ComponentEvent arg0) {
+				if (chckbxLockAtBottom.isSelected())
+					m_outputScrollPane.getVerticalScrollBar().setValue(
+						m_outputScrollPane.getVerticalScrollBar().getMaximum());
+			}
+		});
 		m_outputTA.setFont(new Font("Consolas", Font.PLAIN, 15));
 		m_outputTA.setEditable(false);
 		m_outputScrollPane = new JScrollPane(m_outputTA);
+		m_outputScrollPane.setVerticalScrollBarPolicy(
+                JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		m_outputScrollPane.getVerticalScrollBar().getValue();
 		add(m_outputScrollPane);
 		
 	}
