@@ -116,7 +116,7 @@ public class WallTheEncircler extends Character
 			super("tilt");
 			setDuration(0.4f);
 			m_hitbox.setDuration(0.01f);
-			m_hitbox.setDamage(5);
+			m_hitbox.setDamage(1);
 			m_hitbox.setHitstun(0.5f);
 			m_hitbox.setBaseKnockback(new Vector2(-7 * getFacing(), -20));
 			m_hitbox.setScaledKnockback(new Vector2(-2 * getFacing(), -2));
@@ -164,7 +164,7 @@ public class WallTheEncircler extends Character
 		{
 			super("smash");
 			setDuration(0.6f);
-			m_hitbox.setDamage(7);
+			m_hitbox.setDamage(6);
 			m_hitbox.setBaseKnockback(new Vector2(-10 * getFacing(), -5));
 			m_hitbox.setScaledKnockback(new Vector2(-8 * getFacing(), -4));
 			m_hitbox.setDuration(0.5f);
@@ -223,7 +223,7 @@ public class WallTheEncircler extends Character
 			
 			Hitbox chairHitbox = new Hitbox();
 			chairHitbox.setDuration(3.0f);
-			chairHitbox.setDamage(4);
+			chairHitbox.setDamage(5);
 			chairHitbox.setHitstun(0.2f);
 			chairHitbox.setBaseKnockback(alignFacing(new Vector2(1, 5)));
 			chairHitbox.setScaledKnockback(alignFacing(new Vector2(2, 6)));
@@ -305,7 +305,7 @@ public class WallTheEncircler extends Character
 			public void end()
 			{
 				Hitbox welcomeToTheJam = new Hitbox();
-				welcomeToTheJam.setDamage(8);
+				welcomeToTheJam.setDamage(3);
 				welcomeToTheJam.setBaseKnockback(alignFacing(new Vector2(10, -6)));
 				welcomeToTheJam.setScaledKnockback(alignFacing(new Vector2(3, -4)));
 				welcomeToTheJam.setHitstun(0.3f);
@@ -433,12 +433,14 @@ public class WallTheEncircler extends Character
 			public void init()
 			{
 				m_body.setLinearVelocity(0, 0);
+				m_superArmour = true;
 			}
 			
 			@Override
 			protected void onUpdate(float p_delta)
 			{
 				m_body.applyImpulse(new Vector2(4 * getFacing(), 0));
+				m_superArmour = true;
 			}
 		};
 		
@@ -455,7 +457,7 @@ public class WallTheEncircler extends Character
 				m_body.applyImpulse(new Vector2(0, 40));
 				
 				m_hitbox.setDuration(0.2f);
-				m_hitbox.setDamage(9);
+				m_hitbox.setDamage(8);
 				m_hitbox.setHitstun(0.6f);
 				m_hitbox.setBaseKnockback(new Vector2(getFacing(), 20));
 				m_hitbox.setScaledKnockback(new Vector2(getFacing(), 30));
@@ -471,13 +473,6 @@ public class WallTheEncircler extends Character
 			}
 			
 			@Override
-			public void interrupt()
-			{
-				m_body.removeFixture(m_fixture);
-				removeHitbox(m_hitbox);
-			}
-			
-			@Override
 			protected void onUpdate(float p_delta)
 			{
 				if(m_body.getLinearVelocity().y == 0 &&
@@ -489,7 +484,9 @@ public class WallTheEncircler extends Character
 			@Override
 			public void end()
 			{
-				interrupt();
+				m_body.removeFixture(m_fixture);
+				removeHitbox(m_hitbox);
+				m_superArmour = false;
 			}
 		};
 		pushState(recoverySlam);

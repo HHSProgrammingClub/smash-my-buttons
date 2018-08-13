@@ -17,7 +17,7 @@ def switchMode(player, enemy):
     if player.boosted():
         attackMode = "setup"
     if enemy.currentStateName() == "hitstun" and \
-       enemy.currentStateDurationLeft() > 1:
+       enemy.currentStateDuration() > 1:
         attackMode = "kill"
     if player.getY() > 6 or player.getX() > 12 or player.getX() < 0.5:
         attackMode = "recovery"
