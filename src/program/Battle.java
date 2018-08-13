@@ -6,6 +6,7 @@ import org.dyn4j.dynamics.World;
 
 import graphics.DebugDrawer;
 import graphics.GUI;
+import graphics.GridRuler;
 import graphics.NameLabel;
 import graphics.RenderList;
 import graphics.pages.Renderer;
@@ -168,10 +169,15 @@ public class Battle
 		//debug
 		DebugDrawer debugger = new DebugDrawer(m_stage.getPhysicsWorld());
 		
+		GridRuler gridRuler = new GridRuler();
+		for (CharacterController i : m_charControllers)
+			gridRuler.addCharacter(i.getCharacter());
+		
 		Clock gameClock = new Clock();
 		float delta = 0;
 		
 		m_renderer.setSizeScale(1f/32);
+		
 		
 		while(true)
 		{ 
@@ -194,6 +200,8 @@ public class Battle
 			//update the world
 			//draw sprites
 			m_renderList.draw(m_renderer);
+			
+			gridRuler.draw(m_renderer);
 			
 			//debug
 			if(m_visibleHitboxes)
