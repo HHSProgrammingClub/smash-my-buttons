@@ -25,7 +25,7 @@ public class WallTheEncircler extends Character
 	
 	public WallTheEncircler()
 	{
-		jumpImpulse = new Vector2(0, -35);
+		jumpImpulse = new Vector2(0, -30);
 		runForce = new Vector2(60, 0);
 		maxRunSpeed = 2.5f;
 		
@@ -39,7 +39,7 @@ public class WallTheEncircler extends Character
 		Rectangle getRekt = new Rectangle(length, height);
 		getRekt.translate(1, 1);
 		BodyFixture bf = new BodyFixture(getRekt);
-		bf.setDensity(1.5);
+		bf.setDensity(1.25);
 		swol.addFixture(bf);
 		swol.setMass(MassType.FIXED_ANGULAR_VELOCITY);
 		
@@ -119,7 +119,7 @@ public class WallTheEncircler extends Character
 			m_hitbox.setDamage(1);
 			m_hitbox.setHitstun(0.5f);
 			m_hitbox.setBaseKnockback(new Vector2(-7 * getFacing(), -20));
-			m_hitbox.setScaledKnockback(new Vector2(-2 * getFacing(), -2));
+			m_hitbox.setScaledKnockback(new Vector2(-0.5 * getFacing(), -1));
 			
 			m_rect = new Rectangle(0.5, 1);
 			m_rect.translate(length + 0.75 * getFacing(), 1.5);
@@ -132,6 +132,7 @@ public class WallTheEncircler extends Character
 			addHitbox(m_hitbox);
 			m_hitbox.addToFixture(m_fixture);
 			m_body.addFixture(m_fixture);
+			m_superArmour = true;
 		}
 		
 		public void interrupt()
@@ -144,6 +145,7 @@ public class WallTheEncircler extends Character
 		{
 			m_body.removeFixture(m_fixture);
 			removeHitbox(m_hitbox);
+			m_superArmour = false;
 		}
 	}
 
@@ -166,8 +168,9 @@ public class WallTheEncircler extends Character
 			setDuration(0.6f);
 			m_hitbox.setDamage(6);
 			m_hitbox.setBaseKnockback(new Vector2(-10 * getFacing(), -5));
-			m_hitbox.setScaledKnockback(new Vector2(-8 * getFacing(), -4));
+			m_hitbox.setScaledKnockback(new Vector2(-4 * getFacing(), -5));
 			m_hitbox.setDuration(0.5f);
+			m_hitbox.setHitstun(0.3f);
 			
 			m_rect = new Rectangle(1, 1.6);
 			m_rect.translate(length - 0.3 * getFacing(), 0.75);
@@ -272,7 +275,7 @@ public class WallTheEncircler extends Character
 		{
 			initChair();
 			chairBody.setGravityScale(1);
-			chairBody.applyImpulse(alignFacing(new Vector2(12, 15)));
+			chairBody.applyImpulse(alignFacing(new Vector2(6, 15)));
 			chairBody.applyTorque(120);
 		}
 	}
@@ -321,6 +324,9 @@ public class WallTheEncircler extends Character
 			{
 				if(m_body.getLinearVelocity().y == 0)
 					endState();
+				if(m_opponent.getDamage() == 0) {
+					m_world.removeJoint(hold);
+				}
 			}
 		};
 		
@@ -341,12 +347,12 @@ public class WallTheEncircler extends Character
 			}
 		};
 		
-		float dashDuration = 0.4f;
+		float dashDuration = 0.3f;
 		
 		AttackState suplexDash = new AttackState("signature_dash", dashDuration)
 		{
 			Hitbox m_hitbox = new Hitbox();
-			Rectangle m_rect = new Rectangle(1, 2);
+			Rectangle m_rect = new Rectangle(0.5, 0.75);
 			BodyFixture m_fixture;
 			
 			@Override
@@ -359,7 +365,7 @@ public class WallTheEncircler extends Character
 				m_hitbox.setScaledKnockback(new Vector2(0, 0));
 				m_hitbox.setDuration(dashDuration);
 				
-				m_rect.translate(0.5, 1);
+				m_rect.translate(length + 0 * getFacing(), 1.5);
 				m_fixture = new BodyFixture(m_rect);
 				
 				m_body.addFixture(m_fixture);
@@ -406,6 +412,7 @@ public class WallTheEncircler extends Character
 		};
 		pushState(new WaitState(0.35f));
 		pushState(suplexDash);
+		pushState(new WaitState(0.25f));
 	}
 
 	@Override

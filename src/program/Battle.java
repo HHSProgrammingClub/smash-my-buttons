@@ -3,6 +3,7 @@ package program;
 import java.awt.geom.AffineTransform;
 
 import org.dyn4j.dynamics.World;
+import org.dyn4j.geometry.Transform;
 
 import graphics.DebugDrawer;
 import graphics.GUI;
@@ -58,13 +59,16 @@ public class Battle
 	public void addCharacter(CharacterController p_controller, int p_port)
 	{
 		m_charControllers[p_port - 1] = p_controller;
+		Transform t = new Transform();
 		switch(p_port) {
 		case 1:
-			p_controller.getCharacter().getBody().translate(2.25, 0);
+			t.translate(2.25, 0);
+			p_controller.getCharacter().getBody().setTransform(t);
 			p_controller.getCharacter().setFacing(1);
 		break;
 		case 2:
-			p_controller.getCharacter().getBody().translate(7.25, 0);
+			t.translate(8.25, 0);
+			p_controller.getCharacter().getBody().setTransform(t);
 		break;
 		}
 		if(p_controller instanceof PlayerController)
@@ -219,6 +223,7 @@ public class Battle
 				{
 					m_winner = m_charControllers[i == 0 ? 1 : 0];
 					endBattle();
+					break;
 				}
 			 
 			//delay                         | fps here
