@@ -84,4 +84,9 @@ class PyEnemyWrapper implements pythonAI.interfaces.EnemyInterface
 	{
 		return (Projectile[]) m_character.getProjectiles();
 	}
+	
+	@Override
+	public boolean isFacingRight() {
+		return m_character.getFacing() == 1;
+	}
 }

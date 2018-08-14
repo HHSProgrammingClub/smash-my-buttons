@@ -31,4 +31,5 @@ public interface PlayerInterface
 	public boolean boosted();
 	public Hitbox[] getHitboxes();
 	public Object[] getProjectiles();
+	public boolean isFacingRight();
 }

@@ -7,11 +7,11 @@ attackMode = "approach"
 counter = 0
 def switchMode(player, enemy):
     global attackMode
-    if abs(player.getX() - enemy.getX()) < 1.25:
+    if abs(player.getX() - enemy.getX()) < 1.5:
         attackMode = "combo"
         if enemy.getDamage() > 70:
             attackMode = "lethal"
-    if abs(player.getX() - enemy.getX()) > 1.25 or \
+    if abs(player.getX() - enemy.getX()) > 1.5 or \
        abs(player.getY() - enemy.getY()) > 1.75:
         attackMode = "approach"
     if player.getY() > 5 or player.getX() > 12 or player.getX() < 0.5:
@@ -63,10 +63,11 @@ def loop(player, enemy):
             player.smash()
     elif attackMode == "combo":
         moveTowards(player, enemy)
-        if hd < 1.1 and enemy.getY() > player.getY():
-            player.tilt()
-        elif hd > 1.1 and enemy.getY() > player.getY():
-            player.jab()
+        if hd > 1.1 and enemy.getY() > player.getY():
+            if random.random() < 0.5:
+                player.jab()
+            else:
+                player.tilt()
         elif enemy.getY() < player.getY():
             rand = random.random()
             player.jump()

@@ -134,4 +134,9 @@ class PyCharacterWrapper implements pythonAI.interfaces.PlayerInterface
 	{
 		return m_character.getProjectiles();
 	}
+	
+	@Override
+	public boolean isFacingRight() {
+		return m_character.getFacing() == 1;
+	}
 }

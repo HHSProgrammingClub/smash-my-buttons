@@ -17,4 +17,5 @@ public interface EnemyInterface
 	public float currentStateDuration();
 	public Hitbox[] getHitboxes();
 	public Projectile[] getProjectiles();
+	public boolean isFacingRight();
 }
