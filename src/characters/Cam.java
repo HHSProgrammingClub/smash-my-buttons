@@ -384,7 +384,7 @@ public class Cam extends Character
 					{
 						m_hitbox.setDuration(0.2f);
 						m_hitbox.setDamage(20);
-						m_hitbox.setHitstun(1.6f);
+						m_hitbox.setHitstun(1.2f);
 						m_hitbox.setBaseKnockback(new Vector2(0 * getFacing(), 0));
 						m_hitbox.setScaledKnockback(new Vector2(0 * getFacing(), -0));
 						
