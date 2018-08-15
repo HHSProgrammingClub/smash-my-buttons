@@ -12,6 +12,7 @@ import graphics.NameLabel;
 import graphics.RenderList;
 import graphics.pages.Renderer;
 import graphics.pages.ResultsScreen;
+import pythonAI.AIController;
 import graphics.DamageDisplayer;
 import stages.Stage;
 
@@ -174,6 +175,8 @@ public class Battle
 				((PlayerController) m_charControllers[i]).attachPage(m_renderer);
 			m_charControllers[i].start();
 			m_charControllers[i].getCharacter().setOpponenet(m_charControllers[i == 0 ? 1 : 0].getCharacter());
+			if(m_charControllers[i] instanceof AIController)
+				((AIController) m_charControllers[i]).setEnemyCharacter(m_charControllers[i == 0 ? 1 : 0].getCharacter());
 		}
 		
 		//debug
