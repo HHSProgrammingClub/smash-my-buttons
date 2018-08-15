@@ -214,6 +214,7 @@ public class CharacterSelect implements Page
 			}
 		});
 		m_panel.add(chckbxShowHitboxes, gbc_chckbxShowHitboxes);
+		chckbxShowHitboxes.setSelected(true);
 		
 		JCheckBox chckbxShowGrid = new JCheckBox("Show grid");
 		GridBagConstraints gbc_chckbxShowGrid = new GridBagConstraints();
@@ -235,6 +236,8 @@ public class CharacterSelect implements Page
 		gbc_chckbxShowGrid.gridx = 2;
 		gbc_chckbxShowGrid.gridy = 4;
 		m_panel.add(chckbxShowGrid, gbc_chckbxShowGrid);
+		chckbxShowGrid.setSelected(true);
+		
 		ai2ScriptLoad.setEnabled(false);
 		m_panel.add(ai2ScriptLoad, gbc_ai2ScriptLoad);
 		
