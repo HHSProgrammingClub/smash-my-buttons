@@ -20,6 +20,7 @@ public class Battle
 	private Stage m_stage;
 
 	private boolean m_visibleHitboxes = true;
+	private boolean m_showGrid = true;
 	
 	private CharacterController[] m_charControllers = new CharacterController [2];
 	
@@ -89,6 +90,11 @@ public class Battle
 	public void setVisibleHitboxes(boolean p_visible)
 	{
 		m_visibleHitboxes = p_visible;
+	}
+	
+	public void setVisibleGrid(boolean p_visible)
+	{
+		m_showGrid = p_visible;
 	}
 	
 	private void update(float p_delta)
@@ -205,7 +211,8 @@ public class Battle
 			//draw sprites
 			m_renderList.draw(m_renderer);
 			
-			gridRuler.draw(m_renderer);
+			if(m_showGrid)
+				gridRuler.draw(m_renderer);
 			
 			//debug
 			if(m_visibleHitboxes)

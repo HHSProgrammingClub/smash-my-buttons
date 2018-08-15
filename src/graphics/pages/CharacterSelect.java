@@ -53,6 +53,9 @@ public class CharacterSelect implements Page
 	
 	private String m_chosenStageName;
 	
+	private boolean m_showHitboxes = true;
+	private boolean m_showGrid = true;
+	
 	private static Stage newStage(String p_name)
 	{
 		return new MainStage();
@@ -190,6 +193,48 @@ public class CharacterSelect implements Page
 		gbc_stageSelect.gridx = 2;
 		gbc_stageSelect.gridy = 2;
 		m_panel.add(stageSelect, gbc_stageSelect);
+		
+		JCheckBox chckbxShowHitboxes = new JCheckBox("Show hitboxes");
+		GridBagConstraints gbc_chckbxShowHitboxes = new GridBagConstraints();
+		gbc_chckbxShowHitboxes.insets = new Insets(0, 0, 5, 5);
+		gbc_chckbxShowHitboxes.gridx = 2;
+		gbc_chckbxShowHitboxes.gridy = 3;
+		chckbxShowHitboxes.addItemListener(new ItemListener()
+		{
+			public void itemStateChanged(ItemEvent e)
+			{
+				if(e.getStateChange() == ItemEvent.DESELECTED)
+				{
+					m_showHitboxes = false;
+				} 
+				else if(e.getStateChange() == ItemEvent.SELECTED)
+				{
+					m_showHitboxes = true;
+				}
+			}
+		});
+		m_panel.add(chckbxShowHitboxes, gbc_chckbxShowHitboxes);
+		
+		JCheckBox chckbxShowGrid = new JCheckBox("Show grid");
+		GridBagConstraints gbc_chckbxShowGrid = new GridBagConstraints();
+		chckbxShowGrid.addItemListener(new ItemListener()
+		{
+			public void itemStateChanged(ItemEvent e)
+			{
+				if(e.getStateChange() == ItemEvent.DESELECTED)
+				{
+					m_showGrid = false;
+				} 
+				else if(e.getStateChange() == ItemEvent.SELECTED)
+				{
+					m_showGrid = true;
+				}
+			}
+		});
+		gbc_chckbxShowGrid.insets = new Insets(0, 0, 5, 5);
+		gbc_chckbxShowGrid.gridx = 2;
+		gbc_chckbxShowGrid.gridy = 4;
+		m_panel.add(chckbxShowGrid, gbc_chckbxShowGrid);
 		ai2ScriptLoad.setEnabled(false);
 		m_panel.add(ai2ScriptLoad, gbc_ai2ScriptLoad);
 		
@@ -222,6 +267,8 @@ public class CharacterSelect implements Page
 						royale.setStage(newStage(m_chosenStageName));
 						royale.addCharacter(m_p1, 1);
 						royale.addCharacter(m_p2, 2);
+						royale.setVisibleHitboxes(m_showHitboxes);
+						royale.setVisibleGrid(m_showGrid);
 						royale.startBattle(p_gui);
 					}
 				});
@@ -273,8 +320,9 @@ public class CharacterSelect implements Page
 					ai1ScriptLoad.setEnabled(false);
 					characterSelector1.setEnabled(true);
 					m_p1 = new PlayerController();
-					System.out.println("Player 1 set to human");
-				} 
+					m_p1.setCharacter(CharacterFactory.create((String) characterSelector1.getSelectedItem()));
+					System.out.println("Player 1 set to human as " + (String) characterSelector1.getSelectedItem());
+				}
 				else if(e.getStateChange() == ItemEvent.SELECTED)
 				{
 					ai1ScriptLoad.setEnabled(true);
@@ -300,6 +348,7 @@ public class CharacterSelect implements Page
 					ai2ScriptLoad.setEnabled(false);
 					characterSelector2.setEnabled(true);
 					m_p2 = new PlayerController();
+					m_p2.setCharacter(CharacterFactory.create((String) characterSelector2.getSelectedItem()));
 					System.out.println("Player 2 set to human");
 				} 
 				else if(e.getStateChange() == ItemEvent.SELECTED)
