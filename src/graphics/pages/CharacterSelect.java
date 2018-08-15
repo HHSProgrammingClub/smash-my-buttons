@@ -8,8 +8,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -17,8 +19,10 @@ import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.filechooser.FileFilter;
 
 import characters.Character;
 import graphics.GUI;
@@ -28,6 +32,7 @@ import program.CharacterController;
 import program.PlayerController;
 import pythonAI.AIController;
 import stages.Stage;
+import util.Util;
 import stages.MainStage;
 
 /*class EnvironmentComboBoxRenderer extends BasicComboBoxRenderer
@@ -89,6 +94,45 @@ public class CharacterSelect implements Page
         return controller;
 	}
 	
+	private File createScriptFile(File p_file)
+	{
+		PrintWriter out = null;
+		try
+		{
+			out = new PrintWriter(p_file);
+			out.println(Util.getResourceAsString("resources/defaultAI.py"));
+			out.flush();
+			return p_file;
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		} finally
+		{
+			out.close();
+		}
+		return null;
+	}
+	
+	private File newScriptFileChooser(GUI p_gui)
+	{
+		JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setCurrentDirectory(new File("."));
+		int returnVal = m_fileChooser.showSaveDialog(p_gui.getWindow());
+        if (returnVal == JFileChooser.APPROVE_OPTION)
+        {
+            File file = m_fileChooser.getSelectedFile();
+            String confirmOverwriteMsg = "Would you like to overwrite the file " + file.getName() + "?";
+            if (file.exists())
+            {
+        		int res = JOptionPane.showConfirmDialog(p_gui.getWindow(), confirmOverwriteMsg, "Confirm Overwrite", JOptionPane.YES_NO_OPTION);
+        		if (res == JOptionPane.NO_OPTION)
+        			return null;
+            }
+            return createScriptFile(file);
+        }
+        return null;
+	}
+	
 	/**
 	 * @wbp.parser.entryPoint
 	 */
@@ -120,11 +164,6 @@ public class CharacterSelect implements Page
 		            System.out.println("Attempting to load " + filePath + " as player 1");
 		            
 		            m_p1 = createAIController(filePath);
-		            
-		            if(m_p2 instanceof AIController) {
-		            	((AIController)m_p2).setEnemyCharacter(m_p1.getCharacter());
-		            }
-		            ((AIController)m_p1).setEnemyCharacter(m_p2.getCharacter());
 		            System.out.print("Player 1 AI script loaded at " + filePath);
 		        }
 			}
@@ -167,10 +206,6 @@ public class CharacterSelect implements Page
 		            System.out.println("Attempting to load " + filePath + " as player 2");
 		            
 		            m_p2 = createAIController(filePath);
-		            ((AIController)m_p2).setEnemyCharacter(m_p1.getCharacter());
-		            if(m_p1 instanceof AIController) {
-		            	((AIController)m_p1).setEnemyCharacter(m_p2.getCharacter());
-		            }
 		            System.out.print("Player 2 AI script loaded at " + filePath);
 		        }
 			}
@@ -213,6 +248,25 @@ public class CharacterSelect implements Page
 				}
 			}
 		});
+		
+		JButton btnNewScriptPlayer1 = new JButton("New Script");
+		btnNewScriptPlayer1.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				File file = newScriptFileChooser(p_gui);
+				if (file != null)
+				{
+		            m_p1 = createAIController(file.getPath());
+				}
+			}
+		});
+		btnNewScriptPlayer1.setEnabled(false);
+		GridBagConstraints gbc_btnNewScriptPlayer1 = new GridBagConstraints();
+		gbc_btnNewScriptPlayer1.insets = new Insets(0, 0, 5, 5);
+		gbc_btnNewScriptPlayer1.gridx = 1;
+		gbc_btnNewScriptPlayer1.gridy = 3;
+		m_panel.add(btnNewScriptPlayer1, gbc_btnNewScriptPlayer1);
 		m_panel.add(chckbxShowHitboxes, gbc_chckbxShowHitboxes);
 		chckbxShowHitboxes.setSelected(true);
 		
@@ -232,6 +286,25 @@ public class CharacterSelect implements Page
 				}
 			}
 		});
+		
+		JButton btnNewScriptPlayer2 = new JButton("New Script");
+		btnNewScriptPlayer2.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				File file = newScriptFileChooser(p_gui);
+				if (file != null)
+				{
+		            m_p2 = createAIController(file.getPath());
+				}
+			}
+		});
+		btnNewScriptPlayer2.setEnabled(false);
+		GridBagConstraints gbc_btnNewScriptPlayer2 = new GridBagConstraints();
+		gbc_btnNewScriptPlayer2.insets = new Insets(0, 0, 5, 5);
+		gbc_btnNewScriptPlayer2.gridx = 3;
+		gbc_btnNewScriptPlayer2.gridy = 3;
+		m_panel.add(btnNewScriptPlayer2, gbc_btnNewScriptPlayer2);
 		gbc_chckbxShowGrid.insets = new Insets(0, 0, 5, 5);
 		gbc_chckbxShowGrid.gridx = 2;
 		gbc_chckbxShowGrid.gridy = 4;
@@ -263,18 +336,24 @@ public class CharacterSelect implements Page
 		gbc_btnStartFight.gridx = 2;
 		gbc_btnStartFight.gridy = 5;
 		btnStartFight.addActionListener(new ActionListener()
-				{
-					public void actionPerformed(ActionEvent e)
-					{
-						Battle royale = new Battle();
-						royale.setStage(newStage(m_chosenStageName));
-						royale.addCharacter(m_p1, 1);
-						royale.addCharacter(m_p2, 2);
-						royale.setVisibleHitboxes(m_showHitboxes);
-						royale.setVisibleGrid(m_showGrid);
-						royale.startBattle(p_gui);
-					}
-				});
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				// Set the enemy characters for the AIControllers
+	            if(m_p1 instanceof AIController)
+	            	((AIController)m_p1).setEnemyCharacter(m_p2.getCharacter());
+	            if(m_p2 instanceof AIController)
+	            	((AIController)m_p2).setEnemyCharacter(m_p1.getCharacter());
+				
+				Battle royale = new Battle();
+				royale.setStage(newStage(m_chosenStageName));
+				royale.addCharacter(m_p1, 1);
+				royale.addCharacter(m_p2, 2);
+				royale.setVisibleHitboxes(m_showHitboxes);
+				royale.setVisibleGrid(m_showGrid);
+				royale.startBattle(p_gui);
+			}
+		});
 
 		GridBagConstraints gbc_p2AiCheckBox = new GridBagConstraints();
 		gbc_p2AiCheckBox.insets = new Insets(0, 0, 5, 5);
@@ -322,6 +401,7 @@ public class CharacterSelect implements Page
 				{
 					ai1ScriptLoad.setEnabled(false);
 					characterSelector1.setEnabled(true);
+					btnNewScriptPlayer1.setEnabled(false);
 					m_p1 = new PlayerController();
 					m_p1.setCharacter(CharacterFactory.create((String) characterSelector1.getSelectedItem()));
 					System.out.println("Player 1 set to human as " + (String) characterSelector1.getSelectedItem());
@@ -330,6 +410,7 @@ public class CharacterSelect implements Page
 				{
 					ai1ScriptLoad.setEnabled(true);
 					characterSelector1.setEnabled(false);
+					btnNewScriptPlayer1.setEnabled(true);
 					m_p1 = new PlayerController();
 					System.out.println("Player 1 set to AI");
 				}
@@ -350,6 +431,7 @@ public class CharacterSelect implements Page
 				{
 					ai2ScriptLoad.setEnabled(false);
 					characterSelector2.setEnabled(true);
+					btnNewScriptPlayer2.setEnabled(false);
 					m_p2 = new PlayerController();
 					m_p2.setCharacter(CharacterFactory.create((String) characterSelector2.getSelectedItem()));
 					System.out.println("Player 2 set to human");
@@ -358,6 +440,7 @@ public class CharacterSelect implements Page
 				{
 					ai2ScriptLoad.setEnabled(true);
 					characterSelector2.setEnabled(false);
+					btnNewScriptPlayer2.setEnabled(true);
 					m_p2 = new PlayerController();
 					System.out.println("Player 2 set to AI");
 				}

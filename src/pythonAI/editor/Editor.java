@@ -4,15 +4,11 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.util.stream.Collectors;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -27,6 +23,8 @@ import org.python.core.PyException;
 
 import pythonAI.PyInterpreter;
 import pythonAI.PyInterpreterCallback;
+import util.Util;
+
 import java.awt.Dimension;
 
 public class Editor
@@ -163,12 +161,8 @@ public class Editor
 	{
 		if (!p_file.exists())
 			throw new FileNotFoundException("Could not find file \"" + p_file + "\"");
-		InputStream stream = new FileInputStream(p_file);
-		BufferedReader buf = new BufferedReader(new InputStreamReader(stream));
-		String script = buf.lines().collect(Collectors.joining("\n"));
+		String script = Util.getStreamAsString(new FileInputStream(p_file));
 		setText(script);
-		buf.close();
-		stream.close();
 		m_saveFile = p_file;
 	}
 	

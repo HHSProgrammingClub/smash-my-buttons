@@ -1,7 +1,6 @@
 package pythonAI.interfaces;
 
 import program.Hitbox;
-import program.Projectile;
 
 /**
  * This defines what functions are available in

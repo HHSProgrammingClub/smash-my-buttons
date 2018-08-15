@@ -22,7 +22,6 @@ public class ListenerUtil
 	 * @param p_checkFixture2 If true, it will check the fixture for p_class2.
 	 * @return Returns a contact pair with the objects in the order as you specified them in p_class1 and p_class2.
 	 */
-	@SuppressWarnings("unchecked")
 	public static <T1, T2> Pair<T1, T2> checkUserDataForClasses(ContactPoint p_point
 			, Class<T1> p_class1, boolean p_checkFixture1, Class<T2> p_class2, boolean p_checkFixture2)
 	{

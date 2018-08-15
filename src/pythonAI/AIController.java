@@ -1,12 +1,7 @@
 package pythonAI;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.stream.Collectors;
 
 import org.python.core.PyException;
 import org.python.core.PyObject;
@@ -113,25 +108,6 @@ public class AIController extends CharacterController
 	{
 		m_editor = EditorManager.getInstance().openEditor(new File(p_path));
 		m_editor.setInterpreter(m_interpreter);
-		m_interpreter.run();
-	}
-	
-	/**
-	 * Load script file from your sources.
-	 * @param m_path
-	 */
-	public void openResource(String m_path)
-	{
-		InputStream scream = ClassLoader.getSystemResourceAsStream(m_path);
-		if (scream == null)
-		{
-			System.out.println("Could not load " + m_path);
-			return;
-		}
-		String script = new BufferedReader(new InputStreamReader(scream))
-				  .lines().collect(Collectors.joining("\n"));
-		m_interpreter.setScript(script);
-		m_interpreter.setOutputStream(null);
 		m_interpreter.run();
 	}
 
