@@ -99,7 +99,7 @@ public class Battle
 	
 	private void update(float p_delta)
 	{
-		m_stage.getPhysicsWorld().updatev((double)(p_delta));
+		m_stage.getPhysicsWorld().update((double)(p_delta), 5);
 		
 		for(int i = 0; i < m_charControllers.length; i++)
 			m_charControllers[i].update(this, p_delta);

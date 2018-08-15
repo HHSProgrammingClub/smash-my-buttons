@@ -26,6 +26,7 @@ public class MainStage extends Stage
 		setBackground(m_background);
 		
 		World aWorld = new World();
+		aWorld.getSettings().setStepFrequency(1/30.0);
 		aWorld.setGravity(new Vector2(0, 27));
 		//set up world
 		setPhysicsWorld(aWorld);
