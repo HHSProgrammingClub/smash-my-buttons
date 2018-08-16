@@ -67,7 +67,7 @@ public class Jack extends Character
 			
 			m_hitbox.setDuration(0.1f);
 			m_hitbox.setDamage(3);
-			m_hitbox.setHitstun(0.4f);
+			m_hitbox.setHitstun(0.2f);
 			m_hitbox.setBaseKnockback(new Vector2(0.5 * getFacing(), 0));
 			m_hitbox.setScaledKnockback(new Vector2(getFacing(), 0));
 			
