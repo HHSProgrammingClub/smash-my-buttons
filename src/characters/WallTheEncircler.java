@@ -425,6 +425,7 @@ public class WallTheEncircler extends Character
 			{
 				m_body.setLinearVelocity(0, 0);
 				m_body.applyImpulse(new Vector2(2*getFacing(), -45));
+				m_recovered = true;
 			}
 			
 			@Override
@@ -451,11 +452,13 @@ public class WallTheEncircler extends Character
 			}
 		};
 		
-		AttackState recoverySlam = new AttackState("recovery_slam", 0.3f)
+		AttackState recoverySlam = new AttackState("recovery_slam", -1f)
 		{
 			private Hitbox m_hitbox = new Hitbox();
 			private Rectangle m_rect;
 			private BodyFixture m_fixture;
+			
+			private boolean m_interrupt;
 			
 			@Override
 			public void init()
@@ -477,15 +480,27 @@ public class WallTheEncircler extends Character
 				addHitbox(m_hitbox);
 				m_hitbox.addToFixture(m_fixture);
 				m_body.addFixture(m_fixture);
+
+				m_body.applyImpulse(new Vector2(getFacing(), -15));
+			}
+			
+			private void bounce()
+			{
+				m_body.setLinearVelocity(0, -10);
+				endState();
 			}
 			
 			@Override
 			protected void onUpdate(float p_delta)
 			{
-				if(m_body.getLinearVelocity().y == 0 &&
-						m_body.getLinearVelocity().y < 10)
-					m_body.applyImpulse(new Vector2(getFacing(), -15));
+				if(m_body.getLinearVelocity().y == 0)
+					endState();
 				
+				if(!m_hitbox.isAlive())
+					bounce();
+					
+				if(!m_interrupt && getTimer() >= .3f)
+					m_interrupt = true;
 			}
 			
 			@Override
@@ -494,6 +509,18 @@ public class WallTheEncircler extends Character
 				m_body.removeFixture(m_fixture);
 				removeHitbox(m_hitbox);
 				m_superArmour = false;
+			}
+			
+			@Override
+			public boolean handleAction(int p_action)
+			{
+				if(p_action == Character.ACTION_JUMP)
+				{
+					m_body.setLinearVelocity(new Vector2(0, -5));
+					endState();
+					peekState().handleAction(p_action);
+				}
+				return false;
 			}
 		};
 		pushState(recoverySlam);
