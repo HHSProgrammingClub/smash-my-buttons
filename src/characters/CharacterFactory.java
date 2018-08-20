@@ -16,6 +16,8 @@ public final class CharacterFactory
 				return new Cam();
 			case "W'all":
 				return new WallTheEncircler();
+			case "Jimmy":
+				return new Jimmy();
 		}
 		return new Jack();
 	}
