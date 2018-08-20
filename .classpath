@@ -7,5 +7,6 @@
 	<classpathentry kind="lib" path="3rdParty/jgoodies-forms-1.8.0-sources.jar"/>
 	<classpathentry kind="lib" path="3rdParty/jgoodies-forms-1.8.0.jar"/>
 	<classpathentry kind="lib" path="3rdParty/rsyntaxtextarea-3.0.0-SNAPSHOT.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/slick2d"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
