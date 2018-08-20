@@ -143,8 +143,8 @@ public class Cam extends Character
 			m_hitbox.setDuration(0.1f);
 			m_hitbox.setDamage(3);
 			m_hitbox.setHitstun(0.5f);
-			m_hitbox.setBaseKnockback(new Vector2(9 * getFacing() * Kbooster, 0));
-			m_hitbox.setScaledKnockback(new Vector2(2 * getFacing() * Kbooster, -2.5 * Kbooster));
+			m_hitbox.setBaseKnockback(alignFacing(new Vector2(9, 0)).multiply(Kbooster));
+			m_hitbox.setScaledKnockback(alignFacing(new Vector2(2, -2.5)).multiply(Kbooster));
 			
 			m_rect = new Rectangle(0.9, 0.3);
 			m_rect.translate(length + 0.7 * getFacing(), 1.4);
@@ -216,8 +216,8 @@ public class Cam extends Character
 				equipBoxes[i].setDuration(2.0f);
 				equipBoxes[i].setDamage(2);
 				equipBoxes[i].setHitstun(0f);
-				equipBoxes[i].setBaseKnockback(new Vector2(2 * getFacing(), 0));
-				equipBoxes[i].setScaledKnockback(new Vector2(getFacing(), 0));
+				equipBoxes[i].setBaseKnockback(alignFacing(new Vector2(2, 0)));
+				equipBoxes[i].setScaledKnockback(alignFacing(new Vector2(1, 0)));
 				
 				int RNG = (int)(Math.random()*3 + 1);
 				switch(RNG)
@@ -254,8 +254,8 @@ public class Cam extends Character
 			duffelBox.setDuration(2.0f);
 			duffelBox.setDamage(3);
 			duffelBox.setHitstun(0.05f);
-			duffelBox.setBaseKnockback(new Vector2(2 * getFacing(), 0));
-			duffelBox.setScaledKnockback(new Vector2(getFacing(), 0));
+			duffelBox.setBaseKnockback(alignFacing(new Vector2(2, 0)));
+			duffelBox.setScaledKnockback(alignFacing(new Vector2(1, 0)));
 			
 			duffelRect = new Rectangle(0.5, 0.5);
 			duffelRect.translate(0, 0);
@@ -286,8 +286,8 @@ public class Cam extends Character
 				equipFixes[i].setSensor(false);
 				m_equipment[i].setBody(equipBodies[i]);
 				float RNG = (float)(Math.random() * 2 + 2);
-				float RNGzus = (float) (Math.random() * 3);
-				equipBodies[i].applyImpulse(new Vector2((i + 1) * getFacing(), -(equipCount - i)));
+				// RNGzus = (float) (Math.random() * 3);
+				equipBodies[i].applyImpulse(alignFacing(new Vector2((i + 1), -(equipCount - i))));
 				equipBodies[i].applyTorque(RNG + 1);
 				m_world.addBody(equipBodies[i]);
 			}
@@ -307,7 +307,8 @@ public class Cam extends Character
 		}
 		
 		@Override
-		public void end() {
+		public void end()
+		{
 			resetBoosts();
 		}
 	};
@@ -358,16 +359,20 @@ public class Cam extends Character
 		AttackState smashStartup = new AttackState("smash_startup", 1.0f * Sbooster)
 				{
 					@Override
-					public void init() {
+					public void init()
+					{
 						m_superArmour = true;
 					}
+					
 					@Override
 					public void interrupt()
 					{
 						m_superArmour = false;
 					}
+					
 					@Override
-					public void end() {
+					public void end()
+					{
 						m_superArmour = false;
 					}
 				};
@@ -410,18 +415,16 @@ public class Cam extends Character
 					@Override
 					public void interrupt()
 					{
-						if(m_fixture != null) {
+						if(m_fixture != null)
 							m_body.removeFixture(m_fixture);
-						}
 						removeHitbox(m_hitbox);
 					}
 					
 					@Override
 					public void end()
 					{
-						if(m_fixture != null) {
+						if(m_fixture != null)
 							m_body.removeFixture(m_fixture);
-						}
 						removeHitbox(m_hitbox);
 						removeEffect(bigFlashEffect);
 						resetBoosts();
@@ -470,17 +473,15 @@ public class Cam extends Character
 						m_hitbox.setDuration(0.1f);
 						m_hitbox.setDamage(22);
 						m_hitbox.setHitstun(0.2f);
-						m_hitbox.setBaseKnockback(new Vector2(8 * getFacing() * Kbooster,
-								-6 * Kbooster));
-						m_hitbox.setScaledKnockback(new Vector2(8 * getFacing() * Kbooster,
-								-6 * Kbooster));
+						m_hitbox.setBaseKnockback(alignFacing(new Vector2(8, -6)).multiply(Kbooster));
+						m_hitbox.setScaledKnockback(alignFacing(new Vector2(8, -6)).multiply(Kbooster));
 						
 						m_rect = new Rectangle(1.8, 1.8);
 						m_rect.translate(1, 1);
 						
 						m_fixture = new BodyFixture(m_rect);
 						getBody().setLinearVelocity(getBody().getLinearVelocity().x, 0);
-						getBody().applyImpulse(new Vector2(10 * getFacing(), -23));
+						getBody().applyImpulse(alignFacing(new Vector2(10, -23)));
 					
 						addHitbox(m_hitbox);
 						m_hitbox.addToFixture(m_fixture);
@@ -500,18 +501,16 @@ public class Cam extends Character
 					@Override
 					public void interrupt()
 					{
-						if(m_fixture != null) {
+						if(m_fixture != null)
 							m_body.removeFixture(m_fixture);
-						}
 						removeHitbox(m_hitbox);
 					}
 					
 					@Override
 					public void end()
 					{
-						if(m_fixture != null) {
+						if(m_fixture != null)
 							m_body.removeFixture(m_fixture);
-						}
 						removeHitbox(m_hitbox);
 						resetBoosts();
 					}
