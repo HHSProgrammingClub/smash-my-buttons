@@ -51,8 +51,6 @@ public class Birboi extends Character
 		sp.setAnimation("idle");
 		
 		setSprite(sp);
-		
-		jumpImpulse = new Vector2(0, -17); //TODO: multiple jumps
 	}
 	
 	@Override

@@ -67,12 +67,12 @@ public class CharacterState
 	
 	CharacterState() {}
 	
-	public String getName() {
-		if(m_animation != null) {
+	public String getName()
+	{
+		if(m_animation != null)
 			return m_animation.getName();
-		}else{
+		else
 			return "wait";
-		}
 	}
 	
 	public void setAnimation(Animation p_animation)
