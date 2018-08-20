@@ -260,6 +260,8 @@ public abstract class Character implements Drawable
 				return;
 				
 			case ACTION_RECOVERY:
+				if(m_recovered)
+					return;
 				recover();
 				setAttacking(true);
 				return;
