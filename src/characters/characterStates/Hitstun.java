@@ -1,5 +1,7 @@
 package characters.characterStates;
 
+import characters.Character;
+
 public class Hitstun extends CharacterState
 {
 
@@ -17,6 +19,7 @@ public class Hitstun extends CharacterState
 		//So stuff without hitstun is essentially a windbox as there's no
 		//linear damping :)
 		m_character.getBody().setLinearDamping(1);
+		m_character.getBody().getFixture(0).setRestitution(.9);
 	}
 	
 	@Override
@@ -30,6 +33,18 @@ public class Hitstun extends CharacterState
 	{
 		m_character.setStunned(false);
 		m_character.getBody().setLinearDamping(0);
+		m_character.getBody().getFixture(0).setRestitution(0);
+	}
+	
+	@Override
+	public boolean handleAction(int p_action)
+	{
+		if(p_action == Character.EVENT_HITSTUN)
+		{
+			m_character.popState();
+			return m_character.peekState().handleAction(p_action);
+		}
+		return false;
 	}
 	
 }

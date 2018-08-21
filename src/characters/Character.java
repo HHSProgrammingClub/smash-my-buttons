@@ -287,11 +287,20 @@ public abstract class Character implements Drawable
 			
 			Vector2 base = p_hitbox.getBaseKnockback();
 			Vector2 scaled = p_hitbox.getScaledKnockback().multiply((double)(m_damage)/50);
-			if(p_hitbox.getHitstun() > 0) {
+			
+			boolean grounded = false;
+			if(m_body.getLinearVelocity().y == 0)
+				grounded = true;
+			
+			if(p_hitbox.getHitstun() > 0)
 				m_body.setLinearVelocity(0, 0);
-			}
-			//System.out.println(base.add(scaled));
-			m_body.applyImpulse(base.add(scaled));
+			
+			Vector2 imp = base.add(scaled);
+			
+			if(grounded)
+				m_body.applyImpulse(new Vector2(imp.x, imp.y * -.9));
+			else
+				m_body.applyImpulse(imp);
 			applyHitstun(p_hitbox.getHitstun());
 			p_hitbox.kill();
 		}
