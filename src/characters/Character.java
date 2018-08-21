@@ -18,6 +18,29 @@ import program.Projectile;
 import program.CharacterEffect;
 import characters.characterStates.*;
 
+class JumpFactory
+{
+	public static final int REGULAR = 0;
+	public static final int CUTOFF  = 1;
+	public static final int TIMER   = 2;
+	
+	private int jump = 0;
+	
+	public JumpState createJump()
+	{
+		switch(jump)
+		{
+			case REGULAR:
+				return new JumpState();
+			case CUTOFF:
+				return new CutoffJump();
+			case TIMER:
+			default:
+				return new JumpState();
+		}
+	}
+}
+
 public abstract class Character implements Drawable
 {
 	protected Body m_body;
@@ -25,7 +48,7 @@ public abstract class Character implements Drawable
 
 	private int m_damage;
 	private int m_stock = 3;
-	private String m_name = "George the Glass-Cutter";
+	//private String m_name = "George the Glass-Cutter";
 	protected boolean m_jumped       = false;
 	protected boolean m_recovered   = false;
 	protected boolean m_superArmour = false;
@@ -63,6 +86,7 @@ public abstract class Character implements Drawable
 	
 	private Stack<CharacterState> m_stateStack = new Stack<CharacterState> ();
 	
+	public static final int ACTION_JUMP_HOLD  = -4;
 	public static final int EVENT_HITSTUN	    = -3;
 	public static final int ACTION_MOVERIGHT	= -2;
 	public static final int ACTION_MOVELEFT   = -1;
@@ -168,7 +192,7 @@ public abstract class Character implements Drawable
 	
 	public void jump() //to be pronounced [jʌmp] (ipa)
 	{
-		pushState(new JumpState());
+		pushState(new CutoffJump());
 		m_jumped = true;
 	}
 	

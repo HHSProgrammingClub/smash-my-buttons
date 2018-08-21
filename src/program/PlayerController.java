@@ -232,6 +232,11 @@ public class PlayerController extends CharacterController
 				getCharacter().handleEvent(Character.ACTION_JUMP);
 			}});
 		
+		m_keyBinder.addAction("jump_hold", () ->
+		{
+			getCharacter().handleEvent(Character.ACTION_JUMP_HOLD);
+		});
+		
 		m_keyBinder.addAction("moveLeft", new KeyBindAction()
 		{
 			@Override
@@ -308,6 +313,7 @@ public class PlayerController extends CharacterController
 		// Add key bindings for player 1
 		m_keyBinder.setGroup("player1");
 		m_keyBinder.addKeyBinding("jump", KeyEvent.VK_W, KeyBinder.ACTIVATION_PRESSED);
+		m_keyBinder.addKeyBinding("jump_hold", KeyEvent.VK_W, KeyBinder.ACTIVATION_DOWN);
 		m_keyBinder.addKeyBinding("moveLeft", KeyEvent.VK_A, KeyBinder.ACTIVATION_DOWN);
 		m_keyBinder.addKeyBinding("moveRight", KeyEvent.VK_D, KeyBinder.ACTIVATION_DOWN);
 		/*m_keyBinder.addKeyBinding("stopRunning", KeyEvent.VK_A, KeyBinder.ACTIVATION_RELEASE);
@@ -324,6 +330,7 @@ public class PlayerController extends CharacterController
 		// Add key bindings for player 2
 		m_keyBinder.setGroup("player2");
 		m_keyBinder.addKeyBinding("jump", KeyEvent.VK_UP, KeyBinder.ACTIVATION_PRESSED);
+		m_keyBinder.addKeyBinding("jump_hold", KeyEvent.VK_UP, KeyBinder.ACTIVATION_DOWN);
 		m_keyBinder.addKeyBinding("moveLeft", KeyEvent.VK_LEFT, KeyBinder.ACTIVATION_DOWN);
 		m_keyBinder.addKeyBinding("moveRight", KeyEvent.VK_RIGHT, KeyBinder.ACTIVATION_DOWN);
 		/*m_keyBinder.addKeyBinding("stopRunning", KeyEvent.VK_LEFT, KeyBinder.ACTIVATION_RELEASE);

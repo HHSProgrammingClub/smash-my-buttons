@@ -4,7 +4,7 @@ import characters.Character;
 
 public class JumpState extends CharacterState
 {
-	private boolean m_falling = false;
+	protected boolean m_falling = false;
 	private boolean m_jump;
 	
 	public JumpState()
