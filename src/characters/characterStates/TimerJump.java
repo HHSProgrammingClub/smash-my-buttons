@@ -8,7 +8,7 @@ public class TimerJump extends JumpState
 {
 	private boolean off = false;
 	private boolean holding = false;
-	private double minVelocity = -1;
+	private double minVelocity = -7;
 	
 	@Override
 	protected void onUpdate(float p_delta)
@@ -20,7 +20,7 @@ public class TimerJump extends JumpState
 		{
 			off = true;
 			Vector2 vel = m_character.getBody().getLinearVelocity();
-			if(vel.y >= minVelocity)
+			if(vel.y <= minVelocity)
 				m_character.getBody().setLinearVelocity(vel.x, minVelocity);
 		}
 		
@@ -39,7 +39,7 @@ public class TimerJump extends JumpState
 				&& p_action >= Character.ACTION_JAB)
 		{
 			off = true;
-			if(m_character.getBody().getLinearVelocity().y >= minVelocity)
+			if(m_character.getBody().getLinearVelocity().y <= minVelocity)
 				m_character.getBody().setLinearVelocity(m_character.getBody().getLinearVelocity().x, minVelocity);
 		}
 		return true;

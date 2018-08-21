@@ -18,29 +18,6 @@ import program.Projectile;
 import program.CharacterEffect;
 import characters.characterStates.*;
 
-class JumpFactory
-{
-	public static final int REGULAR = 0;
-	public static final int CUTOFF  = 1;
-	public static final int TIMER   = 2;
-	
-	private int jump = 0;
-	
-	public JumpState createJump()
-	{
-		switch(jump)
-		{
-			case REGULAR:
-				return new JumpState();
-			case CUTOFF:
-				return new CutoffJump();
-			case TIMER:
-			default:
-				return new JumpState();
-		}
-	}
-}
-
 public abstract class Character implements Drawable
 {
 	protected Body m_body;
@@ -192,7 +169,7 @@ public abstract class Character implements Drawable
 	
 	public void jump() //to be pronounced [jʌmp] (ipa)
 	{
-		pushState(new CutoffJump());
+		pushState(JumpFactory.createJump());
 		m_jumped = true;
 	}
 	

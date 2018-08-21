@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -22,7 +21,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import javax.swing.filechooser.FileFilter;
 
 import characters.Character;
 import graphics.GUI;
@@ -34,6 +32,7 @@ import pythonAI.AIController;
 import stages.Stage;
 import util.Util;
 import stages.MainStage;
+import characters.JumpFactory;
 
 /*class EnvironmentComboBoxRenderer extends BasicComboBoxRenderer
 {
@@ -383,6 +382,28 @@ public class CharacterSelect implements Page
 		        System.out.println("Player 2 character set to " + characterName);
 			}
 		});
+		
+		JComboBox<String> jumpSelector = new JComboBox<>();
+		String[] jumps = {"jump", "cutoff", "timer"};
+		for(String s : jumps)
+			jumpSelector.addItem(s);
+		GridBagConstraints gbc_comboBox = new GridBagConstraints();
+		gbc_comboBox.insets = new Insets(0, 0, 5, 5);
+		gbc_comboBox.gridx = 2;
+		gbc_comboBox.gridy = 6;
+		jumpSelector.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				JComboBox<String> bawks = (JComboBox<String>)e.getSource();
+		        int sel = bawks.getSelectedIndex();
+		        JumpFactory.setJump(sel);
+			}
+		});
+		m_panel.add(jumpSelector, gbc_comboBox);
+		
+		jumpSelector.setSelectedIndex(0);
+		
 		characterSelector2.setSelectedIndex(0);
 		GridBagConstraints gbc_characterSelector2 = new GridBagConstraints();
 		gbc_characterSelector2.insets = new Insets(0, 0, 5, 5);
