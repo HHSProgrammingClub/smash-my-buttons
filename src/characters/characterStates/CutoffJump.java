@@ -17,8 +17,11 @@ public class CutoffJump extends JumpState
 		
 		if(!(holding || off))
 		{
-			Vector2 vel = m_character.getBody().getLinearVelocity();
-			m_character.getBody().setLinearVelocity(vel.x, 0);
+			if(m_character.getBody().getLinearVelocity().y < 0)
+			{
+				Vector2 vel = m_character.getBody().getLinearVelocity();
+				m_character.getBody().setLinearVelocity(vel.x, 0);
+			}
 			off = true;
 		}
 		
