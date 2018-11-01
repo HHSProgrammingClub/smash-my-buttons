@@ -1,6 +1,7 @@
 package characters.characterStates;
 
 import characters.Character;
+import characters.characterEvent.CharacterEvent;
 import graphics.Animation;
 
 /**
@@ -230,10 +231,10 @@ public class CharacterState
 	
 	/**
 	 * Called first in character.performAction() so that the state can handle the action
-	 * @param p_action
+	 * @param p_event
 	 * @return true if the character should continue and perform p_action - default implementation always returns false
 	 */
-	public boolean handleAction(int p_action)
+	public boolean handleEvent(CharacterEvent p_event)
 	{
 		return false;
 	}

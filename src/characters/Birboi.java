@@ -13,6 +13,7 @@ import graphics.Texture;
 import program.Hitbox;
 import program.Projectile;
 import resourceManager.ResourceManager;
+import characters.characterEvent.CharacterEvent;
 import characters.characterStates.*;
 
 public class Birboi extends Character
@@ -84,12 +85,13 @@ public class Birboi extends Character
 		}
 		
 		@Override
-		public boolean handleAction(int p_action)
+		public boolean handleEvent(CharacterEvent p_event)
 		{
-			if(p_action == Character.ACTION_MOVELEFT
-					|| p_action == Character.ACTION_MOVERIGHT)
+			//TODO
+			/*if(p_event == Character.ACTION_MOVELEFT
+					|| p_event == Character.ACTION_MOVERIGHT)
 				m_character.applyRunForce();
-			if(p_action == Character.ACTION_JUMP)
+			if(p_event == Character.ACTION_JUMP)
 			{
 				setAnimation("fly");
 				if(m_jumpCount++ < m_maxJumps)
@@ -99,7 +101,7 @@ public class Birboi extends Character
 					m_sprite.restartAnimation();
 				}
 				return false;
-			}
+			}*/
 			return true;
 		}
 	}

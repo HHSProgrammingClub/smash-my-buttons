@@ -8,6 +8,7 @@ import org.dyn4j.geometry.Rectangle;
 import org.dyn4j.geometry.Transform;
 import org.dyn4j.geometry.Vector2;
 
+import characters.characterEvent.CharacterEvent;
 import characters.characterStates.AttackState;
 import characters.characterStates.IdleState;
 import characters.characterStates.WaitState;
@@ -512,14 +513,15 @@ public class WallTheEncircler extends Character
 			}
 			
 			@Override
-			public boolean handleAction(int p_action)
+			public boolean handleEvent(CharacterEvent p_event)
 			{
-				if(p_action == Character.ACTION_JUMP)
+				//TODO
+				/*if(p_event == Character.ACTION_JUMP)
 				{
 					m_body.setLinearVelocity(new Vector2(0, -5));
 					endState();
-					peekState().handleAction(p_action);
-				}
+					peekState().handleEvent(p_event);
+				}*/
 				return false;
 			}
 		};

@@ -16,6 +16,7 @@ import graphics.pages.Renderer;
 import program.Hitbox;
 import program.Projectile;
 import program.CharacterEffect;
+import characters.characterEvent.CharacterEvent;
 import characters.characterStates.*;
 
 public abstract class Character implements Drawable
@@ -62,6 +63,8 @@ public abstract class Character implements Drawable
 	private ArrayList<Projectile> m_projectiles = new ArrayList<Projectile>();
 	
 	private Stack<CharacterState> m_stateStack = new Stack<CharacterState> ();
+	
+	private ArrayList<CharacterEvent> m_eventQueue = new ArrayList<CharacterEvent> ();
 	
 	public static final int ACTION_JUMP_HOLD  = -4;
 	public static final int EVENT_HITSTUN	    = -3;
@@ -215,12 +218,12 @@ public abstract class Character implements Drawable
 	protected abstract void signature();
 	protected abstract void recover();
 	
-	public void handleEvent(int p_event)
+	public void handleEvent(CharacterEvent p_event)
 	{
-		if(!m_stateStack.peek().handleAction(p_event))
+		if(!m_stateStack.peek().handleEvent(p_event))
 			return;
 		
-		switch(p_event)
+		/*switch(p_event)
 		{
 			case ACTION_MOVERIGHT:
 				m_facingRight = true;
@@ -266,7 +269,7 @@ public abstract class Character implements Drawable
 				recover();
 				setAttacking(true);
 				return;
-		}
+		}*/
 	}
 	
 	public void setAttacking(boolean p_attacking)
@@ -309,12 +312,13 @@ public abstract class Character implements Drawable
 	
 	public void applyHitstun(float p_duration)
 	{
-		if(m_superArmour || p_duration < 0)
+		//TODO: fix
+		/*if(m_superArmour || p_duration < 0)
 			return;
 		if(p_duration > 0) {
 			handleEvent(EVENT_HITSTUN);
 			pushState(new Hitstun(p_duration));
-		}
+		}*/
 	}
 	
 	public void setStunned(boolean p_stunned)
@@ -454,7 +458,7 @@ public abstract class Character implements Drawable
 			if(!m_projectiles.get(i).update(p_delta))
 				m_projectiles.remove(i--);
 		
-		//TODO: move this stuff out of the charcter class to a collision listener
+		//TODO: move this stuff out of the character class to a collision listener
 		if(isDead()) 
 		{
 			m_stock--;

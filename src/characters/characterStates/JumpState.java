@@ -1,6 +1,7 @@
 package characters.characterStates;
 
 import characters.Character;
+import characters.characterEvent.CharacterEvent;
 
 public class JumpState extends CharacterState
 {
@@ -34,11 +35,12 @@ public class JumpState extends CharacterState
 	}
 	
 	@Override
-	public boolean handleAction(int p_action)
+	public boolean handleEvent(CharacterEvent p_event)
 	{
-		if(p_action == Character.ACTION_MOVELEFT
-				|| p_action == Character.ACTION_MOVERIGHT)
-			m_character.applyRunForce();
+		//TODO
+		/*if(p_event == Character.ACTION_MOVELEFT
+				|| p_event == Character.ACTION_MOVERIGHT)
+			m_character.applyRunForce();*/
 		return true;
 	}
 }

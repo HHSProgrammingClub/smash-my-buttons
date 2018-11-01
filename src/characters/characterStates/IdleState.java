@@ -1,6 +1,7 @@
 package characters.characterStates;
 
 import characters.Character;
+import characters.characterEvent.CharacterEvent;
 
 public class IdleState extends CharacterState
 {
@@ -44,9 +45,10 @@ public class IdleState extends CharacterState
 	}
 	
 	@Override
-	public boolean handleAction(int p_action)
+	public boolean handleEvent(CharacterEvent p_event)
 	{
-		switch(p_action)
+		//TODO
+		/*switch(p_event)
 		{
 		case Character.ACTION_MOVELEFT:
 		case Character.ACTION_MOVERIGHT:
@@ -55,7 +57,7 @@ public class IdleState extends CharacterState
 		case Character.ACTION_JUMP:
 			m_character.jump();
 			break;
-		}
+		}*/
 		return true;
 	}
 }

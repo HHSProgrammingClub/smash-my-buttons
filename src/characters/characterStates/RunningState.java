@@ -1,6 +1,7 @@
 package characters.characterStates;
 
 import characters.Character;
+import characters.characterEvent.CharacterEvent;
 
 public class RunningState extends CharacterState
 {
@@ -21,16 +22,17 @@ public class RunningState extends CharacterState
 	}
 	
 	@Override
-	public boolean handleAction(int p_action)
+	public boolean handleEvent(CharacterEvent p_event)
 	{
-		if(p_action == Character.ACTION_MOVELEFT ||
-				p_action == Character.ACTION_MOVERIGHT)
+		//TODO
+		/*if(p_event == Character.ACTION_MOVELEFT ||
+				p_event == Character.ACTION_MOVERIGHT)
 			m_moving = true;
 		else
 		{
 			m_character.popState();
-			m_character.peekState().handleAction(p_action);
-		}
+			m_character.peekState().handleEvent(p_event);
+		}*/
 		return true;
 	}
 }

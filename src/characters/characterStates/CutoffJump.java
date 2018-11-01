@@ -3,6 +3,7 @@ package characters.characterStates;
 import org.dyn4j.geometry.Vector2;
 
 import characters.Character;
+import characters.characterEvent.CharacterEvent;
 
 public class CutoffJump extends JumpState
 {
@@ -29,19 +30,20 @@ public class CutoffJump extends JumpState
 	}
 	
 	@Override
-	public boolean handleAction(int p_action)
+	public boolean handleEvent(CharacterEvent p_event)
 	{
-		if(p_action == Character.ACTION_MOVELEFT
-				|| p_action == Character.ACTION_MOVERIGHT)
+		//TODO
+		/*if(p_event == Character.ACTION_MOVELEFT
+				|| p_event == Character.ACTION_MOVERIGHT)
 			m_character.applyRunForce();
-		else if(p_action == Character.ACTION_JUMP_HOLD)
+		else if(p_event == Character.ACTION_JUMP_HOLD)
 			holding = true;
-		else if(p_action <= Character.ACTION_SIGNATURE
-				&& p_action >= Character.ACTION_JAB)
+		else if(p_event <= Character.ACTION_SIGNATURE
+				&& p_event >= Character.ACTION_JAB)
 		{
 			off = true;
 			m_character.getBody().setLinearVelocity(m_character.getBody().getLinearVelocity().x, 0);
-		}
+		}*/
 		return true;
 	}
 }

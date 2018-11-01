@@ -1,6 +1,7 @@
 package characters.characterStates;
 
 import characters.Character;
+import characters.characterEvent.CharacterEvent;
 
 public class Hitstun extends CharacterState
 {
@@ -37,13 +38,14 @@ public class Hitstun extends CharacterState
 	}
 	
 	@Override
-	public boolean handleAction(int p_action)
+	public boolean handleEvent(CharacterEvent p_event)
 	{
-		if(p_action == Character.EVENT_HITSTUN)
+		//TODO
+		/*if(p_event == Character.EVENT_HITSTUN)
 		{
 			m_character.popState();
-			return m_character.peekState().handleAction(p_action);
-		}
+			return m_character.peekState().handleEvent(p_event);
+		}*/
 		return false;
 	}
 	
