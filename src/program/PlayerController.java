@@ -224,7 +224,8 @@ public class PlayerController extends CharacterController
 	public PlayerController()
 	{
 		// Define the actions
-		m_keyBinder.addAction("jump", new KeyBindAction()
+		// TODO:
+		/*m_keyBinder.addAction("jump", new KeyBindAction()
 		{
 			@Override
 			public void onAction()
@@ -253,14 +254,14 @@ public class PlayerController extends CharacterController
 				getCharacter().handleEvent(Character.ACTION_MOVERIGHT);
 			}});
 		
-		/*m_keyBinder.addAction("stopRunning", new KeyBindAction()
+		m_keyBinder.addAction("stopRunning", new KeyBindAction()
 				{
 					@Override
 					public void onAction()
 					{
 						getCharacter().stopRunning();
 					}
-				});*/
+				});
 		
 		m_keyBinder.addAction("jab", new KeyBindAction()
 		{
@@ -308,7 +309,7 @@ public class PlayerController extends CharacterController
 			public void onAction()
 			{
 				getCharacter().handleEvent(Character.ACTION_PROJECTILE);
-			}});
+			}});*/
 		
 		// Add key bindings for player 1
 		m_keyBinder.setGroup("player1");
