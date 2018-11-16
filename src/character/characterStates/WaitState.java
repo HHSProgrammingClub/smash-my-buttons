@@ -1,4 +1,4 @@
-package characters.characterStates;
+package character.characterStates;
 
 public class WaitState extends CharacterState
 {

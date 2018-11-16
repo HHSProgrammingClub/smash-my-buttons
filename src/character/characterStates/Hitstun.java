@@ -1,4 +1,4 @@
-package characters.characterStates;
+package character.characterStates;
 
 import characters.Character;
 import characters.characterEvent.CharacterEvent;

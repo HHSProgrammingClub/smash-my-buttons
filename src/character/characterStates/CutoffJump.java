@@ -1,15 +1,14 @@
-package characters.characterStates;
+package character.characterStates;
 
 import org.dyn4j.geometry.Vector2;
 
 import characters.Character;
 import characters.characterEvent.CharacterEvent;
 
-public class TimerJump extends JumpState
+public class CutoffJump extends JumpState
 {
 	private boolean off = false;
 	private boolean holding = false;
-	private double minVelocity = -7;
 	
 	@Override
 	protected void onUpdate(float p_delta)
@@ -19,10 +18,12 @@ public class TimerJump extends JumpState
 		
 		if(!(holding || off))
 		{
+			if(m_character.getBody().getLinearVelocity().y < 0)
+			{
+				Vector2 vel = m_character.getBody().getLinearVelocity();
+				m_character.getBody().setLinearVelocity(vel.x, 0);
+			}
 			off = true;
-			Vector2 vel = m_character.getBody().getLinearVelocity();
-			if(vel.y <= minVelocity)
-				m_character.getBody().setLinearVelocity(vel.x, minVelocity);
 		}
 		
 		holding = false;
@@ -41,8 +42,7 @@ public class TimerJump extends JumpState
 				&& p_event >= Character.ACTION_JAB)
 		{
 			off = true;
-			if(m_character.getBody().getLinearVelocity().y <= minVelocity)
-				m_character.getBody().setLinearVelocity(m_character.getBody().getLinearVelocity().x, minVelocity);
+			m_character.getBody().setLinearVelocity(m_character.getBody().getLinearVelocity().x, 0);
 		}*/
 		return true;
 	}

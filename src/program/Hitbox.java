@@ -2,6 +2,7 @@ package program;
 import org.dyn4j.collision.Fixture;
 import org.dyn4j.geometry.Vector2;
 
+//TODO: make component
 public class Hitbox
 {
 	
