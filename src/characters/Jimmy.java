@@ -19,6 +19,7 @@ public class Jimmy extends Character
 	public Jimmy()
 	{
 		jumpImpulse = new Vector2(0, -15);
+		runForce    = new Vector2(15, 0);
 		
 		Body owo = new Body();
 		
