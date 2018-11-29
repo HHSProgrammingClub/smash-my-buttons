@@ -10,6 +10,16 @@ public class GameObject
 	
 	private Transform m_transform;
 	
+	public Transform getTransform()
+	{
+		return m_transform;
+	}
+
+	public void setTransform(Transform m_transform)
+	{
+		this.m_transform = m_transform;
+	}
+
 	public void preUpdate()
 	{
 		for(Component comp : m_components)
