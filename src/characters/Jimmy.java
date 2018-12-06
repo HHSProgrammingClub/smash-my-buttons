@@ -1,5 +1,7 @@
 package characters;
 
+import java.awt.geom.AffineTransform;
+
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.BodyFixture;
 import org.dyn4j.geometry.Convex;
@@ -10,6 +12,7 @@ import org.dyn4j.geometry.Vector2;
 
 import graphics.Sprite;
 import graphics.Texture;
+import program.CharacterEffect;
 import program.Hitbox;
 import resourceManager.ResourceManager;
 import characters.characterStates.*;
@@ -64,7 +67,7 @@ public class Jimmy extends Character
 				jbox  = new Hitbox();
 				jbox.setDamage(3);
 				jbox.setBaseKnockback(alignFacing(new Vector2(12, -8)));
-				jbox.setScaledKnockback(alignFacing(new Vector2(2, -1)));
+				jbox.setScaledKnockback(alignFacing(new Vector2(5, -2.5)));
 				jbox.setHitstun(.4f);
 				
 				Rectangle reeeee = new Rectangle(1, .7);
@@ -212,15 +215,112 @@ public class Jimmy extends Character
 	@Override
 	protected void signature()
 	{
-		// TODO Auto-generated method stub
+		AttackState signatureState = new AttackState("signature", 0.2f)
+		{
+			Hitbox jbox;
+			BodyFixture zucc;
+			
+			@Override
+			protected void init()
+			{
+				jbox  = new Hitbox();
+				jbox.setDamage(2);
+				jbox.setBaseKnockback(alignFacing(new Vector2(7, 0)));
+				jbox.setScaledKnockback(alignFacing(new Vector2(0.5, 0)));
+				jbox.setHitstun(.4f);
+				
+				Rectangle r = new Rectangle(1.2, 1);
+				Vector2 basePos = new Vector2(1, 1.1);
+				Vector2 offset  = alignFacing(new Vector2(0, 0));
+				
+				r.translate(basePos.add(offset));
+				
+				zucc = new BodyFixture(r);
+				
+				m_body.addFixture(zucc);
+				
+				jbox.addToFixture(zucc);
+				addHitbox(jbox);
+			}
+			
+			@Override
+			public void interrupt()
+			{
+				removeHitbox(jbox);
+				m_body.removeFixture(zucc);
+			}
+			
+			@Override
+			public void end()
+			{
+				interrupt();
+			}
+		};
+		
+		AttackState sigStart = new AttackState("jump_dsc", .10f);
+		
+		pushState(signatureState);
+		pushState(sigStart);
 		
 	}
 
 	@Override
 	protected void recover()
 	{
-		// TODO Auto-generated method stub
+		AttackState recoveryStart = new AttackState("recovery", 0.3f);
 		
+		AttackState fistOfJustice = new AttackState("jump_asc", 0.3f)
+				{
+					private Hitbox m_hitbox = new Hitbox();
+					private Rectangle m_rect;
+					private BodyFixture m_fixture;
+					
+					@Override
+					public void init()
+					{
+						//setDuration(1f);
+						m_hitbox.setDuration(0.1f);
+						m_hitbox.setDamage(25);
+						m_hitbox.setHitstun(1.0f);
+						m_hitbox.setBaseKnockback(alignFacing(new Vector2(14, -25)));
+						m_hitbox.setScaledKnockback(alignFacing(new Vector2(8, -10)));
+						
+						m_rect = new Rectangle(.25, .25);
+						m_rect.translate(1 + 0.4 * getFacing(), 1);
+						
+						m_fixture = new BodyFixture(m_rect);
+						getBody().setLinearVelocity(getBody().getLinearVelocity().x, 0);
+						getBody().applyImpulse(alignFacing(new Vector2(4, -8)));
+					
+						addHitbox(m_hitbox);
+						m_hitbox.addToFixture(m_fixture);
+						m_body.addFixture(m_fixture);
+					}
+					
+					@Override
+					public void interrupt()
+					{
+						if(m_fixture != null)
+							m_body.removeFixture(m_fixture);
+						removeHitbox(m_hitbox);
+					}
+					
+					@Override
+					public void end()
+					{
+						if(m_fixture != null)
+							m_body.removeFixture(m_fixture);
+						removeHitbox(m_hitbox);
+					}
+				};
+		
+		
+		if(!m_recovered)
+		{
+			pushState(fistOfJustice);
+			pushState(recoveryStart);
+			m_recovered = true;
+		}
 	}
 
 }
