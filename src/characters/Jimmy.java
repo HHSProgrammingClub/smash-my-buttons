@@ -208,8 +208,53 @@ public class Jimmy extends Character
 	@Override
 	protected void projectile()
 	{
-		// TODO Auto-generated method stub
-
+		AttackState projectileState = new AttackState("signature", 0.2f)
+		{
+			Hitbox jbox;
+			BodyFixture zucc;
+			
+			@Override
+			protected void init()
+			{
+				jbox  = new Hitbox();
+				jbox.setDamage(2);
+				jbox.setBaseKnockback(alignFacing(new Vector2(7, -7)));
+				jbox.setScaledKnockback(alignFacing(new Vector2(0.5, -2)));
+				jbox.setHitstun(.4f);
+				
+				Rectangle r = new Rectangle(1.2, 0.3);
+				Vector2 basePos = new Vector2(1, 1.1);
+				Vector2 offset  = alignFacing(new Vector2(0, -1));
+				
+				r.translate(basePos.add(offset));
+				
+				zucc = new BodyFixture(r);
+				
+				m_body.addFixture(zucc);
+				
+				jbox.addToFixture(zucc);
+				addHitbox(jbox);
+			}
+			
+			@Override
+			public void interrupt()
+			{
+				removeHitbox(jbox);
+				m_body.removeFixture(zucc);
+			}
+			
+			@Override
+			public void end()
+			{
+				interrupt();
+			}
+		};
+		
+		AttackState projStart = new AttackState("run", .10f);
+		
+		pushState(projectileState);
+		pushState(projStart);
+		
 	}
 
 	@Override
@@ -267,7 +312,27 @@ public class Jimmy extends Character
 	@Override
 	protected void recover()
 	{
-		AttackState recoveryStart = new AttackState("recovery", 0.3f);
+		AttackState recoveryStart = new AttackState("recovery", 0.4f)
+		{
+			
+			@Override
+			public void init()
+			{
+				m_body.setLinearDamping(10);
+			}
+			
+			@Override
+			public void interrupt()
+			{
+				m_body.setLinearDamping(0);
+			}
+			
+			@Override
+			public void end()
+			{
+				m_body.setLinearDamping(0);
+			}
+		};
 		
 		AttackState fistOfJustice = new AttackState("jump_asc", 0.3f)
 				{

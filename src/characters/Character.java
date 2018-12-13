@@ -298,7 +298,7 @@ public abstract class Character implements Drawable
 			
 			Vector2 imp = base.add(scaled);
 			
-			if(grounded)
+			if(grounded && imp.y > 0)
 				m_body.applyImpulse(new Vector2(imp.x, imp.y * -.9));
 			else
 				m_body.applyImpulse(imp);
