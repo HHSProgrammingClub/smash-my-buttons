@@ -16,7 +16,7 @@ import resourceManager.ResourceManager;
 public class DamageDisplayer implements Drawable
 {
 	private Character m_character;
-	private Sprite m_stockSprite;
+	private SpriteComponent m_stockSprite;
 	private int m_player;
 	
 	public DamageDisplayer(Character p_character, int p_port)
@@ -26,7 +26,7 @@ public class DamageDisplayer implements Drawable
 		
 		Texture tex = ResourceManager.getResource(Texture.class, "resources/images/stock");
 		
-		m_stockSprite = new Sprite(tex);
+		m_stockSprite = new SpriteComponent(tex);
 		m_stockSprite.setAnimation("default");
 	}
 	

@@ -19,7 +19,7 @@ import resourceManager.ResourceManager;
  */
 public class NameLabel implements Drawable
 {
-	private Sprite arrow;
+	private SpriteComponent arrow;
 	
 	private Character m_character;
 	private String name;
@@ -34,7 +34,7 @@ public class NameLabel implements Drawable
 	{
 		Texture arrowTex = ResourceManager.getResource(Texture.class, "resources/images/arrow");
 		
-		arrow = new Sprite(arrowTex, "default");
+		arrow = new SpriteComponent(arrowTex, "default");
 		
 		m_character = p_controller.getCharacter();
 		m_port = p_port;

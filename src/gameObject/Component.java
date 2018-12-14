@@ -2,7 +2,12 @@ package gameObject;
 
 public abstract class Component
 {
-	protected GameObject m_object;
+	private GameObject m_object;
+	
+	public Component(GameObject p_object)
+	{
+		
+	}
 	
 	public void preUpdate()
 	{
@@ -17,5 +22,10 @@ public abstract class Component
 	public void postUpdate()
 	{
 		
+	}
+	
+	public GameObject getObject()
+	{
+		return m_object;
 	}
 }

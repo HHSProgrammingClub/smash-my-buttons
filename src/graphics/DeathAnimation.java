@@ -11,7 +11,7 @@ import characters.Character;
 
 public class DeathAnimation implements Drawable
 {
-	private Sprite death;
+	private SpriteComponent death;
 	private Vector2 m_position;
 	private float m_duration = 0.5f;
 	
@@ -23,7 +23,7 @@ public class DeathAnimation implements Drawable
 	{
 		Texture LaTeX = ResourceManager.getResource(Texture.class, "resources/images/death");
 		
-		death = new Sprite(LaTeX);
+		death = new SpriteComponent(LaTeX);
 		death.setAnimation("default");
 	}
 	

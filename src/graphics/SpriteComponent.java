@@ -4,10 +4,11 @@ import java.awt.geom.AffineTransform;
 
 import org.dyn4j.geometry.Vector2;
 
+import gameObject.GameObject;
 import graphics.pages.Renderer;
 import program.Clock;
 
-public class Sprite implements Drawable
+public class SpriteComponent extends gameObject.Component implements Drawable
 {
 	private Texture m_texture;
 	private Animation m_animation;
@@ -16,20 +17,28 @@ public class Sprite implements Drawable
 	private double m_rotation;
 	private Clock m_clock = new Clock();
 	
-	public Sprite()
+	public SpriteComponent(GameObject p_object)
 	{
+		super(p_object);
 	}
 	
-	public Sprite(Texture p_texture)
+	public SpriteComponent(GameObject p_object, Texture p_texture)
 	{
+		super(p_object);
 		setTexture(p_texture);
 		setAnimation("default:default");
 	}
 	
-	public Sprite(Texture p_texture, String p_animation)
+	public SpriteComponent(GameObject p_object, Texture p_texture, String p_animation)
 	{
+		super(p_object);
 		setTexture(p_texture);
 		setAnimation(p_animation);
+	}
+	
+	public void update()
+	{
+		m_position = getObject().getTransform().getTranslation();
 	}
 	
 	public void draw(Renderer p_renderer)
