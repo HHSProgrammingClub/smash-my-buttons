@@ -239,8 +239,8 @@ public class Jimmy extends Character
 			@Override
 			public void interrupt()
 			{
-				removeHitbox(jbox);
 				m_body.removeFixture(zucc);
+				removeHitbox(jbox);
 			}
 			
 			@Override
@@ -291,8 +291,8 @@ public class Jimmy extends Character
 			@Override
 			public void interrupt()
 			{
-				removeHitbox(jbox);
 				m_body.removeFixture(zucc);
+				removeHitbox(jbox);
 			}
 			
 			@Override
