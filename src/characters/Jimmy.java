@@ -141,8 +141,8 @@ public class Jimmy extends Character
 			{
 				for (int i = 0; i < gethit.length; i++)
 				{
-					removeHitbox(gethit[i]);
 					m_body.removeFixture(fixem[i]);
+					removeHitbox(gethit[i]);
 				}
 			}
 			
