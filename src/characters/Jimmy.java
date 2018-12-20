@@ -198,6 +198,7 @@ public class Jimmy extends Character
 			{
 				m_facingRight = !m_facingRight;
 				m_body.removeFixture(leen);
+				m_superArmour = false;
 			}
 		};
 		

@@ -315,6 +315,7 @@ public abstract class Character implements Drawable
 			handleEvent(EVENT_HITSTUN);
 			pushState(new Hitstun(p_duration));
 		}
+		System.out.println("Hit");
 	}
 	
 	public void setStunned(boolean p_stunned)
