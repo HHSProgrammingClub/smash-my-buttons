@@ -116,7 +116,7 @@ public class WallTheEncircler extends Character
 			super("tilt");
 			setDuration(0.4f);
 			m_hitbox.setDuration(0.01f);
-			m_hitbox.setDamage(1);
+			m_hitbox.setDamage(2);
 			m_hitbox.setHitstun(0.5f);
 			m_hitbox.setBaseKnockback(new Vector2(-7 * getFacing(), -20));
 			m_hitbox.setScaledKnockback(new Vector2(-0.5 * getFacing(), -1));
@@ -469,8 +469,8 @@ public class WallTheEncircler extends Character
 				m_hitbox.setDuration(0.2f);
 				m_hitbox.setDamage(8);
 				m_hitbox.setHitstun(0.6f);
-				m_hitbox.setBaseKnockback(new Vector2(getFacing(), 20));
-				m_hitbox.setScaledKnockback(new Vector2(getFacing(), 30));
+				m_hitbox.setBaseKnockback(new Vector2(getFacing(), 7));
+				m_hitbox.setScaledKnockback(new Vector2(getFacing(), 7));
 			
 				m_rect = new Rectangle(1.4, 0.4);
 				m_rect.translate(1, 2);
