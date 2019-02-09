@@ -51,19 +51,19 @@ public class GameObject
 	}
 	
 	public <T> T addComponent(Class<T> p_class)
-    {
-        try
+	{
+		try
 		{
 			T comp = p_class.getDeclaredConstructor(GameObject.class).newInstance(this);
 			m_components.add((Component) comp);
 			return comp;
 		}
-        catch (Exception e)
+		catch (Exception e)
 		{
 			e.printStackTrace();
 			return null;
 		}
-    }
+	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void receiveMessage(Message p_message)
