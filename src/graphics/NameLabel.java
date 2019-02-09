@@ -1,23 +1,13 @@
 package graphics;
 
-import java.awt.Color;
-import java.awt.geom.AffineTransform;
+//TODO: make into a component
 
-import org.dyn4j.geometry.Transform;
-import org.dyn4j.geometry.Vector2;
-
-import characters.Character;
-import graphics.pages.Renderer;
-import program.CharacterController;
-import program.PlayerController;
-import pythonAI.AIController;
-import resourceManager.ResourceManager;
 
 /**
  * Displays the name of player on top of characters
  * @author Catherine Guevara
  */
-public class NameLabel implements Drawable
+/*public class NameLabel implements Drawable
 {
 	private SpriteComponent arrow;
 	
@@ -25,11 +15,11 @@ public class NameLabel implements Drawable
 	private String name;
 	private int m_port;
 	
-	/**
+	*//**
 	 * Display a name label for a player
 	 * @param p_controller the CharacterController's character to display above
 	 * @param p_port player 1 or 2
-	 */
+	 *//*
 	public NameLabel(CharacterController p_controller, int p_port)
 	{
 		Texture arrowTex = ResourceManager.getResource(Texture.class, "resources/images/arrow");
@@ -100,4 +90,4 @@ public class NameLabel implements Drawable
 		
 		p_renderer.popTransform();
 	}
-}
+}*/

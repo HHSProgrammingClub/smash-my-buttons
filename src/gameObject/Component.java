@@ -6,7 +6,7 @@ public abstract class Component
 	
 	public Component(GameObject p_object)
 	{
-		
+		m_object = p_object;
 	}
 	
 	public void preUpdate()

@@ -12,7 +12,13 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import gameObject.GameObject;
+import gameObject.OnRender;
+import gameObject.SpriteComponent;
 import graphics.GUI;
+import graphics.Texture;
+import program.Clock;
+import resourceManager.ResourceManager;
 
 public class StartMenu implements Page
 {
@@ -22,6 +28,8 @@ public class StartMenu implements Page
 	{
 		setUpPanel(p_gui);
 	}
+	
+	private Thread jank;
 	
 	/**
 	 * @wbp.parser.entryPoint
@@ -44,12 +52,39 @@ public class StartMenu implements Page
 			}
 		});
 		
+		
 		JButton startButton = new JButton("Start");
 		startButton.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				p_gui.setPage(new CharacterSelect(p_gui));
+				Renderer rend = new Renderer();
+				
+				p_gui.setPage(rend);
+				
+				jank = new Thread(new Runnable()
+						{
+							public void run()
+							{
+								GameObject jankObject = new GameObject();
+								
+								SpriteComponent jankSprite = jankObject.addComponent(SpriteComponent.class);
+								
+								jankSprite.setTexture(ResourceManager.getResource(Texture.class, "resources/images/birboi"));
+								jankSprite.setAnimation("idle");
+								
+								while(true)
+								{
+									rend.clear();
+									
+									jankObject.receiveMessage(new OnRender(rend));
+									
+									rend.display();
+								}
+							}
+						});
+				
+				jank.start();
 			}
 		});
 		String titleText;

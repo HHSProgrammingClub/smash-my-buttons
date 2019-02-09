@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import characters.Character;
-
 interface KeyBindAction
 {
 	public void onAction();
@@ -384,11 +382,11 @@ public class PlayerController extends CharacterController
 	public int getPort() { return m_port; }
 
 	@Override
-	public void update(Battle p_battle, float p_delta)
+	public void update(float p_delta)
 	{
 		// This will automatically call the actions we set earlier.
 		m_keyBinder.update();
-		m_character.update(p_delta);
+		//m_character.update(p_delta);
 	}
 
 	@Override

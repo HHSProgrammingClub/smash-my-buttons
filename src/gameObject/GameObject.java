@@ -5,11 +5,14 @@ import java.util.ArrayList;
 
 import org.dyn4j.geometry.Transform;
 
+import graphics.Texture;
+import resourceManager.ResourceManager;
+
 public class GameObject
 {
-	private ArrayList<Component> m_components;
+	private ArrayList<Component> m_components = new ArrayList<Component>();
 	
-	private Transform m_transform;
+	private Transform m_transform = new Transform();
 	
 	public Transform getTransform()
 	{
@@ -40,8 +43,30 @@ public class GameObject
 			comp.postUpdate();
 	}
 	
+	public void addJankSprite()
+	{
+		Texture jankTexture = ResourceManager.getResource(Texture.class, "resources/images/birboi");
+		
+		m_components.add(new SpriteComponent(this, jankTexture, "idle"));
+	}
+	
+	public <T> T addComponent(Class<T> p_class)
+    {
+        try
+		{
+			T comp = p_class.getDeclaredConstructor(GameObject.class).newInstance(this);
+			m_components.add((Component) comp);
+			return comp;
+		}
+        catch (Exception e)
+		{
+			e.printStackTrace();
+			return null;
+		}
+    }
+	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	void recieveMessage(Message p_message)
+	public void receiveMessage(Message p_message)
 	{
 		Class messageClass = p_message.getClass();
 		
@@ -50,12 +75,15 @@ public class GameObject
 			Class componentClass = comp.getClass();
 			try
 			{
-				Method m = componentClass.getMethod("onRecievedMessage", messageClass.getClass());
+				// check if the component has a method named "onRecievedMessage" that accepts the type of message being received
+				Method m = componentClass.getMethod("onRecieveMessage", messageClass);
+				// if it does, call it
 				m.invoke(comp, p_message);
 			}
 			catch(NoSuchMethodException e)
 			{
 				// no thinging-desu
+				// do nuthin
 			}
 			catch(Exception e)
 			{

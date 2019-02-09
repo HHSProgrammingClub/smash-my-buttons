@@ -6,12 +6,11 @@ import java.util.ArrayList;
 
 import org.dyn4j.geometry.Vector2;
 
-import characters.Character;
-
 import graphics.pages.Renderer;
-import stages.Stage;
 
-public class GridRuler implements Drawable
+//TODO: delet
+
+/*public class GridRuler implements Drawable
 {
 	private boolean isVisible = true;
 	
@@ -84,4 +83,4 @@ public class GridRuler implements Drawable
 			}
 		}
 	}
-}
+}*/

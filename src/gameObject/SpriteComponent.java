@@ -1,14 +1,16 @@
-package graphics;
+package gameObject;
 
 import java.awt.geom.AffineTransform;
 
 import org.dyn4j.geometry.Vector2;
 
-import gameObject.GameObject;
+import graphics.Animation;
+import graphics.IntRect;
+import graphics.Texture;
 import graphics.pages.Renderer;
 import program.Clock;
 
-public class SpriteComponent extends gameObject.Component implements Drawable
+public class SpriteComponent extends Component
 {
 	private Texture m_texture;
 	private Animation m_animation;
@@ -41,8 +43,11 @@ public class SpriteComponent extends gameObject.Component implements Drawable
 		m_position = getObject().getTransform().getTranslation();
 	}
 	
-	public void draw(Renderer p_renderer)
+	private void draw(Renderer p_renderer)
 	{
+		if(m_animation == null)
+			return;
+		
 		IntRect frame;
 		if (m_animation.getFrameCount() > 1
 				&& m_animation.getInterval() > 0)
@@ -157,5 +162,10 @@ public class SpriteComponent extends gameObject.Component implements Drawable
 	public double getRotation()
 	{
 		return m_rotation;
+	}
+	
+	public void onRecieveMessage(OnRender p_message)
+	{
+		draw(p_message.getRenderer());
 	}
 }

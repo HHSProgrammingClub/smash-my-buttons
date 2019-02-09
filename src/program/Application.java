@@ -2,7 +2,6 @@ package program;
 
 import graphics.GUI;
 import graphics.pages.StartMenu;
-import pythonAI.PyInterpreter;
 
 /**
  * Smash-Bros style game that teaches people how to code in Python
@@ -13,7 +12,7 @@ public class Application
 	public static void main(String[] args)
 	{
 		// Load up Jython's runtime so editors can be quick later on.
-		PyInterpreter.initializeRuntime();
+		//PyInterpreter.initializeRuntime();
 		
 		//initialize the application window
 		GUI gui = new GUI();

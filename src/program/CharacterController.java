@@ -1,6 +1,6 @@
 package program;
 
-import characters.Character;
+//TODO: componentize
 
 public abstract class CharacterController
 {
@@ -37,7 +37,7 @@ public abstract class CharacterController
 	 * @param p_battle
 	 * @param p_delta
 	 */
-	public abstract void update(Battle p_battle, float p_delta);
+	public abstract void update(float p_delta);
 	
 	/**
 	 * Reset everything to its default so we can reuse this controller for the next battle.

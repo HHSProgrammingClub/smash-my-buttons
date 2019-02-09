@@ -22,17 +22,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import characters.Character;
 import graphics.GUI;
-import characters.*;
-import program.Battle;
-import program.CharacterController;
-import program.PlayerController;
-import pythonAI.AIController;
-import stages.Stage;
 import util.Util;
-import stages.MainStage;
-import characters.JumpFactory;
 
 /*class EnvironmentComboBoxRenderer extends BasicComboBoxRenderer
 {
@@ -47,7 +38,7 @@ import characters.JumpFactory;
 	}
 }*/
 
-public class CharacterSelect implements Page
+/*public class CharacterSelect implements Page
 {
 	private JPanel m_panel = new JPanel();
 	private final JFileChooser m_fileChooser = new JFileChooser();
@@ -132,9 +123,9 @@ public class CharacterSelect implements Page
         return null;
 	}
 	
-	/**
+	*//**
 	 * @wbp.parser.entryPoint
-	 */
+	 *//*
 	private void setUpPanel(final GUI p_gui)
 	{
 		GridBagLayout gbl_m_panel = new GridBagLayout();
@@ -493,4 +484,4 @@ public class CharacterSelect implements Page
 		return m_panel;
 	}
 
-}
+}*/

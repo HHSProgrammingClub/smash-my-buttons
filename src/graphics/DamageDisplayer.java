@@ -4,16 +4,18 @@ import java.awt.Color;
 import java.awt.Toolkit;
 import java.awt.geom.AffineTransform;
 
-import characters.Character;
+import gameObject.SpriteComponent;
 import graphics.pages.Renderer;
 import resourceManager.ResourceManager;
+
+// TODO: make this a GameObject instead
 
 /**
  * Displays a character's damage and number of lives (stocks)
  * @author Catherine Guevara
  *
  */
-public class DamageDisplayer implements Drawable
+/*public class DamageDisplayer
 {
 	private Character m_character;
 	private SpriteComponent m_stockSprite;
@@ -30,7 +32,6 @@ public class DamageDisplayer implements Drawable
 		m_stockSprite.setAnimation("default");
 	}
 	
-	@Override
 	public void draw(Renderer p_renderer)
 	{
 		//translate the damage displaye depending on the player
@@ -73,4 +74,4 @@ public class DamageDisplayer implements Drawable
 		
 	}
 
-}
+}*/
