@@ -65,6 +65,16 @@ public class GameObject
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
+	public <T> T getFirstComponent(Class<T> p_class)
+	{
+		for(Component comp : m_components)
+			if(comp.getClass() == p_class)
+				return (T) comp;
+		
+		return null;
+	}
+	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void receiveMessage(Message p_message)
 	{

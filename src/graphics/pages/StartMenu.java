@@ -12,12 +12,14 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import gameObject.GameObject;
-import gameObject.OnRender;
-import gameObject.SpriteComponent;
+import org.dyn4j.geometry.MassType;
+
+import gameObject.*;
 import graphics.GUI;
 import graphics.Texture;
 import program.Clock;
+import program.PhysicsWorld;
+import program.Scene;
 import resourceManager.ResourceManager;
 
 public class StartMenu implements Page
@@ -66,6 +68,9 @@ public class StartMenu implements Page
 						{
 							public void run()
 							{
+								Scene jankScene = new Scene();
+								
+								
 								GameObject jankObject = new GameObject();
 								
 								SpriteComponent jankSprite = jankObject.addComponent(SpriteComponent.class);
@@ -73,11 +78,46 @@ public class StartMenu implements Page
 								jankSprite.setTexture(ResourceManager.getResource(Texture.class, "resources/images/birboi"));
 								jankSprite.setAnimation("idle");
 								
+								jankObject.addComponent(PhysicsComponent.class);
+								BoxColliderComponent jankCollider = jankObject.addComponent(BoxColliderComponent.class);
+								
+								jankCollider.setSize(1, 2);
+								jankCollider.getFixture().setDensity(1);
+								
+								jankScene.addObject(jankObject);
+								
+								
+								GameObject jankPlatform = new GameObject();
+								
+								SpriteComponent platSprite = jankPlatform.addComponent(SpriteComponent.class);
+								
+								platSprite.setTexture(ResourceManager.getResource(Texture.class, "resources/images/testing_ground"));
+								platSprite.setAnimation("ground");
+								
+								PhysicsComponent platPhys = jankPlatform.addComponent(PhysicsComponent.class);
+								BoxColliderComponent platBox = jankPlatform.addComponent(BoxColliderComponent.class);
+								platPhys.getBody().setMassType(MassType.INFINITE);
+								platBox.setSize(4, 1);
+								platPhys.getBody().translate(-1, 4);
+								
+								jankScene.addObject(jankPlatform);
+								
+								
+								PhysicsWorld jankPhysics = new PhysicsWorld();
+								
+								Clock gameClock = new Clock();
+								float delta = 0;
+								
 								while(true)
 								{
+									delta = gameClock.getElapse();
+									gameClock.restart();
+									
 									rend.clear();
 									
-									jankObject.receiveMessage(new OnRender(rend));
+									jankScene.receiveMessage(new OnRender(rend));
+									
+									jankPhysics.update(delta, jankScene);
 									
 									rend.display();
 								}

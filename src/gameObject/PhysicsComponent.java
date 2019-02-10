@@ -13,20 +13,33 @@ public class PhysicsComponent extends Component
 		m_body = new Body();
 	}
 	
-	void preUpdate(float p_delta)
+	public void preUpdate(float p_delta)
 	{
 		//do physics things
 		//F = ma
 	}
 	
-	void postUpdate(float p_delta)
+	public void postUpdate(float p_delta)
 	{
 		//update body transforms
 	}
 	
-	void onRecieveMessage(OnCollision p_collision)
+	public Body getBody()
+	{
+		return m_body;
+	}
+	
+	public void onRecieveMessage(OnCollision p_collision)
 	{
 		
+	}
+	
+	public void onRecieveMessage(OnInitPhysics p_initMessage)
+	{
+		if(!p_initMessage.getWorld().containsBody(m_body))
+		{
+			p_initMessage.getWorld().addBody(m_body);
+		}
 	}
 
 }
