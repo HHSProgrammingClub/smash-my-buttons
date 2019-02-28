@@ -18,6 +18,8 @@ public final class CharacterFactory
 				return new WallTheEncircler();
 			case "Jimmy":
 				return new Jimmy();
+			case "Techie":
+				return new Techie();
 		}
 		return new Jack();
 	}
