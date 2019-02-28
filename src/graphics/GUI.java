@@ -61,7 +61,10 @@ public class GUI
 			"Super Smash Code Ultimate",
 			"Code Fight",
 			"Smash 'em up",
-			"Smash my Buttons"
+			"Smash my Buttons",
+			"Sub PewDiePie",
+			"Not A Smash Rip Off!",
+			"Don't Forget the Dab!"
 		};
 		m_window = new JFrame(epicTitles[(int)(Math.random() * epicTitles.length)]);
 		m_window.setSize(width, height);
