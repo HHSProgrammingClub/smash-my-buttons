@@ -18,6 +18,8 @@ public final class CharacterFactory
 				return new WallTheEncircler();
 			case "Jimmy":
 				return new Jimmy();
+			case "STEAM-0":
+				return new STEAMO();
 		}
 		return new Jack();
 	}

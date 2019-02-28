@@ -55,7 +55,7 @@ public abstract class Character implements Drawable
 	protected Vector2 runForce    = new Vector2(20, 0);
 	protected float   maxRunSpeed = 5;
 	
-	public static String[] characterNames = {"Jack", "Birboi", "Cam", "W'all", "Edgewardo", "Jimmy"};
+	public static String[] characterNames = {"Jack", "Birboi", "Cam", "W'all", "Edgewardo", "Jimmy", "STEAM-0"};
 	
 	private ArrayList<Hitbox> m_hitboxes = new ArrayList<Hitbox> ();
 	private ArrayList<CharacterEffect> m_effects  = new ArrayList<CharacterEffect>();
