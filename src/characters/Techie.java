@@ -14,50 +14,49 @@ import program.Hitbox;
 import program.Projectile;
 import resourceManager.ResourceManager;
 
+//A sample character.
 
 public class Techie extends Character
-{
-
+{	
 	private static double position = 0;
 	private float length = 1;
 	private float height = 1.5f;
-	
-	public Techie()
+	public Techie() 
 	{
-		
+		//attribute editing
 		jumpImpulse = new Vector2(0, -15);
-		runForce = new Vector2(15, 0);
-		maxRunSpeed = 4.5f;
+		runForce = new Vector2(50, 0);
+		maxRunSpeed = 5f;
 		
-		Body tech = new Body();
-				
+		Body tushie = new Body();
+		
 		Transform t = new Transform();
 		t.setTranslation(position, 0);
-		tech.setTransform(t);
+		tushie.setTransform(t);
 		position += 1;
-				
+		
 		// Add the collision fixture
 		Rectangle rect = new Rectangle(length, height);
 		rect.translate(1, 1.25); // Set to topleft
-		tech.addFixture(rect);
-		tech.setMass(MassType.FIXED_ANGULAR_VELOCITY);
+		tushie.addFixture(rect);
+		tushie.setMass(MassType.FIXED_ANGULAR_VELOCITY);
 
-		setBody(tech);
-				
+		setBody(tushie);
+		
 		Texture tex = ResourceManager.getResource(Texture.class, "resources/images/jack");
-				
+		
 		Sprite sp = new Sprite(tex);
 		sp.setAnimation("idle");
-				
-		setSprite(sp);
 		
+		setSprite(sp);
 	}
-
-
+	
+	//TODO: ascending and descending jump sprites for Jack
+	
 	private class JabState extends AttackState
 	{
 		private Hitbox m_hitbox = new Hitbox();
-	
+
 		private Rectangle m_rect;
 		
 		private BodyFixture m_fixture;
@@ -66,14 +65,14 @@ public class Techie extends Character
 		{
 			super("jab");
 			
-			m_hitbox.setDuration(.1f);
-			m_hitbox.setDamage(3);
-			m_hitbox.setHitstun(0.4f);
-			m_hitbox.setBaseKnockback(new Vector2(2 * getFacing(), 2));
-			m_hitbox.setScaledKnockback(new Vector2(getFacing(), 2));
+			m_hitbox.setDuration(0.1f);
+			m_hitbox.setDamage(2);
+			m_hitbox.setHitstun(0.3f);
+			m_hitbox.setBaseKnockback(new Vector2(0.5 * getFacing(), 0));
+			m_hitbox.setScaledKnockback(new Vector2(getFacing(), 0));
 			
-			m_rect = new Rectangle(2, -2);
-			m_rect.translate(length + 0.45 * getFacing(), 5);
+			m_rect = new Rectangle(0.5, 0.2);
+			m_rect.translate(length + 0.45 * getFacing(), 1.25);
 			
 			m_fixture = new BodyFixture(m_rect);
 		}
@@ -100,7 +99,6 @@ public class Techie extends Character
 		
 		
 	};
-	
 	private class TiltState extends AttackState
 	{
 		private Hitbox m_hitbox = new Hitbox();
@@ -412,6 +410,6 @@ public class Techie extends Character
 	@Override
 	public String getName() 
 	{
-		return Character.characterNames[6];
+		return Character.characterNames[0];
 	}
 }
