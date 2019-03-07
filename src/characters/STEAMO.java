@@ -71,10 +71,10 @@ public class STEAMO extends Character
 			m_hitbox.setBaseKnockback(new Vector2(9 * getFacing(), -1));
 			m_hitbox.setScaledKnockback(new Vector2(5 * getFacing(), -1));
 			
-			Vector2 position = new Vector2(0.5, 1.5);
-			
-			m_rect = new Rectangle(1, 1);
-			m_rect.translate(position.add(alignFacing(new Vector2(length, 0))));
+			Vector2 position = new Vector2(1, 1.2);
+			Vector2 dimensions = new Vector2(1, 1);
+			m_rect = new Rectangle(dimensions.x, dimensions.y);
+			m_rect.translate(flipBox(length, position));
 			
 			m_fixture = new BodyFixture(m_rect);
 		}

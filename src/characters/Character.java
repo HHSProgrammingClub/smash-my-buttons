@@ -191,6 +191,10 @@ public abstract class Character implements Drawable
 		return new Vector2(p_vec.x * getFacing(), p_vec.y);
 	}
 	
+	public Vector2 flipBox(float p_length, Vector2 position) {
+		return new Vector2(p_length/2 + position.x * getFacing(), position.y);
+	}
+	
 	public void setFacing(int p_direction)
 	{
 		m_facingRight = (p_direction == FACING_RIGHT) ? true : false;
