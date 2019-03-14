@@ -103,45 +103,61 @@ public class STEAMO extends Character
 	};
 	private class TiltState extends AttackState
 	{
+		private Projectile coffee;
 		private Hitbox m_hitbox = new Hitbox();
-
 		private Rectangle m_rect;
-		
 		private BodyFixture m_fixture;
+		private Body m_bodied = new Body();
 		
 		TiltState()
 		{
-			super("tilt");
+			super("projectile");
 			
-			m_hitbox.setDuration(0.1f);
-			m_hitbox.setDamage(5);
-			m_hitbox.setHitstun(0.5f);
-			m_hitbox.setBaseKnockback(new Vector2(8 * getFacing(), 0));
-			m_hitbox.setScaledKnockback(new Vector2(5 * getFacing(), 0));
+			Texture explosionTexture = ResourceManager.getResource(Texture.class, "resources/images/coffee");
 			
-			m_rect = new Rectangle(0.8, 0.3);
-			m_rect.translate(length + 0.6 * getFacing(), 1.4);
+			Sprite explosion = new Sprite(explosionTexture);
+			explosion.setAnimation("default");
 			
+			m_hitbox.setDuration(2f);
+			m_hitbox.setDamage(4);
+			m_hitbox.setHitstun(0);
+			m_hitbox.setBaseKnockback(new Vector2(2 * getFacing(), 0));
+			m_hitbox.setScaledKnockback(new Vector2(1 * getFacing(), 0));
+			
+			m_rect = new Rectangle(0.5, 0.5);
+			m_rect.translate(0, 0);
+			coffee = new Projectile(explosion, m_hitbox);
+			coffee.setCharacter((Character) m_body.getUserData());
 			m_fixture = new BodyFixture(m_rect);
+			Transform t = new Transform();
+			t.translate(m_body.getTransform().getTranslation());
+			t.translate(1, 1);
+			m_bodied.setTransform(t);
+			m_bodied.addFixture(m_fixture);
+			m_bodied.setMass(MassType.NORMAL);
+			m_bodied.setGravityScale(0);
+			
+			addProjectile(coffee);
 		}
 		
 		protected void init()
 		{
 			addHitbox(m_hitbox);
 			m_hitbox.addToFixture(m_fixture);
-			m_body.addFixture(m_fixture);
+			m_fixture.setSensor(false);
+			coffee.setBody(m_bodied);
+			m_bodied.applyImpulse(new Vector2(2 * getFacing(), 0));
+			m_world.addBody(m_bodied);
 		}
 		
-		public void interrupt()
+		protected void onUpdate(float p_delta)
 		{
-			m_body.removeFixture(m_fixture);
-			removeHitbox(m_hitbox);
-		}
-		
-		public void end()
-		{
-			m_body.removeFixture(m_fixture);
-			removeHitbox(m_hitbox);
+			if(!m_hitbox.isAlive()) {
+				m_bodied.removeFixture(m_fixture);
+				removeHitbox(m_hitbox);
+				m_bodied.removeAllFixtures();
+				m_world.removeBody(m_bodied);
+			}
 		}
 		
 		
