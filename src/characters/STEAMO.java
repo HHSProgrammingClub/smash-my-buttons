@@ -174,20 +174,23 @@ public class STEAMO extends Character
 		{
 			super("smash");
 			
-			m_hitbox.setDuration(0.2f);
-			m_hitbox.setDamage(10);
-			m_hitbox.setHitstun(0.75f);
+			m_hitbox.setDuration(0.3f);
+			m_hitbox.setDamage(13);
+			m_hitbox.setHitstun(0.9f);
 			m_hitbox.setBaseKnockback(new Vector2(3 * getFacing(), -3));
 			m_hitbox.setScaledKnockback(new Vector2(10 * getFacing(), -10));
 			
-			m_rect = new Rectangle(1.2, 1);
-			m_rect.translate(length + 0.45 * getFacing(), 1.25);
+			Vector2 position = new Vector2(1, 1.2);
+			Vector2 dimensions = new Vector2(1, 2.2);
+			m_rect = new Rectangle(dimensions.x, dimensions.y);
+			m_rect.translate(flipBox(length, position));
 			
 			m_fixture = new BodyFixture(m_rect);
 		}
 		
 		protected void init()
 		{
+			m_body.applyImpulse(new Vector2(25 * getFacing(), 0));
 			addHitbox(m_hitbox);
 			m_hitbox.addToFixture(m_fixture);
 			m_body.addFixture(m_fixture);
