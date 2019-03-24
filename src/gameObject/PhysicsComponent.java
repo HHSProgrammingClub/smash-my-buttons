@@ -22,6 +22,7 @@ public class PhysicsComponent extends Component
 	public void postUpdate(float p_delta)
 	{
 		//update body transforms
+		getObject().setTransform(m_body.getTransform());
 	}
 	
 	public Body getBody()
@@ -31,7 +32,12 @@ public class PhysicsComponent extends Component
 	
 	public void onRecieveMessage(OnCollision p_collision)
 	{
-		
+		//would this need to do anything?
+	}
+	
+	public void onRecieveMessage(PostUpdate p_postUpdate)
+	{
+		postUpdate(); //might just move the body this function here
 	}
 	
 	public void onRecieveMessage(OnInitPhysics p_initMessage)

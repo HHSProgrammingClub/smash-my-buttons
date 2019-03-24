@@ -60,6 +60,8 @@ public class SpriteComponent extends Component
 			// Not animation
 			frame = m_animation.getFrame();
 		
+		update();
+		
 		AffineTransform t = new AffineTransform();
 		t.translate(m_position.x, m_position.y);
 		t.rotate(m_rotation);
