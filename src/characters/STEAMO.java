@@ -121,8 +121,8 @@ public class STEAMO extends Character
 			m_hitbox.setDuration(2f);
 			m_hitbox.setDamage(4);
 			m_hitbox.setHitstun(0);
-			m_hitbox.setBaseKnockback(new Vector2(2 * getFacing(), 0));
-			m_hitbox.setScaledKnockback(new Vector2(1 * getFacing(), 0));
+			m_hitbox.setBaseKnockback(new Vector2(10 * getFacing(), 0));
+			m_hitbox.setScaledKnockback(new Vector2(1.5 * getFacing(), 0));
 			
 			m_rect = new Rectangle(0.5, 0.5);
 			m_rect.translate(0, 0);
@@ -181,7 +181,7 @@ public class STEAMO extends Character
 			m_hitbox.setScaledKnockback(new Vector2(10 * getFacing(), -10));
 			
 			Vector2 position = new Vector2(1, 1.2);
-			Vector2 dimensions = new Vector2(1, 2.2);
+			Vector2 dimensions = new Vector2(0.5, 2.2);
 			m_rect = new Rectangle(dimensions.x, dimensions.y);
 			m_rect.translate(flipBox(length, position));
 			
@@ -190,7 +190,7 @@ public class STEAMO extends Character
 		
 		protected void init()
 		{
-			m_body.applyImpulse(new Vector2(25 * getFacing(), 0));
+			m_body.applyImpulse(new Vector2(22 * getFacing(), 0));
 			addHitbox(m_hitbox);
 			m_hitbox.addToFixture(m_fixture);
 			m_body.addFixture(m_fixture);
@@ -318,6 +318,30 @@ public class STEAMO extends Character
 		
 	};
 	
+	private class RecoveryStart extends AttackState
+	{
+		private Hitbox m_hitbox = new Hitbox();
+
+		private Rectangle m_rect;
+		
+		private BodyFixture m_fixture;
+		
+		RecoveryStart()
+		{
+			super("recovery");
+			setDuration(0.1f);
+		}
+		
+		protected void init()
+		{
+			m_body.setLinearDamping(40);
+		}
+		
+		public void end() {
+			m_body.setLinearDamping(0);
+		}
+	};
+	
 	private class RecoveryState extends AttackState
 	{
 		private Hitbox m_hitbox = new Hitbox();
@@ -333,15 +357,15 @@ public class STEAMO extends Character
 			m_hitbox.setDuration(1f);
 			m_hitbox.setDamage(2);
 			m_hitbox.setHitstun(0.4f);
-			m_hitbox.setBaseKnockback(new Vector2(0, -2));
-			m_hitbox.setScaledKnockback(new Vector2(0, -2));
+			m_hitbox.setBaseKnockback(new Vector2(0, 18));
+			m_hitbox.setScaledKnockback(new Vector2(0, 2));
 			
-			m_rect = new Rectangle(1.2, 0.2);
-			m_rect.translate(length - 0.3 * getFacing(), 0.15);
+			Vector2 position = new Vector2(0, 2.2);
+			Vector2 dimensions = new Vector2(1, 0.2);
+			m_rect = new Rectangle(dimensions.x, dimensions.y);
+			m_rect.translate(flipBox(length, position));
 			
 			m_fixture = new BodyFixture(m_rect);
-			getBody().setLinearVelocity(3 * getFacing(), 0);
-			getBody().applyImpulse(new Vector2(0, -9));
 		}
 		
 		protected void init()
@@ -349,21 +373,20 @@ public class STEAMO extends Character
 			addHitbox(m_hitbox);
 			m_hitbox.addToFixture(m_fixture);
 			m_body.addFixture(m_fixture);
-			getBody().setGravityScale(0);
+			m_body.setLinearVelocity(new Vector2(getFacing() * 3, 0));
+			m_body.applyImpulse(new Vector2(0, -60));
 		}
 		
 		public void interrupt()
 		{
 			m_body.removeFixture(m_fixture);
 			removeHitbox(m_hitbox);
-			getBody().setGravityScale(1);
 		}
 		
 		public void end()
 		{
 			m_body.removeFixture(m_fixture);
 			removeHitbox(m_hitbox);
-			getBody().setGravityScale(1);
 		}
 		
 		
@@ -393,7 +416,7 @@ public class STEAMO extends Character
 		addState(new AttackState("smash", 0.1f));
 		addState(new SmashState());
 		addState(new AttackState("idle", 0.3f));*/
-		pushState(new WaitState(.3f));
+		pushState(new WaitState(.4f));
 		pushState(new SmashState());
 		pushState(new AttackState("smash", .1f));
 	}
@@ -423,6 +446,7 @@ public class STEAMO extends Character
 			/*interruptStates(new AttackState("idle", 0.05f));
 			addState(new RecoveryState());*/
 			pushState(new RecoveryState());
+			pushState(new RecoveryStart());
 			//pushState(new WaitState(.05f));
 			m_recovered = true;
 		}
