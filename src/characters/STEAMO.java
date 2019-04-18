@@ -21,6 +21,7 @@ public class STEAMO extends Character
 	private static double position = 0;
 	private float length = 1.8f;
 	private float height = 2.3f;
+	private int boostsLeft = 0;
 	public STEAMO() 
 	{
 		//attribute editing
@@ -119,7 +120,7 @@ public class STEAMO extends Character
 			explosion.setAnimation("default");
 			
 			m_hitbox.setDuration(2f);
-			m_hitbox.setDamage(4);
+			m_hitbox.setDamage(3);
 			m_hitbox.setHitstun(0);
 			m_hitbox.setBaseKnockback(new Vector2(10 * getFacing(), 0));
 			m_hitbox.setScaledKnockback(new Vector2(1.5 * getFacing(), 0));
@@ -228,14 +229,14 @@ public class STEAMO extends Character
 			Sprite explosion = new Sprite(explosionTexture);
 			explosion.setAnimation("default");
 			
-			m_hitbox.setDuration(2f);
-			m_hitbox.setDamage(6);
-			m_hitbox.setHitstun(0.3f);
+			m_hitbox.setDuration(5f);
+			m_hitbox.setDamage(7);
+			m_hitbox.setHitstun(0.5f);
 			m_hitbox.setBaseKnockback(new Vector2(2 * getFacing(), 0));
 			m_hitbox.setScaledKnockback(new Vector2(1 * getFacing(), 0));
 			
-			m_rect = new Rectangle(0.5, 0.5);
-			m_rect.translate(0, 0);
+			m_rect = new Rectangle(1, 0.5);
+			m_rect.translate(0, 0.5);
 			coffee = new Projectile(explosion, m_hitbox);
 			coffee.setCharacter((Character) m_body.getUserData());
 			m_fixture = new BodyFixture(m_rect);
@@ -245,6 +246,7 @@ public class STEAMO extends Character
 			m_bodied.setTransform(t);
 			m_bodied.addFixture(m_fixture);
 			m_bodied.setMass(MassType.NORMAL);
+			m_bodied.setGravityScale(0);
 			
 			addProjectile(coffee);
 		}
@@ -255,19 +257,26 @@ public class STEAMO extends Character
 			m_hitbox.addToFixture(m_fixture);
 			m_fixture.setSensor(false);
 			coffee.setBody(m_bodied);
-			m_bodied.applyImpulse(new Vector2(2 * getFacing(), -2));
-			m_bodied.applyTorque(3);
+			m_bodied.applyImpulse(new Vector2(0, 0));
 			m_world.addBody(m_bodied);
+			m_superArmour = true;
 		}
 		
 		protected void onUpdate(float p_delta)
 		{
+			m_bodied.applyImpulse(new Vector2(0.25 * getFacing(), 0));
 			if(!m_hitbox.isAlive()) {
 				m_bodied.removeFixture(m_fixture);
 				removeHitbox(m_hitbox);
 				m_bodied.removeAllFixtures();
 				m_world.removeBody(m_bodied);
 			}
+		}
+		
+		@Override
+		public void end()
+		{
+			m_superArmour = false;
 		}
 	};
 	
@@ -283,36 +292,22 @@ public class STEAMO extends Character
 		{
 			super("signature");
 			//setDuration(1f);
-			setDuration(0.35f);
-			m_hitbox.setDuration(0.2f);
-			m_hitbox.setDamage(5);
-			m_hitbox.setHitstun(0);
-			m_hitbox.setBaseKnockback(new Vector2(0, 0));
-			m_hitbox.setScaledKnockback(new Vector2(0, 0));
-			
-			m_rect = new Rectangle(100, 100);
-			m_rect.translate(0, 0);
-			
-			m_fixture = new BodyFixture(m_rect);
+			setDuration(0.5f);
 		}
 		
 		protected void init()
 		{
-			addHitbox(m_hitbox);
-			m_hitbox.addToFixture(m_fixture);
-			m_body.addFixture(m_fixture);
+			
 		}
 		
 		public void interrupt()
 		{
-			m_body.removeFixture(m_fixture);
-			removeHitbox(m_hitbox);
+			
 		}
 		
 		public void end()
 		{
-			m_body.removeFixture(m_fixture);
-			removeHitbox(m_hitbox);
+			runForce = new Vector2(90, 0);
 		}
 		
 		
@@ -408,6 +403,7 @@ public class STEAMO extends Character
 		addState(new AttackState("idle", 0.3f));*/
 		pushState(new TiltState());
 		pushState(new AttackState("tilt", .1f));
+		pushState(new WaitState(0.1f));
 	}
 	
 	public void smash()
@@ -419,6 +415,7 @@ public class STEAMO extends Character
 		pushState(new WaitState(.4f));
 		pushState(new SmashState());
 		pushState(new AttackState("smash", .1f));
+		pushState(new WaitState(.1f));
 	}
 	
 	public void projectile()
@@ -428,7 +425,7 @@ public class STEAMO extends Character
 		addState(new ProjState());*/
 		pushState(new WaitState(0.3f));
 		pushState(new ProjState());
-		pushState(new AttackState("projectile", .1f));
+		pushState(new AttackState("projectile", .2f));
 	}
 	
 	public void signature()
@@ -451,10 +448,18 @@ public class STEAMO extends Character
 			m_recovered = true;
 		}
 	}
+	
+	@Override
+	public void update(float p_delta) {
+		if(isDead()) {
+			runForce = new Vector2(35, 0);
+		}
+		super.update(p_delta);
+	}
 
 	@Override
 	public String getName() 
 	{
-		return Character.characterNames[0];
+		return Character.characterNames[7];
 	}
 }
