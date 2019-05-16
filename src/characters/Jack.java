@@ -160,7 +160,7 @@ public class Jack extends Character
 			m_hitbox.setDamage(10);
 			m_hitbox.setHitstun(0.75f);
 			m_hitbox.setBaseKnockback(new Vector2(3 * getFacing(), -3));
-			m_hitbox.setScaledKnockback(new Vector2(10 * getFacing(), -10));
+			m_hitbox.setScaledKnockback(new Vector2(7 * getFacing(), -7));
 			
 			m_rect = new Rectangle(1.2, 1);
 			m_rect.translate(length + 0.45 * getFacing(), 1.25);
@@ -208,7 +208,7 @@ public class Jack extends Character
 			explosion.setAnimation("default");
 			
 			m_hitbox.setDuration(2f);
-			m_hitbox.setDamage(6);
+			m_hitbox.setDamage(4);
 			m_hitbox.setHitstun(0.3f);
 			m_hitbox.setBaseKnockback(new Vector2(2 * getFacing(), 0));
 			m_hitbox.setScaledKnockback(new Vector2(1 * getFacing(), 0));
@@ -375,6 +375,7 @@ public class Jack extends Character
 		pushState(new WaitState(.3f));
 		pushState(new SmashState());
 		pushState(new AttackState("smash", .1f));
+		pushState(new WaitState(.05f));
 	}
 	
 	public void projectile()

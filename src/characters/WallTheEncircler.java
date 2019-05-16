@@ -64,7 +64,7 @@ public class WallTheEncircler extends Character
 			super("jab");
 			
 			m_hitbox.setDuration(0.1f);
-			m_hitbox.setDamage(2);
+			m_hitbox.setDamage(3);
 			m_hitbox.setHitstun(0f);
 			m_hitbox.setBaseKnockback(new Vector2(14 * getFacing(), -1));
 			m_hitbox.setScaledKnockback(new Vector2(2 * getFacing(), 0));
@@ -116,7 +116,7 @@ public class WallTheEncircler extends Character
 			super("tilt");
 			setDuration(0.4f);
 			m_hitbox.setDuration(0.01f);
-			m_hitbox.setDamage(2);
+			m_hitbox.setDamage(4);
 			m_hitbox.setHitstun(0.5f);
 			m_hitbox.setBaseKnockback(new Vector2(-7 * getFacing(), -20));
 			m_hitbox.setScaledKnockback(new Vector2(-0.5 * getFacing(), -1));
@@ -166,9 +166,9 @@ public class WallTheEncircler extends Character
 		{
 			super("smash");
 			setDuration(0.6f);
-			m_hitbox.setDamage(6);
+			m_hitbox.setDamage(8);
 			m_hitbox.setBaseKnockback(new Vector2(-10 * getFacing(), -5));
-			m_hitbox.setScaledKnockback(new Vector2(-4 * getFacing(), -5));
+			m_hitbox.setScaledKnockback(new Vector2(-9 * getFacing(), -5));
 			m_hitbox.setDuration(0.5f);
 			m_hitbox.setHitstun(0.3f);
 			
@@ -226,7 +226,7 @@ public class WallTheEncircler extends Character
 			
 			Hitbox chairHitbox = new Hitbox();
 			chairHitbox.setDuration(3.0f);
-			chairHitbox.setDamage(5);
+			chairHitbox.setDamage(7);
 			chairHitbox.setHitstun(0.2f);
 			chairHitbox.setBaseKnockback(alignFacing(new Vector2(1, 5)));
 			chairHitbox.setScaledKnockback(alignFacing(new Vector2(2, 6)));
