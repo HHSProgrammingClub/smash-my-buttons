@@ -110,6 +110,7 @@ public abstract class Character implements Drawable
 	
 	public void endState()
 	{
+		assert(m_stateStack.size() > 1);
 		m_stateStack.peek().end();
 		m_stateStack.pop();
 		m_stateStack.peek().resume();

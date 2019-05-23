@@ -458,8 +458,6 @@ public class WallTheEncircler extends Character
 			private Rectangle m_rect;
 			private BodyFixture m_fixture;
 			
-			private boolean m_interrupt;
-			
 			@Override
 			public void init()
 			{
@@ -493,14 +491,11 @@ public class WallTheEncircler extends Character
 			@Override
 			protected void onUpdate(float p_delta)
 			{
-				if(m_body.getLinearVelocity().y == 0)
+				if(m_body.getLinearVelocity().y == 0 || getTimer() >= 0.3)
 					endState();
 				
-				if(!m_hitbox.isAlive())
+				else if(!m_hitbox.isAlive())
 					bounce();
-					
-				if(!m_interrupt && getTimer() >= .3f)
-					m_interrupt = true;
 			}
 			
 			@Override

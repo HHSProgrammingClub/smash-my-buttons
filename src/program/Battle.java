@@ -206,7 +206,9 @@ public class Battle
 			// This transform will affect everything that is drawn to our world.
 			AffineTransform worldTransform = new AffineTransform();
 			java.awt.Dimension rendererSize = m_renderer.getComponent().getSize();
-			calcRenderTargetTransform(worldTransform, 400, 300, rendererSize.width, rendererSize.height, 32);
+			calcRenderTargetTransform(worldTransform, 600, 450, rendererSize.width, rendererSize.height, 32);
+			
+			worldTransform.translate(100.f/32, 75.f/32);
 			
 			m_renderer.pushTransform(worldTransform);
 			

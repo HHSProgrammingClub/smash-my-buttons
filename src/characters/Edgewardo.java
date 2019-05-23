@@ -66,7 +66,7 @@ public class Edgewardo extends Character
 			super("jab");
 			
 			m_hitbox.setDuration(0.2f);
-			m_hitbox.setDamage(0);
+			m_hitbox.setDamage(1);
 			m_hitbox.setHitstun(0.75f);
 			m_hitbox.setBaseKnockback(new Vector2(1.5 * getFacing(), 0));
 			m_hitbox.setScaledKnockback(new Vector2(getFacing(), -1));
@@ -182,7 +182,7 @@ public class Edgewardo extends Character
 			m_hitbox.setDamage(11);
 			m_hitbox.setHitstun(0.4f);
 			m_hitbox.setBaseKnockback(new Vector2(0.5 * getFacing(), 0));
-			m_hitbox.setScaledKnockback(new Vector2(6 * getFacing(), -4));
+			m_hitbox.setScaledKnockback(new Vector2(7 * getFacing(), -4));
 			
 			m_rect = new Rectangle(0.5, 1);
 			m_rect.translate(length + 0.6 * getFacing(), 1.25);
@@ -441,7 +441,7 @@ public class Edgewardo extends Character
 						m_hitbox.setDamage(10);
 						m_hitbox.setHitstun(0.5f);
 						m_hitbox.setBaseKnockback(new Vector2(5 * getFacing(), -5));
-						m_hitbox.setScaledKnockback(new Vector2(10 * getFacing(), -10));
+						m_hitbox.setScaledKnockback(new Vector2(12 * getFacing(), -12));
 						
 						m_rect = new Rectangle(2, 2);
 						m_rect.translate(1, 1.25);
