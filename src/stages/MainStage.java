@@ -22,6 +22,9 @@ public class MainStage extends Stage
 	{
 		Texture BGtexture = ResourceManager.getResource(Texture.class, "resources/images/BG_placeholder");
 		m_background = new Sprite(BGtexture, "default");
+		//TODO: Move this scaling stuff into something else - Ben would know better
+		m_background.setScale(new Vector2(1.5, 1.5));
+		m_background.setPosition(new Vector2(-100.f/32, -75.f/32));
 		
 		setBackground(m_background);
 		

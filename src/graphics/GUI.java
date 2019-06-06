@@ -62,7 +62,6 @@ public class GUI
 			"Code Fight",
 			"Smash 'em up",
 			"Smash my Buttons",
-			"Sub PewDiePie",
 			"Not A Smash Rip Off!",
 			"Don't Forget the Dab!"
 		};
