@@ -362,18 +362,21 @@ public class Cam extends Character
 					public void init()
 					{
 						m_superArmour = true;
+						m_body.setLinearDamping(10);
 					}
 					
 					@Override
 					public void interrupt()
 					{
 						m_superArmour = false;
+						m_body.setLinearDamping(0);
 					}
 					
 					@Override
 					public void end()
 					{
 						m_superArmour = false;
+						m_body.setLinearDamping(0);
 					}
 				};
 				

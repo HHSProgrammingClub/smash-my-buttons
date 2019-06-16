@@ -116,6 +116,7 @@ public class CharacterSelect implements Page
 	{
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setCurrentDirectory(new File("."));
+		fileChooser.setDialogTitle("Create new file...");
 		int returnVal = m_fileChooser.showSaveDialog(p_gui.getWindow());
         if (returnVal == JFileChooser.APPROVE_OPTION)
         {
@@ -329,11 +330,11 @@ public class CharacterSelect implements Page
 		
 		
 		
-		JButton btnStartFight = new JButton("Start Fight");
+		JButton btnStartFight = new JButton("Start Fight!");
 		GridBagConstraints gbc_btnStartFight = new GridBagConstraints();
 		gbc_btnStartFight.insets = new Insets(0, 0, 5, 5);
 		gbc_btnStartFight.gridx = 2;
-		gbc_btnStartFight.gridy = 5;
+		gbc_btnStartFight.gridy = 7;
 		btnStartFight.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
@@ -481,7 +482,7 @@ public class CharacterSelect implements Page
 		GridBagConstraints gbc_btnBack = new GridBagConstraints();
 		gbc_btnBack.insets = new Insets(0, 0, 0, 5);
 		gbc_btnBack.gridx = 2;
-		gbc_btnBack.gridy = 7;
+		gbc_btnBack.gridy = 8;
 		m_panel.add(btnBack, gbc_btnBack);
 		
 		
