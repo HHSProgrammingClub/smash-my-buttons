@@ -235,7 +235,7 @@ public class Jimmy extends Character
 				jbox.setScaledKnockback(alignFacing(new Vector2(7, -2)));
 				jbox.setHitstun(.4f);
 				
-				Rectangle r = new Rectangle(1.4, 0.3);
+				Rectangle r = new Rectangle(1.6, 0.3);
 				Vector2 basePos = new Vector2(1, 1.1);
 				Vector2 offset  = alignFacing(new Vector2(0, -1));
 				

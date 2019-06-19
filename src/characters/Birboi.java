@@ -175,8 +175,8 @@ public class Birboi extends Character
 		
 		Hitbox tiltBoxBack = new Hitbox();
 		
-		tiltBoxBack.setBaseKnockback(alignFacing(new Vector2(7, -3)));
-		tiltBoxBack.setScaledKnockback(alignFacing(new Vector2(3.5, -4)));
+		tiltBoxBack.setBaseKnockback(alignFacing(new Vector2(7, -7)));
+		tiltBoxBack.setScaledKnockback(alignFacing(new Vector2(2, -4)));
 		tiltBoxBack.setDamage(3);
 		tiltBoxBack.setDuration(30);
 		tiltBoxBack.setHitstun(.1f);
@@ -220,6 +220,7 @@ public class Birboi extends Character
 		
 		pushState(new WaitState(0.1f));
 		pushState(tiltState);
+		pushState(new WaitState(0.05f));
 	}
 	
 	@Override
@@ -560,14 +561,14 @@ public class Birboi extends Character
 		Hitbox recoverBox = new Hitbox();
 		
 		recoverBox.setBaseKnockback(alignFacing(new Vector2(12, 4)));
-		recoverBox.setScaledKnockback(alignFacing(new Vector2(2, 4)));
+		recoverBox.setScaledKnockback(alignFacing(new Vector2(2, 1)));
 		recoverBox.setDamage(0);
 		recoverBox.setDuration(10);
 		recoverBox.setHitstun(0);
 		
 		Vector2 recoverBoxPos = new Vector2(1, 1.8);
 		
-		Rectangle rr = new Rectangle(3.2, 2.4);
+		Rectangle rr = new Rectangle(2.4, 2);
 		rr.translate(recoverBoxPos);
 		
 		BodyFixture rf = new BodyFixture(rr);

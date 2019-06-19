@@ -19,7 +19,7 @@ def loop(player, enemy):
             player.recover()
         else:
             player.jump()
-    if enemy.getDamage() < 70:
+    if enemy.getDamage() < 50:
         if abs(player.getX() - enemy.getX()) < 1 and \
         abs(player.getY() - enemy.getY()) < 1.5:
             player.tilt()
