@@ -39,7 +39,7 @@ public class Birboi extends Character
 		Rectangle rect = new Rectangle(1, 1.4f);
 		rect.translate(1, 1.3); // Set to topleft
 		BodyFixture bf = new BodyFixture(rect);
-		bf.setDensity(0.6);
+		bf.setDensity(0.5);
 		birb.addFixture(rect);
 		birb.setMass(MassType.FIXED_ANGULAR_VELOCITY);
 

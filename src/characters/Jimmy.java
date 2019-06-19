@@ -22,7 +22,7 @@ public class Jimmy extends Character
 	public Jimmy()
 	{
 		jumpImpulse = new Vector2(0, -15);
-		runForce    = new Vector2(15, 0);
+		runForce    = new Vector2(12, 0);
 		
 		Body owo = new Body();
 		
@@ -30,7 +30,7 @@ public class Jimmy extends Character
 		t.setTranslation(4, 0);
 		owo.setTransform(t);
 		
-		Rectangle rawr = new Rectangle(1, 1.3);
+		Rectangle rawr = new Rectangle(1, 1.5);
 		rawr.translate(1, 1.2);
 		
 		BodyFixture xd = new BodyFixture(rawr);
@@ -41,7 +41,7 @@ public class Jimmy extends Character
 		
 		setBody(owo);
 		
-		Texture texinator = ResourceManager.getResource(Texture.class, "resources/images/jack");
+		Texture texinator = ResourceManager.getResource(Texture.class, "resources/images/jimmy");
 		
 		Sprite spam = new Sprite(texinator);
 		setSprite(spam);
@@ -87,8 +87,8 @@ public class Jimmy extends Character
 			@Override
 			public void interrupt()
 			{
-				removeHitbox(jbox);
 				m_body.removeFixture(zucc);
+				removeHitbox(jbox);
 			}
 			
 			@Override
@@ -166,6 +166,13 @@ public class Jimmy extends Character
 			protected void init()
 			{
 				m_superArmour = true;
+				m_body.setLinearDamping(10);
+				
+			}
+			@Override
+			public void end()
+			{
+				m_body.setLinearDamping(0);
 			}
 		};
 		
@@ -179,10 +186,10 @@ public class Jimmy extends Character
 			{
 				m_facingRight = !m_facingRight;
 				
-				criminal.setDamage(10);
+				criminal.setDamage(20);
 				criminal.setBaseKnockback(alignFacing(new Vector2(2, 15)));
 				criminal.setScaledKnockback(alignFacing(new Vector2(2, 18)));
-				criminal.setHitstun(.2f);
+				criminal.setHitstun(0.8f);
 				
 				Rectangle r = new Rectangle(1, 1.3);
 				r.translate(1, 1.2);
@@ -209,7 +216,7 @@ public class Jimmy extends Character
 	@Override
 	protected void projectile()
 	{
-		AttackState projectileState = new AttackState("signature", 0.2f)
+		AttackState projectileState = new AttackState("recovery", 0.2f)
 		{
 			Hitbox jbox;
 			BodyFixture zucc;
@@ -223,7 +230,7 @@ public class Jimmy extends Character
 				jbox.setScaledKnockback(alignFacing(new Vector2(0.5, -2)));
 				jbox.setHitstun(.4f);
 				
-				Rectangle r = new Rectangle(1.2, 0.3);
+				Rectangle r = new Rectangle(1.4, 0.3);
 				Vector2 basePos = new Vector2(1, 1.1);
 				Vector2 offset  = alignFacing(new Vector2(0, -1));
 				
@@ -251,7 +258,7 @@ public class Jimmy extends Character
 			}
 		};
 		
-		AttackState projStart = new AttackState("run", .10f);
+		AttackState projStart = new AttackState("run", .15f);
 		
 		pushState(projectileState);
 		pushState(projStart);
@@ -347,8 +354,8 @@ public class Jimmy extends Character
 						//setDuration(1f);
 						m_hitbox.setDuration(0.1f);
 						m_hitbox.setDamage(25);
-						m_hitbox.setHitstun(1.0f);
-						m_hitbox.setBaseKnockback(alignFacing(new Vector2(14, -25)));
+						m_hitbox.setHitstun(0.75f);
+						m_hitbox.setBaseKnockback(alignFacing(new Vector2(14, -15)));
 						m_hitbox.setScaledKnockback(alignFacing(new Vector2(8, -10)));
 						
 						m_rect = new Rectangle(.25, .25);
@@ -356,7 +363,7 @@ public class Jimmy extends Character
 						
 						m_fixture = new BodyFixture(m_rect);
 						getBody().setLinearVelocity(getBody().getLinearVelocity().x, 0);
-						getBody().applyImpulse(alignFacing(new Vector2(4, -8)));
+						getBody().applyImpulse(alignFacing(new Vector2(6, -12)));
 					
 						addHitbox(m_hitbox);
 						m_hitbox.addToFixture(m_fixture);

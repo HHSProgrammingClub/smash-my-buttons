@@ -8,19 +8,23 @@ attackMode = "combo"
 jabCounter = 0
 def switchMode(player, enemy):
     global attackMode
-    if abs(player.getX() - enemy.getX()) < 2.5:
-        if attackMode == "recovery":
-            print("Heya")
-        attackMode = "combo"
-    if abs(player.getX() - enemy.getX()) > 2.5:
-        attackMode = "space"
-    if player.boosted():
-        attackMode = "setup"
-    if enemy.currentStateName() == "hitstun" and \
-       enemy.currentStateDuration() > 1:
+    if enemy.getHitstun() > 1:
         attackMode = "kill"
-    if player.getY() > 6 or player.getX() > 12 or player.getX() < 0.5:
-        attackMode = "recovery"
+        return
+    if attackMode != "kill":
+	    if abs(player.getX() - enemy.getX()) < 2.5:
+	        if attackMode == "recovery":
+	            print("Heya")
+	        attackMode = "combo"
+	    if abs(player.getX() - enemy.getX()) > 2.5:
+	        attackMode = "space"
+	    if player.boosted():
+	        attackMode = "setup"
+	    if player.getY() > 6 or player.getX() > 12 or player.getX() < 0.5:
+	        attackMode = "recovery"
+    elif enemy.getHitstun() == 0:
+        attackMode = "combo"
+        return
 def moveTowards(player, enemy):
     global counter
     if player.getX() > enemy.getX():
