@@ -268,10 +268,10 @@ public class Birboi extends Character
 			BodyFixture m_fixture;
 			
 			final Vector2 m_baseImpulse     = new Vector2(16, 0);
-			final Vector2 m_baseKnockback   = new Vector2(9, -5);
-			final Vector2 m_scaledKnockback = new Vector2(6, -4);
+			final Vector2 m_baseKnockback   = new Vector2(4, -5);
+			final Vector2 m_scaledKnockback = new Vector2(4, -3);
 			
-			final Vector2 m_hitboxBasePos   = new Vector2(1, 1.25);
+			final Vector2 m_hitboxBasePos   = new Vector2(0.5, 1.25);
 			final Vector2 m_hitboxOffsetPos = new Vector2(.4, 0);
 			
 			@Override
@@ -279,6 +279,7 @@ public class Birboi extends Character
 			{
 				getBody().applyImpulse(alignFacing(m_baseImpulse));
 				m_hitbox.setDamage(9);
+				m_hitbox.setHitstun(0.1f);
 				m_hitbox.setBaseKnockback(alignFacing(m_baseKnockback));
 				m_hitbox.setScaledKnockback(alignFacing(m_scaledKnockback));
 				m_hitbox.setDuration(duration);
@@ -318,6 +319,7 @@ public class Birboi extends Character
 		
 		pushState(smashFlight);
 		pushState(smashStartup);
+		pushState(new WaitState(0.1f));
 	}
 	
 	@Override

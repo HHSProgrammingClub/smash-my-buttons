@@ -116,7 +116,7 @@ public class WallTheEncircler extends Character
 			super("tilt");
 			setDuration(0.4f);
 			m_hitbox.setDuration(0.01f);
-			m_hitbox.setDamage(4);
+			m_hitbox.setDamage(5);
 			m_hitbox.setHitstun(0.5f);
 			m_hitbox.setBaseKnockback(new Vector2(-7 * getFacing(), -20));
 			m_hitbox.setScaledKnockback(new Vector2(-0.5 * getFacing(), -1));
@@ -153,7 +153,8 @@ public class WallTheEncircler extends Character
 	public void tilt() 
 	{
 		pushState(new TiltState());
-		pushState(new AttackState("tilt", 0.239f));
+		pushState(new AttackState("tilt", 0.1f));
+		pushState(new WaitState(0.05f));
 	}
 	
 	private class SmashState extends AttackState
@@ -287,7 +288,6 @@ public class WallTheEncircler extends Character
 		pushState(new WaitState(0.2f));
 		pushState(new ProjectileState());
 		pushState(new AttackState("signature_slam", 0.1f));
-		pushState(new WaitState(0.2f));
 	}
 
 	WeldJoint hold;
@@ -410,9 +410,9 @@ public class WallTheEncircler extends Character
 				}
 			}
 		};
-		pushState(new WaitState(0.35f));
+		pushState(new WaitState(0.2f));
 		pushState(suplexDash);
-		pushState(new WaitState(0.25f));
+		pushState(new WaitState(0.2f));
 	}
 
 	@Override

@@ -65,7 +65,7 @@ public class Jimmy extends Character
 			protected void init()
 			{
 				jbox  = new Hitbox();
-				jbox.setDamage(3);
+				jbox.setDamage(7);
 				jbox.setBaseKnockback(alignFacing(new Vector2(12, -8)));
 				jbox.setScaledKnockback(alignFacing(new Vector2(5, -2.5)));
 				jbox.setHitstun(.4f);
@@ -87,7 +87,9 @@ public class Jimmy extends Character
 			@Override
 			public void interrupt()
 			{
-				m_body.removeFixture(zucc);
+				if(zucc != null) {
+					m_body.removeFixture(zucc);
+				}
 				removeHitbox(jbox);
 			}
 			
@@ -118,10 +120,10 @@ public class Jimmy extends Character
 				for (int i = 0; i < gethit.length; i++)
 				{
 					gethit[i]= new Hitbox();
-					gethit[i].setDamage(6);
-					gethit[i].setBaseKnockback(new Vector2(3 * (i == 0 ? 1 : -1), -9));
-					gethit[i].setScaledKnockback(new Vector2(1 * (i == 0 ? 1 : -1), -9));
-					gethit[i].setHitstun(.5f);
+					gethit[i].setDamage(4);
+					gethit[i].setBaseKnockback(new Vector2(3 * (i == 0 ? -1 : 1), -9));
+					gethit[i].setScaledKnockback(new Vector2(1 * (i == 0 ? -1 : 1), -9));
+					gethit[i].setHitstun(.2f);
 					
 					Rectangle ra = new Rectangle(.4, 1);
 					Vector2 basePos = new Vector2(1, .9);
@@ -139,9 +141,12 @@ public class Jimmy extends Character
 			@Override
 			public void interrupt()
 			{
+				System.out.println(gethit.length);
 				for (int i = 0; i < gethit.length; i++)
 				{
-					m_body.removeFixture(fixem[i]);
+					if(fixem[i] != null) {
+						m_body.removeFixture(fixem[i]);
+					}
 					removeHitbox(gethit[i]);
 				}
 			}
@@ -227,7 +232,7 @@ public class Jimmy extends Character
 				jbox  = new Hitbox();
 				jbox.setDamage(2);
 				jbox.setBaseKnockback(alignFacing(new Vector2(7, -7)));
-				jbox.setScaledKnockback(alignFacing(new Vector2(0.5, -2)));
+				jbox.setScaledKnockback(alignFacing(new Vector2(7, -2)));
 				jbox.setHitstun(.4f);
 				
 				Rectangle r = new Rectangle(1.4, 0.3);
@@ -247,7 +252,8 @@ public class Jimmy extends Character
 			@Override
 			public void interrupt()
 			{
-				m_body.removeFixture(zucc);
+				if(zucc != null)
+					m_body.removeFixture(zucc);
 				removeHitbox(jbox);
 			}
 			
@@ -299,7 +305,8 @@ public class Jimmy extends Character
 			@Override
 			public void interrupt()
 			{
-				m_body.removeFixture(zucc);
+				if(zucc != null)
+					m_body.removeFixture(zucc);
 				removeHitbox(jbox);
 			}
 			
