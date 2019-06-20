@@ -1,4 +1,4 @@
-AIName = "Allahu Akbar!"
+AIName = "B O M B S"
 AIAuthor = "L G T Y Q Z"
 AITargetCharacter = "Cam"
 

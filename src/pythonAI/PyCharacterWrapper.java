@@ -1,6 +1,7 @@
 package pythonAI;
 
 import characters.Character;
+import characters.characterStates.*;
 import program.Hitbox;
 
 /**
@@ -84,7 +85,9 @@ class PyCharacterWrapper implements pythonAI.interfaces.PlayerInterface
 	@Override
 	public float getHitstun()
 	{
-		return m_character.peekState().getTimer();
+		if(m_character.peekState() instanceof Hitstun)
+			return m_character.peekState().getTimer();
+		return 0;
 	}
 
 	@Override
