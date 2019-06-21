@@ -26,6 +26,7 @@ import characters.Character;
 import graphics.GUI;
 import characters.*;
 import program.Battle;
+import program.BattlePage;
 import program.CharacterController;
 import program.PlayerController;
 import pythonAI.AIController;
@@ -351,6 +352,9 @@ public class CharacterSelect implements Page
 				royale.setVisibleHitboxes(m_showHitboxes);
 				royale.setVisibleGrid(m_showGrid);
 				royale.startBattle(p_gui);
+				BattlePage battlePage = new BattlePage(royale);
+				p_gui.setPage(battlePage);
+				battlePage.beginBattle();
 			}
 		});
 

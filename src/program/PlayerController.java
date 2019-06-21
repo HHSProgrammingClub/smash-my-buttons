@@ -1,10 +1,11 @@
 package program;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.newdawn.slick.Input;
+import org.newdawn.slick.KeyListener;
 
 import characters.Character;
 
@@ -111,27 +112,44 @@ class KeyBinder
 		m_keyListener = new KeyListener()
 		{
 			@Override
-			public void keyPressed(KeyEvent e)
-			{
+			public void inputEnded() {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void inputStarted() {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public boolean isAcceptingInput() {
+				// TODO Auto-generated method stub
+				return false;
+			}
+
+			@Override
+			public void setInput(Input arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void keyPressed(int p_key, char p_char) {
 				if (m_currentGroup != null)
 					for (KeyBinding i : m_currentGroup)
-						if (e.getKeyCode() == i.getKey())
+						if (p_key == i.getKey())
 							i.press();
+				
 			}
 
 			@Override
-			public void keyReleased(KeyEvent e)
-			{
+			public void keyReleased(int p_key, char p_char) {
 				if (m_currentGroup != null)
 					for (KeyBinding i : m_currentGroup)
-						if (e.getKeyCode() == i.getKey())
+						if (p_key == i.getKey())
 							i.release();
-			}
-
-			@Override
-			public void keyTyped(KeyEvent e)
-			{
-				// Do nothing...
 			}
 		};
 	}
@@ -218,6 +236,8 @@ public class PlayerController extends CharacterController
 	private graphics.pages.Page m_page;
 	
 	private KeyBinder m_keyBinder = new KeyBinder();
+	
+	private Input m_input;
 	
 	private int m_port;
 	
@@ -312,47 +332,43 @@ public class PlayerController extends CharacterController
 		
 		// Add key bindings for player 1
 		m_keyBinder.setGroup("player1");
-		m_keyBinder.addKeyBinding("jump", KeyEvent.VK_W, KeyBinder.ACTIVATION_PRESSED);
-		m_keyBinder.addKeyBinding("jump_hold", KeyEvent.VK_W, KeyBinder.ACTIVATION_DOWN);
-		m_keyBinder.addKeyBinding("moveLeft", KeyEvent.VK_A, KeyBinder.ACTIVATION_DOWN);
-		m_keyBinder.addKeyBinding("moveRight", KeyEvent.VK_D, KeyBinder.ACTIVATION_DOWN);
+		m_keyBinder.addKeyBinding("jump", Input.KEY_W, KeyBinder.ACTIVATION_PRESSED);
+		m_keyBinder.addKeyBinding("jump_hold", Input.KEY_W, KeyBinder.ACTIVATION_DOWN);
+		m_keyBinder.addKeyBinding("moveLeft", Input.KEY_A, KeyBinder.ACTIVATION_DOWN);
+		m_keyBinder.addKeyBinding("moveRight", Input.KEY_D, KeyBinder.ACTIVATION_DOWN);
 		/*m_keyBinder.addKeyBinding("stopRunning", KeyEvent.VK_A, KeyBinder.ACTIVATION_RELEASE);
 		m_keyBinder.addKeyBinding("stopRunning", KeyEvent.VK_D, KeyBinder.ACTIVATION_RELEASE);*/
 		
-		m_keyBinder.addKeyBinding("projectile", KeyEvent.VK_S, KeyBinder.ACTIVATION_PRESSED); //I would say this is for some well thought out reason but it's because I can't find the KeyEvent corresponding to the originally planned ` key
-		m_keyBinder.addKeyBinding("jab", KeyEvent.VK_1, KeyBinder.ACTIVATION_PRESSED);
-		m_keyBinder.addKeyBinding("tilt", KeyEvent.VK_2, KeyBinder.ACTIVATION_PRESSED);
-		m_keyBinder.addKeyBinding("smash", KeyEvent.VK_3, KeyBinder.ACTIVATION_PRESSED);
-		m_keyBinder.addKeyBinding("signature", KeyEvent.VK_4, KeyBinder.ACTIVATION_PRESSED);
-		m_keyBinder.addKeyBinding("recover", KeyEvent.VK_5, KeyBinder.ACTIVATION_PRESSED);
+		m_keyBinder.addKeyBinding("projectile", Input.KEY_S, KeyBinder.ACTIVATION_PRESSED); //I would say this is for some well thought out reason but it's because I can't find the KeyEvent corresponding to the originally planned ` key
+		m_keyBinder.addKeyBinding("jab", Input.KEY_1, KeyBinder.ACTIVATION_PRESSED);
+		m_keyBinder.addKeyBinding("tilt", Input.KEY_2, KeyBinder.ACTIVATION_PRESSED);
+		m_keyBinder.addKeyBinding("smash", Input.KEY_3, KeyBinder.ACTIVATION_PRESSED);
+		m_keyBinder.addKeyBinding("signature", Input.KEY_4, KeyBinder.ACTIVATION_PRESSED);
+		m_keyBinder.addKeyBinding("recover", Input.KEY_5, KeyBinder.ACTIVATION_PRESSED);
 		
 
 		// Add key bindings for player 2
 		m_keyBinder.setGroup("player2");
-		m_keyBinder.addKeyBinding("jump", KeyEvent.VK_UP, KeyBinder.ACTIVATION_PRESSED);
-		m_keyBinder.addKeyBinding("jump_hold", KeyEvent.VK_UP, KeyBinder.ACTIVATION_DOWN);
-		m_keyBinder.addKeyBinding("moveLeft", KeyEvent.VK_LEFT, KeyBinder.ACTIVATION_DOWN);
-		m_keyBinder.addKeyBinding("moveRight", KeyEvent.VK_RIGHT, KeyBinder.ACTIVATION_DOWN);
+		m_keyBinder.addKeyBinding("jump", Input.KEY_UP, KeyBinder.ACTIVATION_PRESSED);
+		m_keyBinder.addKeyBinding("jump_hold", Input.KEY_UP, KeyBinder.ACTIVATION_DOWN);
+		m_keyBinder.addKeyBinding("moveLeft", Input.KEY_LEFT, KeyBinder.ACTIVATION_DOWN);
+		m_keyBinder.addKeyBinding("moveRight", Input.KEY_RIGHT, KeyBinder.ACTIVATION_DOWN);
 		/*m_keyBinder.addKeyBinding("stopRunning", KeyEvent.VK_LEFT, KeyBinder.ACTIVATION_RELEASE);
 		m_keyBinder.addKeyBinding("stopRunning", KeyEvent.VK_RIGHT, KeyBinder.ACTIVATION_RELEASE);*/
 		
-		m_keyBinder.addKeyBinding("projectile", KeyEvent.VK_DOWN, KeyBinder.ACTIVATION_PRESSED); //I would say this is for some well thought out reason but it's because I can't find the KeyEvent corresponding to the originally planned ` key
-		m_keyBinder.addKeyBinding("jab", KeyEvent.VK_I, KeyBinder.ACTIVATION_PRESSED);
-		m_keyBinder.addKeyBinding("tilt", KeyEvent.VK_O, KeyBinder.ACTIVATION_PRESSED);
-		m_keyBinder.addKeyBinding("smash", KeyEvent.VK_P, KeyBinder.ACTIVATION_PRESSED);
-		m_keyBinder.addKeyBinding("signature", KeyEvent.VK_OPEN_BRACKET, KeyBinder.ACTIVATION_PRESSED);
-		m_keyBinder.addKeyBinding("recover", KeyEvent.VK_CLOSE_BRACKET, KeyBinder.ACTIVATION_PRESSED);
+		m_keyBinder.addKeyBinding("projectile", Input.KEY_DOWN, KeyBinder.ACTIVATION_PRESSED); //I would say this is for some well thought out reason but it's because I can't find the KeyEvent corresponding to the originally planned ` key
+		m_keyBinder.addKeyBinding("jab", Input.KEY_I, KeyBinder.ACTIVATION_PRESSED);
+		m_keyBinder.addKeyBinding("tilt", Input.KEY_O, KeyBinder.ACTIVATION_PRESSED);
+		m_keyBinder.addKeyBinding("smash", Input.KEY_P, KeyBinder.ACTIVATION_PRESSED);
+		m_keyBinder.addKeyBinding("signature", Input.KEY_LBRACKET, KeyBinder.ACTIVATION_PRESSED);
+		m_keyBinder.addKeyBinding("recover", Input.KEY_RBRACKET, KeyBinder.ACTIVATION_PRESSED);
 		//m_keyBinder.addKeyBinding("jump", KeyEvent.VK_UP);
 	}
 	
-	/**
-	 * Give this controller a page to receive key events from.
-	 * @param p_page
-	 */
-	public void attachPage(graphics.pages.Page p_page)
+	public void setInput(Input p_input)
 	{
-		m_page = p_page;
-		m_page.getComponent().addKeyListener(m_keyBinder.getKeyListener());
+		m_input = p_input;
+		m_input.addKeyListener(m_keyBinder.getKeyListener());
 	}
 	
 	@Override

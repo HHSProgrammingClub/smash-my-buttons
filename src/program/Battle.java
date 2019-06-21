@@ -2,21 +2,28 @@ package program;
 
 import java.awt.geom.AffineTransform;
 
+import javax.swing.JComponent;
+
 import org.dyn4j.dynamics.World;
 import org.dyn4j.geometry.Transform;
+import org.newdawn.slick.Game;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.SlickException;
 
 import graphics.DebugDrawer;
 import graphics.GUI;
 import graphics.GridRuler;
 import graphics.NameLabel;
 import graphics.RenderList;
+import graphics.pages.Page;
 import graphics.pages.Renderer;
 import graphics.pages.ResultsScreen;
 import pythonAI.AIController;
 import graphics.DamageDisplayer;
 import stages.Stage;
 
-public class Battle
+public class Battle implements Game
 {
 	private Stage m_stage;
 
@@ -27,9 +34,9 @@ public class Battle
 	
 	private CharacterController m_winner;
 	
-	
-	private Renderer m_renderer = new Renderer();
 	RenderList m_renderList = new RenderList();
+	DebugDrawer m_debugger;
+	GridRuler m_gridRuler = new GridRuler();
 	
 	private Thread battleThread;
 	
@@ -50,6 +57,8 @@ public class Battle
 		m_stage.getPhysicsWorld().addListener(new GroundListener());
 	
 		m_renderList.addDrawable(m_stage.getBackground());
+		
+		m_debugger = new DebugDrawer(m_stage.getPhysicsWorld());
 	}
 	
 	public World getWorld()
@@ -108,7 +117,7 @@ public class Battle
 	
 	public void startBattle(GUI p_gui)
 	{
-		p_gui.setPage(m_renderer);
+		
 		m_gui = p_gui;
 		
 		battleThread = new Thread(new Runnable()
@@ -167,91 +176,74 @@ public class Battle
 	
 	private void gameLoop()
 	{
+
+	}
+
+	@Override
+	public boolean closeRequested() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public String getTitle() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void init(GameContainer p_container) throws SlickException
+	{
 		m_stage.registerTerrainSprites(m_renderList);
 		
 		for(int i = 0; i < m_charControllers.length; i++)
 		{
 			if(m_charControllers[i] instanceof PlayerController)
-				((PlayerController) m_charControllers[i]).attachPage(m_renderer);
+				((PlayerController) m_charControllers[i]).setInput(p_container.getInput());
 			m_charControllers[i].start();
 			m_charControllers[i].getCharacter().setOpponenet(m_charControllers[i == 0 ? 1 : 0].getCharacter());
 			if(m_charControllers[i] instanceof AIController)
 				((AIController) m_charControllers[i]).setEnemyCharacter(m_charControllers[i == 0 ? 1 : 0].getCharacter());
 		}
+		//debug
+		for (CharacterController i : m_charControllers)
+			m_gridRuler.addCharacter(i.getCharacter());
+	}
+
+	@Override
+	public void render(GameContainer p_container, Graphics p_graphics) throws SlickException
+	{
+		Renderer renderer = new Renderer(p_graphics, 1f / 32);
+		
+		renderer.pushTransform()
+			.translate(100.f / 32, 75.f / 32);
+		
+		//update the world
+		//draw sprites
+		m_renderList.draw(renderer);
+		
+		if(m_showGrid)
+			m_gridRuler.draw(renderer);
 		
 		//debug
-		DebugDrawer debugger = new DebugDrawer(m_stage.getPhysicsWorld());
+		if(m_visibleHitboxes)
+			m_debugger.draw(renderer);
 		
-		GridRuler gridRuler = new GridRuler();
-		for (CharacterController i : m_charControllers)
-			gridRuler.addCharacter(i.getCharacter());
-		
-		Clock gameClock = new Clock();
-		float delta = 0;
-		
-		m_renderer.setSizeScale(1f/32);
-		
-		
-		while(true)
-		{ 
-			//calculate delta
-			delta = gameClock.getElapse();
-			gameClock.restart();
-			
-			//clear the buffer
-			m_renderer.clear();
-			
-			update(delta);
-			
-			// This transform will affect everything that is drawn to our world.
-			AffineTransform worldTransform = new AffineTransform();
-			java.awt.Dimension rendererSize = m_renderer.getComponent().getSize();
-			calcRenderTargetTransform(worldTransform, 600, 450, rendererSize.width, rendererSize.height, 32);
-			
-			worldTransform.translate(100.f/32, 75.f/32);
-			
-			m_renderer.pushTransform(worldTransform);
-			
-			//update the world
-			//draw sprites
-			m_renderList.draw(m_renderer);
-			
-			if(m_showGrid)
-				gridRuler.draw(m_renderer);
-			
-			//debug
-			if(m_visibleHitboxes)
-				debugger.draw(m_renderer);
-			
-			m_renderer.popTransform();
-			
-			//display the current frame
-			m_renderer.display();
-			
-			//check if one player has died, then make the other the winner
-			//if we ever add more players, this will have to change
-			for(int i = 0; i < m_charControllers.length; i++)
-				if(m_charControllers[i].getCharacter().getStock() == 0)
-				{
-					m_winner = m_charControllers[i == 0 ? 1 : 0];
-					endBattle();
-					break;
-				}
-			 
-			//delay                         | fps here
-			try {                         //V
-				long totalNanos = (int)(1e9/30) - (int)(gameClock.getElapse()*1e9f);
-				if(totalNanos > 0)
-				{
-					int nanos = (int) (totalNanos % 1000000);
-					long milis = (totalNanos - nanos) / 1000000;
-					Thread.sleep(milis, (int)nanos);
-				}
-				//this one's simpler
-				//Thread.sleep(16, 666666);
-			} catch (InterruptedException e) {
+		renderer.popTransform();
+	}
+
+	@Override
+	public void update(GameContainer p_container, int p_msDelta) throws SlickException
+	{
+		//check if one player has died, then make the other the winner
+		//if we ever add more players, this will have to change
+		for(int i = 0; i < m_charControllers.length; i++)
+			if(m_charControllers[i].getCharacter().getStock() == 0)
+			{
+				m_winner = m_charControllers[i == 0 ? 1 : 0];
+				endBattle();
 				break;
 			}
-		}
+		
 	}
 }

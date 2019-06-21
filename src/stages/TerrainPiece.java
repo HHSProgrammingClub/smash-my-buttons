@@ -1,9 +1,9 @@
 package stages;
 
-import java.awt.geom.AffineTransform;
+
 
 import org.dyn4j.dynamics.Body;
-import org.dyn4j.geometry.Transform;
+import org.dyn4j.geometry.Vector2;
 
 import graphics.Drawable;
 import graphics.Sprite;
@@ -13,7 +13,7 @@ public class TerrainPiece implements Drawable
 {
 	private Body m_body;
 	private Sprite m_sprite;
-	private AffineTransform m_transform;
+	private Vector2 m_position = new Vector2();
 	
 	public TerrainPiece() {}
 	
@@ -33,20 +33,18 @@ public class TerrainPiece implements Drawable
 		m_sprite = p_sprite;
 	}
 	
-	public void setTransform(AffineTransform p_transform)
+	public void setPosition(Vector2 p_position)
 	{
-		m_transform = p_transform;
+		m_position.set(p_position);
 	}
 	
 	@Override
 	public void draw(Renderer p_renderer)
 	{
-		Transform t = m_body.getTransform();
-		p_renderer.pushTransform(m_transform);
-		//m_sprite.setPosition(t.getTranslationX(), t.getTranslationY());
-		m_sprite.setRotation(t.getRotation());
+		m_sprite.setPosition(m_position);
+		assert(m_body != null);
+		m_sprite.setRotation(m_body.getTransform().getRotation());
 		m_sprite.draw(p_renderer);
-		p_renderer.popTransform();
 	}
 	
 }

@@ -1,25 +1,12 @@
 package graphics.pages;
 
-import java.awt.AlphaComposite;
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.awt.Toolkit;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Line2D;
-import java.awt.geom.Path2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
-import java.util.Stack;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
-import javax.swing.JComponent;
-import javax.swing.JPanel;
+import org.dyn4j.geometry.Vector2;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.UnicodeFont;
+import org.newdawn.slick.geom.Ellipse;
+import org.newdawn.slick.geom.Rectangle;
 
 import graphics.DoubleRect;
 import graphics.IntRect;
@@ -29,97 +16,84 @@ import graphics.Texture;
  * Renders all the sprites, GUI, and additional shapes to the screen
  * @author Catherine Guevara
  */
-public class Renderer implements Page
+public class Renderer
 {
-	public BufferedImage m_frontBuffer, m_backBuffer;
-	public Graphics2D m_graphics;
-	public JPanel m_panel;
+	public Graphics m_graphics;
 	
-	private int m_width, m_height;
-
-	private float m_scale = 1;
+	private float m_pixelScale = 1;
 	
-	private Stack<AffineTransform> m_transformStack = new Stack<AffineTransform>();
-	
-	private Lock m_frameSwapLock = new ReentrantLock();
-	
-	/**
-	 * Creates renderer for displaying images and shapes
-	 */
-	public Renderer()
+	public class Transformer
 	{
-		//get the dimensions of the screen
-		m_width = Toolkit.getDefaultToolkit().getScreenSize().width;
-		m_height = Toolkit.getDefaultToolkit().getScreenSize().height;
+		private Graphics m_graphics;
 		
-		//calculate the scale according to the screen size
-		m_scale = (m_width * m_scale) / 800;
+		private Transformer(Graphics p_graphics)
+		{
+			m_graphics = p_graphics;
+		}
 		
-		//create the buffers to draw stuff on
-		m_frontBuffer = new BufferedImage(m_width, m_height, BufferedImage.TYPE_INT_ARGB);
-		m_backBuffer = new BufferedImage(m_width, m_height, BufferedImage.TYPE_INT_ARGB);
-		m_graphics = m_backBuffer.createGraphics();
+		public Transformer translate(double x, double y)
+		{
+			// The rest of the code-base keeps swapping between
+			// doubles and floats so this will just take a double
+			// (that can take both) and cast it to the desired float.
+			m_graphics.translate((float)x, (float)y);
+			return this;
+		}
 		
-		//create the JPanel that holds the canvas
-		m_panel = new JPanel() {
-			@Override
-			public void paintComponent(Graphics g)
-			{
-				m_frameSwapLock.lock();
-				try {
-					super.paintComponent(g);
-					g.drawImage(m_frontBuffer, 0, 0, this);
-					repaint();
-				} finally {
-					m_frameSwapLock.unlock();
-				}
-			}
-		};
+		public Transformer translate(Vector2 p_vec)
+		{
+			return translate(p_vec.x, p_vec.y);
+		}
 		
-		m_panel.setFocusable(true);
-	}
-	
-	/**
-	 * Ensures the current frame is being displayed
-	 */
-	public void display()
-	{
-		m_frameSwapLock.lock();
-		try {
-			BufferedImage temp = m_backBuffer;
-			m_backBuffer = m_frontBuffer;
-			m_frontBuffer = temp;
-			
-			m_graphics = m_backBuffer.createGraphics();
-		} finally {
-			m_frameSwapLock.unlock();
+		public Transformer scale(double xy)
+		{
+			m_graphics.scale((float)xy, (float)xy);
+			return this;
+		}
+		
+		public Transformer scale(double x, double y)
+		{
+			m_graphics.scale((float)x, (float)y);
+			return this;
+		}
+		
+		public Transformer scale(Vector2 p_vec)
+		{
+			m_graphics.scale((float)p_vec.x, (float)p_vec.y);
+			return this;
+		}
+		
+		public Transformer rotateDeg(double p_degrees)
+		{
+			m_graphics.rotate(0, 0, (float)p_degrees);
+			return this;
+		}
+		
+		public Transformer rotateRad(double p_radians)
+		{
+			m_graphics.rotate(0, 0, (float)p_radians * 57.2974f);
+			return this;
 		}
 	}
 	
 	/**
-	 * Clears the screen before anything is drawn every frame
+	 * Creates renderer for displaying images and shapes
 	 */
-	public void clear()
+	public Renderer(Graphics p_graphics, float p_pixelScale)
 	{
-		m_graphics.setColor(Color.BLACK);
-		m_graphics.fillRect(0, 0, m_width, m_height);
+		m_graphics = p_graphics;
+		m_pixelScale = p_pixelScale;
+		//m_graphics.setLineWidth(p_pixelScale);
 	}
 	
 	/**
 	 * Add a transform to the stack.
 	 * @param p_transform This matrix will be multiplied by the previous transform.
 	 */
-	public void pushTransform(AffineTransform p_transform)
+	public Transformer pushTransform()
 	{
-		if (m_transformStack.isEmpty())
-			m_transformStack.push(new AffineTransform(p_transform));
-		else
-		{
-			AffineTransform t = new AffineTransform(m_transformStack.peek());
-			t.concatenate(p_transform);
-			m_transformStack.push(t);
-		}
-		m_graphics.setTransform(m_transformStack.peek());
+		m_graphics.pushTransform();
+		return new Transformer(m_graphics);
 	}
 	
 	/**
@@ -128,10 +102,9 @@ public class Renderer implements Page
 	 */
 	public void pushTransform(org.dyn4j.geometry.Transform p_transform)
 	{
-		AffineTransform t = new AffineTransform();
-		double[] values = p_transform.getValues();
-		t.setTransform(values[0], values[3], values[1], values[4], values[2], values[5]);
-		pushTransform(t);
+		pushTransform()
+			.translate(p_transform.getTranslationX(), p_transform.getTranslationY())
+			.rotateRad(p_transform.getRotation());
 	}
 	
 	/**
@@ -140,11 +113,7 @@ public class Renderer implements Page
 	 */
 	public void popTransform()
 	{
-		m_transformStack.pop();
-		if (m_transformStack.isEmpty())
-			m_graphics.setTransform(new AffineTransform());
-		else
-			m_graphics.setTransform(m_transformStack.peek());
+		m_graphics.popTransform();
 	}
 	
 	/**
@@ -154,7 +123,7 @@ public class Renderer implements Page
 	 */
 	public void setSizeScale(float p_factor)
 	{
-		m_scale = p_factor;
+		m_pixelScale = p_factor;
 	}
 	
 	/**
@@ -165,17 +134,18 @@ public class Renderer implements Page
 	 */
 	public void drawTexture(Texture p_texture, IntRect p_frame)
 	{	
-		//reset opacity
-		m_graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1));
-		
 		//scale image according to the current scale
-		AffineTransform scaleTransform = new AffineTransform();
-		scaleTransform.scale(m_scale, m_scale);
-		pushTransform(scaleTransform);
+		pushTransform()
+			.scale(m_pixelScale, m_pixelScale);
+		
+		float x = (float)p_frame.w;
+		float y = (float)p_frame.h;
+		float w = (float)p_frame.w;
+		float h = (float)p_frame.h;
 		
 		//draw the scaled image to desired destination
-		m_graphics.drawImage(p_texture.getImage(), 0, 0, p_frame.w, p_frame.h,
-					 p_frame.x, p_frame.y, p_frame.x + p_frame.w, p_frame.y + p_frame.h, m_panel);
+		m_graphics.drawImage(p_texture.getImage(), 0.f, 0.f, w, h,
+					 x, y, x + w, y + h);
 	
 		popTransform();
 	}
@@ -189,23 +159,7 @@ public class Renderer implements Page
 	public void drawRect(DoubleRect p_rect, Color p_color, float p_opacity)
 	{
 		m_graphics.setColor(p_color);
-		m_graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, p_opacity));
-		m_graphics.draw(new Rectangle2D.Double(p_rect.x, p_rect.y, p_rect.w, p_rect.h));
-	}
-	
-	/**
-	 * Draws a rectangle border
-	 * @param p_rect the dimensions of the rectangle
-	 * @param p_color the color of the rectangle (Color.RED, Color.BLUE, etc.)
-	 * @param p_opacity 0.0f transparent to 1.0f (opaque)
-	 * @param p_thickness THICCness in pixels
-	 */
-	public void drawRect(DoubleRect p_rect, Color p_color, float p_opacity, float p_thickness)
-	{
-		m_graphics.setColor(p_color);
-		m_graphics.setStroke(new BasicStroke(p_thickness));
-		m_graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, p_opacity));
-		m_graphics.draw(new Rectangle2D.Double(p_rect.x, p_rect.y, p_rect.w, p_rect.h));
+		m_graphics.draw(new Rectangle((float)p_rect.x, (float)p_rect.y, (float)p_rect.w, (float)p_rect.h));
 	}
 	
 	/**
@@ -217,8 +171,7 @@ public class Renderer implements Page
 	public void drawEllipse(IntRect p_rect, Color p_color, float p_opacity)
 	{
 		m_graphics.setColor(p_color);
-		m_graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, p_opacity));
-		m_graphics.draw(new Ellipse2D.Double(p_rect.x, p_rect.y, p_rect.w, p_rect.h)); 
+		m_graphics.draw(new Ellipse((float)p_rect.x, (float)p_rect.y, (float)p_rect.w, (float)p_rect.h));
 	}
 
 	/**
@@ -232,13 +185,11 @@ public class Renderer implements Page
 	 */
 	public void drawText(String p_text, String p_font, Color p_color, int p_size, float p_opacity)
 	{
-		m_graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		m_graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, p_opacity));
-		
-		Font font = new Font(p_font, Font.PLAIN, p_size);
+		java.awt.Font font = new java.awt.Font(p_font, java.awt.Font.PLAIN, p_size);
+		UnicodeFont sfont = new UnicodeFont(font);
 		
 		m_graphics.setColor(p_color);
-		m_graphics.setFont(font);
+		m_graphics.setFont(sfont);
 		m_graphics.drawString(p_text, 0, 0);
 	}
 	
@@ -249,40 +200,13 @@ public class Renderer implements Page
 	 */
 	public void addScreenOverlay(Color p_color, float p_opacity)
 	{
-		m_graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, p_opacity));
-		
 		m_graphics.setColor(p_color);
-		m_graphics.fillRect(0, 0, m_width, m_height);
+		m_graphics.fillRect(0, 0, 10000, 10000);
 	}
 	
-	public void drawLine(double x1, double y1, double x2, double y2, Color p_color, float p_thickness, float p_opacity)
+	public void drawLine(float x1, float y1, float x2, float y2, Color p_color, float p_thickness, float p_opacity)
 	{
-		m_graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, p_opacity));
 		m_graphics.setColor(p_color);
-		m_graphics.setStroke(new BasicStroke(p_thickness));
-		m_graphics.draw(new Line2D.Double(x1, y1, x2, y2));
+		m_graphics.drawLine(x1, y1, x2, y2);
 	}
-	
-	public void drawPath(Path2D.Double p_polygon, Color p_color)
-	{
-		
-	}
-	
-	public int getWidth()
-	{
-		return m_width;
-	}
-	
-	public int getHeight()
-	{
-		return m_height;
-	}
-
-	@Override
-	public JComponent getComponent()
-	{
-		return m_panel;
-	}
-	
-	//TODO: custom boxes from sprite sheet?
 }

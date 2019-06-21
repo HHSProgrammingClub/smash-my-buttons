@@ -46,7 +46,8 @@ public class CharacterEffect implements Drawable
 	@Override
 	public void draw(Renderer p_renderer)
 	{
-		p_renderer.pushTransform(m_transform);
+		p_renderer.pushTransform()
+			.translate(m_transform.getTranslateX(), m_transform.getTranslateY());
 		m_sprite.draw(p_renderer);
 		p_renderer.popTransform();
 	}

@@ -46,11 +46,10 @@ public class Sprite implements Drawable
 			// Not animation
 			frame = m_animation.getFrame();
 		
-		AffineTransform t = new AffineTransform();
-		t.translate(m_position.x, m_position.y);
-		t.rotate(m_rotation);
-		t.scale(m_scale.x, m_scale.y);
-		p_renderer.pushTransform(t);
+		p_renderer.pushTransform()
+			.translate(m_position)
+			.rotateRad(m_rotation)
+			.scale(m_scale);
 		p_renderer.drawTexture(m_texture, frame);
 		//for sprite visualization
 		//p_renderer.drawRect(destination, Color.MAGENTA, 1.f, 2);

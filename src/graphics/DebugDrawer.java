@@ -1,12 +1,13 @@
 package graphics;
 
-import java.awt.Color;
+
 import java.util.List;
 
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.BodyFixture;
 import org.dyn4j.dynamics.World;
 import org.dyn4j.geometry.AABB;
+import org.newdawn.slick.Color;
 
 import graphics.pages.Renderer;
 import stages.TerrainPiece;
@@ -37,11 +38,11 @@ public class DebugDrawer implements Drawable
 				p_renderer.pushTransform(b.getTransform());
 				
 				if(b.getUserData() instanceof Character)
-					p_renderer.drawRect(boundingBox, Color.RED, 0.5f, 1f/32); // Stroke is in our new units
+					p_renderer.drawRect(boundingBox, Color.red, 0.5f); // Stroke is in our new units
 				else if (b.getUserData() instanceof TerrainPiece)
-					p_renderer.drawRect(boundingBox, Color.BLUE, 0.5f, 1f/32);
+					p_renderer.drawRect(boundingBox, Color.blue, 0.5f);
 				else
-					p_renderer.drawRect(boundingBox, Color.GREEN, 0.5f, 1f/32);
+					p_renderer.drawRect(boundingBox, Color.green, 0.5f);
 				
 				p_renderer.popTransform();
 			}

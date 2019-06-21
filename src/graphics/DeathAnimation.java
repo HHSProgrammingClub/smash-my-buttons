@@ -1,9 +1,10 @@
 package graphics;
 
-import java.awt.Color;
+
 
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.geometry.Vector2;
+import org.newdawn.slick.Color;
 
 import graphics.pages.Renderer;
 import resourceManager.ResourceManager;
@@ -47,9 +48,9 @@ public class DeathAnimation implements Drawable
 		m_duration -= 0.1f;
 		
 		if(m_duration > 0)
-			p_renderer.addScreenOverlay(Color.RED, m_duration);
+			p_renderer.addScreenOverlay(Color.red, m_duration);
 		else
-			p_renderer.addScreenOverlay(Color.RED, 0);
+			p_renderer.addScreenOverlay(Color.red, 0);
 	}
 	
 	/**

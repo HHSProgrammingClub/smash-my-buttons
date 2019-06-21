@@ -11,9 +11,21 @@
 	<classpathentry kind="lib" path="3rdParty/jgoodies-forms-1.8.0-sources.jar"/>
 	<classpathentry kind="lib" path="3rdParty/jgoodies-forms-1.8.0.jar"/>
 	<classpathentry kind="lib" path="3rdParty/rsyntaxtextarea-3.0.0-SNAPSHOT.jar"/>
-	<classpathentry kind="lib" path="3rdParty/jinput.jar"/>
-	<classpathentry kind="lib" path="3rdParty/lwjgl_util.jar"/>
-	<classpathentry kind="lib" path="3rdParty/lwjgl.jar"/>
+	<classpathentry kind="lib" path="3rdParty/jinput.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="AI Fighters/3rdParty"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="3rdParty/lwjgl_util.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="AI Fighters/3rdParty/natives"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="3rdParty/lwjgl.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="AI Fighters/3rdParty/natives"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="lib" path="3rdParty/slick.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/slick2d"/>
 	<classpathentry kind="output" path="bin"/>

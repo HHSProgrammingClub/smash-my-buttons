@@ -55,10 +55,8 @@ public class MainStage extends Stage
 		ground.setBody(groundBody);
 		ground.setSprite(groundSprite);
 		
-		AffineTransform stageOffset = new AffineTransform();
-		stageOffset.translate(1.25, 5);
-		
-		ground.setTransform(stageOffset);
+		// Offset the stage a little.
+		ground.setPosition(new Vector2(1.25, 5));
 			
 		getPhysicsWorld().addBody(groundBody);
 		//getPhysicsWorld().addBody(groundBody2);

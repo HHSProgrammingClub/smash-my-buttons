@@ -1,10 +1,11 @@
 package graphics;
 
-import java.awt.Color;
+
 import java.awt.geom.AffineTransform;
 
 import org.dyn4j.geometry.Transform;
 import org.dyn4j.geometry.Vector2;
+import org.newdawn.slick.Color;
 
 import characters.Character;
 import graphics.pages.Renderer;
@@ -53,50 +54,53 @@ public class NameLabel implements Drawable
 		Transform t = m_character.getBody().getTransform();
 		int offset = 1;
 		
+		Vector2 text_offset = new Vector2();
+		
 		//TODO: refactor later for stages with different boundaries
 		if(position.x < 0) //far left
 		{
 			arrow.setPosition(0.5, t.getTranslation().y + offset);
 			arrow.setRotation(Math.PI/2); //90 degrees point left
 			
-			textScalar.translate(0.5, t.getTranslation().y + offset);
+			text_offset.set(0.5, t.getTranslation().y + offset);
 		}
 		else if(position.x > 13) //far right
 		{
 			arrow.setPosition(11.5, t.getTranslation().y + offset);
 			arrow.setRotation(Math.PI*3/2); //270 degrees pointing right
 			
-			textScalar.translate(10.5, t.getTranslation().y + offset);
+			text_offset.set(10.5, t.getTranslation().y + offset);
 		}
 		else if(position.y < 0) //far up
 		{
 			arrow.setPosition(t.getTranslation().x + offset, 0.5);
 			arrow.setRotation(Math.PI); //180 degrees pointing up
 			
-			textScalar.translate(t.getTranslation().x + offset, 0.5);
+			text_offset.set(t.getTranslation().x + offset, 0.5);
 		}
 		else if(position.y > 9) //far down
 		{
 			arrow.setPosition(t.getTranslation().x, 8.5);
-			textScalar.translate(t.getTranslation().x, 8);
+			text_offset.set(t.getTranslation().x, 8);
 		}
 		else
 		{
 			arrow.setPosition(t.getTranslation().x + 0.75, t.getTranslation().y);
 			arrow.setRotation(0);
 			
-			textScalar.translate(t.getTranslation().x + 0.5, t.getTranslation().y);
+			text_offset.set(t.getTranslation().x + 0.5, t.getTranslation().y);
 		}
 		
 		arrow.draw(p_renderer);
 		
-		textScalar.scale(0.25, 0.25);
-		p_renderer.pushTransform(textScalar);
+		p_renderer.pushTransform()
+			.translate(text_offset)
+			.scale(0.25, 0.25);
 		
 		if(m_port == 1)
-			p_renderer.drawText(name, "Consolas", Color.BLUE, 1, 1);
+			p_renderer.drawText(name, "Consolas", Color.blue, 1, 1);
 		else
-			p_renderer.drawText(name, "Consolas", Color.RED, 1, 1);
+			p_renderer.drawText(name, "Consolas", Color.red, 1, 1);
 		
 		p_renderer.popTransform();
 	}

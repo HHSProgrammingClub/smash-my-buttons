@@ -9,6 +9,8 @@ import javax.imageio.ImageIO;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -19,7 +21,7 @@ import resourceManager.Resource;
 public class Texture implements Resource
 {
 	private ArrayList<Animation> m_animations = new ArrayList<Animation>();
-	private BufferedImage m_image;
+	private Image m_image;
 	
 	/**
 	 * Get animation by name
@@ -70,7 +72,7 @@ public class Texture implements Resource
 	 * Get the BufferedImage object. Used internally in the renderer.
 	 * @return BufferedImage object.
 	 */
-	public BufferedImage getImage()
+	public Image getImage()
 	{
 		return m_image;
 	}
@@ -84,12 +86,12 @@ public class Texture implements Resource
 	{
 		try
 		{
-			m_image = ImageIO.read(p_stream);
+			m_image = new Image(p_stream, "file.png", false);
 		}
-		catch(IOException e)
+		catch (SlickException e)
 		{
+			// TODO Auto-generated catch block
 			e.printStackTrace();
-			throw e;
 		}
 	}
 	
