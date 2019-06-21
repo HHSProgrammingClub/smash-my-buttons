@@ -55,17 +55,17 @@ public class StartMenu implements Page
 		String titleText;
 		String[] epicTitles = {
 			"Code Fighters!",
-			"AI Fighters",
-			"AI-Vengers Infinity War",
+			"AI Fighters!",
+			"AI-Vengers: Endgame",
 			"Thanos Wholly Approves of This Event",
 			"Alexa, Play Despacito",
 			"Super Smash Code Ultimate",
-			"Code Fight",
+			"Code Fight!",
 			"Smash 'em up",
 			"Smash my Buttons"
 		};
 		JLabel lblAwesomeTitleText = new JLabel(epicTitles[(int)(Math.random() * epicTitles.length)]);
-		lblAwesomeTitleText.setFont(new Font("Verdana", Font.BOLD, 28));
+		lblAwesomeTitleText.setFont(new Font("Arial Black", Font.BOLD, 40));
 		GridBagConstraints gbc_lblAwesomeTitleText = new GridBagConstraints();
 		gbc_lblAwesomeTitleText.insets = new Insets(0, 0, 5, 5);
 		gbc_lblAwesomeTitleText.gridx = 1;

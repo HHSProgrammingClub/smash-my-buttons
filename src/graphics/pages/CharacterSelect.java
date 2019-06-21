@@ -117,6 +117,11 @@ public class CharacterSelect implements Page
 	{
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setCurrentDirectory(new File("."));
+		m_fileChooser.setDialogTitle("Create new file...");
+		m_fileChooser.setDialogType(JFileChooser.SAVE_DIALOG);
+		m_fileChooser.setApproveButtonToolTipText("Create file: ");
+		//To make sure that people know it's a new file maker by suggesting a name
+		m_fileChooser.setSelectedFile(new File("ai.py"));
 		int returnVal = m_fileChooser.showSaveDialog(p_gui.getWindow());
         if (returnVal == JFileChooser.APPROVE_OPTION)
         {
@@ -258,7 +263,12 @@ public class CharacterSelect implements Page
 				if (file != null)
 				{
 		            m_p1 = createAIController(file.getPath());
-				}
+				}else {
+	            	m_p1 = new PlayerController();
+					m_p1.setCharacter(CharacterFactory.create("Jack"));
+					System.out.println("Player 1 set to Jack");
+					JOptionPane.showMessageDialog(null, "Error! Must set location for AI file — Character set to player-controlled Jack");
+	            }
 			}
 		});
 		btnNewScriptPlayer1.setEnabled(false);
@@ -296,7 +306,12 @@ public class CharacterSelect implements Page
 				if (file != null)
 				{
 		            m_p2 = createAIController(file.getPath());
-				}
+				}else {
+	            	m_p2 = new PlayerController();
+					m_p2.setCharacter(CharacterFactory.create("Jack"));
+					System.out.println("Player 2 set to Jack");
+					JOptionPane.showMessageDialog(null, "Error! Must set location for AI file — Character set to player-controlled Jack");
+	            }
 			}
 		});
 		btnNewScriptPlayer2.setEnabled(false);
@@ -330,11 +345,11 @@ public class CharacterSelect implements Page
 		
 		
 		
-		JButton btnStartFight = new JButton("Start Fight");
+		JButton btnStartFight = new JButton("Start Fight!");
 		GridBagConstraints gbc_btnStartFight = new GridBagConstraints();
 		gbc_btnStartFight.insets = new Insets(0, 0, 5, 5);
 		gbc_btnStartFight.gridx = 2;
-		gbc_btnStartFight.gridy = 5;
+		gbc_btnStartFight.gridy = 7;
 		btnStartFight.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
@@ -485,11 +500,12 @@ public class CharacterSelect implements Page
 		GridBagConstraints gbc_btnBack = new GridBagConstraints();
 		gbc_btnBack.insets = new Insets(0, 0, 0, 5);
 		gbc_btnBack.gridx = 2;
-		gbc_btnBack.gridy = 7;
+		gbc_btnBack.gridy = 8;
 		m_panel.add(btnBack, gbc_btnBack);
 		
 		
 	}
+	
 
 	@Override
 	public JComponent getComponent()

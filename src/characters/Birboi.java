@@ -39,7 +39,7 @@ public class Birboi extends Character
 		Rectangle rect = new Rectangle(1, 1.4f);
 		rect.translate(1, 1.3); // Set to topleft
 		BodyFixture bf = new BodyFixture(rect);
-		bf.setDensity(0.6);
+		bf.setDensity(0.5);
 		birb.addFixture(rect);
 		birb.setMass(MassType.FIXED_ANGULAR_VELOCITY);
 
@@ -175,8 +175,8 @@ public class Birboi extends Character
 		
 		Hitbox tiltBoxBack = new Hitbox();
 		
-		tiltBoxBack.setBaseKnockback(alignFacing(new Vector2(7, -3)));
-		tiltBoxBack.setScaledKnockback(alignFacing(new Vector2(3.5, -4)));
+		tiltBoxBack.setBaseKnockback(alignFacing(new Vector2(7, -7)));
+		tiltBoxBack.setScaledKnockback(alignFacing(new Vector2(2, -4)));
 		tiltBoxBack.setDamage(3);
 		tiltBoxBack.setDuration(30);
 		tiltBoxBack.setHitstun(.1f);
@@ -220,6 +220,7 @@ public class Birboi extends Character
 		
 		pushState(new WaitState(0.1f));
 		pushState(tiltState);
+		pushState(new WaitState(0.05f));
 	}
 	
 	@Override
@@ -268,10 +269,10 @@ public class Birboi extends Character
 			BodyFixture m_fixture;
 			
 			final Vector2 m_baseImpulse     = new Vector2(16, 0);
-			final Vector2 m_baseKnockback   = new Vector2(9, -5);
-			final Vector2 m_scaledKnockback = new Vector2(6, -4);
+			final Vector2 m_baseKnockback   = new Vector2(4, -5);
+			final Vector2 m_scaledKnockback = new Vector2(4, -3);
 			
-			final Vector2 m_hitboxBasePos   = new Vector2(1, 1.25);
+			final Vector2 m_hitboxBasePos   = new Vector2(0.5, 1.25);
 			final Vector2 m_hitboxOffsetPos = new Vector2(.4, 0);
 			
 			@Override
@@ -279,6 +280,7 @@ public class Birboi extends Character
 			{
 				getBody().applyImpulse(alignFacing(m_baseImpulse));
 				m_hitbox.setDamage(9);
+				m_hitbox.setHitstun(0.1f);
 				m_hitbox.setBaseKnockback(alignFacing(m_baseKnockback));
 				m_hitbox.setScaledKnockback(alignFacing(m_scaledKnockback));
 				m_hitbox.setDuration(duration);
@@ -318,6 +320,7 @@ public class Birboi extends Character
 		
 		pushState(smashFlight);
 		pushState(smashStartup);
+		pushState(new WaitState(0.1f));
 	}
 	
 	@Override
@@ -558,14 +561,14 @@ public class Birboi extends Character
 		Hitbox recoverBox = new Hitbox();
 		
 		recoverBox.setBaseKnockback(alignFacing(new Vector2(12, 4)));
-		recoverBox.setScaledKnockback(alignFacing(new Vector2(2, 4)));
+		recoverBox.setScaledKnockback(alignFacing(new Vector2(2, 1)));
 		recoverBox.setDamage(0);
 		recoverBox.setDuration(10);
 		recoverBox.setHitstun(0);
 		
 		Vector2 recoverBoxPos = new Vector2(1, 1.8);
 		
-		Rectangle rr = new Rectangle(3.2, 2.4);
+		Rectangle rr = new Rectangle(2.4, 2);
 		rr.translate(recoverBoxPos);
 		
 		BodyFixture rf = new BodyFixture(rr);

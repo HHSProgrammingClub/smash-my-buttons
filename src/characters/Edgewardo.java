@@ -22,7 +22,7 @@ public class Edgewardo extends Character
 {
 	private static double position = 0;
 	private float length = 1;
-	private float height = 1.5f;
+	private float height = 1.3f;
 
 	public Edgewardo()
 	{
@@ -37,11 +37,11 @@ public class Edgewardo extends Character
 		position += 1;
 		
 		// Add the collision fixture
-		Rectangle rect = new Rectangle(1, 2);
-		rect.translate(1, 1); // Set to topleft
+		Rectangle rect = new Rectangle(length, height);
+		rect.translate(length, height); // Set to topleft
 		
 		BodyFixture bf = new BodyFixture(rect);
-		bf.setDensity(0.75);
+		bf.setDensity(0.9);
 		emo.addFixture(bf);
 		emo.setMass(MassType.FIXED_ANGULAR_VELOCITY);
 
@@ -295,7 +295,7 @@ public class Edgewardo extends Character
 	public void projectile()
 	{
 		pushState(new ProjectileState());
-		pushState(new AttackState("projectile", 0.4f));
+		pushState(new AttackState("projectile", 0.2f));
 	}
 
 	@Override

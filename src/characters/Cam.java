@@ -141,10 +141,10 @@ public class Cam extends Character
 			super("tilt");
 			
 			m_hitbox.setDuration(0.1f);
-			m_hitbox.setDamage(3);
+			m_hitbox.setDamage(10);
 			m_hitbox.setHitstun(0.5f);
-			m_hitbox.setBaseKnockback(alignFacing(new Vector2(9, 0)).multiply(Kbooster));
-			m_hitbox.setScaledKnockback(alignFacing(new Vector2(2, -2.5)).multiply(Kbooster));
+			m_hitbox.setBaseKnockback(alignFacing(new Vector2(12, 0)).multiply(Kbooster));
+			m_hitbox.setScaledKnockback(alignFacing(new Vector2(6, -2.5)).multiply(Kbooster));
 			
 			m_rect = new Rectangle(0.9, 0.3);
 			m_rect.translate(length + 0.7 * getFacing(), 1.4);
@@ -349,9 +349,8 @@ public class Cam extends Character
 		/*interruptStates(new AttackState("tilt", 0.1f));
 		addState(new TiltState());
 		addState(new AttackState("idle", 0.3f));*/
-		pushState(new WaitState(.1f * Sbooster));
 		pushState(new TiltState());
-		pushState(new AttackState("tilt", .3f * Sbooster));
+		pushState(new AttackState("tilt", .2f * Sbooster));
 	}
 	
 	public void smash()
@@ -362,18 +361,21 @@ public class Cam extends Character
 					public void init()
 					{
 						m_superArmour = true;
+						m_body.setLinearDamping(10);
 					}
 					
 					@Override
 					public void interrupt()
 					{
 						m_superArmour = false;
+						m_body.setLinearDamping(0);
 					}
 					
 					@Override
 					public void end()
 					{
 						m_superArmour = false;
+						m_body.setLinearDamping(0);
 					}
 				};
 				
@@ -473,8 +475,8 @@ public class Cam extends Character
 						m_hitbox.setDuration(0.1f);
 						m_hitbox.setDamage(22);
 						m_hitbox.setHitstun(0.2f);
-						m_hitbox.setBaseKnockback(alignFacing(new Vector2(8, -6)).multiply(Kbooster));
-						m_hitbox.setScaledKnockback(alignFacing(new Vector2(8, -6)).multiply(Kbooster));
+						m_hitbox.setBaseKnockback(alignFacing(new Vector2(10, -12)).multiply(Kbooster));
+						m_hitbox.setScaledKnockback(alignFacing(new Vector2(12, -12)).multiply(Kbooster));
 						
 						m_rect = new Rectangle(1.8, 1.8);
 						m_rect.translate(1, 1);

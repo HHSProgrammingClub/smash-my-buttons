@@ -4,3 +4,4 @@
 src/resources/ase files/birboy.gif
 src/resources/ase files/size ref.png
 *.DS_Store
+.vscode/*

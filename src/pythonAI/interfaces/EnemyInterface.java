@@ -13,7 +13,7 @@ public interface EnemyInterface
 	public double getYVel();
 	public String getName();
 	public boolean boosted();
-	public String currentStateName();
+	public String currentAnimationName();
 	public float currentStateDuration();
 	public Hitbox[] getHitboxes();
 	public Projectile[] getProjectiles();

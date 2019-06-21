@@ -1,6 +1,7 @@
 package pythonAI;
 
 import characters.Character;
+import characters.characterStates.*;
 import program.Hitbox;
 import program.Projectile;
 
@@ -28,7 +29,9 @@ class PyEnemyWrapper implements pythonAI.interfaces.EnemyInterface
 	@Override
 	public float getHitstun()
 	{
-		return m_character.peekState().getTimer();
+		if(m_character.peekState() instanceof Hitstun)
+			return m_character.peekState().getTimer();
+		return 0;
 	}
 	
 	@Override
@@ -62,7 +65,7 @@ class PyEnemyWrapper implements pythonAI.interfaces.EnemyInterface
 	}
 
 	@Override
-	public String currentStateName()
+	public String currentAnimationName()
 	{
 		return m_character.peekState().getName();
 	}
