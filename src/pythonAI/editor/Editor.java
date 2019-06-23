@@ -86,8 +86,7 @@ public class Editor
 		
 		JPanel ctrlPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
-		m_btRun = new JButton();
-		m_btRun.setText("Run/Restart");
+		m_btRun = new JButton("Run/Restart");
 		m_btRun.setSize(50, 25);
 		m_btRun.addActionListener(new ActionListener()
 		{
@@ -98,8 +97,53 @@ public class Editor
 				m_pyInterpreter.run();
 			}
 		});
-		m_btRun.setToolTipText("Run your script");
+		m_btRun.setToolTipText("Run your script! This button automatically save your script.");
 		ctrlPanel.add(m_btRun);
+		
+		JButton btSave = new JButton("Save");
+		btSave.setSize(50, 25);
+		btSave.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent arg0)
+			{
+				save();
+			}
+		});
+		btSave.setToolTipText("Save your script.");
+		ctrlPanel.add(btSave);
+		
+		JButton btUndo = new JButton("Undo");
+		JButton btRedo = new JButton("Redo");
+		
+		btUndo.setToolTipText("Undo the last thing you edited!");
+		btUndo.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent arg0)
+			{
+				if (m_textArea.canUndo())
+					m_textArea.undoLastAction();
+				btRedo.setEnabled(m_textArea.canRedo());
+				btUndo.setEnabled(m_textArea.canUndo());
+			}
+		});
+		
+		btRedo.setToolTipText("Pressed undo but want to go back? Use this to redo your last undo!");
+		btRedo.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent arg0)
+			{
+				if (m_textArea.canRedo())
+					m_textArea.redoLastAction();
+				btRedo.setEnabled(m_textArea.canRedo());
+				btUndo.setEnabled(m_textArea.canUndo());
+			}
+		});
+		
+		ctrlPanel.add(btUndo);
+		ctrlPanel.add(btRedo);
 		
 		panel.add(ctrlPanel, BorderLayout.NORTH);
 		panel.add(scrollPane);
