@@ -501,7 +501,8 @@ public class WallTheEncircler extends Character
 			@Override
 			public void end()
 			{
-				m_body.removeFixture(m_fixture);
+				if(m_fixture != null)
+					m_body.removeFixture(m_fixture);
 				removeHitbox(m_hitbox);
 				m_superArmour = false;
 			}
