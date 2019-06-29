@@ -4,6 +4,10 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -14,6 +18,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
+import javax.swing.event.CaretEvent;
+import javax.swing.event.CaretListener;
 
 import org.fife.ui.rsyntaxtextarea.ErrorStrip;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
@@ -34,6 +40,8 @@ public class Editor
 	private PyErrorParser m_parser = new PyErrorParser();
 	private PyInterpreter m_pyInterpreter;
 	private JButton m_btRun;
+	private JButton m_btUndo;
+	private JButton m_btRedo;
 	private OutputTextArea m_outputConsole;
 	private File m_saveFile;
 	class PyInterEditorCallback implements PyInterpreterCallback
@@ -63,6 +71,12 @@ public class Editor
 		{}
 	}
 	
+	public void updateUndoRedoButtons()
+	{
+		m_btUndo.setEnabled(m_textArea.canUndo());
+		m_btRedo.setEnabled(m_textArea.canRedo());
+	}
+	
 	/**
 	 * @wbp.parser.constructor
 	 */
@@ -80,6 +94,16 @@ public class Editor
 		m_textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_PYTHON);
 		m_textArea.setCodeFoldingEnabled(true);
 		m_textArea.addParser(m_parser);
+		
+		m_textArea.removeCaretListener(new CaretListener() {
+
+			@Override
+			public void caretUpdate(CaretEvent arg0)
+			{
+				
+			}
+			
+		});
 		
 		ErrorStrip errorStrip = new ErrorStrip(m_textArea);
 		RTextScrollPane scrollPane = new RTextScrollPane(m_textArea);
@@ -110,40 +134,62 @@ public class Editor
 				save();
 			}
 		});
-		btSave.setToolTipText("Save your script.");
+		btSave.setToolTipText("Save your script disk!");
 		ctrlPanel.add(btSave);
 		
-		JButton btUndo = new JButton("Undo");
-		JButton btRedo = new JButton("Redo");
+		m_btUndo = new JButton("Undo");
+		m_btRedo = new JButton("Redo");
+		updateUndoRedoButtons();
 		
-		btUndo.setToolTipText("Undo the last thing you edited!");
-		btUndo.addActionListener(new ActionListener()
+		m_btUndo.setToolTipText("Undo the last thing you edited!");
+		m_btUndo.addActionListener(new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent arg0)
 			{
 				if (m_textArea.canUndo())
 					m_textArea.undoLastAction();
-				btRedo.setEnabled(m_textArea.canRedo());
-				btUndo.setEnabled(m_textArea.canUndo());
+				updateUndoRedoButtons();
 			}
 		});
 		
-		btRedo.setToolTipText("Pressed undo but want to go back? Use this to redo your last undo!");
-		btRedo.addActionListener(new ActionListener()
+		m_btRedo.setToolTipText("Pressed undo but want to go back? Use this to redo your last undo!");
+		m_btRedo.addActionListener(new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent arg0)
 			{
 				if (m_textArea.canRedo())
 					m_textArea.redoLastAction();
-				btRedo.setEnabled(m_textArea.canRedo());
-				btUndo.setEnabled(m_textArea.canUndo());
+				updateUndoRedoButtons();
 			}
 		});
 		
-		ctrlPanel.add(btUndo);
-		ctrlPanel.add(btRedo);
+		// Because this thing doesn't have an action listener of some kind
+		// we will just update the buttons whenever we can somehow...
+		scrollPane.addMouseMotionListener(new MouseMotionListener()
+		{
+			@Override
+			public void mouseDragged(MouseEvent arg0) {}
+
+			@Override
+			public void mouseMoved(MouseEvent arg0)
+			{
+				updateUndoRedoButtons();
+			}
+		});
+		scrollPane.addKeyListener(new KeyListener() {
+			@Override public void keyPressed(KeyEvent arg0) {}
+			@Override public void keyReleased(KeyEvent arg0) {}
+			@Override
+			public void keyTyped(KeyEvent arg0) {
+				updateUndoRedoButtons();
+			}
+			
+		});
+		
+		ctrlPanel.add(m_btUndo);
+		ctrlPanel.add(m_btRedo);
 		
 		panel.add(ctrlPanel, BorderLayout.NORTH);
 		panel.add(scrollPane);
