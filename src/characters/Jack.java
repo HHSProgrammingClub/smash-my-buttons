@@ -208,9 +208,9 @@ public class Jack extends Character
 			explosion.setAnimation("default");
 			
 			m_hitbox.setDuration(2f);
-			m_hitbox.setDamage(4);
-			m_hitbox.setHitstun(0.3f);
-			m_hitbox.setBaseKnockback(new Vector2(2 * getFacing(), 0));
+			m_hitbox.setDamage(3);
+			m_hitbox.setHitstun(0.2f);
+			m_hitbox.setBaseKnockback(new Vector2(0, 0));
 			m_hitbox.setScaledKnockback(new Vector2(1 * getFacing(), 0));
 			
 			m_rect = new Rectangle(0.5, 0.5);
@@ -234,8 +234,8 @@ public class Jack extends Character
 			m_hitbox.addToFixture(m_fixture);
 			m_fixture.setSensor(false);
 			coffee.setBody(m_bodied);
-			m_bodied.applyImpulse(new Vector2(2 * getFacing(), -2));
-			m_bodied.applyTorque(3);
+			m_bodied.applyImpulse(new Vector2(1.5 * getFacing(), -2.5));
+			m_bodied.applyTorque(1.5);
 			m_world.addBody(m_bodied);
 		}
 		
@@ -383,7 +383,7 @@ public class Jack extends Character
 		//Placeholder for testing.
 		/*interruptStates(new AttackState("projectile", 0.05f));
 		addState(new ProjState());*/
-		pushState(new WaitState(0.3f));
+		pushState(new WaitState(0.4f));
 		pushState(new ProjState());
 		pushState(new AttackState("projectile", .1f));
 	}

@@ -72,6 +72,14 @@ public class StartMenu implements Page
 		gbc_lblAwesomeTitleText.gridy = 1;
 		m_panel.add(lblAwesomeTitleText, gbc_lblAwesomeTitleText);
 		
+		JLabel version = new JLabel("(v. 6/29/19 - coffee nerfs & bugfixes)");
+		version.setFont(new Font("Consolas", Font.PLAIN, 12));
+		GridBagConstraints gbc_version = new GridBagConstraints();
+		gbc_version.insets = new Insets(0, 0, 5, 5);
+		gbc_version.gridx = 1;
+		gbc_version.gridy = 2;
+		m_panel.add(version, gbc_version);
+		
 		GridBagConstraints gbc_startButton = new GridBagConstraints();
 		gbc_startButton.insets = new Insets(0, 0, 5, 5);
 		gbc_startButton.gridx = 1;
