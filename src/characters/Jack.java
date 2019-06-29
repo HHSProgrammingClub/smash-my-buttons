@@ -234,8 +234,8 @@ public class Jack extends Character
 			m_hitbox.addToFixture(m_fixture);
 			m_fixture.setSensor(false);
 			coffee.setBody(m_bodied);
-			m_bodied.applyImpulse(new Vector2(2 * getFacing(), -2));
-			m_bodied.applyTorque(3);
+			m_bodied.applyImpulse(new Vector2(1.5 * getFacing(), -2.5));
+			m_bodied.applyTorque(1.5);
 			m_world.addBody(m_bodied);
 		}
 		
