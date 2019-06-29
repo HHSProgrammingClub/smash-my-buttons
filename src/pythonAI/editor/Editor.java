@@ -134,7 +134,7 @@ public class Editor
 				save();
 			}
 		});
-		btSave.setToolTipText("Save your script disk!");
+		btSave.setToolTipText("Save your script.");
 		ctrlPanel.add(btSave);
 		
 		m_btUndo = new JButton("Undo");
