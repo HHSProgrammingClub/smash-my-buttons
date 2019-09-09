@@ -165,9 +165,16 @@ public class AIController extends CharacterController
 	 */
 	private void callLoop()
 	{
+		try {
 		if (m_pyLoopFunction != null)
 			m_interpreter.call(m_pyLoopFunction, new Object[] {(pythonAI.interfaces.PlayerInterface)m_playerInterface,
 					(pythonAI.interfaces.EnemyInterface)m_enemyInterface});
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			System.out.println();
+		}
 	}
 
 }
